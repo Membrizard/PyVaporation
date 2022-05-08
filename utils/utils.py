@@ -8,6 +8,7 @@ R = 8.314462
 
 @attr.s(auto_attribs=True)
 class Composition:
+    # TODO: from 2 to n
     p: float = attr.ib(validator=lambda value: 0 <= value <= 1)  # type: ignore
 
     def __getitem__(self, item: int):
@@ -17,6 +18,16 @@ class Composition:
             return 1 - self.p
         else:
             raise ValueError("Index %s out of range" % item)
+
+
+@attr.s(auto_attribs=True)
+class Conditions:
+    membrane_area: float
+    temperature: float
+    permeate_pressure: float
+    feed_amount: float
+    feed_composition: Composition
+    isothermal: bool = True
 
 
 @attr.s(auto_attribs=True)
@@ -35,6 +46,7 @@ class NRTLParameters:
 
 @attr.s(auto_attribs=True)
 class Component:
+    name: str
     antoine_constants: AntoineConstants
 
     def get_antoine_pressure(self, temperature: float) -> float:
@@ -99,3 +111,45 @@ class Mixture:
             * activity_coefficients[1]
             * composition[1],
         )
+
+
+@attr.s(auto_attribs=True)
+class Experiment:
+    temperature: float
+    permeance: float
+    component: Component
+    activation_energy: typing.Optional[float] = None
+
+
+@attr.s(auto_attribs=True)
+class Membrane:
+    experiments: typing.List[Experiment]
+
+
+    def calculate_activation_energy(self) -> float:
+        return 0
+
+
+@attr.s(auto_attribs=True)
+class Pervaporation:
+    membrane: Membrane
+    mixture: Mixture
+    conditions: Conditions
+
+    def get_component_flux(self):
+        pass
+
+    def get_overall_flux(self):
+        pass
+
+    def get_separation_factor(self):
+        pass
+
+    def get_psi(self):
+        pass
+
+    def get_real_selectivity(self):
+        pass
+
+    def model_process(self):
+        pass
