@@ -63,6 +63,17 @@ class Component:
             * numpy.log(10)
         )
 
+    @classmethod
+    def h2o(cls) -> 'Component':
+        return cls(
+            name='H2O',
+            antoine_constants=AntoineConstants(
+                a=0,
+                b=0,
+                c=0,
+            )
+        )
+
 
 @attr.s(auto_attribs=True)
 class Mixture:
