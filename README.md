@@ -16,8 +16,6 @@ binary:
 * MeOH/Dimethylcarbonate
 * MeOH/CycloHexane
 
-ternary:
-* H2O/MeOH/EtOH
 
 # Assumptions and applicability
 

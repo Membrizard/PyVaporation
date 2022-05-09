@@ -367,27 +367,29 @@ class NonIdeal_Experiment:
 class Membrane:
     ideal_experiments: typing.List[Ideal_Experiment]
     nonideal_experiments: typing.List[NonIdeal_Experiment]
-    
+
+# Get all the penetrants the membrane was tested for
     def get_known_penetrants(self)-> typing.List[Component]:
-        self.ideal_experiments()
-        
         return numpy.unique([
             Ideal_Experiment.component() for Ideal_Experiment in self.ideal_experiments()
         ])
-
-
-
-
-
-    # Check to find all the experiments for a specified component
-    def check(self,component)-> bool:
-        if component in [Ideal_Experiment.component() for Ideal_Experiment in self.ideal_experiments()]:
+ # Picking only Experiments related to the chosen component
+    def get_penetrant_data(self, component)-> typing.List[Ideal_Experiment]:
+        def check(component)-> bool:
+           if component in [Ideal_Experiment.component() for Ideal_Experiment in self.ideal_experiments()]:
             return True
-        else:
+           else:
             return False
-        
+        return filter(check(component),self.ideal_experiments)
+
+   # Calculate an apparent activation energy of permeation     
     def calculate_activation_energy(self,component) -> float:
+        
+        self.get_penetrant_data(component)
+        # Calculation of Least-squares Linear Fit of Ln(Permeance) versus 1/T
         return 0
+
+
     def get_permeance(self,temperature,component)-> float:
         return 0
     def get_ideal_selectivity(self,temperature,component1,component2)-> float:
@@ -417,5 +419,6 @@ class Pervaporation:
 
     def model_ideal_process(self):
         pass
+
     def model_nonideal_process(self):
         pass
