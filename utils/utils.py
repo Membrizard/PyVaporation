@@ -181,56 +181,66 @@ class Mixture:
                 alpha = 0.4199,
             )
         )
+
+
 # Experiments for Ideal modelling
 @attr.s(auto_attribs=True)
-class Ideal_Experiment:
+class IdealExperiment:
     temperature: float
     # Permeance in kg*mcm/(m2*h*kPa)
     permeance: float
     component: Component
     activation_energy: typing.Optional[float] = None
 
+
 # Experiments for Non-ideal modelling
 @attr.s(auto_attribs=True)
-class NonIdeal_Experiment:
+class NonIdealExperiment:
     temperature: float
     # Permeance in kg*mcm/(m2*h*kPa)
     overall_flux: typing.List[float]
-    component_fluxes:typing.List[typing.List[float]]
+    component_fluxes: typing.List[typing.List[float]]
     compositions: typing.List[float]
     mixture: Mixture
 
+
 @attr.s(auto_attribs=True)
 class Membrane:
-    ideal_experiments: typing.List[Ideal_Experiment]
-    nonideal_experiments: typing.List[NonIdeal_Experiment]
+    ideal_experiments: typing.List[IdealExperiment]
+    non_ideal_experiments: typing.List[NonIdealExperiment]
 
-# Get all the penetrants the membrane was tested for
-    def get_known_penetrants(self)-> typing.List[Component]:
+    @property
+    def ideal_experiments_names(self) -> typing.List[str]:
+        return [ie.component.name for ie in self.ideal_experiments]
+
+    # Get all the penetrants the membrane was tested for
+    def get_known_penetrants(self) -> typing.List[Component]:
         return numpy.unique([
-            Ideal_Experiment.component() for Ideal_Experiment in self.ideal_experiments()
+            ideal_experiment.component for ideal_experiment in self.ideal_experiments
         ])
- # Picking only Experiments related to the chosen component
-    def get_penetrant_data(self, component)-> typing.List[Ideal_Experiment]:
-        def check(component)-> bool:
-           if component in [Ideal_Experiment.component() for Ideal_Experiment in self.ideal_experiments()]:
-            return True
-           else:
-            return False
-        return filter(check(component),self.ideal_experiments)
 
-   # Calculate an apparent activation energy of permeation     
+    # Picking only Experiments related to the chosen component
+    def get_penetrant_data(self, component) -> typing.List[IdealExperiment]:
+        return list(
+            filter(
+                lambda value: value.component.name in self.ideal_experiments_names,
+                self.ideal_experiments
+            )
+        )
+
+    # Calculate an apparent activation energy of permeation
     def calculate_activation_energy(self,component) -> float:
         
         self.get_penetrant_data(component)
         # Calculation of Least-squares Linear Fit of Ln(Permeance) versus 1/T
         return 0
 
+    def get_permeance(self, temperature, component) -> float:
+        return 0
 
-    def get_permeance(self,temperature,component)-> float:
+    def get_ideal_selectivity(self, temperature, component1, component2) -> float:
         return 0
-    def get_ideal_selectivity(self,temperature,component1,component2)-> float:
-        return 0
+
 
 @attr.s(auto_attribs=True)
 class Pervaporation:
@@ -260,5 +270,5 @@ class Pervaporation:
     def model_ideal_process(self):
         pass
 
-    def model_nonideal_process(self):
+    def model_non_ideal_process(self):
         pass
