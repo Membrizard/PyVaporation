@@ -3,17 +3,21 @@
 This solution is designed specifically to assist Researchers in the field of Pervaporation membranes development.
 By means of the proposed instrument one can easily model a performance of a particular membrane with known permeance (Pi) and appearing energy of activiation  of transport (Ea) values for each component of a considered binary mixture. 
 
-# The Following mixtures are Currently supported:
+# The Following mixtures are Currently built in the solution:
 
+binary:
+
+* H2O/MeOH
 * H2O/EtOH
 * H2O/IPOH
 * MeOH/toluene
-* MeOH/p-Xylene
 * MeOH/Methyl-tertbuthyl ether
 * MeOH/DimethoxyEthane
 * MeOH/Dimethylcarbonate
 * MeOH/CycloHexane
-* MeOH/Benzene
+
+ternary:
+* H2O/MeOH/EtOH
 
 # Assumptions and applicability
 
