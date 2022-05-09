@@ -3,6 +3,8 @@ import typing
 import attr
 import numpy
 
+from ..component import Component
+
 R = 8.314462
 
 
@@ -32,9 +34,9 @@ class Conditions:
 
 @attr.s(auto_attribs=True)
 class AntoineConstants:
-    a: float
-    b: float
-    c: float
+    a: float = attr.ib(converter=lambda value: float(value))  # type: ignore
+    b: float = attr.ib(converter=lambda value: float(value))  # type: ignore
+    c: float = attr.ib(converter=lambda value: float(value))  # type: ignore
 
 
 @attr.s(auto_attribs=True)
@@ -43,171 +45,6 @@ class NRTLParameters:
     g21: float
     alpha: float
 
-
-@attr.s(auto_attribs=True)
-class Component:
-    name: str
-    molecular_weight: float
-    antoine_constants: AntoineConstants
-    # Calculation of saturated pressure in kPa at a given temperature in K using Antoine equation (by the basis of 10)
-    def get_antoine_pressure(self, temperature: float) -> float:
-        return 10 ** (
-            self.antoine_constants.a
-            - self.antoine_constants.b / (temperature + self.antoine_constants.c)
-        )
-    # Calculation of Vaporisation heat in kJ/mol using Clapeyron-Clausius equation
-    def get_vaporisation_heat(self, temperature: float) -> float:
-        return (
-            (temperature / (temperature + self.antoine_constants.c)) ** 2
-            * R
-            * self.antoine_constants.b
-            * numpy.log(10)
-        )
-    
-    # Water
-    @classmethod
-    def h2o(cls) -> 'Component':
-        return cls(
-            name='H2O',
-            molecular_weight=18.02,
-            antoine_constants=AntoineConstants(
-                a=7.20389,
-                b=1733.96,
-                c=-39.485,
-            )
-        )
-   # Methanol
-    @classmethod
-    def meoh(cls) -> 'Component':
-        return cls(
-            name='MeOH',
-            molecular_weight=32.04,
-            antoine_constants=AntoineConstants(
-                a=9.22010,
-                b=-1590.15535,
-                c=-32.77001,
-            )
-        )
-    # Ethanol
-    @classmethod
-    def etoh(cls) -> 'Component':
-        return cls(
-            name='EtOH',
-            molecular_weight=46.07,
-            antoine_constants=AntoineConstants(
-                a=7.24677,
-                b=1598.673,
-                c=-46.424,
-            )
-        )
-    # Isopropanol
-    @classmethod
-    def ipoh(cls) -> 'Component':
-        return cls(
-            name='IPOH',
-            molecular_weight=60.10,
-            antoine_constants=AntoineConstants(
-                a=6.861,
-                b=1357.427,
-                c=-75.814,
-            )
-        )
-   # Methyl-tertbuthyl ether
-    @classmethod
-    def mtbe(cls) -> 'Component':
-        return cls(
-            name='MTBE',
-            molecular_weight=88.15,
-            antoine_constants=AntoineConstants(
-                a=8.05093,
-                b=-1139.816725,
-                c=-46.424,
-            )
-        )
-    # Ethyl-tertbuthyl ether
-    @classmethod
-    def etbe(cls) -> 'Component':
-        return cls(
-            name='ETBE',
-            molecular_weight=102.17,
-            antoine_constants=AntoineConstants(
-                a=6.0703,
-                b=-1206.874,
-                c=-49.19,
-            )
-        )
-   # DimethoxyEthane
-    @classmethod
-    def dme(cls) -> 'Component':
-        return cls(
-            name='DME',
-            molecular_weight=90.12,
-            antoine_constants=AntoineConstants(
-                a=5.83775,
-                b=-1260.52,
-                c=-37.322,
-            )
-        )
-    # DimethylCarbonate
-    @classmethod
-    def dmc(cls) -> 'Component':
-        return cls(
-            name='DMC',
-            molecular_weight=90.08,
-            antoine_constants=AntoineConstants(
-                a=5.78894,
-                b=-1049.375,
-                c=-85.977,
-            )
-        )
-    # Cyclohexane
-    @classmethod
-    def cyclohexane(cls) -> 'Component':
-        return cls(
-            name='Cyclohexane',
-            molecular_weight=84.16,
-            antoine_constants=AntoineConstants(
-                a=5.97636,
-                b=1206.47,
-                c=-49.864,
-            )
-        )
-    # Benzene
-    @classmethod
-    def benzene(cls) -> 'Component':
-        return cls(
-            name='Benzene',
-            molecular_weight=78.11,
-            antoine_constants=AntoineConstants(
-                a=6.00477,
-                b=1196.76,
-                c=-53.839,
-            )
-        )
-    # Toluene
-    @classmethod
-    def toluene(cls) -> 'Component':
-        return cls(
-            name='Toluene',
-            molecular_weight=92.14,
-            antoine_constants=AntoineConstants(
-                a=6.0854,
-                b=1348.77,
-                c=-53.024,
-            )
-        )
-    # p-Xylene
-    @classmethod
-    def p_xylene(cls) -> 'Component':
-        return cls(
-            name='p-Xylene',
-            molecular_weight=106.16,
-            antoine_constants=AntoineConstants(
-                a=8.11543,
-                b=1453.43,
-                c=-57.7,
-            )
-        )
 
 @attr.s(auto_attribs=True)
 class Mixture:
