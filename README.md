@@ -1,7 +1,9 @@
 # PVmodelling
 
 This solution is designed specifically to assist Researchers in the field of Pervaporation membranes development.
-By means of the proposed instrument one can easily model a performance of a particular membrane with known permeance (Pi) and appearing energy of activiation  of transport (Ea) values for each component of a considered binary mixture. 
+By means of the proposed instrument one can easily model a performance of a particular membrane with known permeance (Pi) and appearing energy of activiation  of transport (Ea) values for each component of a considered binary mixture, if the transport is considered Ideal (Permeances are not dependant on the mixture composition)
+
+Or, given that the diffusion curve of a non-ideal process is measured one can model the non ideal process at a given temperature.
 
 # The Following mixtures are Currently built in the solution:
 
@@ -19,4 +21,7 @@ binary:
 
 # Assumptions and applicability
 
-The solution is designed to model isothermal pervaporation process and could compute the composition of the feed mixture in relation to the process time (or module lenght). All the calculations could be considered valid if in the studied compositions range permeance values are constant. There is also an extension which could allow one to predict the change on permeance value in the "facillitated" transport regime, however this should be used carefully, as this may not work for a particular membrane picked for the modelling.
+* The activity coefficients of the binary mixture are calculated by means of NRTL model;
+* Saturated vapour pressure and Vaporisation/Condensation heat are assessed usnig Antoine and Clapeyron-Clausius equations
+* The ideal modelling process is applicable only for the modelling of processes, where permeance values does depend on mixture composition
+* The non-ideal modelling is performed only based on the specified diffusion curve (The overall and component fluxes as a function of separated mixture's composition)

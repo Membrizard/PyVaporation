@@ -416,6 +416,9 @@ class Pervaporation:
 
     def get_real_selectivity(self):
         pass
+    
+    def model_ideal_diffusion_curve(self):
+        pass
 
     def model_ideal_process(self):
         pass
