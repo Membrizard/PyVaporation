@@ -193,6 +193,9 @@ class Mixture:
 # Experiments for Ideal modelling
 @attr.s(auto_attribs=True)
 class IdealExperiment:
+    # TODO: include validation while loading form config
+    #  Permeance can't be negative;
+    # Temperature can't be negative
     temperature: float
     # Permeance in kg*mcm/(m2*h*kPa)
     permeance: float
@@ -251,11 +254,21 @@ class Membrane:
             # Calculation of Least-squares Linear Fit of Ln(Permeance) versus 1/T
             activation_energy, c = numpy.linalg.lstsq(A, y, rcond=-1)[0] * R
             if plot:
-                # TODO: Plotting the graph Ln(Permeance) versus 1/T
+                # Plotting the graph Ln(Permeance) versus 1/T
+                import matplotlib.pyplot as plt
+                _ = plt.plot(x, y, 'o', label=component.name + 'Experimental Permeances', markersize=5)
+                plt.xlabel("1/T, 1/K")
+                plt.ylabel("Ln(Permeance)")
+                _ = plt.plot(x, activation_energy * x + c, 'b', label='Fitted line')
+                _ = plt.legend()
+                plt.show()
                 pass
             if rewrite:
-                # Rewriting the corresponding activation energy values in Ideal Experiments of the Membrane,
-                # including in Config
+                # Rewriting the corresponding activation energy values in Ideal Experiments of the Membrane
+                for ideal_experiment in self.get_penetrant_data(component):
+                    ideal_experiment.activation_energy = activation_energy
+                # TODO: Rewrite in Config Membranes.yml or whatever
+
                 return activation_energy
             else:
                 return activation_energy
@@ -263,10 +276,27 @@ class Membrane:
             print("At Least Two points are required for the calculation of Apparent Activation Energy")
 
     def get_permeance(self, temperature, component) -> float:
-        return 0
+        # Definition of the corresponding temperatures list
+        temperature_list = [ideal_experiment.temperature
+                            for ideal_experiment in
+                            self.get_penetrant_data(component)]
+        # finding the index of the experiment with the closest available temperature
+        index = min(range(len(temperature_list)), key=lambda i: abs(temperature_list[i] - temperature))
+        # finding the Permeance in the eperiment with the found index
+        given_permeance = self.get_penetrant_data(component)[index].permeance
+        # Trying to calculate the permeance at given temperature;
+        # If activation is not specified it is being calculated using calculate_activation_energy function
+        try:
+            activation_energy = self.get_penetrant_data(component)[index].activation_energy
+            return given_permeance * numpy.exp(-activation_energy / R * (1 / temperature - 1 / temperature_list[index]))
+        except:
+            # print('Provide Apparent Energy of Permeation for the component')
+            activation_energy = self.calculate_activation_energy(component, rewrite=False, plot=False)
+            return given_permeance * numpy.exp(-activation_energy / R * (1 / temperature - 1 / temperature_list[index]))
 
+    # calculating the selectivity
     def get_ideal_selectivity(self, temperature, component1, component2) -> float:
-        return 0
+        return self.get_permeance(temperature, component1) / self.get_permeance(temperature, component2)
 
 
 @attr.s(auto_attribs=True)
