@@ -64,7 +64,7 @@ class NRTLParameters:
 @attr.s(auto_attribs=True)
 class Membrane:
     ideal_experiments: typing.List[IdealExperiment]
-    DiffusionCurve: typing.List[DiffusionCurve]
+    non_ideal_experiments: typing.List[NonIdealExperiment]
 
     @property
     def ideal_experiments_names(self) -> typing.List[str]:
@@ -128,7 +128,7 @@ class Membrane:
                             self.get_penetrant_data(component)]
         # finding the index of the experiment with the closest available temperature
         index = min(range(len(temperature_list)), key=lambda i: abs(temperature_list[i] - temperature))
-        # finding the Permeance in the experiment with the found index
+        # finding the Permeance in the eperiment with the found index
         given_permeance = self.get_penetrant_data(component)[index].permeance
         # Trying to calculate the permeance at given temperature;
         # If activation is not specified it is being calculated using calculate_activation_energy function
@@ -164,7 +164,7 @@ class PVProcess:
 class Pervaporation:
     membrane: Membrane
     mixture: Mixture
-    conditions: Conditions
+    # conditions: Conditions
     ideal: bool = True
 
     # Alexey please double check this
