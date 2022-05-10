@@ -21,6 +21,10 @@ class Composition:
         else:
             raise ValueError("Index %s out of range" % item)
 
+    # Convert molar composition to weight%
+    def wt(self, mixture) -> 'Composition':
+        pass
+
 
 @attr.s(auto_attribs=True)
 class Conditions:
@@ -30,6 +34,8 @@ class Conditions:
     feed_amount: float
     feed_composition: Composition
     isothermal: bool = True
+    number_steps: int
+    dstep: float
 
 
 @attr.s(auto_attribs=True)
@@ -303,29 +309,36 @@ class Membrane:
 class Pervaporation:
     membrane: Membrane
     mixture: Mixture
-    conditions: Conditions
+    # conditions: Conditions
     ideal: bool = True
 
-    def get_component_flux(self):
+    def get_component_flux(self, component, temperature) -> float:
         pass
 
-    def get_overall_flux(self):
+    def get_overall_flux(self, temperature) -> float:
         pass
 
-    def get_separation_factor(self):
+    def get_separation_factor(self, temperature, feed_composition) -> float:
         pass
 
-    def get_psi(self):
+    def get_psi(self, temperature, feed_composition) -> float:
         pass
 
-    def get_real_selectivity(self):
+    # Only for non-Ideal Experiments
+    def get_real_selectivity(self, temperature, feed_composition):
         pass
+
+    # Calculate Partial and Overall fluxes as a function of composition in the given composition range
+    def ideal_diffusion_curve(self, temperature, start_composition, end_composition, d_composition) \
+            -> typing.List[typing.List[Composition], typing.List[float]]:
+        composition_range = 0
+        return 0
 
     def model_ideal_diffusion_curve(self):
         pass
 
-    def model_ideal_process(self):
+    def model_ideal_process(self, conditions):
         pass
 
-    def model_non_ideal_process(self):
+    def model_non_ideal_process(self, conditions):
         pass
