@@ -1,5 +1,3 @@
-import typing
-
 import attr
 import numpy
 
