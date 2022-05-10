@@ -52,7 +52,6 @@ class Mixture:
     nrtl_params: NRTLParameters
 
     def get_nrtl_partial_pressures(self, temperature: float, composition: Composition):
-
         tau = numpy.array(
             [
                 self.nrtl_params.g12 / (R * temperature),
@@ -66,21 +65,21 @@ class Mixture:
             numpy.exp(
                 (composition[1] ** 2)
                 * (
-                    tau[1]
-                    * (g_exp[1] / (composition[0] + composition[1] * g_exp[1])) ** 2
-                    + tau[0]
-                    * g_exp[0]
-                    / (composition[1] + composition[0] * g_exp[0]) ** 2
+                        tau[1]
+                        * (g_exp[1] / (composition[0] + composition[1] * g_exp[1])) ** 2
+                        + tau[0]
+                        * g_exp[0]
+                        / (composition[1] + composition[0] * g_exp[0]) ** 2
                 )
             ),
             numpy.exp(
                 (composition[0] ** 2)
                 * (
-                    tau[0]
-                    * (g_exp[0] / (composition[1] + composition[0] * g_exp[0])) ** 2
-                    + tau[1]
-                    * g_exp[1]
-                    / (composition[0] + composition[1] * g_exp[1]) ** 2
+                        tau[0]
+                        * (g_exp[0] / (composition[1] + composition[0] * g_exp[0])) ** 2
+                        + tau[1]
+                        * g_exp[1]
+                        / (composition[0] + composition[1] * g_exp[1]) ** 2
                 )
             ),
         ]
@@ -93,92 +92,100 @@ class Mixture:
             * activity_coefficients[1]
             * composition[1],
         )
-   # H2O/Ethanol
+
+    # H2O/Ethanol
     @classmethod
-    def h2o_etoh(cls)-> 'Mixture':
+    def h2o_etoh(cls) -> 'Mixture':
         return cls(
-            components = [Component.h2o(),Component.etoh()],
-            nrtl_params = NRTLParameters (
-                g12 = -633,
-                g21 = 5823,
-                alpha = 0.3,
+            components=[Component.h2o(), Component.etoh()],
+            nrtl_params=NRTLParameters(
+                g12=-633,
+                g21=5823,
+                alpha=0.3,
             )
         )
+
     # H2O/Isopropanol TODO: update parameters
     @classmethod
-    def h2o_ipoh(cls)-> 'Mixture':
+    def h2o_ipoh(cls) -> 'Mixture':
         return cls(
-            components = [Component.h2o(),Component.ipoh()],
-            nrtl_params = NRTLParameters (
-                g12 = 0,
-                g21 = 0,
-                alpha = 0.686,
+            components=[Component.h2o(), Component.ipoh()],
+            nrtl_params=NRTLParameters(
+                g12=0,
+                g21=0,
+                alpha=0.686,
             )
         )
+
     # EtOH/ETBE
     @classmethod
-    def etoh_etbe(cls)-> 'Mixture':
+    def etoh_etbe(cls) -> 'Mixture':
         return cls(
-            components = [Component.etoh(),Component.etbe()],
-            nrtl_params = NRTLParameters (
-                g12 = 726.34,
-                g21 = 318.22,
-                alpha = 0.3,
+            components=[Component.etoh(), Component.etbe()],
+            nrtl_params=NRTLParameters(
+                g12=726.34,
+                g21=318.22,
+                alpha=0.3,
             )
         )
+
     # MeOH/Toluene
     @classmethod
-    def meoh_toluene(cls)-> 'Mixture':
+    def meoh_toluene(cls) -> 'Mixture':
         return cls(
-            components = [Component.meoh(),Component.toluene()],
-            nrtl_params = NRTLParameters (
-                g12 = 3715.5266,
-                g21 = 3085.3254,
-                alpha = 0.3,
+            components=[Component.meoh(), Component.toluene()],
+            nrtl_params=NRTLParameters(
+                g12=3715.5266,
+                g21=3085.3254,
+                alpha=0.3,
             )
         )
+
     # MeOH/Methyl-tertButhyl ether
     @classmethod
-    def meoh_mtbe(cls)-> 'Mixture':
+    def meoh_mtbe(cls) -> 'Mixture':
         return cls(
-            components = [Component.meoh(),Component.mtbe()],
-            nrtl_params = NRTLParameters (
-                g12 = 2025.3,
-                g21 = 2133.5,
-                alpha = 0.6,
+            components=[Component.meoh(), Component.mtbe()],
+            nrtl_params=NRTLParameters(
+                g12=2025.3,
+                g21=2133.5,
+                alpha=0.6,
             )
         )
+
     # MeOH/DimethoxyEthane
     @classmethod
-    def meoh_dme(cls)-> 'Mixture':
+    def meoh_dme(cls) -> 'Mixture':
         return cls(
-            components = [Component.meoh(),Component.dme()],
-            nrtl_params = NRTLParameters (
-                g12 = 782.0202,
-                g21 = -229.0431,
-                alpha = 0.2982,
+            components=[Component.meoh(), Component.dme()],
+            nrtl_params=NRTLParameters(
+                g12=782.0202,
+                g21=-229.0431,
+                alpha=0.2982,
             )
         )
+
     # MeOH/DimethylCarbonate
     @classmethod
-    def meoh_dmc(cls)-> 'Mixture':
+    def meoh_dmc(cls) -> 'Mixture':
         return cls(
-            components = [Component.meoh(),Component.dmc()],
-            nrtl_params = NRTLParameters (
-                g12 = 1429.444,
-                g21 = 2641.108,
-                alpha = 0.2,
+            components=[Component.meoh(), Component.dmc()],
+            nrtl_params=NRTLParameters(
+                g12=1429.444,
+                g21=2641.108,
+                alpha=0.2,
             )
         )
+
     # MeOH/Cyclohexane
     @classmethod
-    def meoh_cyclohexane(cls)-> 'Mixture':
+    def meoh_cyclohexane(cls) -> 'Mixture':
         return cls(
-            components = [Component.meoh(),Component.cyclohexane()],
-            nrtl_params = NRTLParameters (
-                g12 = 6415.36,
-                g21 = 5714,
-                alpha = 0.4199,
+            components=[Component.meoh(), Component.cyclohexane()],
+            nrtl_params=NRTLParameters(
+                g12=6415.36,
+                g21=5714,
+                alpha=0.4199,
             )
         )
 
@@ -201,6 +208,7 @@ class NonIdealExperiment:
     overall_flux: typing.List[float]
     component_fluxes: typing.List[typing.List[float]]
     compositions: typing.List[float]
+    permeate_temperature: typing.Optional[float] = 0
     mixture: Mixture
 
 
@@ -229,11 +237,30 @@ class Membrane:
         )
 
     # Calculate an apparent activation energy of permeation
-    def calculate_activation_energy(self,component) -> float:
-        
-        self.get_penetrant_data(component)
-        # Calculation of Least-squares Linear Fit of Ln(Permeance) versus 1/T
-        return 0
+    def calculate_activation_energy(self, component, rewrite: bool = True, plot: bool = False) -> float:
+        # Validation of the Ideal Experiments
+        if len(self.get_penetrant_data()) >= 2:
+            # Get all the temperature values corresponding to the permeances for a given penetrant convert to 1/T
+            x = numpy.power([ideal_experiment.temperature for ideal_experiment in
+                             self.get_penetrant_data(component)], -1)
+            # Get all the permeance values for a given Penetrant convert to Ln(permeance)
+            y = numpy.log([ideal_experiment.permeance for ideal_experiment in
+                           self.get_penetrant_data(component)])
+            # Converting Ln(permeance) to the matrix equation form
+            A = numpy.vstack([x, numpy.ones(len(x))]).T
+            # Calculation of Least-squares Linear Fit of Ln(Permeance) versus 1/T
+            activation_energy, c = numpy.linalg.lstsq(A, y, rcond=-1)[0] * R
+            if plot:
+                # TODO: Plotting the graph Ln(Permeance) versus 1/T
+                pass
+            if rewrite:
+                # Rewriting the corresponding activation energy values in Ideal Experiments of the Membrane,
+                # including in Config
+                return activation_energy
+            else:
+                return activation_energy
+        else:
+            print("At Least Two points are required for the calculation of Apparent Activation Energy")
 
     def get_permeance(self, temperature, component) -> float:
         return 0
@@ -263,7 +290,7 @@ class Pervaporation:
 
     def get_real_selectivity(self):
         pass
-    
+
     def model_ideal_diffusion_curve(self):
         pass
 
