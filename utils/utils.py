@@ -130,7 +130,7 @@ class Membrane:
                             self.get_penetrant_data(component)]
         # finding the index of the experiment with the closest available temperature
         index = min(range(len(temperature_list)), key=lambda i: abs(temperature_list[i] - temperature))
-        # finding the Permeance in the eperiment with the found index
+        # finding the Permeance in the experiment with the found index
         given_permeance = self.get_penetrant_data(component)[index].permeance
         # Trying to calculate the permeance at given temperature;
         # If activation is not specified it is being calculated using calculate_activation_energy function
@@ -148,6 +148,12 @@ class Membrane:
 
 
 @attr.s(auto_attribs=True)
+class DiffusionCurve:
+    concentration_range: typing.List[Composition]
+    partial_fluxes: typing.List[typing.List[float]]
+
+
+@attr.s(auto_attribs=True)
 class Pervaporation:
     membrane: Membrane
     mixture: Mixture
@@ -162,23 +168,39 @@ class Pervaporation:
         p_sat = lambda t, x: self.mixture.get_nrtl_partial_pressures(t, x)
         # Defining function for partial fluxes calculation from permeate composition
         partial_fluxes = lambda perm_comp: \
-            numpy.matmul(permeances, numpy.substract(p_sat(feed_temperature, composition),
-                                                     p_sat(permeate_temperature, perm_comp)))
+            numpy.matmul(permeances, numpy.substract(p_sat(feed_temperature, composition.to_mol()),
+                                                     p_sat(permeate_temperature, perm_comp.to_mol)))
         # Defining function for permeate composition calculation
         permeate_composition = lambda fluxes: Composition(fluxes[0] / numpy.sum(fluxes))
         inital_fluxes = numpy.matmul(permeances, self.mixture.get_nrtl_partial_pressures(feed_temperature, composition))
         p_c = permeate_composition(inital_fluxes)
         d = 1
         # Precision of the permeate composition value - until the precision criteria is reached
+        # That is definetly could be implemented in a better algorithmic way
         while d >= precision:
             p_c2 = permeate_composition(partial_fluxes(p_c))
             d = max(numpy.absolute(numpy.subtract(p_c2, p_c)))
             p_c = p_c2
         return partial_fluxes(p_c)
 
+    # Calculate Permeate composition for at the given conditions
+    def calculate_permeate_composition(self, feed_temperature, permeate_temperature, composition,
+                                       precision: float) -> Composition:
+        return Composition(
+            self.calculate_partial_fluxes(feed_temperature, permeate_temperature, composition, precision)[
+                0] / numpy.sum(
+                self.calculate_partial_fluxes(feed_temperature, permeate_temperature, composition, precision)))
+
     # Calculate Partial and Overall fluxes as a function of composition in the given composition range
-    def ideal_diffusion_curve(self, temperature, composition_range):
-        return 0
+    def ideal_diffusion_curve(self, feed_temperature, permeate_temperature, composition_range, precision,
+                              plot: bool = True) -> DiffusionCurve:
+        diff_curv = DiffusionCurve(composition_range, [
+            self.calculate_partial_fluxes(feed_temperature, permeate_temperature, composition, precision) for
+            composition in composition_range])
+        if plot:
+            #TODO Plot the curve
+            pass
+        return diff_curv
 
     def model_ideal_process(self, conditions):
         pass
