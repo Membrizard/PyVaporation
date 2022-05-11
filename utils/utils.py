@@ -164,7 +164,7 @@ class PVProcess:
 class Pervaporation:
     membrane: Membrane
     mixture: Mixture
-    # conditions: Conditions
+    conditions: Conditions
     ideal: bool = True
 
     # Alexey please double check this
