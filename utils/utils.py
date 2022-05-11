@@ -2,6 +2,7 @@ import typing
 
 import attr
 import numpy
+from numpy import ndarray
 
 from ..component import Component
 
@@ -22,8 +23,12 @@ class Composition:
             raise ValueError("Index %s out of range" % item)
 
     # Convert molar composition to weight%
-    def wt(self, mixture) -> 'Composition':
-        pass
+    def wt(self, mixture) -> ndarray:
+        total = numpy.power(numpy.dot(numpy.transpose(
+            [mixture.components.molecular_weight for component in mixture.components]), self), -1)
+        return numpy.dot(numpy.multiply(self,
+                                        [mixture.components.molecular_weight for component in mixture.components]),
+                         total)
 
 
 @attr.s(auto_attribs=True)
@@ -309,33 +314,34 @@ class Membrane:
 class Pervaporation:
     membrane: Membrane
     mixture: Mixture
-    # conditions: Conditions
+    conditions: Conditions
     ideal: bool = True
 
-    def get_component_flux(self, component, temperature) -> float:
-        pass
-
-    def get_overall_flux(self, temperature) -> float:
-        pass
-
-    def get_separation_factor(self, temperature, feed_composition) -> float:
-        pass
-
-    def get_psi(self, temperature, feed_composition) -> float:
-        pass
-
-    # Only for non-Ideal Experiments
-    def get_real_selectivity(self, temperature, feed_composition):
-        pass
+    # Alexey please double check this
+    def calculate_partial_fluxes(self, feed_temperature, permeate_temperature, composition, precision: float) -> float:
+        # Calculating components' permeances at a given feed temperature:
+        permeances = [self.membrane.get_permeance(feed_temperature, component) for component in self.mixture.components]
+        # Defining function for saturation pressure calculation
+        p_sat = lambda t, x: self.mixture.get_nrtl_partial_pressures(t, x)
+        # Defining function for partial fluxes calculation from permeate composition
+        partial_fluxes = lambda perm_comp: \
+            numpy.matmul(permeances, numpy.substract(p_sat(feed_temperature, composition),
+                                                     p_sat(permeate_temperature, perm_comp)))
+        # Defining function for permeate composition calculation
+        permeate_composition = lambda fluxes: Composition(fluxes[0] / numpy.sum(fluxes))
+        inital_fluxes = numpy.matmul(permeances, self.mixture.get_nrtl_partial_pressures(feed_temperature, composition))
+        p_c = permeate_composition(inital_fluxes)
+        d = 1
+        # Precision of the permeate composition value - until the precision criteria is reached
+        while d >= precision:
+            p_c2 = permeate_composition(partial_fluxes(p_c))
+            d = max(numpy.absolute(numpy.subtract(p_c2, p_c)))
+            p_c = p_c2
+        return partial_fluxes(p_c)
 
     # Calculate Partial and Overall fluxes as a function of composition in the given composition range
-    def ideal_diffusion_curve(self, temperature, start_composition, end_composition, d_composition) \
-            -> typing.List[typing.List[Composition], typing.List[float]]:
-        composition_range = 0
+    def ideal_diffusion_curve(self, temperature, composition_range):
         return 0
-
-    def model_ideal_diffusion_curve(self):
-        pass
 
     def model_ideal_process(self, conditions):
         pass
