@@ -1,3 +1,3 @@
-from .component import Components, Component
+from .component import AllComponents, Component
 
-__all__ = ['Components', 'Component']
+__all__ = ["AllComponents", "Component"]

@@ -1,0 +1,56 @@
+h2o_etoh:
+  components: ['h2o', 'etoh']
+  nrtl_params:
+    g12: -633
+    g21: 5823
+    alpha: 0.3
+
+# TODO: update parameters
+h2o_ipoh:
+  components: ['h2o', 'ipoh']
+  nrtl_params:
+    g12: 0,
+    g21: 0,
+    alpha: 0.686
+
+etoh_etbe:
+  components: ['etoh', 'etbe']
+  nrtl_params:
+    g12: 726.34
+    g21: 318.22
+    alpha: 0.3
+
+meoh_toluene:
+  components: ['meoh', 'toluene'],
+  nrtl_params:
+    g12: 3715.5266
+    g21: 3085.3254
+    alpha: 0.3
+
+meoh_mtbe:
+  components: ['meoh', 'mtbe']
+  nrtl_params:
+    g12: 2025.3
+    g21: 2133.5
+    alpha: 0.6
+
+meoh_dme:
+  components: ['meoh', 'dme']
+  nrtl_params:
+    g12: 782.0202
+    g21: -229.0431
+    alpha: 0.2982
+
+meoh_dmc:
+  components: ['meoh', 'dmc']
+  nrtl_params:
+    g12: 1429.444
+    g21: 2641.108
+    alpha: 0.2
+
+meoh_cyclohexane:
+components: ['meoh', 'cyclohexane']
+  nrtl_params:
+    g12: 6415.36
+    g21: 5714
+    alpha: 0.4199

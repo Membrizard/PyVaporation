@@ -1,11 +1,11 @@
-import attr
-import yaml
-import numpy
 import typing
-
 from pathlib import Path
 
-from utils import AntoineConstants, R
+import attr
+import numpy
+import yaml
+
+from ..utils import AntoineConstants, R
 
 
 @attr.s(auto_attribs=True)
@@ -15,11 +15,11 @@ class Component:
     antoine_constants: AntoineConstants
 
     @classmethod
-    def from_dict(cls, d: typing.Mapping) -> 'Component':
+    def from_dict(cls, d: typing.Mapping) -> "Component":
         return Component(
-            name=d['name'],
-            molecular_weight=d['molecular_weight'],
-            antoine_constants=AntoineConstants(**d['antoine_constants'])
+            name=d["name"],
+            molecular_weight=d["molecular_weight"],
+            antoine_constants=AntoineConstants(**d["antoine_constants"]),
         )
 
     def get_antoine_pressure(self, temperature: float) -> float:
@@ -48,15 +48,15 @@ class Component:
 
 
 @attr.s(auto_attribs=True)
-class Components:
+class AllComponents:
     components: typing.Mapping[str, Component]
 
     @classmethod
-    def load(cls, path: Path) -> 'Components':
-        with open(path, 'r') as handle:
+    def load(cls, path: Path) -> "AllComponents":
+        with open(path, "r") as handle:
             _components = yaml.load(handle, Loader=yaml.FullLoader)
 
-        output = Components(
+        output = AllComponents(
             components={
                 name: Component.from_dict(value) for name, value in _components.items()
             }
