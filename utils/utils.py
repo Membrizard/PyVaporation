@@ -146,11 +146,19 @@ class Membrane:
     def get_ideal_selectivity(self, temperature, component1, component2) -> float:
         return self.get_permeance(temperature, component1) / self.get_permeance(temperature, component2)
 
-
+# Diffusion curves for non-ideal modelling and output of the results
 @attr.s(auto_attribs=True)
 class DiffusionCurve:
-    concentration_range: typing.List[Composition]
+    feed_temperature: float
+    permeate_temperature: typing.Optional[float] = 0
+    mixture: Mixture
+    composition_range: typing.List[Composition]
     partial_fluxes: typing.List[typing.List[float]]
+    total_flux: typing.List[float]
+    separation_factor: typing.List[float]
+    PSI: typing.List[float]
+@attr.s(auto_attribs=True)
+class PVProcess:
 
 
 @attr.s(auto_attribs=True)
@@ -186,17 +194,26 @@ class Pervaporation:
     # Calculate Permeate composition for at the given conditions
     def calculate_permeate_composition(self, feed_temperature, permeate_temperature, composition,
                                        precision: float) -> Composition:
-        return Composition(
-            self.calculate_partial_fluxes(feed_temperature, permeate_temperature, composition, precision)[
-                0] / numpy.sum(
-                self.calculate_partial_fluxes(feed_temperature, permeate_temperature, composition, precision)))
+        x = self.calculate_partial_fluxes(feed_temperature, permeate_temperature, composition, precision)
+        return Composition(x[0] / numpy.sum(x))
+    def calculate_separation_factor(self, feed_temperature, permeate_temperature, composition, precision: float):
+        perm_comp = self.calculate_permeate_composition(feed_temperature,permeate_temperature,composition,precision)
+        return (composition[1]/(1-composition[1]))/(perm_comp[1]/(1-perm_comp[1]))
 
-    # Calculate Partial and Overall fluxes as a function of composition in the given composition range
+    # Calculate Partial, Overall fluxes and other parameters as a function of composition in the given composition range
     def ideal_diffusion_curve(self, feed_temperature, permeate_temperature, composition_range, precision,
                               plot: bool = True) -> DiffusionCurve:
-        diff_curv = DiffusionCurve(composition_range, [
-            self.calculate_partial_fluxes(feed_temperature, permeate_temperature, composition, precision) for
-            composition in composition_range])
+        diff_curv = DiffusionCurve()
+        diff_curv.feed_temperature = feed_temperature
+        diff_curv.mixture = self.mixture
+        diff_curv.permeate_temperature = permeate_temperature
+        diff_curv.composition_range_range = composition_range
+        diff_curv.partial_fluxes = [self.calculate_partial_fluxes( feed_temperature, permeate_temperature, composition, precision) for
+        composition in composition_range]
+        diff_curv.separation_factor = [self.calculate_separation_factor( feed_temperature, permeate_temperature, composition, precision) for
+        composition in composition_range]
+        diff_curv.total_flux=[numpy.sum(diff_curv.partial_fluxes[i]) for i in range(len(diff_curv.partial_fluxes))]
+        diff_curv.PSI = numpy.multiply(numpy.subtract(diff_curv.separation_factor, numpy.ones(0, len(composition_range))), diff_curv.total_flux)
         if plot:
             #TODO Plot the curve
             pass
