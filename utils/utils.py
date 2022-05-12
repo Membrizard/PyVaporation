@@ -66,7 +66,7 @@ class NRTLParameters:
 @attr.s(auto_attribs=True)
 class Membrane:
     ideal_experiments: typing.List[IdealExperiment]
-    non_ideal_experiments: typing.List[NonIdealExperiment]
+    DiffusionCurve: typing.List[DiffusionCurve]
 
     @property
     def ideal_experiments_names(self) -> typing.List[str]:
@@ -157,6 +157,7 @@ class DiffusionCurve:
     total_flux: typing.List[float]
     separation_factor: typing.List[float]
     PSI: typing.List[float]
+
 @attr.s(auto_attribs=True)
 class PVProcess:
 
