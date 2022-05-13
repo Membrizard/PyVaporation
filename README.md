@@ -1,7 +1,7 @@
 # PVmodelling
 
 This solution is designed specifically to assist Researchers in the field of Pervaporation membranes development.
-By means of the proposed instrument one can easily model a performance of a particular membrane with known permeance (Pi) and appearing energy of activiation  of transport (Ea) values for each component of a considered binary mixture, if the transport is considered Ideal (Permeances are not dependant on the mixture composition)
+By means of the proposed instrument one can easily model a performance of a particular membrane with known permeance (Pi) and apparent energy of activiation  of transport (Ea) values for each component of a considered binary mixture, if the transport is considered Ideal (Permeances are not dependant on the mixture composition)
 
 Or, given that the diffusion curve of a non-ideal process is measured one can model the non ideal process at a given temperature.
 
