@@ -13,7 +13,7 @@ R = 8.314462
 class Composition:
     # TODO: from 2 to n; state in which units the composition is in weight% or in mol% by introducing mol
     p: float = attr.ib(validator=lambda value: 0 <= value <= 1)  # type: ignore
-    mol: bool
+    is_mol: bool
 
     def __getitem__(self, item: int):
         if item == 0:
@@ -24,14 +24,19 @@ class Composition:
             raise ValueError("Index %s out of range" % item)
 
     # Convert molar composition to weight%
-    def to_wt(self, mixture) -> ndarray:
+    @classmethod
+    def to_wt(self, mixture) -> typing.List[float]:
         total = numpy.power(numpy.dot(numpy.transpose(
             [mixture.components.molecular_weight for component in mixture.components]), self), -1)
+        self.is_mol = False
         return numpy.dot(numpy.multiply(self,
                                         [mixture.components.molecular_weight for component in mixture.components]),
                          total)
     # Convert weight composition to molar
-    def to_mol(self, mixture)-> ndarray:
+    def to_mol(self, mixture)-> typing.List[float]:
+        mw = [mixture.components.molecular_weight for component in mixture.components]
+        self.is_mol = True
+        return
 
 
 @attr.s(auto_attribs=True)
