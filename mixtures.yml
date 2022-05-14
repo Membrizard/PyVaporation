@@ -5,13 +5,13 @@ h2o_etoh:
     g21: 5823
     alpha: 0.3
 
-# TODO: update parameters
+# Need To Validate against Experimental VLE data
 h2o_ipoh:
   components: ['h2o', 'ipoh']
   nrtl_params:
-    g12: 0,
-    g21: 0,
-    alpha: 0.686
+    g12: 2489.18,
+    g21: -639.21,
+    alpha: 0.2
 
 etoh_etbe:
   components: ['etoh', 'etbe']
