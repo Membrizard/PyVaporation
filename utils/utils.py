@@ -1,27 +1,49 @@
-import typing
-
 import attr
 
-from ..component import Component
-from ..conditions import Conditions
-from ..membrane import Membrane
+from enum import Enum
+
 from ..mixture import Mixture
 
 R = 8.314462
 
 
+class CompositionType(Enum):
+    molar: str = "molar"
+    weight: str = "weight"
+
+
 @attr.s(auto_attribs=True)
 class Composition:
-    # TODO: from 2 to n
     p: float = attr.ib(validator=lambda value: 0 <= value <= 1)  # type: ignore
+    type: CompositionType
 
-    def __getitem__(self, item: int):
-        if item == 0:
-            return self.p
-        elif item == 1:
-            return 1 - self.p
+    @property
+    def first(self) -> float:
+        return self.p
+
+    @property
+    def second(self) -> float:
+        return 1 - self.p
+
+    def to_molar(self, mixture: Mixture) -> "Composition":
+        if self.type == CompositionType.molar:
+            return self
         else:
-            raise ValueError("Index %s out of range" % item)
+            p = (self.p / mixture.first_component.molecular_weight) / (
+                    self.p / mixture.first_component.molecular_weight
+                    + (1 - self.p) / mixture.second_component.molecular_weight
+            )
+            return Composition(p=p, type=CompositionType('weight'))
+
+    def to_weight(self, mixture: Mixture) -> "Composition":
+        if self.type == CompositionType.weight:
+            return self
+        else:
+            p = (mixture.first_component.molecular_weight * self.p) / (
+                mixture.first_component.molecular_weight * self.p
+                + mixture.second_component.molecular_weight * (1 - self.p)
+            )
+            return Composition(p=p, type=CompositionType('weight'))
 
 
 @attr.s(auto_attribs=True)
@@ -36,56 +58,3 @@ class NRTLParameters:
     g12: float
     g21: float
     alpha: float
-
-
-# Experiments for Ideal modelling
-@attr.s(auto_attribs=True)
-class IdealExperiment:
-    temperature: float
-    # Permeance in kg*mcm/(m2*h*kPa)
-    permeance: float
-    component: Component
-    activation_energy: typing.Optional[float] = None
-
-
-# Experiments for Non-ideal modelling
-@attr.s(auto_attribs=True)
-class NonIdealExperiment:
-    temperature: float
-    # Permeance in kg*mcm/(m2*h*kPa)
-    overall_flux: typing.List[float]
-    component_fluxes: typing.List[typing.List[float]]
-    compositions: typing.List[float]
-    mixture: Mixture
-
-
-@attr.s(auto_attribs=True)
-class Pervaporation:
-    membrane: Membrane
-    mixture: Mixture
-    conditions: Conditions
-    ideal: bool = True
-
-    def get_component_flux(self):
-        pass
-
-    def get_overall_flux(self):
-        pass
-
-    def get_separation_factor(self):
-        pass
-
-    def get_psi(self):
-        pass
-
-    def get_real_selectivity(self):
-        pass
-
-    def model_ideal_diffusion_curve(self):
-        pass
-
-    def model_ideal_process(self):
-        pass
-
-    def model_non_ideal_process(self):
-        pass

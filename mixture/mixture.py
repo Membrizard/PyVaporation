@@ -6,25 +6,28 @@ import numpy
 import yaml
 
 from ..component import AllComponents, Component
-from ..utils import Composition, NRTLParameters, R
+from ..utils import Composition, NRTLParameters, R, CompositionType
 
 
 @attr.s(auto_attribs=True)
 class Mixture:
-    components: typing.List[Component]
+    first_component: Component
+    second_component: Component
     nrtl_params: NRTLParameters
 
     @classmethod
     def from_dict(cls, d: typing.Mapping, all_components: AllComponents) -> "Mixture":
         return Mixture(
-            components=[
-                all_components.__getattribute__(component_name)
-                for component_name in d["components"]
-            ],
+            first_component=all_components.__getattribute__(d["components"][0]),
+            second_component=all_components.__getattribute__(d["components"][1]),
             nrtl_params=NRTLParameters(**d["nrtl_params"]),
         )
 
     def get_nrtl_partial_pressures(self, temperature: float, composition: Composition):
+
+        if composition.type == CompositionType.weight:
+            composition = composition.to_molar(mixture=self)
+
         tau = numpy.array(
             [
                 self.nrtl_params.g12 / (R * temperature),
@@ -36,34 +39,34 @@ class Mixture:
 
         activity_coefficients = [
             numpy.exp(
-                (composition[1] ** 2)
+                (composition.second ** 2)
                 * (
                     tau[1]
-                    * (g_exp[1] / (composition[0] + composition[1] * g_exp[1])) ** 2
+                    * (g_exp[1] / (composition.first + composition.second * g_exp[1])) ** 2
                     + tau[0]
                     * g_exp[0]
-                    / (composition[1] + composition[0] * g_exp[0]) ** 2
+                    / (composition.second + composition.first * g_exp[0]) ** 2
                 )
             ),
             numpy.exp(
-                (composition[0] ** 2)
+                (composition.first ** 2)
                 * (
                     tau[0]
-                    * (g_exp[0] / (composition[1] + composition[0] * g_exp[0])) ** 2
+                    * (g_exp[0] / (composition.second + composition.first * g_exp[0])) ** 2
                     + tau[1]
                     * g_exp[1]
-                    / (composition[0] + composition[1] * g_exp[1]) ** 2
+                    / (composition.first + composition.second * g_exp[1]) ** 2
                 )
             ),
         ]
 
         return (
-            self.components[0].get_antoine_pressure(temperature)
+            self.first_component.get_antoine_pressure(temperature)
             * activity_coefficients[0]
-            * composition[0],
-            self.components[1].get_antoine_pressure(temperature)
+            * composition.first,
+            self.second_component.get_antoine_pressure(temperature)
             * activity_coefficients[1]
-            * composition[1],
+            * composition.second,
         )
 
 
