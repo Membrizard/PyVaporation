@@ -5,7 +5,7 @@ import attr
 import numpy
 import yaml
 
-from utils import AntoineConstants, R, HeatCapacityConstants
+from utils import AntoineConstants, HeatCapacityConstants, R
 
 
 @attr.s(auto_attribs=True)
@@ -48,9 +48,12 @@ class Component:
         )
 
     def get_heat_capacity(self, temperature: float) -> float:
-        return self.heat_capacity_constants.a + \
-               self.heat_capacity_constants.b*temperature+self.heat_capacity_constants*temperature**2 + \
-               self.heat_capacity_constants.d/(temperature**2)
+        return (
+            self.heat_capacity_constants.a
+            + self.heat_capacity_constants.b * temperature
+            + self.heat_capacity_constants * temperature**2
+            + self.heat_capacity_constants.d / (temperature**2)
+        )
 
 
 @attr.s(auto_attribs=True)
