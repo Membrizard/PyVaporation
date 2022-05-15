@@ -1,18 +1,20 @@
 h2o:
   name: Water
+  reference: "; DOI: 10.1021/je900208n"
   molecular_weight: 18.02
   antoine_constants:
     a: 7.20389
     b: 1733.96
     c: -39.485
   heat_capacity_constants:
-    a: 0
-    b: 0
-    c: 0
-    d: 0
+    a: 32.2
+    b: 1.924e-3
+    c: 1.055e-5
+    d: -3.596e-9
 
 meoh:
   name: Methanol
+  reference: ""
   molecular_weight: 32.04
   antoine_constants:
     a: 9.22010
@@ -26,19 +28,21 @@ meoh:
 
 etoh:
   name: Ethanol
+  reference: "; DOI: 10.1021/je900208n"
   molecular_weight: 46.07
   antoine_constants:
     a: 7.24677
     b: 1598.673
     c: -46.424
   heat_capacity_constants:
-    a: 0
-    b: 0
-    c: 0
-    d: 0
+    a: 9.01
+    b: 0.2141
+    c: -8.390e-5
+    d: 1.373e-9
 
 ipoh:
   name: Isopropanol
+  reference: ""
   molecular_weight: 60.10
   antoine_constants:
     a: 6.861
@@ -52,6 +56,7 @@ ipoh:
 
 mtbe:
   name: Methyl-tert-butyl ether
+  reference: ""
   molecular_weight: 88.15
   antoine_constants:
     a: 8.05093
@@ -65,78 +70,84 @@ mtbe:
 
 etbe:
   name: Ethyl-tert-butyl ether
+  reference: "; DOI: 10.1021/je900208n"
   molecular_weight: 102.17
   antoine_constants:
     a: 6.0703
     b: -1206.874
     c: -49.19
   heat_capacity_constants:
-    a: 0
-    b: 0
-    c: 0
-    d: 0
+    a: 7,5
+    b: 0.6293
+    c: -3.69e-5
+    d: 7.072e-9
 
 dme:
-  name: Dimethoxyethane
+  name: 1,2-Dimethoxyethane
+  reference: "; doi.org/10.1021/acs.jced.1c00229"
   molecular_weight: 90.12
   antoine_constants:
     a: 5.83775
     b: -1260.52
     c: -37.322
   heat_capacity_constants:
-    a: 0
-    b: 0
-    c: 0
-    d: 0
+    a: 1.43841e2
+    b: 3.88448e-1
+    c: -1.49740e-3
+    d: 2.45328e-6
 
 dmc:
   name: Dimethylcarbonate
+  reference: "doi.org/10.1021/acs.jced.7b00295"
   molecular_weight: 90.08
   antoine_constants:
     a: 5.78894
     b: -1049.375
     c: -85.977
   heat_capacity_constants:
-    a: 0
-    b: 0
-    c: 0
-    d: 0
+    a: 3.29155e2
+    b: -1.54438
+    c: 4.42614e-3
+    d: -3.66196e-6
 
 cyclohexane:
   name: Cyclohexane
+  reference: "Safir, L.I., Experimental determination of the isobaric heat capacity of cyclohexane at atmospheric pressure, Izv. Vyssh. Uchebn. Zaved. Neft. Gaz 21, 1978, (12), 81-82."
   molecular_weight: 84.16
   antoine_constants:
     a: 5.97636
     b: 1206.47
     c: -49.864
   heat_capacity_constants:
-    a: 0
-    b: 0
+    a: 43,37101
+    b: 0,380403
     c: 0
     d: 0
 
 benzene:
   name: Benzene
+  reference: "; https://doi.org/10.1007/BF00503954"
   molecular_weight: 78.11
   antoine_constants:
     a: 6.00477
     b: 1196.76
     c: -53.839
   heat_capacity_constants:
-    a: 0
-    b: 0
-    c: 0
+    a: 1.18680e2
+    b: -1.01465e-1
+    c: 5.41068e-4
     d: 0
 
 toluene:
   name: Toluene
+  reference: "https://doi.org/10.1021/j100573a011"
   molecular_weight: 92.14
   antoine_constants:
     a: 6.0854
     b: 1348.77
     c: -53.024
   heat_capacity_constants:
-    a: 0
-    b: 0
-    c: 0
-    d: 0
+    a: 1.87438e2
+    b: -7.30265e-1
+    c: 2.96136e-3
+    d: -2.86617e-6

@@ -11,6 +11,7 @@ from utils import AntoineConstants, HeatCapacityConstants, R
 @attr.s(auto_attribs=True)
 class Component:
     name: str
+    reference: str
     molecular_weight: float = attr.ib(converter=lambda value: float(value))
     antoine_constants: AntoineConstants
     heat_capacity_constants: HeatCapacityConstants
@@ -19,8 +20,10 @@ class Component:
     def from_dict(cls, d: typing.Mapping) -> "Component":
         return Component(
             name=d["name"],
+            reference=d["reference"],
             molecular_weight=d["molecular_weight"],
             antoine_constants=AntoineConstants(**d["antoine_constants"]),
+            heat_capacity_constants=HeatCapacityConstants(**d["heat_capacity_constants"])
         )
 
     def get_antoine_pressure(self, temperature: float) -> float:
@@ -52,7 +55,7 @@ class Component:
             self.heat_capacity_constants.a
             + self.heat_capacity_constants.b * temperature
             + self.heat_capacity_constants * temperature**2
-            + self.heat_capacity_constants.d / (temperature**2)
+            + self.heat_capacity_constants.d * temperature**3
         )
 
 
