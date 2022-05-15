@@ -1,3 +1,3 @@
-from .utils import AntoineConstants, Composition, NRTLParameters, R, CompositionType
+from .utils import AntoineConstants, NRTLParameters, R
 
-__all__ = ["AntoineConstants", "R", "Composition", "NRTLParameters", 'CompositionType']
+__all__ = ["AntoineConstants", "R", "NRTLParameters"]

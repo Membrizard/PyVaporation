@@ -5,7 +5,7 @@ import attr
 import numpy
 import yaml
 
-from ..utils import AntoineConstants, R
+from utils import AntoineConstants, R
 
 
 @attr.s(auto_attribs=True)
@@ -52,7 +52,7 @@ class AllComponents:
     components: typing.Mapping[str, Component]
 
     @classmethod
-    def load(cls, path: Path) -> "AllComponents":
+    def load(cls, path: typing.Union[str, Path]) -> "AllComponents":
         with open(path, "r") as handle:
             _components = yaml.load(handle, Loader=yaml.FullLoader)
 
