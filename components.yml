@@ -1,6 +1,5 @@
 h2o:
   name: Water
-  reference: "; DOI: 10.1021/je900208n"
   molecular_weight: 18.02
   antoine_constants:
     a: 7.20389
@@ -14,7 +13,6 @@ h2o:
 
 meoh:
   name: Methanol
-  reference: ""
   molecular_weight: 32.04
   antoine_constants:
     a: 9.22010
@@ -28,7 +26,6 @@ meoh:
 
 etoh:
   name: Ethanol
-  reference: "; DOI: 10.1021/je900208n"
   molecular_weight: 46.07
   antoine_constants:
     a: 7.24677
@@ -42,7 +39,6 @@ etoh:
 
 ipoh:
   name: Isopropanol
-  reference: ""
   molecular_weight: 60.10
   antoine_constants:
     a: 6.861
@@ -56,7 +52,6 @@ ipoh:
 
 mtbe:
   name: Methyl-tert-butyl ether
-  reference: ""
   molecular_weight: 88.15
   antoine_constants:
     a: 8.05093
@@ -70,7 +65,6 @@ mtbe:
 
 etbe:
   name: Ethyl-tert-butyl ether
-  reference: "; DOI: 10.1021/je900208n"
   molecular_weight: 102.17
   antoine_constants:
     a: 6.0703
@@ -84,7 +78,6 @@ etbe:
 
 dme:
   name: 1,2-Dimethoxyethane
-  reference: "; doi.org/10.1021/acs.jced.1c00229"
   molecular_weight: 90.12
   antoine_constants:
     a: 5.83775
@@ -98,7 +91,6 @@ dme:
 
 dmc:
   name: Dimethylcarbonate
-  reference: "doi.org/10.1021/acs.jced.7b00295"
   molecular_weight: 90.08
   antoine_constants:
     a: 5.78894
@@ -112,7 +104,6 @@ dmc:
 
 cyclohexane:
   name: Cyclohexane
-  reference: "Safir, L.I., Experimental determination of the isobaric heat capacity of cyclohexane at atmospheric pressure, Izv. Vyssh. Uchebn. Zaved. Neft. Gaz 21, 1978, (12), 81-82."
   molecular_weight: 84.16
   antoine_constants:
     a: 5.97636
@@ -126,7 +117,6 @@ cyclohexane:
 
 benzene:
   name: Benzene
-  reference: "; https://doi.org/10.1007/BF00503954"
   molecular_weight: 78.11
   antoine_constants:
     a: 6.00477
@@ -140,7 +130,6 @@ benzene:
 
 toluene:
   name: Toluene
-  reference: "https://doi.org/10.1021/j100573a011"
   molecular_weight: 92.14
   antoine_constants:
     a: 6.0854

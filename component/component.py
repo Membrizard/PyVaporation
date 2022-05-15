@@ -20,7 +20,6 @@ class Component:
     def from_dict(cls, d: typing.Mapping) -> "Component":
         return Component(
             name=d["name"],
-            reference=d["reference"],
             molecular_weight=d["molecular_weight"],
             antoine_constants=AntoineConstants(**d["antoine_constants"]),
             heat_capacity_constants=HeatCapacityConstants(**d["heat_capacity_constants"])
@@ -51,6 +50,11 @@ class Component:
         )
 
     def get_heat_capacity(self, temperature: float) -> float:
+        """
+        Calculation of Vaporisation heat in J/(mol*K) using polynomial isobaric heat capacity fit
+        :param temperature: temperature in K
+        :return: Isobaric Heat capacity in J/(mol*K)
+        """
         return (
             self.heat_capacity_constants.a
             + self.heat_capacity_constants.b * temperature
