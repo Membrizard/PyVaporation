@@ -1,11 +1,10 @@
 import typing
+from enum import Enum
+from pathlib import Path
 
 import attr
 import numpy
 import yaml
-
-from pathlib import Path
-from enum import Enum
 
 from component import AllComponents, Component
 from utils import NRTLParameters, R

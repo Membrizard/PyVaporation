@@ -1,3 +1,3 @@
-from .ideal import IdealExperiments, IdealExperiment
+from .ideal import IdealExperiment, IdealExperiments
 
-__all__ = ['IdealExperiments', 'IdealExperiment']
+__all__ = ["IdealExperiments", "IdealExperiment"]

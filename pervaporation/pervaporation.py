@@ -1,9 +1,9 @@
 import attr
 import numpy
 
+from ..conditions import Conditions
 from ..membrane import Membrane
 from ..mixture import Mixture
-from ..conditions import Conditions
 
 
 @attr.s(auto_attribs=True)

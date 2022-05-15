@@ -1,11 +1,10 @@
-import attr
 import typing
-import pandas
-
 from pathlib import Path
 
-from component import Component, AllComponents
+import attr
+import pandas
 
+from component import AllComponents, Component
 
 # def convert_component(name: str, all_components: AllComponents) -> Component:
 #     return getattr(all_components, name)
@@ -26,7 +25,9 @@ class IdealExperiment:
     comment: str
 
     @classmethod
-    def from_dict(cls, d: typing.Mapping[str, typing.Union[str, float]]) -> 'IdealExperiment':
+    def from_dict(
+        cls, d: typing.Mapping[str, typing.Union[str, float]]
+    ) -> "IdealExperiment":
         return cls(**d)
 
 
@@ -35,7 +36,7 @@ class IdealExperiments:
     experiments: typing.List[IdealExperiment]
 
     @classmethod
-    def from_csv(cls, path: typing.Union[str, Path]) -> 'IdealExperiments':
+    def from_csv(cls, path: typing.Union[str, Path]) -> "IdealExperiments":
         frame = pandas.read_csv(path)
 
         experiments = []

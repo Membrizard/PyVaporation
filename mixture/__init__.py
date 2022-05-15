@@ -1,3 +1,3 @@
-from .mixture import AllMixtures, Mixture, Composition
+from .mixture import AllMixtures, Composition, Mixture
 
 __all__ = ["Mixture", "AllMixtures", "Composition"]

@@ -1,5 +1,6 @@
-import attr
 import typing
+
+import attr
 
 from ..mixture import Mixture
 
