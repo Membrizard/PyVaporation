@@ -8,6 +8,7 @@ from mixture import Composition, Mixture
 
 @attr.s(auto_attribs=True)
 class DiffusionCurve:
+    mixture: Mixture
     membrane_name: str
     temperature_feed: float
     temperature_permeate: typing.Optional[float]

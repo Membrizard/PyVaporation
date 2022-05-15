@@ -19,7 +19,7 @@ class IdealExperiment:
 
     name: str
     temperature: float
-    component: str
+    component: str  # TODO: use real components
     activation_energy: float
     permeance: float
     comment: str
@@ -34,6 +34,9 @@ class IdealExperiment:
 @attr.s(auto_attribs=True)
 class IdealExperiments:
     experiments: typing.List[IdealExperiment]
+
+    def __len__(self):
+        return len(self.experiments)
 
     @classmethod
     def from_csv(cls, path: typing.Union[str, Path]) -> "IdealExperiments":

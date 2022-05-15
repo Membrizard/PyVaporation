@@ -3,7 +3,7 @@ import numpy
 
 from conditions import Conditions
 from membrane import Membrane
-from mixture import Mixture
+from mixture import Composition, Mixture
 
 
 @attr.s(auto_attribs=True)
@@ -13,11 +13,13 @@ class Pervaporation:
     conditions: Conditions
     ideal: bool = True
 
-    # Alexey please double check this
     def calculate_partial_fluxes(
-        self, feed_temperature, permeate_temperature, composition, precision: float
+        self,
+        feed_temperature: float,
+        permeate_temperature: float,
+        composition: Composition,
+        precision: float = 5e-5,
     ) -> float:
-        # Calculating components' permeances at a given feed temperature:
         permeances = [
             self.membrane.get_permeance(feed_temperature, component)
             for component in self.mixture.components
@@ -68,7 +70,7 @@ class Pervaporation:
         )
 
     # Calculate Partial, Overall fluxes and other parameters as a function of composition in the given composition range
-    def ideal_diffusion_curve(
+    def get_ideal_diffusion_curve(
         self,
         feed_temperature,
         permeate_temperature,
@@ -104,7 +106,7 @@ class Pervaporation:
             diff_curv.total_flux,
         )
         if plot:
-            # TODO Plot the curve
+            # TODO Plot the curve :)
             pass
         return diff_curv
 
