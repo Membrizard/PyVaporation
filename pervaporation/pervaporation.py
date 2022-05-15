@@ -1,9 +1,12 @@
+import typing
+
 import attr
 import numpy
 
 from conditions import Conditions
 from membrane import Membrane
-from mixture import Composition, Mixture
+from mixture import (Composition, CompositionType, Mixture,
+                     get_nrtl_partial_pressures)
 
 
 @attr.s(auto_attribs=True)
@@ -19,19 +22,30 @@ class Pervaporation:
         permeate_temperature: float,
         composition: Composition,
         precision: float = 5e-5,
-    ) -> float:
-        permeances = [
-            self.membrane.get_permeance(feed_temperature, component)
-            for component in self.mixture.components
-        ]
+    ) -> typing.Tuple[float, float]:
+        # permeances = [
+        #     self.membrane.get_permeance(feed_temperature, component)
+        #     for component in self.mixture.components
+        # ]
+        first_component_permeance = self.membrane.get_permeance(
+            feed_temperature, self.mixture.first_component
+        )
+        second_component_permeance = self.membrane.get_permeance(
+            feed_temperature, self.mixture.second_component
+        )
         # Defining function for saturation pressure calculation
-        p_sat = lambda t, x: self.mixture.get_nrtl_partial_pressures(t, x)
+        # p_sat = lambda t, x: self.mixture.get_nrtl_partial_pressures(t, x)
         # Defining function for partial fluxes calculation from permeate composition
-        partial_fluxes = lambda perm_comp: numpy.matmul(
-            permeances,
+        partial_fluxes = lambda permeate_composition: numpy.matmul(
+            [
+                first_component_permeance,
+                second_component_permeance,
+            ],
             numpy.substract(
-                p_sat(feed_temperature, composition.to_mol()),
-                p_sat(permeate_temperature, perm_comp.to_mol),
+                get_nrtl_partial_pressures(feed_temperature, self.mixture, composition),
+                get_nrtl_partial_pressures(
+                    permeate_temperature, self.mixture, permeate_composition
+                ),
             ),
         )
         # Defining function for permeate composition calculation
@@ -52,21 +66,29 @@ class Pervaporation:
 
     # Calculate Permeate composition for at the given conditions
     def calculate_permeate_composition(
-        self, feed_temperature, permeate_temperature, composition, precision: float
+        self,
+        feed_temperature: float,
+        permeate_temperature: float,
+        composition: Composition,
+        precision: float,
     ) -> Composition:
         x = self.calculate_partial_fluxes(
             feed_temperature, permeate_temperature, composition, precision
         )
-        return Composition(x[0] / numpy.sum(x))
+        return Composition(x[0] / numpy.sum(x), type=CompositionType("weight"))
 
     def calculate_separation_factor(
-        self, feed_temperature, permeate_temperature, composition, precision: float
-    ):
+        self,
+        feed_temperature: float,
+        permeate_temperature: float,
+        composition: Composition,
+        precision: float,
+    ) -> float:
         perm_comp = self.calculate_permeate_composition(
             feed_temperature, permeate_temperature, composition, precision
         )
-        return (composition[1] / (1 - composition[1])) / (
-            perm_comp[1] / (1 - perm_comp[1])
+        return (composition.second / (1 - composition.second)) / (
+            perm_comp.second / (1 - perm_comp.second)
         )
 
     # Calculate Partial, Overall fluxes and other parameters as a function of composition in the given composition range
