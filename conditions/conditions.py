@@ -1,6 +1,6 @@
 import attr
 
-from ..utils import Composition
+from mixture import Composition
 
 
 @attr.s(auto_attribs=True)

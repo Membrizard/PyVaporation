@@ -36,7 +36,9 @@ class AllMixtures:
     mixtures: typing.Mapping[str, Mixture]
 
     @classmethod
-    def load(cls, path: typing.Union[str, Path], all_components: AllComponents) -> "AllMixtures":
+    def load(
+        cls, path: typing.Union[str, Path], all_components: AllComponents
+    ) -> "AllMixtures":
         with open(path, "r") as handle:
             _mixtures = yaml.load(handle, Loader=yaml.FullLoader)
 
@@ -71,10 +73,10 @@ class Composition:
             return self
         else:
             p = (self.p / mixture.first_component.molecular_weight) / (
-                    self.p / mixture.first_component.molecular_weight
-                    + (1 - self.p) / mixture.second_component.molecular_weight
+                self.p / mixture.first_component.molecular_weight
+                + (1 - self.p) / mixture.second_component.molecular_weight
             )
-            return Composition(p=p, type=CompositionType('weight'))
+            return Composition(p=p, type=CompositionType("weight"))
 
     def to_weight(self, mixture: Mixture) -> "Composition":
         if self.type == CompositionType.weight:
@@ -84,10 +86,12 @@ class Composition:
                 mixture.first_component.molecular_weight * self.p
                 + mixture.second_component.molecular_weight * (1 - self.p)
             )
-            return Composition(p=p, type=CompositionType('weight'))
+            return Composition(p=p, type=CompositionType("weight"))
 
 
-def get_nrtl_partial_pressures(temperature: float, mixture: Mixture, composition: Composition):
+def get_nrtl_partial_pressures(
+    temperature: float, mixture: Mixture, composition: Composition
+):
 
     if composition.type == CompositionType.weight:
         composition = composition.to_molar(mixture=mixture)
@@ -103,7 +107,7 @@ def get_nrtl_partial_pressures(temperature: float, mixture: Mixture, composition
 
     activity_coefficients = [
         numpy.exp(
-            (composition.second ** 2)
+            (composition.second**2)
             * (
                 tau[1]
                 * (g_exp[1] / (composition.first + composition.second * g_exp[1])) ** 2
@@ -113,7 +117,7 @@ def get_nrtl_partial_pressures(temperature: float, mixture: Mixture, composition
             )
         ),
         numpy.exp(
-            (composition.first ** 2)
+            (composition.first**2)
             * (
                 tau[0]
                 * (g_exp[0] / (composition.second + composition.first * g_exp[0])) ** 2

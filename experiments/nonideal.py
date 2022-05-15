@@ -9,6 +9,7 @@ class NonIdealExperiment:
     """
     A setting of non-ideal experiment
     """
+
     temperature: float  # K
     # Permeance in kg*mcm/(m2*h*kPa)
     overall_flux: typing.List[float]
