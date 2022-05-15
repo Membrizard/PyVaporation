@@ -1,0 +1,7 @@
+Membrane name,"Temperature, oC",Component,Activation energy,"Permeance, kg/m2*h*kPa",Comment
+Romakon PM102,40,H2O,,"0,0463670833",Pervaporation
+Romakon PM102,50,H2O,,"0,0671272823",Pervaporation
+Romakon PM102,61,H2O,,"0,0872703126",Pervaporation
+Romakon PM102,40,EtOH,,"0,0000217295",Pervaporation
+Romakon PM102,45,EtOH,,"0,0000326451",Pervaporation
+Romakon PM102,61,EtOH,,"0,0001769513",Pervaporation

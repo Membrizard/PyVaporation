@@ -1,5 +1,6 @@
 from component import AllComponents
 from mixture import AllMixtures
+from experiments import IdealExperiments
 
 
 def test_mixtures_and_components_matching():
@@ -9,4 +10,9 @@ def test_mixtures_and_components_matching():
     """
     all_components = AllComponents.load("components.yml")
     all_mixtures = AllMixtures.load("mixtures.yml", all_components=all_components)
+    pass
+
+
+def test_loading_ideal_experiments():
+    ideal_experiments = IdealExperiments.from_csv('sample_inputs/IdealExperiment-4.csv')
     pass

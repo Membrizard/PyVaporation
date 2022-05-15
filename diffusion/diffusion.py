@@ -1,6 +1,8 @@
 import attr
 import typing
 
+from pathlib import Path
+
 from mixture import Mixture, Composition
 
 
@@ -14,3 +16,12 @@ class DiffusionCurve:
     separation_factor: typing.List[float]
     PSI: typing.List[float]
     permeate_temperature: typing.Optional[float] = 0
+
+    @classmethod
+    def from_csv(cls, path: typing.Union[str, Path]) -> 'DiffusionCurve':
+        pass
+
+
+@attr.s(auto_attribs=True)
+class DiffusionCurves:
+    pass

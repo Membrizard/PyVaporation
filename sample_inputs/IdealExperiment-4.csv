@@ -1,0 +1,7 @@
+name,temperature,component,activation_energy,permeance,comment
+PAI:SPI (1wt%) asymmetric,20,MeOH,20250,"0,02634",
+PAI:SPI (1wt%) asymmetric,40,MeOH,20250,"0,04479",
+PAI:SPI (1wt%) asymmetric,52,MeOH,20250,"0,07719",
+PAI:SPI (1wt%) asymmetric,20,MTBE,-27980,"0,01102",
+PAI:SPI (1wt%) asymmetric,40,MTBE,-27980,"0,00529",
+PAI:SPI (1wt%) asymmetric,52,MTBE,-27980,"0,00527",
