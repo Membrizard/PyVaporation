@@ -5,6 +5,11 @@ h2o:
     a: 7.20389
     b: 1733.96
     c: -39.485
+  heat_capacity_constants:
+    a: 0
+    b: 0
+    c: 0
+    d: 0
 
 meoh:
   name: Methanol
@@ -13,6 +18,11 @@ meoh:
     a: 9.22010
     b: -1590.15535
     c: -32.77001
+  heat_capacity_constants:
+    a: 0
+    b: 0
+    c: 0
+    d: 0
 
 etoh:
   name: Ethanol
@@ -21,6 +31,11 @@ etoh:
     a: 7.24677
     b: 1598.673
     c: -46.424
+  heat_capacity_constants:
+    a: 0
+    b: 0
+    c: 0
+    d: 0
 
 ipoh:
   name: Isopropanol
@@ -29,6 +44,11 @@ ipoh:
     a: 6.861
     b: 1357.427
     c: -75.814
+  heat_capacity_constants:
+    a: 0
+    b: 0
+    c: 0
+    d: 0
 
 mtbe:
   name: Methyl-tert-butyl ether
@@ -37,6 +57,11 @@ mtbe:
     a: 8.05093
     b: -1139.816725
     c: -46.424
+  heat_capacity_constants:
+    a: 0
+    b: 0
+    c: 0
+    d: 0
 
 etbe:
   name: Ethyl-tert-butyl ether
@@ -45,6 +70,11 @@ etbe:
     a: 6.0703
     b: -1206.874
     c: -49.19
+  heat_capacity_constants:
+    a: 0
+    b: 0
+    c: 0
+    d: 0
 
 dme:
   name: Dimethoxyethane
@@ -53,6 +83,11 @@ dme:
     a: 5.83775
     b: -1260.52
     c: -37.322
+  heat_capacity_constants:
+    a: 0
+    b: 0
+    c: 0
+    d: 0
 
 dmc:
   name: Dimethylcarbonate
@@ -61,6 +96,11 @@ dmc:
     a: 5.78894
     b: -1049.375
     c: -85.977
+  heat_capacity_constants:
+    a: 0
+    b: 0
+    c: 0
+    d: 0
 
 cyclohexane:
   name: Cyclohexane
@@ -69,6 +109,11 @@ cyclohexane:
     a: 5.97636
     b: 1206.47
     c: -49.864
+  heat_capacity_constants:
+    a: 0
+    b: 0
+    c: 0
+    d: 0
 
 benzene:
   name: Benzene
@@ -77,6 +122,11 @@ benzene:
     a: 6.00477
     b: 1196.76
     c: -53.839
+  heat_capacity_constants:
+    a: 0
+    b: 0
+    c: 0
+    d: 0
 
 toluene:
   name: Toluene
@@ -85,3 +135,8 @@ toluene:
     a: 6.0854
     b: 1348.77
     c: -53.024
+  heat_capacity_constants:
+    a: 0
+    b: 0
+    c: 0
+    d: 0

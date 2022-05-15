@@ -5,7 +5,7 @@ import attr
 import numpy
 import yaml
 
-from utils import AntoineConstants, R
+from utils import AntoineConstants, R, HeatCapacityConstants
 
 
 @attr.s(auto_attribs=True)
@@ -13,6 +13,7 @@ class Component:
     name: str
     molecular_weight: float = attr.ib(converter=lambda value: float(value))
     antoine_constants: AntoineConstants
+    heat_capacity_constants: HeatCapacityConstants
 
     @classmethod
     def from_dict(cls, d: typing.Mapping) -> "Component":
@@ -45,6 +46,11 @@ class Component:
             * self.antoine_constants.b
             * numpy.log(10)
         )
+
+    def get_heat_capacity(self, temperature: float) -> float:
+        return self.heat_capacity_constants.a + \
+               self.heat_capacity_constants.b*temperature+self.heat_capacity_constants*temperature**2 + \
+               self.heat_capacity_constants.d/(temperature**2)
 
 
 @attr.s(auto_attribs=True)
