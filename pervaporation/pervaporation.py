@@ -169,8 +169,7 @@ class Pervaporation:
                              first_component.molecular_weight*1000
         condensation_heat_2 = first_component.get_vaporisation_heat(permeate_temperature)/\
                              first_component.molecular_weight*1000
-        #TODO calculate integral average heat capacity for both components in the studied temperature range int(T2-T1)CpdT
-        # In components module
+
         heat_capacity_1 = first_component.get_specific_heat(feed_temperature)
         heat_capacity_2 = second_component.get_specific_heat(feed_temperature)
 
@@ -199,7 +198,9 @@ class Pervaporation:
                 (feed_composition[step].p * feed_mass[step] -d_mass_1)/feed_mass[step+1],
                 CompositionType.weight
             )
-        return 0
+        return ProcessModel(
+
+        )
 
     def model_ideal_non_isothermal_process(self, conditions: Conditions,
                                        number_of_steps: int,
@@ -207,5 +208,5 @@ class Pervaporation:
                                        precision: float = 5e-5) -> ProcessModel:
         return 0
 
-    def model_non_ideal_process(self, conditions):
+    def model_non_ideal_process(self, conditions: Conditions, diffusion_curve: DiffusionCurve):
         pass
