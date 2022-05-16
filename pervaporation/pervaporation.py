@@ -141,8 +141,71 @@ class Pervaporation:
             ],
         )
 
-    def model_ideal_process(self, conditions):
-        pass
+    def model_ideal_isothermal_process(self, conditions: Conditions,
+                            number_of_steps: int,
+                            d_time_step_hours: float,
+                            precision: float = 5e-5) -> ProcessModel:
+        isothermal = True
+        time_steps = [d_time_step*step for step in number_of_steps]
+        feed_temperature = conditions.feed_temperature
+        permeate_temperature = conditions.permeate_temperature
+        partial_fluxes = [tuple] * number_of_steps
+        permeate_composition = [Composition] * number_of_steps
+        feed_composition = [Composition]*number_of_steps
+        feed_composition[0] = conditions.initial_feed_composition
+        feed_evaporation_heat = [float] * number_of_steps
+        permeate_condensation_heat = [float] * number_of_steps
+        feed_mass = [float] * number_of_steps
+        feed_mass[0] = conditions.feed_amount
+        area = conditions.membrane_area
+
+        first_component = self.mixture.first_component
+        second_component = self.mixture.second_component
+        evaporation_heat_1 = first_component.get_vaporisation_heat(feed_temperature)/\
+                             first_component.molecular_weight*1000
+        evaporation_heat_2 = second_component.get_vaporisation_heat(feed_temperature)/\
+                             first_component.molecular_weight*1000
+        condensation_heat_1 = first_component.get_vaporisation_heat(permeate_temperature)/\
+                             first_component.molecular_weight*1000
+        condensation_heat_2 = first_component.get_vaporisation_heat(permeate_temperature)/\
+                             first_component.molecular_weight*1000
+        #TODO calculate integral average heat capacity for both components in the studied temperature range int(T2-T1)CpdT
+        # In components module
+        heat_capacity_1 = first_component.get_specific_heat(feed_temperature)
+        heat_capacity_2 = second_component.get_specific_heat(feed_temperature)
+
+        for step in time_steps:
+            partial_fluxes[step] = self.calculate_partial_fluxes(feed_temperature,
+                                                                 permeate_temperature,
+                                                                 feed_composition[step],
+                                                                 precision)
+
+            permeate_composition[step] = Composition(
+                partial_fluxes[step][0]/(sum(partial_fluxes[step]),
+                                         CompositionType.weight))
+
+            d_mass_1 = partial_fluxes[step][0] * area * d_time_step_hours
+            d_mass_2 = partial_fluxes[step][1] * area * d_time_step_hours
+
+            feed_evaporation_heat[step] = evaporation_heat_1*d_mass_1+evaporation_heat_2*d_mass_2
+            permeate_condensation_heat[step] = condensation_heat_1*d_mass_1+condensation_heat_2*d_mass_2 +\
+                                               (heat_capacity_1*d_mass_1 +
+                                                heat_capacity_2*d_mass_2) * \
+                                               (feed_temperature-permeate_temperature)
+
+            feed_mass[step+1]=feed_mass[step]-d_mass_1-d_mass_2
+
+            feed_composition[step+1] = Composition(
+                (feed_composition[step].p * feed_mass[step] -d_mass_1)/feed_mass[step+1],
+                CompositionType.weight
+            )
+        return 0
+
+    def model_ideal_non_isothermal_process(self, conditions: Conditions,
+                                       number_of_steps: int,
+                                       d_time_step_hours: float,
+                                       precision: float = 5e-5) -> ProcessModel:
+        return 0
 
     def model_non_ideal_process(self, conditions):
         pass

@@ -52,7 +52,7 @@ class Component:
 
     def get_heat_capacity(self, temperature: float) -> float:
         """
-        Calculation of Vaporisation heat in J/(mol*K) using polynomial isobaric heat capacity fit
+        Calculation of Heat Capacity in J/(mol*K) using polynomial isobaric heat capacity fit
         :param temperature: temperature in K
         :return: Isobaric Heat capacity in J/(mol*K)
         """
@@ -61,6 +61,19 @@ class Component:
             + self.heat_capacity_constants.b * temperature
             + self.heat_capacity_constants.c * temperature**2
             + self.heat_capacity_constants.d * temperature**3
+        )
+
+    def get_specific_heat(self, temperature_1, temperature_2):
+        """
+        Calculation of Specific Heat in J/mol using Integral (T2-T1) (CpdT)
+        :param temperature: temperature in K (temperature_2 > temperature_1)
+        :return: Specific Heat in J/mol
+        """
+        return (
+                self.heat_capacity_constants.a * (temperature_2-temperature_1)
+                + self.heat_capacity_constants.b * (temperature_2**2-temperature_1**2) / 2
+                + self.heat_capacity_constants.c * (temperature_2**3-temperature_1**3) / 3
+                + self.heat_capacity_constants.d * (temperature_2**4-temperature_1**4) / 4
         )
 
 
