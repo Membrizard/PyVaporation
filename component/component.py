@@ -11,7 +11,6 @@ from utils import AntoineConstants, HeatCapacityConstants, R
 @attr.s(auto_attribs=True)
 class Component:
     name: str
-    reference: str
     molecular_weight: float = attr.ib(converter=lambda value: float(value))
     antoine_constants: AntoineConstants
     heat_capacity_constants: HeatCapacityConstants
@@ -58,7 +57,7 @@ class Component:
         return (
             self.heat_capacity_constants.a
             + self.heat_capacity_constants.b * temperature
-            + self.heat_capacity_constants * temperature**2
+            + self.heat_capacity_constants.c * temperature**2
             + self.heat_capacity_constants.d * temperature**3
         )
 
