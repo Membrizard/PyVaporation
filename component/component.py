@@ -21,7 +21,9 @@ class Component:
             name=d["name"],
             molecular_weight=d["molecular_weight"],
             antoine_constants=AntoineConstants(**d["antoine_constants"]),
-            heat_capacity_constants=HeatCapacityConstants(**d["heat_capacity_constants"])
+            heat_capacity_constants=HeatCapacityConstants(
+                **d["heat_capacity_constants"]
+            ),
         )
 
     def get_antoine_pressure(self, temperature: float) -> float:

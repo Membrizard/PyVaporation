@@ -9,6 +9,7 @@ from utils import R
 @attr.s(auto_attribs=True)
 class Membrane:
     ideal_experiments: IdealExperiments
+    name: str
     # non_ideal_experiments: typing.List[NonIdealExperiment]  # TODO: non ideal experiments
 
     # @property

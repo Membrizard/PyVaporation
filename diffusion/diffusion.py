@@ -10,14 +10,12 @@ from mixture import Composition, Mixture
 class DiffusionCurve:
     mixture: Mixture
     membrane_name: str
-    temperature_feed: float
-    temperature_permeate: typing.Optional[float]
+    feed_temperature: float
+    permeate_temperature: typing.Optional[float]
     compositions: typing.List[Composition]
-    partial_flux_1: typing.List[float]
-    partial_flux_2: typing.List[float]
-    permeance_1: typing.Optional[typing.List[float]]
-    permeance_2: typing.Optional[typing.List[float]]
-    comments: typing.Optional[str]
+    partial_fluxes: typing.List[typing.Tuple[float, float]]
+    permeances: typing.Optional[typing.List[typing.Tuple[float, float]]] = None
+    comments: typing.Optional[str] = None
 
     @property
     def separation_factor(self) -> typing.List[float]:
