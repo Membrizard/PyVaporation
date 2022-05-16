@@ -1,3 +1,3 @@
 from .diffusion import DiffusionCurve
 
-__all__ = ['DiffusionCurve']
+__all__ = ["DiffusionCurve"]

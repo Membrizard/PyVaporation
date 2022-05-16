@@ -70,10 +70,16 @@ class Component:
         :return: Specific Heat in J/mol
         """
         return (
-                self.heat_capacity_constants.a * (temperature_2-temperature_1)
-                + self.heat_capacity_constants.b * (temperature_2**2-temperature_1**2) / 2
-                + self.heat_capacity_constants.c * (temperature_2**3-temperature_1**3) / 3
-                + self.heat_capacity_constants.d * (temperature_2**4-temperature_1**4) / 4
+            self.heat_capacity_constants.a * (temperature_2 - temperature_1)
+            + self.heat_capacity_constants.b
+            * (temperature_2**2 - temperature_1**2)
+            / 2
+            + self.heat_capacity_constants.c
+            * (temperature_2**3 - temperature_1**3)
+            / 3
+            + self.heat_capacity_constants.d
+            * (temperature_2**4 - temperature_1**4)
+            / 4
         )
 
 
