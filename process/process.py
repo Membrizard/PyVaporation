@@ -50,6 +50,8 @@ class ProcessModel:
         permeance = self.permeances
         return [permeance[i][0]/permeance[i][1] for i in range(len(permeance))]
 
+    # TODO Add interpolations with GEKKO
+
     @classmethod
     def from_csv(cls, path: typing.Union[str, Path]) -> "ProcessModel":
         pass

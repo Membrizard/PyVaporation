@@ -88,6 +88,8 @@ class DiffusionCurve:
             for i in range(len(self.feed_compositions))
         ]
 
+    # TODO Add interpolations with GEKKO
+
     @classmethod
     def from_csv(cls, path: typing.Union[str, Path]) -> "DiffusionCurve":
         pass
