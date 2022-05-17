@@ -388,6 +388,8 @@ class Pervaporation:
         )
 
     def model_non_ideal_process(
-            self, conditions: Conditions, diffusion_curve: DiffusionCurve
+            self,
+            conditions: Conditions,
+            diffusion_curve: DiffusionCurve,
     ):
         pass
