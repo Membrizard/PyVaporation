@@ -1,9 +1,11 @@
 import typing
+import numpy
 from pathlib import Path
 
 import attr
 
 from mixture import Composition, Mixture
+from conditions import Conditions
 
 
 @attr.s(auto_attribs=True)
@@ -30,17 +32,24 @@ class ProcessModel:
         return [0]
 
     @property
-    def separation_factor(self) -> typing.List[float]:
-        return [0]
+    def get_separation_factor(self) -> typing.List[float]:
+        feed = self.feed_composition
+        permeate = self.permeate_composition
+        return [((1 - feed.p) / feed.p) / ((1 - permeate.p) / permeate.p)]
 
     @property
-    def psi(self) -> typing.List[float]:
-        return [0]
+    def get_psi(self) -> typing.List[float]:
+        separation_factor = self.get_separation_factor
+        total_flux = [
+            sum(self.partial_fluxes[i]) for i in range(len(self.partial_fluxes))
+        ]
+        return [numpy.multiply(total_flux, numpy.substract(separation_factor, 1))]
 
     @property
-    def permeate_composition(self) -> typing.List[Composition]:
-        return []
+    def get_selectivity(self) -> typing.List[float]:
+        permeance = self.permeances
+        return [permeance[i][0]/permeance[i][1] for i in range(len(permeance))]
 
     @classmethod
-    def from_csv(cls, path: typing.Union[str, Path]) -> "DiffusionCurve":
+    def from_csv(cls, path: typing.Union[str, Path]) -> "ProcessModel":
         pass

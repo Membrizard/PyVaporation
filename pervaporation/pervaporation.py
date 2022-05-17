@@ -3,7 +3,7 @@ import typing
 import attr
 import numpy
 
-from diffusion import DiffusionCurve
+from diffusion_curve import DiffusionCurve
 from process import ProcessModel
 from conditions import Conditions
 from membrane import Membrane
