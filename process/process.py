@@ -16,12 +16,18 @@ class ProcessModel:
     feed_composition: typing.List[Composition]
     permeate_composition: typing.List[Composition]
     feed_mass: typing.List[float]
-    partial_flux_1: typing.List[float]
-    partial_flux_2: typing.List[float]
+    partial_fluxes: typing.List[typing.Tuple[float, float]]
+    permeances: typing.List[typing.Tuple[float, float]]
     time: typing.List[float]
     feed_evaporation_heat: typing.List[float]
     permeate_condensation_heat: typing.List[float]
+    initial_condtioins: Conditions
+    IsTimeDefined: True
     comments: typing.Optional[str]
+
+    @property
+    def to_dimensionless_length(self):
+        return [0]
 
     @property
     def separation_factor(self) -> typing.List[float]:
