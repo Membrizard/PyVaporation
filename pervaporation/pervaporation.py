@@ -4,6 +4,7 @@ import attr
 import numpy
 
 from diffusion import DiffusionCurve
+from process import ProcessModel
 from conditions import Conditions
 from membrane import Membrane
 from mixture import Composition, CompositionType, Mixture, get_nrtl_partial_pressures
@@ -156,7 +157,7 @@ class Pervaporation:
         precision: float = 5e-5,
     ) -> ProcessModel:
         isothermal = True
-        time_steps = [d_time_step * step for step in number_of_steps]
+        time_steps = [d_time_step_hours * step for step in number_of_steps]
         feed_temperature = conditions.feed_temperature
         permeate_temperature = conditions.permeate_temperature
         partial_fluxes = [tuple] * number_of_steps
