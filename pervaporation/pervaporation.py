@@ -56,6 +56,8 @@ class Pervaporation:
         permeate_temperature: typing.Optional[float] = None,
         composition: Composition,
         precision: float = 5e-5,
+        first_component_permeance: typing.Optional[float] = None,
+        second_component_permeance: typing.Optional[float] = None,
     ) -> typing.Tuple[float, float]:
         if second_component_permeance is None or first_component_permeance is None:
             first_component_permeance = self.membrane.get_permeance(
