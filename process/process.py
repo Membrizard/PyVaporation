@@ -48,7 +48,7 @@ class ProcessModel:
     @property
     def get_selectivity(self) -> typing.List[float]:
         permeance = self.permeances
-        return [permeance[i][0]/permeance[i][1] for i in range(len(permeance))]
+        return [permeance[i][0] / permeance[i][1] for i in range(len(permeance))]
 
     # TODO Add interpolations with GEKKO
 

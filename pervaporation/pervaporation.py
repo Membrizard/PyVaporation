@@ -27,13 +27,13 @@ class Pervaporation:
     ideal: bool = True
 
     def _get_partial_fluxes_from_permeate_composition(
-            self,
-            first_component_permeance: float,
-            second_component_permeance: float,
-            permeate_composition: Composition,
-            feed_composition: Composition,
-            feed_temperature: float,
-            permeate_temperature: typing.Optional[float],
+        self,
+        first_component_permeance: float,
+        second_component_permeance: float,
+        permeate_composition: Composition,
+        feed_composition: Composition,
+        feed_temperature: float,
+        permeate_temperature: typing.Optional[float],
     ) -> typing.Tuple[float, float]:
 
         feed_nrtl_partial_pressures = get_nrtl_partial_pressures(
@@ -53,9 +53,9 @@ class Pervaporation:
     def calculate_partial_fluxes(
         self,
         feed_temperature: float,
-        permeate_temperature: typing.Optional[float] = None,
         composition: Composition,
         precision: float = 5e-5,
+        permeate_temperature: typing.Optional[float] = None,
         first_component_permeance: typing.Optional[float] = None,
         second_component_permeance: typing.Optional[float] = None,
     ) -> typing.Tuple[float, float]:
@@ -103,35 +103,37 @@ class Pervaporation:
 
     # Calculate Permeate composition for at the given conditions
     def calculate_permeate_composition(
-            self,
-            feed_temperature: float,
-            permeate_temperature: float,
-            composition: Composition,
-            precision: float,
+        self,
+        feed_temperature: float,
+        permeate_temperature: float,
+        composition: Composition,
+        precision: float,
     ) -> Composition:
-        x = self.calculate_partial_fluxes(feed_temperature, permeate_temperature, composition, precision)
+        x = self.calculate_partial_fluxes(
+            feed_temperature, permeate_temperature, composition, precision
+        )
         return Composition(x[0] / numpy.sum(x), type=CompositionType("weight"))
 
     def calculate_separation_factor(
-            self,
-            feed_temperature: float,
-            permeate_temperature: float,
-            composition: Composition,
-            precision: float,
+        self,
+        feed_temperature: float,
+        permeate_temperature: float,
+        composition: Composition,
+        precision: float,
     ) -> float:
         perm_comp = self.calculate_permeate_composition(
             feed_temperature, permeate_temperature, composition, precision
         )
         return (composition.second / (1 - composition.second)) / (
-                perm_comp.second / (1 - perm_comp.second)
+            perm_comp.second / (1 - perm_comp.second)
         )
 
     def get_ideal_diffusion_curve(
-            self,
-            feed_temperature: float,
-            permeate_temperature: float,
-            compositions: typing.List[Composition],
-            precision,
+        self,
+        feed_temperature: float,
+        permeate_temperature: float,
+        compositions: typing.List[Composition],
+        precision,
     ) -> DiffusionCurve:
         return DiffusionCurve(
             mixture=self.mixture,
@@ -140,17 +142,19 @@ class Pervaporation:
             permeate_temperature=permeate_temperature,
             compositions=compositions,
             partial_fluxes=[
-                self.calculate_partial_fluxes(feed_temperature, permeate_temperature, composition, precision)
+                self.calculate_partial_fluxes(
+                    feed_temperature, permeate_temperature, composition, precision
+                )
                 for composition in compositions
             ],
         )
 
     def model_ideal_isothermal_process(
-            self,
-            conditions: Conditions,
-            number_of_steps: int,
-            d_time_step_hours: float,
-            precision: float = 5e-5,
+        self,
+        conditions: Conditions,
+        number_of_steps: int,
+        d_time_step_hours: float,
+        precision: float = 5e-5,
     ) -> ProcessModel:
         time_steps = [d_time_step_hours * step for step in number_of_steps]
         feed_temperature = conditions.feed_temperature
@@ -160,7 +164,7 @@ class Pervaporation:
         partial_fluxes = [tuple[float, float]] * number_of_steps
         permeances = [tuple[float, float]] * number_of_steps
         permeate_composition = [Composition] * number_of_steps
-        feed_composition = [Composition]*number_of_steps
+        feed_composition = [Composition] * number_of_steps
         feed_composition[0] = conditions.initial_feed_composition
         feed_evaporation_heat = [float] * number_of_steps
         permeate_condensation_heat = [float] * number_of_steps
@@ -171,28 +175,32 @@ class Pervaporation:
         first_component = self.mixture.first_component
         second_component = self.mixture.second_component
         evaporation_heat_1 = (
-                first_component.get_vaporisation_heat(feed_temperature)
-                / first_component.molecular_weight
-                * 1000
+            first_component.get_vaporisation_heat(feed_temperature)
+            / first_component.molecular_weight
+            * 1000
         )
         evaporation_heat_2 = (
-                second_component.get_vaporisation_heat(feed_temperature)
-                / first_component.molecular_weight
-                * 1000
+            second_component.get_vaporisation_heat(feed_temperature)
+            / first_component.molecular_weight
+            * 1000
         )
         condensation_heat_1 = (
-                first_component.get_vaporisation_heat(permeate_temperature)
-                / first_component.molecular_weight
-                * 1000
+            first_component.get_vaporisation_heat(permeate_temperature)
+            / first_component.molecular_weight
+            * 1000
         )
         condensation_heat_2 = (
-                first_component.get_vaporisation_heat(permeate_temperature)
-                / first_component.molecular_weight
-                * 1000
+            first_component.get_vaporisation_heat(permeate_temperature)
+            / first_component.molecular_weight
+            * 1000
         )
 
-        specific_heat_1 = first_component.get_specific_heat(permeate_temperature, feed_temperature)
-        specific_heat_2 = second_component.get_specific_heat(permeate_temperature, feed_temperature)
+        specific_heat_1 = first_component.get_specific_heat(
+            permeate_temperature, feed_temperature
+        )
+        specific_heat_2 = second_component.get_specific_heat(
+            permeate_temperature, feed_temperature
+        )
 
         first_component_permeance = self.membrane.get_permeance(
             feed_temperature, self.mixture.first_component
@@ -203,8 +211,12 @@ class Pervaporation:
 
         for step in time_steps:
 
-            partial_fluxes[step] = self.calculate_partial_fluxes(feed_temperature, permeate_temperature,
-                                                                 feed_composition[step], precision)
+            partial_fluxes[step] = self.calculate_partial_fluxes(
+                feed_temperature,
+                permeate_temperature,
+                feed_composition[step],
+                precision,
+            )
 
             permeate_composition[step] = Composition(
                 partial_fluxes[step][0]
@@ -215,13 +227,13 @@ class Pervaporation:
             d_mass_2 = partial_fluxes[step][1] * area * d_time_step_hours
 
             feed_evaporation_heat[step] = (
-                    evaporation_heat_1 * d_mass_1 + evaporation_heat_2 * d_mass_2
+                evaporation_heat_1 * d_mass_1 + evaporation_heat_2 * d_mass_2
             )
             permeate_condensation_heat[step] = (
-                    condensation_heat_1 * d_mass_1
-                    + condensation_heat_2 * d_mass_2
-                    + (specific_heat_1 * d_mass_1 + specific_heat_2 * d_mass_2)
-                    * (feed_temperature - permeate_temperature)
+                condensation_heat_1 * d_mass_1
+                + condensation_heat_2 * d_mass_2
+                + (specific_heat_1 * d_mass_1 + specific_heat_2 * d_mass_2)
+                * (feed_temperature - permeate_temperature)
             )
 
             feed_mass[step + 1] = feed_mass[step] - d_mass_1 - d_mass_2
@@ -232,7 +244,9 @@ class Pervaporation:
                 CompositionType.weight,
             )
 
-            permeances[step] = tuple(first_component_permeance, second_component_permeance)
+            permeances[step] = tuple(
+                first_component_permeance, second_component_permeance
+            )
             feed_temperature_list[step] = feed_temperature
             permeate_temperature_list[step] = permeate_temperature
 
@@ -252,15 +266,15 @@ class Pervaporation:
             permeate_condensation_heat=permeate_condensation_heat,
             initial_condtioins=conditions,
             IsTimeDefined=True,
-            comments='',
+            comments="",
         )
 
     def model_ideal_non_isothermal_process(
-            self,
-            conditions: Conditions,
-            number_of_steps: int,
-            d_time_step_hours: float,
-            precision: float = 5e-5,
+        self,
+        conditions: Conditions,
+        number_of_steps: int,
+        d_time_step_hours: float,
+        precision: float = 5e-5,
     ) -> ProcessModel:
         time_steps = [d_time_step_hours * step for step in number_of_steps]
         feed_temperature = [float] * number_of_steps
@@ -285,31 +299,44 @@ class Pervaporation:
             permeate_temperature[step] = permeate_temperature[0]
 
             evaporation_heat_1 = (
-                    first_component.get_vaporisation_heat(feed_temperature[step])
-                    / first_component.molecular_weight
-                    * 1000
+                first_component.get_vaporisation_heat(feed_temperature[step])
+                / first_component.molecular_weight
+                * 1000
             )
             evaporation_heat_2 = (
-                    second_component.get_vaporisation_heat(feed_temperature[step])
-                    / first_component.molecular_weight
-                    * 1000
+                second_component.get_vaporisation_heat(feed_temperature[step])
+                / first_component.molecular_weight
+                * 1000
             )
             condensation_heat_1 = (
-                    first_component.get_vaporisation_heat(permeate_temperature[step])
-                    / first_component.molecular_weight
-                    * 1000
+                first_component.get_vaporisation_heat(permeate_temperature[step])
+                / first_component.molecular_weight
+                * 1000
             )
             condensation_heat_2 = (
-                    first_component.get_vaporisation_heat(permeate_temperature[step])
-                    / first_component.molecular_weight
-                    * 1000
+                first_component.get_vaporisation_heat(permeate_temperature[step])
+                / first_component.molecular_weight
+                * 1000
             )
 
-            specific_heat_1 = first_component.get_specific_heat(feed_temperature[step], permeate_temperature[step])
-            specific_heat_2 = second_component.get_specific_heat(feed_temperature[step], permeate_temperature[step])
-            heat_capacity_1 = first_component.get_heat_capacity(feed_temperature[step])/first_component.molecular_weight
-            heat_capacity_2 = second_component.get_heat_capacity(feed_temperature[step])/second_component.molecular_weight
-            feed_heat_capacity = feed_composition[step].p*heat_capacity_1+(1-feed_composition[step].p)*heat_capacity_2
+            specific_heat_1 = first_component.get_specific_heat(
+                feed_temperature[step], permeate_temperature[step]
+            )
+            specific_heat_2 = second_component.get_specific_heat(
+                feed_temperature[step], permeate_temperature[step]
+            )
+            heat_capacity_1 = (
+                first_component.get_heat_capacity(feed_temperature[step])
+                / first_component.molecular_weight
+            )
+            heat_capacity_2 = (
+                second_component.get_heat_capacity(feed_temperature[step])
+                / second_component.molecular_weight
+            )
+            feed_heat_capacity = (
+                feed_composition[step].p * heat_capacity_1
+                + (1 - feed_composition[step].p) * heat_capacity_2
+            )
 
             first_component_permeance = self.membrane.get_permeance(
                 feed_temperature[step], self.mixture.first_component
@@ -317,10 +344,16 @@ class Pervaporation:
             second_component_permeance = self.membrane.get_permeance(
                 feed_temperature[step], self.mixture.second_component
             )
-            permeances[step] = tuple(first_component_permeance, second_component_permeance)
+            permeances[step] = tuple(
+                first_component_permeance, second_component_permeance
+            )
 
-            partial_fluxes[step] = self.calculate_partial_fluxes(feed_temperature[step], permeate_temperature[step],
-                                                                 feed_composition[step], precision)
+            partial_fluxes[step] = self.calculate_partial_fluxes(
+                feed_temperature[step],
+                permeate_temperature[step],
+                feed_composition[step],
+                precision,
+            )
 
             permeate_composition[step] = Composition(
                 partial_fluxes[step][0]
@@ -331,13 +364,13 @@ class Pervaporation:
             d_mass_2 = partial_fluxes[step][1] * area * d_time_step_hours
 
             feed_evaporation_heat[step] = (
-                    evaporation_heat_1 * d_mass_1 + evaporation_heat_2 * d_mass_2
+                evaporation_heat_1 * d_mass_1 + evaporation_heat_2 * d_mass_2
             )
             permeate_condensation_heat[step] = (
-                    condensation_heat_1 * d_mass_1
-                    + condensation_heat_2 * d_mass_2
-                    + (specific_heat_1 * d_mass_1 + specific_heat_2 * d_mass_2)
-                    * (feed_temperature - permeate_temperature)
+                condensation_heat_1 * d_mass_1
+                + condensation_heat_2 * d_mass_2
+                + (specific_heat_1 * d_mass_1 + specific_heat_2 * d_mass_2)
+                * (feed_temperature - permeate_temperature)
             )
 
             feed_mass[step + 1] = feed_mass[step] - d_mass_1 - d_mass_2
@@ -348,7 +381,9 @@ class Pervaporation:
                 CompositionType.weight,
             )
 
-            feed_temperature[step+1] = feed_temperature[step]-(feed_evaporation_heat/(feed_heat_capacity*feed_mass[step]))
+            feed_temperature[step + 1] = feed_temperature[step] - (
+                feed_evaporation_heat / (feed_heat_capacity * feed_mass[step])
+            )
             # TODO:
 
         return ProcessModel(
@@ -367,12 +402,12 @@ class Pervaporation:
             permeate_condensation_heat=permeate_condensation_heat,
             initial_condtioins=conditions,
             IsTimeDefined=True,
-            comments='',
+            comments="",
         )
 
     def model_non_ideal_process(
-            self,
-            conditions: Conditions,
-            diffusion_curve: DiffusionCurve,
+        self,
+        conditions: Conditions,
+        diffusion_curve: DiffusionCurve,
     ):
         pass

@@ -71,7 +71,7 @@ etbe:
     b: -1206.874
     c: -49.19
   heat_capacity_constants:
-    a: 7,5
+    a: 7.5
     b: 0.6293
     c: -3.69e-5
     d: 7.072e-9
@@ -110,8 +110,8 @@ cyclohexane:
     b: 1206.47
     c: -49.864
   heat_capacity_constants:
-    a: 43,37101
-    b: 0,380403
+    a: 43.37101
+    b: 0.380403
     c: 0
     d: 0
 
