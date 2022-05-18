@@ -109,9 +109,7 @@ class Pervaporation:
             composition: Composition,
             precision: float,
     ) -> Composition:
-        x = self.calculate_partial_fluxes(
-            feed_temperature, permeate_temperature, composition, precision
-        )
+        x = self.calculate_partial_fluxes(feed_temperature, permeate_temperature, composition, precision)
         return Composition(x[0] / numpy.sum(x), type=CompositionType("weight"))
 
     def calculate_separation_factor(
@@ -142,12 +140,7 @@ class Pervaporation:
             permeate_temperature=permeate_temperature,
             compositions=compositions,
             partial_fluxes=[
-                self.calculate_partial_fluxes(
-                    feed_temperature,
-                    permeate_temperature,
-                    composition,
-                    precision,
-                )
+                self.calculate_partial_fluxes(feed_temperature, permeate_temperature, composition, precision)
                 for composition in compositions
             ],
         )
@@ -210,14 +203,8 @@ class Pervaporation:
 
         for step in time_steps:
 
-            partial_fluxes[step] = self.calculate_partial_fluxes(
-                feed_temperature,
-                permeate_temperature,
-                feed_composition[step],
-                precision,
-                first_component_permeance,
-                second_component_permeance,
-            )
+            partial_fluxes[step] = self.calculate_partial_fluxes(feed_temperature, permeate_temperature,
+                                                                 feed_composition[step], precision)
 
             permeate_composition[step] = Composition(
                 partial_fluxes[step][0]
@@ -332,14 +319,8 @@ class Pervaporation:
             )
             permeances[step] = tuple(first_component_permeance, second_component_permeance)
 
-            partial_fluxes[step] = self.calculate_partial_fluxes(
-                feed_temperature[step],
-                permeate_temperature[step],
-                feed_composition[step],
-                precision,
-                first_component_permeance,
-                second_component_permeance,
-            )
+            partial_fluxes[step] = self.calculate_partial_fluxes(feed_temperature[step], permeate_temperature[step],
+                                                                 feed_composition[step], precision)
 
             permeate_composition[step] = Composition(
                 partial_fluxes[step][0]
