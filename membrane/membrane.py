@@ -1,3 +1,5 @@
+import typing
+
 import attr
 import numpy
 
@@ -10,6 +12,7 @@ from utils import R
 class Membrane:
     ideal_experiments: IdealExperiments
     name: str
+
     # non_ideal_experiments: typing.List[NonIdealExperiment]  # TODO: non ideal experiments
 
     # @property
@@ -121,3 +124,19 @@ class Membrane:
         return self.get_permeance(temperature, first_component) / self.get_permeance(
             temperature, second_component
         )
+
+    def get_pure_component_flux(
+        self,
+        temperature: float,
+        component: Component,
+        permeate_temperature: typing.Optional[float] = None,
+    ) -> float:
+        if permeate_temperature is None:
+            return self.get_permeance(
+                temperature, component
+            ) * component.get_antoine_pressure(temperature)
+        else:
+            return self.get_permeance(temperature, component) * (
+                component.get_antoine_pressure(temperature)
+                - component.get_antoine_pressure(permeate_temperature)
+            )
