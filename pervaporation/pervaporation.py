@@ -110,7 +110,7 @@ class Pervaporation:
         precision: float,
     ) -> Composition:
         x = self.calculate_partial_fluxes(
-            feed_temperature, permeate_temperature, composition, precision
+            feed_temperature, composition, permeate_temperature, precision
         )
         return Composition(x[0] / numpy.sum(x), type=CompositionType("weight"))
 
@@ -140,10 +140,10 @@ class Pervaporation:
             membrane_name=self.membrane.name,
             feed_temperature=feed_temperature,
             permeate_temperature=permeate_temperature,
-            compositions=compositions,
+            feed_compositions=compositions,
             partial_fluxes=[
                 self.calculate_partial_fluxes(
-                    feed_temperature, permeate_temperature, composition, precision
+                    feed_temperature, composition,  precision, permeate_temperature,
                 )
                 for composition in compositions
             ],
@@ -156,7 +156,7 @@ class Pervaporation:
         d_time_step_hours: float,
         precision: float = 5e-5,
     ) -> ProcessModel:
-        time_steps = [d_time_step_hours * step for step in number_of_steps]
+        time_steps = [d_time_step_hours * step for step in range(number_of_steps)]
         feed_temperature = conditions.feed_temperature
         feed_temperature_list = [float] * number_of_steps
         permeate_temperature = conditions.permeate_temperature
@@ -213,9 +213,11 @@ class Pervaporation:
 
             partial_fluxes[step] = self.calculate_partial_fluxes(
                 feed_temperature,
-                permeate_temperature,
                 feed_composition[step],
                 precision,
+                permeate_temperature,
+                first_component_permeance,
+                second_component_permeance,
             )
 
             permeate_composition[step] = Composition(
