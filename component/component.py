@@ -34,7 +34,7 @@ class Component:
         """
         return 10 ** (
             self.antoine_constants.a
-            - self.antoine_constants.b / (temperature + self.antoine_constants.c)
+            + self.antoine_constants.b / (temperature + self.antoine_constants.c)
         )
 
     def get_vaporisation_heat(self, temperature: float) -> float:
@@ -44,10 +44,10 @@ class Component:
         :return: Vaporisation heat in kJ/mol
         """
         return (
-            (temperature / (temperature + self.antoine_constants.c)) ** 2
+            ((temperature / (temperature + self.antoine_constants.c)) ** 2
             * R
             * self.antoine_constants.b
-            * numpy.log(10)
+            * numpy.log(10))/1000
         )
 
     def get_heat_capacity(self, temperature: float) -> float:

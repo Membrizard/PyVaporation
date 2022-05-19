@@ -17,7 +17,3 @@ def test_loading_ideal_experiments():
     ideal_experiments = IdealExperiments.from_csv("sample_inputs/IdealExperiment-4.csv")
     pass
 
-
-def test_antoine_pressure():
-    all_components = AllComponents.load("components.yml")
-    assert abs(all_components.h2o.get_antoine_pressure(313) - 7.319) < 0.5
