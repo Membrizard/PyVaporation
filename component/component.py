@@ -44,7 +44,7 @@ class Component:
         :return: Vaporisation heat in kJ/mol
         """
         return (
-            ((temperature / (temperature + self.antoine_constants.c)) ** 2
+            -((temperature / (temperature + self.antoine_constants.c)) ** 2
             * R
             * self.antoine_constants.b
             * numpy.log(10))/1000

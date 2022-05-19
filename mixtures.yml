@@ -1,3 +1,10 @@
+h2o_meoh:
+  components: ['h2o', 'meoh']
+  nrtl_params:
+    g12: 0
+    g21: 0
+    alpha: 0
+
 h2o_etoh:
   components: ['h2o', 'etoh']
   nrtl_params:
