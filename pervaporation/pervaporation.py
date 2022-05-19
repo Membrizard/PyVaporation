@@ -143,7 +143,10 @@ class Pervaporation:
             feed_compositions=compositions,
             partial_fluxes=[
                 self.calculate_partial_fluxes(
-                    feed_temperature, composition,  precision, permeate_temperature,
+                    feed_temperature,
+                    composition,
+                    precision,
+                    permeate_temperature,
                 )
                 for composition in compositions
             ],
@@ -158,17 +161,17 @@ class Pervaporation:
     ) -> ProcessModel:
         time_steps = [d_time_step_hours * step for step in range(number_of_steps)]
         feed_temperature = conditions.feed_temperature
-        feed_temperature_list = [float] * number_of_steps
+        feed_temperature_list = [] * number_of_steps
         permeate_temperature = conditions.permeate_temperature
-        permeate_temperature_list = [float] * number_of_steps
-        partial_fluxes = [tuple[float, float]] * number_of_steps
-        permeances = [tuple[float, float]] * number_of_steps
-        permeate_composition = [Composition] * number_of_steps
-        feed_composition = [Composition] * number_of_steps
+        permeate_temperature_list = [] * number_of_steps
+        partial_fluxes = [] * number_of_steps
+        permeances = [] * number_of_steps
+        permeate_composition = [] * number_of_steps
+        feed_composition = [] * number_of_steps
         feed_composition[0] = conditions.initial_feed_composition
-        feed_evaporation_heat = [float] * number_of_steps
-        permeate_condensation_heat = [float] * number_of_steps
-        feed_mass = [float] * number_of_steps
+        feed_evaporation_heat = [] * number_of_steps
+        permeate_condensation_heat = [] * number_of_steps
+        feed_mass = [] * number_of_steps
         feed_mass[0] = conditions.feed_amount
         area = conditions.membrane_area
 
@@ -209,8 +212,7 @@ class Pervaporation:
             feed_temperature, self.mixture.second_component
         )
 
-        for step in time_steps:
-
+        for step in range(len(time_steps)):
             partial_fluxes[step] = self.calculate_partial_fluxes(
                 feed_temperature,
                 feed_composition[step],
@@ -221,8 +223,8 @@ class Pervaporation:
             )
 
             permeate_composition[step] = Composition(
-                partial_fluxes[step][0]
-                / (sum(partial_fluxes[step]), CompositionType.weight)
+                p=partial_fluxes[step][0] / (sum(partial_fluxes[step])),
+                type=CompositionType("weight"),
             )
 
             d_mass_1 = partial_fluxes[step][0] * area * d_time_step_hours
@@ -241,14 +243,16 @@ class Pervaporation:
             feed_mass[step + 1] = feed_mass[step] - d_mass_1 - d_mass_2
 
             feed_composition[step + 1] = Composition(
-                (feed_composition[step].p * feed_mass[step] - d_mass_1)
+                p=(feed_composition[step].p * feed_mass[step] - d_mass_1)
                 / feed_mass[step + 1],
-                CompositionType.weight,
+                type=CompositionType("weight"),
             )
 
-            permeances[step] = tuple(
-                first_component_permeance, second_component_permeance
+            permeances[step] = (
+                first_component_permeance,
+                second_component_permeance,
             )
+
             feed_temperature_list[step] = feed_temperature
             permeate_temperature_list[step] = permeate_temperature
 
@@ -278,26 +282,26 @@ class Pervaporation:
         d_time_step_hours: float,
         precision: float = 5e-5,
     ) -> ProcessModel:
-        time_steps = [d_time_step_hours * step for step in number_of_steps]
-        feed_temperature = [float] * number_of_steps
+        time_steps = [d_time_step_hours * step for step in range(number_of_steps)]
+        feed_temperature = [] * number_of_steps
         feed_temperature[0] = conditions.feed_temperature
-        permeate_temperature = [float] * number_of_steps
+        permeate_temperature = [] * number_of_steps
         permeate_temperature[0] = conditions.permeate_temperature
-        partial_fluxes = [tuple[float, float]] * number_of_steps
-        permeances = [tuple[float, float]] * number_of_steps
-        permeate_composition = [Composition] * number_of_steps
-        feed_composition = [Composition] * number_of_steps
+        partial_fluxes = [] * number_of_steps
+        permeances = [] * number_of_steps
+        permeate_composition = [] * number_of_steps
+        feed_composition = [] * number_of_steps
         feed_composition[0] = conditions.initial_feed_composition
-        feed_evaporation_heat = [float] * number_of_steps
-        permeate_condensation_heat = [float] * number_of_steps
-        feed_mass = [float] * number_of_steps
+        feed_evaporation_heat = [] * number_of_steps
+        permeate_condensation_heat = [] * number_of_steps
+        feed_mass = [] * number_of_steps
         feed_mass[0] = conditions.feed_amount
         area = conditions.membrane_area
 
         first_component = self.mixture.first_component
         second_component = self.mixture.second_component
 
-        for step in time_steps:
+        for step in range(len(time_steps)):
             permeate_temperature[step] = permeate_temperature[0]
 
             evaporation_heat_1 = (
@@ -346,8 +350,9 @@ class Pervaporation:
             second_component_permeance = self.membrane.get_permeance(
                 feed_temperature[step], self.mixture.second_component
             )
-            permeances[step] = tuple(
-                first_component_permeance, second_component_permeance
+            permeances[step] = (
+                first_component_permeance,
+                second_component_permeance,
             )
 
             partial_fluxes[step] = self.calculate_partial_fluxes(
@@ -358,8 +363,9 @@ class Pervaporation:
             )
 
             permeate_composition[step] = Composition(
-                partial_fluxes[step][0]
-                / (sum(partial_fluxes[step]), CompositionType.weight)
+                p=partial_fluxes[step][0]
+                / (sum(partial_fluxes[step])),
+                type=CompositionType('weight'),
             )
 
             d_mass_1 = partial_fluxes[step][0] * area * d_time_step_hours
@@ -372,19 +378,19 @@ class Pervaporation:
                 condensation_heat_1 * d_mass_1
                 + condensation_heat_2 * d_mass_2
                 + (specific_heat_1 * d_mass_1 + specific_heat_2 * d_mass_2)
-                * (feed_temperature - permeate_temperature)
+                * (feed_temperature[step] - permeate_temperature[step])
             )
 
             feed_mass[step + 1] = feed_mass[step] - d_mass_1 - d_mass_2
 
             feed_composition[step + 1] = Composition(
-                (feed_composition[step].p * feed_mass[step] - d_mass_1)
+                p=(feed_composition[step].p * feed_mass[step] - d_mass_1)
                 / feed_mass[step + 1],
-                CompositionType.weight,
+                type=CompositionType('weight'),
             )
 
             feed_temperature[step + 1] = feed_temperature[step] - (
-                feed_evaporation_heat / (feed_heat_capacity * feed_mass[step])
+                feed_evaporation_heat[step] / (feed_heat_capacity * feed_mass[step])
             )
             # TODO:
 
