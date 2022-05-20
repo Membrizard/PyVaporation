@@ -32,10 +32,10 @@ etoh:
     b: -1598.673
     c: -46.424
   heat_capacity_constants:
-    a: 9.01
-    b: 0.2141
-    c: -8.390e-5
-    d: 1.373e-9
+    a: 0.5437
+    b: 0.001858
+    c: 0.0000098
+    d: 0
 
 ipoh:
   name: Isopropanol

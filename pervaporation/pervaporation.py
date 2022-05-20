@@ -198,10 +198,10 @@ class Pervaporation:
             * 1000
         )
 
-        specific_heat_1 = first_component.get_specific_heat(
+        cooling_heat_1 = first_component.get_cooling_heat(
             permeate_temperature, feed_temperature
         )
-        specific_heat_2 = second_component.get_specific_heat(
+        cooling_heat_2 = second_component.get_cooling_heat(
             permeate_temperature, feed_temperature
         )
 
@@ -236,7 +236,7 @@ class Pervaporation:
             permeate_condensation_heat[step] = (
                 condensation_heat_1 * d_mass_1
                 + condensation_heat_2 * d_mass_2
-                + (specific_heat_1 * d_mass_1 + specific_heat_2 * d_mass_2)
+                + (cooling_heat_1 * d_mass_1 + cooling_heat_2 * d_mass_2)
                 * (feed_temperature - permeate_temperature)
             )
 
@@ -325,18 +325,18 @@ class Pervaporation:
                 * 1000
             )
 
-            specific_heat_1 = first_component.get_specific_heat(
+            specific_heat_1 = first_component.get_cooling_heat(
                 feed_temperature[step], permeate_temperature[step]
             )
-            specific_heat_2 = second_component.get_specific_heat(
+            specific_heat_2 = second_component.get_cooling_heat(
                 feed_temperature[step], permeate_temperature[step]
             )
             heat_capacity_1 = (
-                first_component.get_heat_capacity(feed_temperature[step])
+                first_component.get_specific_heat(feed_temperature[step])
                 / first_component.molecular_weight
             )
             heat_capacity_2 = (
-                second_component.get_heat_capacity(feed_temperature[step])
+                second_component.get_specific_heat(feed_temperature[step])
                 / second_component.molecular_weight
             )
             feed_heat_capacity = (
@@ -363,9 +363,8 @@ class Pervaporation:
             )
 
             permeate_composition[step] = Composition(
-                p=partial_fluxes[step][0]
-                / (sum(partial_fluxes[step])),
-                type=CompositionType('weight'),
+                p=partial_fluxes[step][0] / (sum(partial_fluxes[step])),
+                type=CompositionType("weight"),
             )
 
             d_mass_1 = partial_fluxes[step][0] * area * d_time_step_hours
@@ -386,7 +385,7 @@ class Pervaporation:
             feed_composition[step + 1] = Composition(
                 p=(feed_composition[step].p * feed_mass[step] - d_mass_1)
                 / feed_mass[step + 1],
-                type=CompositionType('weight'),
+                type=CompositionType("weight"),
             )
 
             feed_temperature[step + 1] = feed_temperature[step] - (
