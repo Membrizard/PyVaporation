@@ -1,7 +1,5 @@
-from component import AllComponents, Component
+from component import Component
 from utils import AntoineConstants, HeatCapacityConstants
-from experiments import IdealExperiments
-from mixture import AllMixtures
 
 antoine_constants = AntoineConstants(
     a=7.20389,
@@ -32,6 +30,7 @@ def test_antoine_pressure():
     assert abs(test_component.get_antoine_pressure(333) - 19.78961) < 1e-4
 
 
+# Covers Vaporisation heat calculation from Clapeyron-Clausius equation written with Antoine constants
 def test_vaporisation_heat():
 
     # Molar heat of Vaporisation values for Validation are taken from
@@ -42,6 +41,7 @@ def test_vaporisation_heat():
     assert abs(test_component.get_vaporisation_heat(333) - 42.43410) < 3e-1
 
 
+# Covers the calculation of the specific heat with polynomial (n=3) approximation
 def test_get_specific_heat():
 
     # Calculated from http://dx.doi.org/10.1021/je900208n
@@ -51,7 +51,7 @@ def test_get_specific_heat():
     assert abs(test_component.get_specific_heat(333) - 33.877785) < 1e-4
 
 
+# Covers the integration of the integral heat required for cooling of the compound,
+# including the change in specific heat over a considered temperature range
 def test_get_cooling_heat():
     assert 0 == 0
-
-

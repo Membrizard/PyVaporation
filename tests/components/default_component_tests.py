@@ -1,7 +1,4 @@
-from component import AllComponents, Component
-from utils import AntoineConstants, HeatCapacityConstants
-from experiments import IdealExperiments
-from mixture import AllMixtures
+from component import AllComponents
 
 all_components = AllComponents.load("components.yml")
 
@@ -16,9 +13,9 @@ def test_constants_h2o():
 
     # Specific Heat Constants Calculated from http://dx.doi.org/10.1021/je900208n
 
-    assert abs(all_components.h2o.get_specific_heat(313) - 33.725516) < 1e-4
-    assert abs(all_components.h2o.get_specific_heat(323) - 33.800943) < 1e-4
-    assert abs(all_components.h2o.get_specific_heat(333) - 33.877785) < 1e-4
+    assert abs(all_components.h2o.get_specific_heat(313) - 33.725516) < 1e-3
+    assert abs(all_components.h2o.get_specific_heat(323) - 33.800943) < 1e-3
+    assert abs(all_components.h2o.get_specific_heat(333) - 33.877785) < 1e-3
 
 
 def test_constants_meoh():
@@ -29,11 +26,11 @@ def test_constants_meoh():
     assert abs(all_components.meoh.get_antoine_pressure(323) - 55.2130) < 1e-4
     assert abs(all_components.meoh.get_antoine_pressure(333) - 84.0491) < 1e-4
 
-    # Specific Heat Constants Calculated from
+    # Specific Heat Constants Calculated from https://doi.org/10.1007/BF00870444
 
-    assert abs(all_components.meoh.get_specific_heat(313) - 35.1986) < 1e-4
-    assert abs(all_components.meoh.get_specific_heat(323) - 55.2130) < 1e-4
-    assert abs(all_components.meoh.get_specific_heat(333) - 84.0491) < 1e-4
+    assert abs(all_components.meoh.get_specific_heat(313) - 84.24440) < 1e-3
+    assert abs(all_components.meoh.get_specific_heat(323) - 86.61974) < 1e-3
+    assert abs(all_components.meoh.get_specific_heat(333) - 89.21497) < 1e-3
 
 
 def test_constants_etoh():
@@ -44,11 +41,12 @@ def test_constants_etoh():
     assert abs(all_components.etoh.get_antoine_pressure(323) - 29.2779) < 1e-4
     assert abs(all_components.etoh.get_antoine_pressure(333) - 46.5843) < 1e-4
 
-    # Specific Heat Constants Calculated from
+    # Specific Heat Constants Calculated from Mazur, V.J., On the specific heat of ethyl alcohol,
+    # Acta Phys. Polon., 1940, 8, 6-11.
 
-    assert abs(all_components.etoh.get_specific_heat(313) - 17.7708) < 1e-4
-    assert abs(all_components.etoh.get_specific_heat(323) - 29.2779) < 1e-4
-    assert abs(all_components.etoh.get_specific_heat(333) - 46.5843) < 1e-4
+    assert abs(all_components.etoh.get_specific_heat(313) - 122.1500349) < 1e-3
+    assert abs(all_components.etoh.get_specific_heat(323) - 127.4315734) < 1e-3
+    assert abs(all_components.etoh.get_specific_heat(333) - 133.0909154) < 1e-3
 
 
 def test_constants_ipoh():
@@ -59,11 +57,11 @@ def test_constants_ipoh():
     assert abs(all_components.ipoh.get_antoine_pressure(323) - 23.4142) < 1e-4
     assert abs(all_components.ipoh.get_antoine_pressure(333) - 38.2827) < 1e-4
 
-    # Specific Heat Constants Calculated from
+    # Specific Heat Constants Calculated from https://doi.org/10.1021/je60083a031
 
-    assert abs(all_components.ipoh.get_specific_heat(313) - 13.7388) < 1e-4
-    assert abs(all_components.ipoh.get_specific_heat(323) - 23.4142) < 1e-4
-    assert abs(all_components.ipoh.get_specific_heat(333) - 38.2827) < 1e-4
+    assert abs(all_components.ipoh.get_specific_heat(313) - 167.52137) < 1e-3
+    assert abs(all_components.ipoh.get_specific_heat(323) - 177.35520) < 1e-3
+    assert abs(all_components.ipoh.get_specific_heat(333) - 188.25157) < 1e-3
 
 
 def test_constants_dme():
@@ -76,9 +74,9 @@ def test_constants_dme():
 
     # Specific Heat Constants Calculated from http://doi.org/10.1021/acs.jced.1c00229
 
-    assert abs(all_components.dme.get_specific_heat(313) - 193.95434) < 1e-4
-    assert abs(all_components.dme.get_specific_heat(323) - 195.75853) < 1e-4
-    assert abs(all_components.dme.get_specific_heat(333) - 197.73868) < 1e-4
+    assert abs(all_components.dme.get_specific_heat(313) - 193.95434) < 1e-3
+    assert abs(all_components.dme.get_specific_heat(323) - 195.75853) < 1e-3
+    assert abs(all_components.dme.get_specific_heat(333) - 197.73868) < 1e-3
 
 
 def test_constants_dmc():
@@ -91,9 +89,9 @@ def test_constants_dmc():
 
     # Specific Heat Constants Calculated from http://doi.org/10.1021/acs.jced.7b00295
 
-    assert abs(all_components.dmc.get_specific_heat(313) - 167.09697) < 1e-4
-    assert abs(all_components.dmc.get_specific_heat(323) - 168.69313) < 1e-4
-    assert abs(all_components.dmc.get_specific_heat(333) - 170.46484) < 1e-4
+    assert abs(all_components.dmc.get_specific_heat(313) - 167.09697) < 1e-3
+    assert abs(all_components.dmc.get_specific_heat(323) - 168.69313) < 1e-3
+    assert abs(all_components.dmc.get_specific_heat(333) - 170.46484) < 1e-3
 
 
 def test_constants_mtbe():
@@ -104,11 +102,11 @@ def test_constants_mtbe():
     assert abs(all_components.mtbe.get_antoine_pressure(323) - 85.8647) < 1e-4
     assert abs(all_components.mtbe.get_antoine_pressure(333) - 119.4935) < 1e-4
 
-    # Specific Heat Constants Calculated
+    # Specific Heat Constants Calculated from https://doi.org/10.1016/0021-9614(75)90194-9
 
-    assert abs(all_components.mtbe.get_specific_heat(313) - 60.1905) < 1e-4
-    assert abs(all_components.mtbe.get_specific_heat(323) - 85.8647) < 1e-4
-    assert abs(all_components.mtbe.get_specific_heat(333) - 119.4935) < 1e-4
+    assert abs(all_components.mtbe.get_specific_heat(313) - 192.4237) < 1e-3
+    assert abs(all_components.mtbe.get_specific_heat(323) - 195.8651) < 1e-3
+    assert abs(all_components.mtbe.get_specific_heat(333) - 199.3988) < 1e-3
 
 
 def test_constants_etbe():
@@ -119,11 +117,11 @@ def test_constants_etbe():
     assert abs(all_components.etbe.get_antoine_pressure(323) - 45.9826) < 1e-4
     assert abs(all_components.etbe.get_antoine_pressure(333) - 65.7505) < 1e-4
 
-    # Specific Heat Constants Calculated from
+    # Specific Heat Constants Calculated from https://doi.org/10.1021/je900208n
 
-    assert abs(all_components.etbe.get_specific_heat(313) - 31.2979) < 1e-4
-    assert abs(all_components.etbe.get_specific_heat(323) - 45.9826) < 1e-4
-    assert abs(all_components.etbe.get_specific_heat(333) - 65.7505) < 1e-4
+    assert abs(all_components.etbe.get_specific_heat(313) - 226.5025) < 1e-3
+    assert abs(all_components.etbe.get_specific_heat(323) - 230.8717) < 1e-3
+    assert abs(all_components.etbe.get_specific_heat(333) - 235.3427) < 1e-3
 
 
 def test_constants_cyclohexane():
@@ -138,9 +136,9 @@ def test_constants_cyclohexane():
     # of the isobaric heat capacity of cyclohexane at atmospheric pressure,
     # Izv. Vyssh. Uchebn. Zaved. Neft. Gaz 21, 1978, (12), 81-82.
 
-    assert abs(all_components.cyclohexane.get_specific_heat(313) - 24.6260) < 1e-4
-    assert abs(all_components.cyclohexane.get_specific_heat(323) - 36.2458) < 1e-4
-    assert abs(all_components.cyclohexane.get_specific_heat(333) - 51.9116) < 1e-4
+    assert abs(all_components.cyclohexane.get_specific_heat(313) - 162.4372) < 1e-3
+    assert abs(all_components.cyclohexane.get_specific_heat(323) - 166.2413) < 1e-3
+    assert abs(all_components.cyclohexane.get_specific_heat(333) - 170.0453) < 1e-3
 
 
 def test_constants_benzene():
@@ -151,11 +149,11 @@ def test_constants_benzene():
     assert abs(all_components.benzene.get_antoine_pressure(323) - 36.1835) < 1e-4
     assert abs(all_components.benzene.get_antoine_pressure(333) - 52.2136) < 1e-4
 
-    # Specific Heat Constants Calculated from
+    # Specific Heat Constants Calculated from https://doi.org/10.1007/BF00503954
 
-    assert abs(all_components.benzene.get_specific_heat(313) - 24.3752) < 1e-4
-    assert abs(all_components.benzene.get_specific_heat(323) - 36.1835) < 1e-4
-    assert abs(all_components.benzene.get_specific_heat(333) - 52.2136) < 1e-4
+    assert abs(all_components.benzene.get_specific_heat(313) - 139.9297) < 1e-3
+    assert abs(all_components.benzene.get_specific_heat(323) - 142.3563) < 1e-3
+    assert abs(all_components.benzene.get_specific_heat(333) - 144.8910) < 1e-3
 
 
 def test_constants_toluene():
@@ -166,8 +164,8 @@ def test_constants_toluene():
     assert abs(all_components.toluene.get_antoine_pressure(323) - 12.2889) < 1e-4
     assert abs(all_components.toluene.get_antoine_pressure(333) - 18.5332) < 1e-4
 
-    # Specific Heat Constants Calculated from
+    # Specific Heat Constants Calculated from https://doi.org/10.1021/j100573a011
 
-    assert abs(all_components.toluene.get_specific_heat(313) - 7.8949) < 1e-4
-    assert abs(all_components.toluene.get_specific_heat(323) - 12.2889) < 1e-4
-    assert abs(all_components.toluene.get_specific_heat(333) - 18.5332) < 1e-4
+    assert abs(all_components.toluene.get_specific_heat(313) - 161.09761) < 1e-3
+    assert abs(all_components.toluene.get_specific_heat(323) - 163.93334) < 1e-3
+    assert abs(all_components.toluene.get_specific_heat(333) - 166.80588) < 1e-3
