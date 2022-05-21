@@ -10,6 +10,11 @@ from component import AllComponents, Component
 from utils import NRTLParameters, R
 
 
+def _is_in_0_to_1_range(instance: typing.Any, attribute, value: float) -> None:  # TODO: typing
+    if not 0 <= value <= 1:
+        raise ValueError('Give %s value is not in [0, 1] range' % value)
+
+
 class CompositionType(Enum):
     molar: str = "molar"
     weight: str = "weight"
@@ -56,7 +61,7 @@ class AllMixtures:
 
 @attr.s(auto_attribs=True)
 class Composition:
-    p: float = attr.ib(validator=lambda value: 0 <= value <= 1)  # type: ignore
+    p: float = attr.ib(validator=_is_in_0_to_1_range)
     type: CompositionType
 
     @property
