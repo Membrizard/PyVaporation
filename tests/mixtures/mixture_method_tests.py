@@ -114,6 +114,8 @@ def test_get_nrtl_partial_pressures_from_molar_composition():
     ]
     for i in range(11):
         assert abs(validation_partial_pressures_molar[i][0] - tested_partial_pressures[i][0]) < 1e-3
+    for i in range(11):
+        assert abs(validation_partial_pressures_molar[i][1] - tested_partial_pressures[i][1]) < 1e-3
 
 
 def test_get_nrtl_partial_pressures_from_weight_composition():
@@ -136,3 +138,6 @@ def test_get_nrtl_partial_pressures_from_weight_composition():
     ]
     for i in range(11):
         assert abs(validation_partial_pressures_weight[i][0] - tested_partial_pressures[i][0]) < 1e-3
+    for i in range(11):
+        assert abs(validation_partial_pressures_weight[i][1] - tested_partial_pressures[i][1]) < 1e-3
+
