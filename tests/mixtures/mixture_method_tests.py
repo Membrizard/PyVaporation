@@ -1,5 +1,4 @@
 from component import Component
-from experiments import IdealExperiments
 from mixture import Mixture, Composition, CompositionType, get_nrtl_partial_pressures
 from utils import AntoineConstants, HeatCapacityConstants, NRTLParameters
 
@@ -39,12 +38,16 @@ test_component_2 = Component(
     heat_capacity_constants=heat_capacity_constants,
 )
 
-# test_composition_list_molar = [Composition(p=i/10, type=CompositionType.molar) for i in range(10)]
-# test_composition_list_weight = [Composition(p=i/10, type=CompositionType.weight) for i in range(10)]
+test_composition_list_molar = [
+    Composition(p=i / 10, type=CompositionType.molar) for i in range(11)
+]
+test_composition_list_weight = [
+    Composition(p=i / 10, type=CompositionType.weight) for i in range(11)
+]
 
 nrtl_params = NRTLParameters(
-    g12=-633,
-    g21=5823,
+    g12=5823,
+    g21=-633,
     alpha=0.3,
 )
 
@@ -67,12 +70,12 @@ def test_composition_to_mol():
     assert test_composition_2.to_molar(mixture=test_mixture) == Composition(
         p=1, type=CompositionType("molar")
     )
-    assert abs(
-        test_composition_3.to_molar(mixture=test_mixture).first - 0.22122449
-    ) < 1e-4
-    assert abs(
-        test_composition_4.to_molar(mixture=test_mixture).second - 0.4771704
-    ) < 1e-4
+    assert (
+            abs(test_composition_3.to_molar(mixture=test_mixture).first - 0.22122449) < 1e-4
+    )
+    assert (
+            abs(test_composition_4.to_molar(mixture=test_mixture).second - 0.4771704) < 1e-4
+    )
 
 
 def test_composition_to_weight():
@@ -87,10 +90,49 @@ def test_composition_to_weight():
     assert test_composition_2.to_weight(mixture=test_mixture) == Composition(
         p=1, type=CompositionType("weight")
     )
-    assert abs(
-        test_composition_3.to_weight(mixture=test_mixture).first - 0.1
-    ) < 1e-4
-    assert abs(
-        test_composition_4.to_weight(mixture=test_mixture).second - 0.6
-    ) < 1e-4
+    assert abs(test_composition_3.to_weight(mixture=test_mixture).first - 0.1) < 1e-4
+    assert abs(test_composition_4.to_weight(mixture=test_mixture).second - 0.6) < 1e-4
 
+
+def test_get_nrtl_partial_pressures_from_molar_composition():
+    tested_partial_pressures = [
+        get_nrtl_partial_pressures(313, test_mixture, test_composition_list_molar[i])
+        for i in range(11)
+    ]
+    validation_partial_pressures_molar = [
+        (0, 17.77081),
+        (1.66872, 16.06051),
+        (3.06500, 14.49533),
+        (4.18580, 13.09037),
+        (5.04153, 11.85708),
+        (5.65693, 10.80091),
+        (6.07206, 9.91318),
+        (6.34411, 9.14245),
+        (6.55252, 8.28637),
+        (6.81318, 6.52717),
+        (7.31934, 0)
+    ]
+    for i in range(11):
+        assert abs(validation_partial_pressures_molar[i][0] - tested_partial_pressures[i][0]) < 1e-3
+
+
+def test_get_nrtl_partial_pressures_from_weight_composition():
+    tested_partial_pressures = [
+        get_nrtl_partial_pressures(313, test_mixture, test_composition_list_weight[i])
+        for i in range(11)
+    ]
+    validation_partial_pressures_weight = [
+        (0, 17.77081),
+        (3.32577, 14.18329),
+        (4.96675, 11.97329),
+        (5.76758, 10.58423),
+        (6.16626, 9.67241),
+        (6.38535, 8.99896),
+        (6.53822, 8.35759),
+        (6.68342, 7.51991),
+        (6.85186, 6.18204),
+        (7.06050, 3.89984),
+        (7.31934, 0)
+    ]
+    for i in range(11):
+        assert abs(validation_partial_pressures_weight[i][0] - tested_partial_pressures[i][0]) < 1e-3

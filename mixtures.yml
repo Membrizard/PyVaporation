@@ -8,8 +8,8 @@ h2o_meoh:
 h2o_etoh:
   components: ['h2o', 'etoh']
   nrtl_params:
-    g12: -633
-    g21: 5823
+    g12: 5823
+    g21: -633
     alpha: 0.3
 
 # Need To Validate against Experimental VLE data

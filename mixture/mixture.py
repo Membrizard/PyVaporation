@@ -10,9 +10,11 @@ from component import AllComponents, Component
 from utils import NRTLParameters, R
 
 
-def _is_in_0_to_1_range(instance: typing.Any, attribute, value: float) -> None:  # TODO: typing
+def _is_in_0_to_1_range(
+    instance: typing.Any, attribute, value: float
+) -> None:  # TODO: typing
     if not 0 <= value <= 1:
-        raise ValueError('Give %s value is not in [0, 1] range' % value)
+        raise ValueError("Give %s value is not in [0, 1] range" % value)
 
 
 class CompositionType(Enum):
@@ -91,7 +93,6 @@ class Composition:
                 + mixture.second_component.molecular_weight * (1 - self.p)
             )
             return Composition(p=p, type=CompositionType("weight"))
-
 
 
 def get_nrtl_partial_pressures(
