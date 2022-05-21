@@ -35,7 +35,11 @@ class ProcessModel:
     def get_separation_factor(self) -> typing.List[float]:
         feed = self.feed_composition
         permeate = self.permeate_composition
-        return [((1 - feed.p) / feed.p) / ((1 - permeate.p) / permeate.p)]
+        return [
+            ((1 - feed[i].second) / feed[i].second)
+            / ((1 - permeate[i].second) / permeate[i].second)
+            for i in range(len(feed))
+        ]
 
     @property
     def get_psi(self) -> typing.List[float]:

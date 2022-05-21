@@ -23,18 +23,18 @@ class DiffusionCurve:
         return [
             Composition(
                 self.partial_fluxes[i][0] / (sum(self.partial_fluxes[i])),
-                type=CompositionType.weight,
+                type=CompositionType("weight"),
             )
             for i in range(len(self.feed_compositions))
         ]
 
     @property
     def get_separation_factor(self) -> typing.List[float]:
-        permeate_composition = self.permeate_composition
+        permeate_composition = self.get_permeate_composition
         feed_composition = self.feed_compositions
         return [
-            ((1 - feed_composition[i].p) / feed_composition[i].p)
-            / ((1 - permeate_composition[i].p) / permeate_composition[i].p)
+            ((1 - feed_composition[i].second) / feed_composition[i].p)
+            / ((1 - permeate_composition[i].second) / permeate_composition[i].p)
             for i in range(len(self.feed_compositions))
         ]
 
@@ -43,7 +43,7 @@ class DiffusionCurve:
         total_flux = [
             sum(self.partial_fluxes[i]) for i in range(len(self.feed_compositions))
         ]
-        separation_factor = self.separation_factor
+        separation_factor = self.get_separation_factor
         return numpy.multiply(total_flux, numpy.subtract(separation_factor, 1))
 
     @property
@@ -51,7 +51,7 @@ class DiffusionCurve:
         if self.permeances is not None:
             return self.permeances
         else:
-            permeate_compositions = self.permeate_composition
+            permeate_compositions = self.get_permeate_composition
             feed_partial_pressures = [
                 get_nrtl_partial_pressures(
                     self.feed_temperature, self.mixture, composition

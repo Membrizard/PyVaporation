@@ -291,7 +291,7 @@ class Pervaporation:
         permeances = [] * number_of_steps
         permeate_composition = [] * number_of_steps
         feed_composition = [] * number_of_steps
-        feed_composition[0] = conditions.initial_feed_composition
+        feed_composition[0] = conditions.initial_feed_composition.to_weight(self.mixture)
         feed_evaporation_heat = [] * number_of_steps
         permeate_condensation_heat = [] * number_of_steps
         feed_mass = [] * number_of_steps
@@ -340,8 +340,8 @@ class Pervaporation:
                 / second_component.molecular_weight
             )
             feed_heat_capacity = (
-                feed_composition[step].p * heat_capacity_1
-                + (1 - feed_composition[step].p) * heat_capacity_2
+                feed_composition[step].first * heat_capacity_1
+                + feed_composition[step].second * heat_capacity_2
             )
 
             first_component_permeance = self.membrane.get_permeance(
