@@ -59,6 +59,7 @@ def test_composition_to_mol():
     test_composition_1 = Composition(p=0, type=CompositionType("weight"))
     test_composition_2 = Composition(p=1, type=CompositionType("weight"))
     test_composition_3 = Composition(p=0.1, type=CompositionType("weight"))
+    test_composition_4 = Composition(p=0.3, type=CompositionType("weight"))
 
     assert test_composition_1.to_molar(mixture=test_mixture) == Composition(
         p=0, type=CompositionType("molar")
@@ -67,15 +68,18 @@ def test_composition_to_mol():
         p=1, type=CompositionType("molar")
     )
     assert abs(
-        test_composition_3.to_molar(mixture=test_mixture).first - 0.221416
-    ) < 1e-4 and test_composition_3.type == CompositionType("molar")
+        test_composition_3.to_molar(mixture=test_mixture).first - 0.22122449
+    ) < 1e-4
+    assert abs(
+        test_composition_4.to_molar(mixture=test_mixture).second - 0.4771704
+    ) < 1e-4
 
 
 def test_composition_to_weight():
     test_composition_1 = Composition(p=0, type=CompositionType("molar"))
     test_composition_2 = Composition(p=1, type=CompositionType("molar"))
-    test_composition_3 = Composition(p=0.221416, type=CompositionType("molar"))
-    test_composition_4 = Composition(p=0.630491, type=CompositionType("molar"))
+    test_composition_3 = Composition(p=0.22122449, type=CompositionType("molar"))
+    test_composition_4 = Composition(p=0.63023256, type=CompositionType("molar"))
 
     assert test_composition_1.to_weight(mixture=test_mixture) == Composition(
         p=0, type=CompositionType("weight")
@@ -85,8 +89,8 @@ def test_composition_to_weight():
     )
     assert abs(
         test_composition_3.to_weight(mixture=test_mixture).first - 0.1
-    ) < 1e-4 and test_composition_3.type == CompositionType("weight")
+    ) < 1e-4
     assert abs(
         test_composition_4.to_weight(mixture=test_mixture).second - 0.6
-    ) < 1e-4 and test_composition_3.type == CompositionType("weight")
+    ) < 1e-4
 

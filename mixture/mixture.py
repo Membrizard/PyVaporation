@@ -80,7 +80,7 @@ class Composition:
                 self.p / mixture.first_component.molecular_weight
                 + (1 - self.p) / mixture.second_component.molecular_weight
             )
-            return Composition(p=p, type=CompositionType("weight"))
+            return Composition(p=p, type=CompositionType("molar"))
 
     def to_weight(self, mixture: Mixture) -> "Composition":
         if self.type == CompositionType.weight:
@@ -91,6 +91,7 @@ class Composition:
                 + mixture.second_component.molecular_weight * (1 - self.p)
             )
             return Composition(p=p, type=CompositionType("weight"))
+
 
 
 def get_nrtl_partial_pressures(
