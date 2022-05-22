@@ -98,7 +98,13 @@ class Composition:
 def get_nrtl_partial_pressures(
     temperature: float, mixture: Mixture, composition: Composition
 ) -> typing.Tuple[float, float]:
-
+    """
+    Calculation of partial pressures of both components using NRTL model
+    :param temperature: temperature in K
+           NRTL parameters:
+           gij in J/mol (may also be as aij+gij/RT)
+    :return: Partial pressures as a tuole, component wise in kPa
+    """
     if composition.type == CompositionType.weight:
         composition = composition.to_molar(mixture=mixture)
 

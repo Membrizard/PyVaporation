@@ -1,12 +1,12 @@
-from component import Component, AllComponents
+import numpy
+
+from component import AllComponents
 from mixture import (
-    Mixture,
     Composition,
     CompositionType,
     AllMixtures,
     get_nrtl_partial_pressures,
 )
-from utils import AntoineConstants, HeatCapacityConstants, NRTLParameters
 from pytest import fixture
 
 
@@ -49,29 +49,36 @@ def test_constants_h2o_etoh(all_mixtures):
     ]
 
     for i in range(4):
-        assert abs(tested_partial_pressures[i][0] - validation_pressures[i][0]) < validation_pressures[i][0]*0.05
-        assert abs(tested_partial_pressures[i][1] - validation_pressures[i][1]) < validation_pressures[i][1]*0.05
+        assert (
+            abs(tested_partial_pressures[i][0] - validation_pressures[i][0])
+            < validation_pressures[i][0] * 0.05
+        )
+        assert (
+            abs(tested_partial_pressures[i][1] - validation_pressures[i][1])
+            < validation_pressures[i][1] * 0.05
+        )
 
 
 def test_constants_h2o_ipoh(all_mixtures):
     # Experimental data for validation is taken from http://www.ddbst.com/en/EED/VLE/VLE%202-Propanol%3BWater.php
-    # Dunlop J.G.: Vapor-Liquid Equilibrium Data. Master's Thesis (1948)
+    # Brunjes A.S.; Bogart M.J.P.: The Binary Systems Ethanol-n-Butanol, Acetone-Water
+    # and Isopropanol-Water. Ind.Eng.Chem. 35 (1943) 255-260
     # NRTL Constants are taken from https://doi.org/10.1021/je960108n
     test_mixture = all_mixtures.h2o_ipoh
     validation_compositions = [
-        Composition(p=0.9800, type=CompositionType("molar")),
-        Composition(p=0.7610, type=CompositionType("molar")),
-        Composition(p=0.3030, type=CompositionType("molar")),
-        Composition(p=0.06800, type=CompositionType("molar")),
+        Composition(p=0.9796, type=CompositionType("molar")),
+        Composition(p=0.7613, type=CompositionType("molar")),
+        Composition(p=0.3029, type=CompositionType("molar")),
+        Composition(p=0.06810, type=CompositionType("molar")),
     ]
 
-    validation_temperature_list = [363.95, 354.25, 353.25, 354.35]
+    validation_temperature_list = [363.95, 354.26, 353.2, 354.36]
 
     validation_pressures = [
-        (77.92277, 23.407230),
-        (44.99052, 56.339480),
-        (31.10831, 70.221690),
-        (10.03167, 91.298330),
+        (77.943036, 23.386964),
+        (45.000653, 56.329347),
+        (31.098177, 70.231823),
+        (10.021537, 91.308463),
     ]
     tested_partial_pressures = [
         get_nrtl_partial_pressures(
@@ -83,8 +90,14 @@ def test_constants_h2o_ipoh(all_mixtures):
     ]
 
     for i in range(4):
-        assert abs(tested_partial_pressures[i][0] - validation_pressures[i][0]) < validation_pressures[i][0]*0.1
-        assert abs(tested_partial_pressures[i][1] - validation_pressures[i][1]) < validation_pressures[i][1]*0.1
+        assert (
+            abs(tested_partial_pressures[i][0] - validation_pressures[i][0])
+            < validation_pressures[i][0] * 0.1
+        )
+        assert (
+            abs(tested_partial_pressures[i][1] - validation_pressures[i][1])
+            < validation_pressures[i][1] * 0.085
+        )
 
 
 def test_constants_etoh_etbe(all_mixtures):
@@ -118,37 +131,38 @@ def test_constants_etoh_etbe(all_mixtures):
     ]
 
     for i in range(4):
-        assert abs(tested_partial_pressures[i][0] - validation_pressures[i][0]) < 1e-2
-        assert abs(tested_partial_pressures[i][1] - validation_pressures[i][1]) < 1e-2
+        assert (
+            abs(tested_partial_pressures[i][0] - validation_pressures[i][0])
+            < validation_pressures[i][0] * 0.05
+        )
+        assert (
+            abs(tested_partial_pressures[i][1] - validation_pressures[i][1])
+            < validation_pressures[i][1] * 0.05
+        )
 
 
 def test_constants_meoh_toluene(all_mixtures):
-    # Experimental data for validation is taken from https://doi.org/10.1021/je60021a018
-    # NRTL constants are taken from Understanding Distillation Using Column Profile Maps, F
-    # irst Edition. Daniel Beneke, Mark Peters, David Glasser, and Diane Hildebrandt.
-    # 2013 by John Wiley & Sons, Inc. Published 2013 by John Wiley & Sons, Inc
-    # https://onlinelibrary.wiley.com/doi/pdf/10.1002/9781118477304.app2
+    # Experimental data for validation is taken from https://doi.org/10.1016/0021-9614(88)90185-1
+    # NRTL constants are taken from https://doi.org/10.1016/j.fluid.2019.112412
 
     test_mixture = all_mixtures.meoh_toluene
     validation_compositions = [
-        Composition(p=0.1320, type=CompositionType("molar")),
-        Composition(p=0.4390, type=CompositionType("molar")),
-        Composition(p=0.8300, type=CompositionType("molar")),
-        Composition(p=0.9740, type=CompositionType("molar")),
+        Composition(p=0.1830, type=CompositionType("molar")),
+        Composition(p=0.4980, type=CompositionType("molar")),
+        Composition(p=0.7640, type=CompositionType("molar")),
+        Composition(p=0.960, type=CompositionType("molar")),
     ]
 
     validation_pressures = [
-        (81.161325, 20.163675),
-        (83.8971, 17.4279),
-        (87.74745, 13.57755),
-        (96.968025, 4.356975),
+        (31.176927, 9.260073),
+        (35.795292, 8.560708),
+        (38.214708, 7.661292),
+        (42.545305, 2.957695),
     ]
-
-    validation_temperature_list = [342.70, 338.10, 336.70, 337.10]
 
     tested_partial_pressures = [
         get_nrtl_partial_pressures(
-            temperature=validation_temperature_list[i],
+            temperature=318,
             mixture=test_mixture,
             composition=validation_compositions[i],
         )
@@ -156,8 +170,14 @@ def test_constants_meoh_toluene(all_mixtures):
     ]
 
     for i in range(4):
-        assert abs(tested_partial_pressures[i][0] - validation_pressures[i][0]) < 1e-2
-        assert abs(tested_partial_pressures[i][1] - validation_pressures[i][1]) < 1e-2
+        assert (
+            abs(tested_partial_pressures[i][0] - validation_pressures[i][0])
+            < validation_pressures[i][0] * 0.05
+        )
+        assert (
+            abs(tested_partial_pressures[i][1] - validation_pressures[i][1])
+            < validation_pressures[i][1] * 0.05
+        )
 
 
 def test_constants_meoh_mtbe(all_mixtures):
@@ -189,10 +209,29 @@ def test_constants_meoh_mtbe(all_mixtures):
         )
         for i in range(4)
     ]
-
+    rmsd_1 = 0
+    rmsd_2 = 0
+    average_1 = 0
+    average_2 = 0
     for i in range(4):
-        assert abs(tested_partial_pressures[i][0] - validation_pressures[i][0]) < 1e-2
-        assert abs(tested_partial_pressures[i][1] - validation_pressures[i][1]) < 1e-2
+        rmsd_1 = (
+            tested_partial_pressures[i][0] - validation_pressures[i][0]
+        ) ** 2 + rmsd_1
+        average_1 = validation_pressures[i][0] + average_1
+        average_2 = validation_pressures[i][1] + average_2
+        rmsd_2 = (
+            tested_partial_pressures[i][1] - validation_pressures[i][1]
+        ) ** 2 + rmsd_2
+        assert (
+            abs(tested_partial_pressures[i][0] - validation_pressures[i][0])
+            < validation_pressures[i][0] * 0.13
+        )
+        assert (
+            abs(tested_partial_pressures[i][1] - validation_pressures[i][1])
+            < validation_pressures[i][1] * 0.12
+        )
+    assert numpy.sqrt(rmsd_1 / 4) / (average_1 / 4) < 0.03
+    assert numpy.sqrt(rmsd_2 / 4) / (average_2 / 4) < 0.03
 
 
 def test_constants_meoh_dme(all_mixtures):
@@ -201,20 +240,18 @@ def test_constants_meoh_dme(all_mixtures):
 
     test_mixture = all_mixtures.meoh_dme
     validation_compositions = [
-        Composition(p=0.1150, type=CompositionType("molar")),
         Composition(p=0.4350, type=CompositionType("molar")),
         Composition(p=0.8360, type=CompositionType("molar")),
         Composition(p=0.9520, type=CompositionType("molar")),
     ]
 
     validation_pressures = [
-        (30.396, 70.924),
         (63.12236, 38.19764),
         (88.45236, 12.86764),
         (97.46984, 3.85016),
     ]
 
-    validation_temperatures = [350.7, 342.5, 338.6, 338.05]
+    validation_temperatures = [342.5, 338.6, 338.05]
 
     tested_partial_pressures = [
         get_nrtl_partial_pressures(
@@ -222,12 +259,18 @@ def test_constants_meoh_dme(all_mixtures):
             mixture=test_mixture,
             composition=validation_compositions[i],
         )
-        for i in range(4)
+        for i in range(3)
     ]
 
-    for i in range(4):
-        assert abs(tested_partial_pressures[i][0] - validation_pressures[i][0]) < 1e-2
-        assert abs(tested_partial_pressures[i][1] - validation_pressures[i][1]) < 1e-2
+    for i in range(3):
+        assert (
+            abs(tested_partial_pressures[i][0] - validation_pressures[i][0])
+            < validation_pressures[i][0] * 0.13
+        )
+        assert (
+            abs(tested_partial_pressures[i][1] - validation_pressures[i][1])
+            < validation_pressures[i][1] * 0.16
+        )
 
 
 def test_constants_meoh_dmc(all_mixtures):
@@ -236,20 +279,20 @@ def test_constants_meoh_dmc(all_mixtures):
 
     test_mixture = all_mixtures.meoh_dmc
     validation_compositions = [
-        Composition(p=0.1150, type=CompositionType("molar")),
-        Composition(p=0.4350, type=CompositionType("molar")),
-        Composition(p=0.8360, type=CompositionType("molar")),
-        Composition(p=0.9520, type=CompositionType("molar")),
+        Composition(p=0.096, type=CompositionType("molar")),
+        Composition(p=0.318, type=CompositionType("molar")),
+        Composition(p=0.814, type=CompositionType("molar")),
+        Composition(p=0.905, type=CompositionType("molar")),
     ]
 
     validation_pressures = [
-        (30.396, 70.924),
-        (63.12236, 38.19764),
-        (88.45236, 12.86764),
-        (97.46984, 3.85016),
+        (26.73066, 39.92934),
+        (41.92914, 24.73086),
+        (55.12782, 11.53218),
+        (58.59414, 8.06586),
     ]
 
-    validation_temperatures = [350.7, 342.5, 338.6, 338.05]
+    validation_temperatures = [338.57, 330.24, 326.43, 326.52]
 
     tested_partial_pressures = [
         get_nrtl_partial_pressures(
@@ -261,5 +304,11 @@ def test_constants_meoh_dmc(all_mixtures):
     ]
 
     for i in range(4):
-        assert abs(tested_partial_pressures[i][0] - validation_pressures[i][0]) < 1e-2
-        assert abs(tested_partial_pressures[i][1] - validation_pressures[i][1]) < 1e-2
+        assert (
+            abs(tested_partial_pressures[i][0] - validation_pressures[i][0])
+            < validation_pressures[i][0] * 0.065
+        )
+        assert (
+            abs(tested_partial_pressures[i][1] - validation_pressures[i][1])
+            < validation_pressures[i][1] * 0.065
+        )
