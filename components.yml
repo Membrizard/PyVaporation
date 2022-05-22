@@ -3,7 +3,7 @@ h2o:
   molecular_weight: 18.02
   antoine_constants:
     a: 7.20389
-    b: 1733.96
+    b: -1733.926
     c: -39.485
   heat_capacity_constants:
     a: 32.2
@@ -15,53 +15,53 @@ meoh:
   name: Methanol
   molecular_weight: 32.04
   antoine_constants:
-    a: 9.22010
+    a: 7.2209903
     b: -1590.15535
     c: -32.77001
   heat_capacity_constants:
-    a: 0
-    b: 0
-    c: 0
-    d: 0
+    a: 89.26344
+    b: -1.66291e-1
+    c: 1.84499e-4
+    d: 9.44251e-7
 
 etoh:
   name: Ethanol
   molecular_weight: 46.07
   antoine_constants:
     a: 7.24677
-    b: 1598.673
+    b: -1598.673
     c: -46.424
   heat_capacity_constants:
-    a: 9.01
-    b: 0.2141
-    c: -8.390e-5
-    d: 1.373e-9
+    a: 147.815652
+    b: -0.6732612305
+    c: 0.001889017424
+    d: 0
 
 ipoh:
   name: Isopropanol
   molecular_weight: 60.10
   antoine_constants:
     a: 6.861
-    b: 1357.427
+    b: -1357.427
     c: -75.814
   heat_capacity_constants:
-    a: 0
-    b: 0
-    c: 0
-    d: 0
+    a: 53.8206447
+    b: 7.92412193e-1
+    c: -4.56017218e-3
+    d: 1.01887619e-5
 
 mtbe:
   name: Methyl-tert-butyl ether
   molecular_weight: 88.15
   antoine_constants:
-    a: 8.05093
+    a: 6.050931522
     b: -1139.816725
-    c: -46.424
+    c: -46.15171
   heat_capacity_constants:
-    a: 0
-    b: 0
-    c: 0
-    d: 0
+    a: 147.329712
+    b: -9.7850807e-2
+    c: 9.216480e-4
+    d: -4.75200e-7
 
 etbe:
   name: Ethyl-tert-butyl ether
@@ -71,10 +71,10 @@ etbe:
     b: -1206.874
     c: -49.19
   heat_capacity_constants:
-    a: 7,5
-    b: 0.6293
-    c: -3.69e-5
-    d: 7.072e-9
+    a: 18.79
+    b: 1.251
+    c: -3.015e-3
+    d: 3.637e-6
 
 dme:
   name: 1,2-Dimethoxyethane
@@ -106,12 +106,12 @@ cyclohexane:
   name: Cyclohexane
   molecular_weight: 84.16
   antoine_constants:
-    a: 5.97636
-    b: 1206.47
+    a: 5.97636182
+    b: -1206.47
     c: -49.864
   heat_capacity_constants:
-    a: 43,37101
-    b: 0,380403
+    a: 43.37101
+    b: 0.380403
     c: 0
     d: 0
 
@@ -119,8 +119,8 @@ benzene:
   name: Benzene
   molecular_weight: 78.11
   antoine_constants:
-    a: 6.00477
-    b: 1196.76
+    a: 6.00477182
+    b: -1196.76
     c: -53.839
   heat_capacity_constants:
     a: 1.18680e2
@@ -133,7 +133,7 @@ toluene:
   molecular_weight: 92.14
   antoine_constants:
     a: 6.0854
-    b: 1348.77
+    b: -1348.77
     c: -53.024
   heat_capacity_constants:
     a: 1.87438e2

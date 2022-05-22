@@ -34,7 +34,7 @@ class Component:
         """
         return 10 ** (
             self.antoine_constants.a
-            - self.antoine_constants.b / (temperature + self.antoine_constants.c)
+            + self.antoine_constants.b / (temperature + self.antoine_constants.c)
         )
 
     def get_vaporisation_heat(self, temperature: float) -> float:
@@ -44,13 +44,16 @@ class Component:
         :return: Vaporisation heat in kJ/mol
         """
         return (
-            (temperature / (temperature + self.antoine_constants.c)) ** 2
-            * R
-            * self.antoine_constants.b
-            * numpy.log(10)
+            -(
+                (temperature / (temperature + self.antoine_constants.c)) ** 2
+                * R
+                * self.antoine_constants.b
+                * numpy.log(10)
+            )
+            / 1000
         )
 
-    def get_heat_capacity(self, temperature: float) -> float:
+    def get_specific_heat(self, temperature: float) -> float:
         """
         Calculation of Heat Capacity in J/(mol*K) using polynomial isobaric heat capacity fit
         :param temperature: temperature in K
@@ -63,7 +66,7 @@ class Component:
             + self.heat_capacity_constants.d * temperature**3
         )
 
-    def get_specific_heat(self, temperature_1, temperature_2):
+    def get_cooling_heat(self, temperature_1, temperature_2):
         """
         Calculation of Specific Heat in J/mol using Integral (T2-T1) (CpdT)
         :param temperature: temperature in K (temperature_2 > temperature_1)

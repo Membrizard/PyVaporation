@@ -1,3 +1,5 @@
+import typing
+
 import attr
 
 R = 8.314462
@@ -14,7 +16,10 @@ class AntoineConstants:
 class NRTLParameters:
     g12: float
     g21: float
-    alpha: float
+    alpha12: float
+    alpha21: typing.Optional[float] = None
+    a12: typing.Optional[float] = 0
+    a21: typing.Optional[float] = 0
 
 
 @attr.s(auto_attribs=True)
