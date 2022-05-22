@@ -13,8 +13,9 @@ binary:
 * H2O/EtOH
 * H2O/IPOH
 * MeOH/toluene
-* MeOH/Methyl-tertbuthyl ether
+* MeOH/Methyl-tert-butyl ether
 * MeOH/Dimethylcarbonate
+* EtOH/Ethyl-tert-butyl ether
 
 
 # Assumptions and applicability
