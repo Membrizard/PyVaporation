@@ -16,7 +16,6 @@ binary:
 * MeOH/Methyl-tertbuthyl ether
 * MeOH/DimethoxyEthane
 * MeOH/Dimethylcarbonate
-* MeOH/CycloHexane
 
 
 # Assumptions and applicability
