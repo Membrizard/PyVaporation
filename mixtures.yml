@@ -41,8 +41,8 @@ meoh_toluene:
 meoh_mtbe:
   components: ['meoh', 'mtbe']
   nrtl_params:
-    g12: 2025.3
-    g21: 2133.5
+    g12: 2133.5
+    g21: 2025.3
     alpha12: 0.6
 
 meoh_dme:
