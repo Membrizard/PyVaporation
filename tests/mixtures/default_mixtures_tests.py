@@ -21,10 +21,8 @@ def all_mixtures(all_components):
 
 
 def test_constants_h2o_meoh(all_mixtures):
-    # Experimental data for validation is taken from https://doi.org/10.1021/je00019a033
-    # NRTL Constants are taken from Identification of Best Model for Equilibrium Data of Ethanol-Water Mixture
-    # Bilel Hadrich and Nabil Kechaou
-    # June 2010, Volume 4, No.6 (Serial No.31)Journal of Chemistry and Chemical Engineering, ISSN 1934-7375, USA
+    # Experimental data for validation is taken from http://www.ddbst.com/en/EED/VLE/VLE%20Methanol%3BWater.php
+    # NRTL Constants are taken from https://doi.org/10.1021/je9503113
     test_mixture = all_mixtures.h2o_meoh
     validation_compositions = [
         Composition(p=0.9075, type=CompositionType("molar")),
@@ -63,11 +61,11 @@ def test_constants_h2o_meoh(all_mixtures):
                  ) ** 2 + rmsd_2
         assert (
                 abs(tested_partial_pressures[i][0] - validation_pressures[i][0])
-                < validation_pressures[i][0] * 0.05
+                < validation_pressures[i][0] * 0.075
         )
         assert (
                 abs(tested_partial_pressures[i][1] - validation_pressures[i][1])
-                < validation_pressures[i][1] * 0.05
+                < validation_pressures[i][1] * 0.075
         )
     assert numpy.sqrt(rmsd_1 / 4) / (average_1 / 4) < 0.03
     assert numpy.sqrt(rmsd_2 / 4) / (average_2 / 4) < 0.03
