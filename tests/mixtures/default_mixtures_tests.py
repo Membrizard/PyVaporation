@@ -21,25 +21,25 @@ def all_mixtures(all_components):
 
 
 def test_constants_h2o_meoh(all_mixtures):
-    # Experimental data for validation is taken from http://www.ddbst.com/en/EED/VLE/VLE%20Methanol%3BWater.php
-    # NRTL Constants are taken from https://doi.org/10.1021/je9503113
+    # Experimental data for validation is taken from https://doi.org/10.1021/je00019a033
+    # NRTL Constants are taken from https://doi.org/10.1002/9781118477304.app2
     test_mixture = all_mixtures.h2o_meoh
     validation_compositions = [
-        Composition(p=0.9075, type=CompositionType("molar")),
-        Composition(p=0.7973, type=CompositionType("molar")),
-        Composition(p=0.5638, type=CompositionType("molar")),
-        Composition(p=0.1998, type=CompositionType("molar")),
+        Composition(p=0.7530, type=CompositionType("molar")),
+        Composition(p=0.5972, type=CompositionType("molar")),
+        Composition(p=0.3855, type=CompositionType("molar")),
+        Composition(p=0.2270, type=CompositionType("molar")),
     ]
 
     validation_pressures = [
-        (6.1810232,	5.3249768),
-        (5.0876316,	10.7913684),
-        (3.9324316,	18.3855684),
-        (1.3801216,	28.3638784),
+        (9.580151, 19.538849),
+        (7.8695188, 27.4514812),
+        (6.0172119, 36.0317881),
+        (3.976056, 43.357944),
     ]
     tested_partial_pressures = [
         get_nrtl_partial_pressures(
-            temperature=312.91,
+            temperature=323.15,
             mixture=test_mixture,
             composition=validation_compositions[i],
         )
@@ -52,23 +52,23 @@ def test_constants_h2o_meoh(all_mixtures):
     average_2 = 0
     for i in range(4):
         rmsd_1 = (
-                         tested_partial_pressures[i][0] - validation_pressures[i][0]
-                 ) ** 2 + rmsd_1
+            tested_partial_pressures[i][0] - validation_pressures[i][0]
+        ) ** 2 + rmsd_1
         average_1 = validation_pressures[i][0] + average_1
         average_2 = validation_pressures[i][1] + average_2
         rmsd_2 = (
-                         tested_partial_pressures[i][1] - validation_pressures[i][1]
-                 ) ** 2 + rmsd_2
+            tested_partial_pressures[i][1] - validation_pressures[i][1]
+        ) ** 2 + rmsd_2
         assert (
-                abs(tested_partial_pressures[i][0] - validation_pressures[i][0])
-                < validation_pressures[i][0] * 0.075
+            abs(tested_partial_pressures[i][0] - validation_pressures[i][0])
+            < validation_pressures[i][0] * 0.05
         )
         assert (
-                abs(tested_partial_pressures[i][1] - validation_pressures[i][1])
-                < validation_pressures[i][1] * 0.075
+            abs(tested_partial_pressures[i][1] - validation_pressures[i][1])
+            < validation_pressures[i][1] * 0.05
         )
-    assert numpy.sqrt(rmsd_1 / 4) / (average_1 / 4) < 0.03
-    assert numpy.sqrt(rmsd_2 / 4) / (average_2 / 4) < 0.03
+    assert numpy.sqrt(rmsd_1 / 4) / (average_1 / 4) < 0.04
+    assert numpy.sqrt(rmsd_2 / 4) / (average_2 / 4) < 0.04
 
 
 def test_constants_h2o_etoh(all_mixtures):
@@ -105,25 +105,23 @@ def test_constants_h2o_etoh(all_mixtures):
     average_2 = 0
     for i in range(4):
         rmsd_1 = (
-                         tested_partial_pressures[i][0] - validation_pressures[i][0]
-                 ) ** 2 + rmsd_1
+            tested_partial_pressures[i][0] - validation_pressures[i][0]
+        ) ** 2 + rmsd_1
         average_1 = validation_pressures[i][0] + average_1
         average_2 = validation_pressures[i][1] + average_2
         rmsd_2 = (
-                         tested_partial_pressures[i][1] - validation_pressures[i][1]
-                 ) ** 2 + rmsd_2
+            tested_partial_pressures[i][1] - validation_pressures[i][1]
+        ) ** 2 + rmsd_2
         assert (
-                abs(tested_partial_pressures[i][0] - validation_pressures[i][0])
-                < validation_pressures[i][0] * 0.05
+            abs(tested_partial_pressures[i][0] - validation_pressures[i][0])
+            < validation_pressures[i][0] * 0.05
         )
         assert (
-                abs(tested_partial_pressures[i][1] - validation_pressures[i][1])
-                < validation_pressures[i][1] * 0.05
+            abs(tested_partial_pressures[i][1] - validation_pressures[i][1])
+            < validation_pressures[i][1] * 0.05
         )
     assert numpy.sqrt(rmsd_1 / 4) / (average_1 / 4) < 0.1
     assert numpy.sqrt(rmsd_2 / 4) / (average_2 / 4) < 0.1
-
-
 
 
 def test_constants_h2o_ipoh(all_mixtures):
@@ -162,20 +160,20 @@ def test_constants_h2o_ipoh(all_mixtures):
     average_2 = 0
     for i in range(4):
         rmsd_1 = (
-                         tested_partial_pressures[i][0] - validation_pressures[i][0]
-                 ) ** 2 + rmsd_1
+            tested_partial_pressures[i][0] - validation_pressures[i][0]
+        ) ** 2 + rmsd_1
         average_1 = validation_pressures[i][0] + average_1
         average_2 = validation_pressures[i][1] + average_2
         rmsd_2 = (
-                         tested_partial_pressures[i][1] - validation_pressures[i][1]
-                 ) ** 2 + rmsd_2
+            tested_partial_pressures[i][1] - validation_pressures[i][1]
+        ) ** 2 + rmsd_2
         assert (
-                abs(tested_partial_pressures[i][0] - validation_pressures[i][0])
-                < validation_pressures[i][0] * 0.1
+            abs(tested_partial_pressures[i][0] - validation_pressures[i][0])
+            < validation_pressures[i][0] * 0.1
         )
         assert (
-                abs(tested_partial_pressures[i][1] - validation_pressures[i][1])
-                < validation_pressures[i][1] * 0.085
+            abs(tested_partial_pressures[i][1] - validation_pressures[i][1])
+            < validation_pressures[i][1] * 0.085
         )
     assert numpy.sqrt(rmsd_1 / 4) / (average_1 / 4) < 0.1
     assert numpy.sqrt(rmsd_2 / 4) / (average_2 / 4) < 0.1
@@ -216,24 +214,23 @@ def test_constants_etoh_etbe(all_mixtures):
     average_2 = 0
     for i in range(4):
         rmsd_1 = (
-                         tested_partial_pressures[i][0] - validation_pressures[i][0]
-                 ) ** 2 + rmsd_1
+            tested_partial_pressures[i][0] - validation_pressures[i][0]
+        ) ** 2 + rmsd_1
         average_1 = validation_pressures[i][0] + average_1
         average_2 = validation_pressures[i][1] + average_2
         rmsd_2 = (
-                         tested_partial_pressures[i][1] - validation_pressures[i][1]
-                 ) ** 2 + rmsd_2
+            tested_partial_pressures[i][1] - validation_pressures[i][1]
+        ) ** 2 + rmsd_2
         assert (
-                abs(tested_partial_pressures[i][0] - validation_pressures[i][0])
-                < validation_pressures[i][0] * 0.05
+            abs(tested_partial_pressures[i][0] - validation_pressures[i][0])
+            < validation_pressures[i][0] * 0.05
         )
         assert (
-                abs(tested_partial_pressures[i][1] - validation_pressures[i][1])
-                < validation_pressures[i][1] * 0.05
+            abs(tested_partial_pressures[i][1] - validation_pressures[i][1])
+            < validation_pressures[i][1] * 0.05
         )
     assert numpy.sqrt(rmsd_1 / 4) / (average_1 / 4) < 0.03
     assert numpy.sqrt(rmsd_2 / 4) / (average_2 / 4) < 0.03
-
 
 
 def test_constants_meoh_toluene(all_mixtures):
@@ -269,20 +266,20 @@ def test_constants_meoh_toluene(all_mixtures):
     average_2 = 0
     for i in range(4):
         rmsd_1 = (
-                         tested_partial_pressures[i][0] - validation_pressures[i][0]
-                 ) ** 2 + rmsd_1
+            tested_partial_pressures[i][0] - validation_pressures[i][0]
+        ) ** 2 + rmsd_1
         average_1 = validation_pressures[i][0] + average_1
         average_2 = validation_pressures[i][1] + average_2
         rmsd_2 = (
-                         tested_partial_pressures[i][1] - validation_pressures[i][1]
-                 ) ** 2 + rmsd_2
+            tested_partial_pressures[i][1] - validation_pressures[i][1]
+        ) ** 2 + rmsd_2
         assert (
-                abs(tested_partial_pressures[i][0] - validation_pressures[i][0])
-                < validation_pressures[i][0] * 0.05
+            abs(tested_partial_pressures[i][0] - validation_pressures[i][0])
+            < validation_pressures[i][0] * 0.05
         )
         assert (
-                abs(tested_partial_pressures[i][1] - validation_pressures[i][1])
-                < validation_pressures[i][1] * 0.05
+            abs(tested_partial_pressures[i][1] - validation_pressures[i][1])
+            < validation_pressures[i][1] * 0.05
         )
     assert numpy.sqrt(rmsd_1 / 4) / (average_1 / 4) < 0.03
     assert numpy.sqrt(rmsd_2 / 4) / (average_2 / 4) < 0.03
@@ -304,7 +301,7 @@ def test_constants_meoh_mtbe(all_mixtures):
         (61.746843, 31.823157),
         (41.161443, 52.408557),
         (25.82532, 67.74468),
-        (14.484636,	79.085364),
+        (14.484636, 79.085364),
     ]
 
     validation_temperatures = [328.6, 323.71, 322.71, 323.88]
@@ -340,59 +337,6 @@ def test_constants_meoh_mtbe(all_mixtures):
         )
     assert numpy.sqrt(rmsd_1 / 4) / (average_1 / 4) < 0.03
     assert numpy.sqrt(rmsd_2 / 4) / (average_2 / 4) < 0.03
-
-
-def test_constants_meoh_dme(all_mixtures):
-    # Experimental data for validation and NRTL Parameters are taken from
-    # https://doi.org/10.1021/je00002a013
-
-    test_mixture = all_mixtures.meoh_dme
-    validation_compositions = [
-        Composition(p=0.5130, type=CompositionType("molar")),
-        Composition(p=0.8360, type=CompositionType("molar")),
-        Composition(p=0.9520, type=CompositionType("molar")),
-    ]
-
-    validation_pressures = [
-        (67.78308,	33.53692),
-        (88.45236, 12.86764),
-        (97.46984, 3.85016),
-    ]
-
-    validation_temperatures = [341.5, 338.6, 338.05]
-
-    tested_partial_pressures = [
-        get_nrtl_partial_pressures(
-            temperature=validation_temperatures[i],
-            mixture=test_mixture,
-            composition=validation_compositions[i],
-        )
-        for i in range(3)
-    ]
-
-    rmsd_1 = 0
-    rmsd_2 = 0
-    average_1 = 0
-    average_2 = 0
-    for i in range(3):
-        rmsd_1 = (
-                         tested_partial_pressures[i][0] - validation_pressures[i][0]
-                 ) ** 2 + rmsd_1
-        average_1 = validation_pressures[i][0] + average_1
-        average_2 = validation_pressures[i][1] + average_2
-        rmsd_2 = (
-                         tested_partial_pressures[i][1] - validation_pressures[i][1]
-                 ) ** 2 + rmsd_2
-        assert (
-                abs(tested_partial_pressures[i][0] - validation_pressures[i][0])
-                < validation_pressures[i][0] * 0.06
-        )
-        assert (
-                abs(tested_partial_pressures[i][1] - validation_pressures[i][1])
-                < validation_pressures[i][1] * 0.06
-        )
-    assert numpy.sqrt(rmsd_1 / 3) / (average_1 / 4) < 0.03
-    assert numpy.sqrt(rmsd_2 / 3) / (average_2 / 4) < 0.03
 
 
 def test_constants_meoh_dmc(all_mixtures):
@@ -431,21 +375,20 @@ def test_constants_meoh_dmc(all_mixtures):
 
     for i in range(4):
         rmsd_1 = (
-                         tested_partial_pressures[i][0] - validation_pressures[i][0]
-                 ) ** 2 + rmsd_1
+            tested_partial_pressures[i][0] - validation_pressures[i][0]
+        ) ** 2 + rmsd_1
         average_1 = validation_pressures[i][0] + average_1
         average_2 = validation_pressures[i][1] + average_2
         rmsd_2 = (
-                         tested_partial_pressures[i][1] - validation_pressures[i][1]
-                 ) ** 2 + rmsd_2
+            tested_partial_pressures[i][1] - validation_pressures[i][1]
+        ) ** 2 + rmsd_2
         assert (
-                abs(tested_partial_pressures[i][0] - validation_pressures[i][0])
-                < validation_pressures[i][0] * 0.06
+            abs(tested_partial_pressures[i][0] - validation_pressures[i][0])
+            < validation_pressures[i][0] * 0.06
         )
         assert (
-                abs(tested_partial_pressures[i][1] - validation_pressures[i][1])
-                < validation_pressures[i][1] * 0.06
+            abs(tested_partial_pressures[i][1] - validation_pressures[i][1])
+            < validation_pressures[i][1] * 0.06
         )
     assert numpy.sqrt(rmsd_1 / 4) / (average_1 / 4) < 0.04
     assert numpy.sqrt(rmsd_2 / 4) / (average_2 / 4) < 0.04
-

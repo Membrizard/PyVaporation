@@ -1,9 +1,12 @@
 h2o_meoh:
   components: ['h2o', 'meoh']
   nrtl_params:
-    g12: 424.896078
-    g21: 429.344507
-    alpha12: 0.4
+    g12: -5132.51739
+    g21: 1438.40193
+    alpha12: 0
+    alpha21: 0.3
+    a12: 2.7321
+    a21: -0.693
 
 h2o_etoh:
   components: ['h2o', 'etoh']
@@ -41,13 +44,6 @@ meoh_mtbe:
     g12: 2133.5
     g21: 2025.3
     alpha12: 0.6
-
-meoh_dme:
-  components: ['meoh', 'dme']
-  nrtl_params:
-    g12: -958.31633
-    g21: 3272.73317
-    alpha12: 0.2982
 
 meoh_dmc:
   components: ['meoh', 'dmc']
