@@ -48,7 +48,7 @@ test_composition_list_weight = [
 nrtl_params = NRTLParameters(
     g12=5823,
     g21=-633,
-    alpha=0.3,
+    alpha12=0.3,
 )
 
 test_mixture = Mixture(
@@ -71,10 +71,10 @@ def test_composition_to_mol():
         p=1, type=CompositionType("molar")
     )
     assert (
-            abs(test_composition_3.to_molar(mixture=test_mixture).first - 0.22122449) < 1e-4
+        abs(test_composition_3.to_molar(mixture=test_mixture).first - 0.22122449) < 1e-4
     )
     assert (
-            abs(test_composition_4.to_molar(mixture=test_mixture).second - 0.4771704) < 1e-4
+        abs(test_composition_4.to_molar(mixture=test_mixture).second - 0.4771704) < 1e-4
     )
 
 
@@ -110,12 +110,24 @@ def test_get_nrtl_partial_pressures_from_molar_composition():
         (6.34411, 9.14245),
         (6.55252, 8.28637),
         (6.81318, 6.52717),
-        (7.31934, 0)
+        (7.31934, 0),
     ]
     for i in range(11):
-        assert abs(validation_partial_pressures_molar[i][0] - tested_partial_pressures[i][0]) < 1e-3
+        assert (
+            abs(
+                validation_partial_pressures_molar[i][0]
+                - tested_partial_pressures[i][0]
+            )
+            < 1e-3
+        )
     for i in range(11):
-        assert abs(validation_partial_pressures_molar[i][1] - tested_partial_pressures[i][1]) < 1e-3
+        assert (
+            abs(
+                validation_partial_pressures_molar[i][1]
+                - tested_partial_pressures[i][1]
+            )
+            < 1e-3
+        )
 
 
 def test_get_nrtl_partial_pressures_from_weight_composition():
@@ -134,10 +146,21 @@ def test_get_nrtl_partial_pressures_from_weight_composition():
         (6.68342, 7.51991),
         (6.85186, 6.18204),
         (7.06050, 3.89984),
-        (7.31934, 0)
+        (7.31934, 0),
     ]
     for i in range(11):
-        assert abs(validation_partial_pressures_weight[i][0] - tested_partial_pressures[i][0]) < 1e-3
+        assert (
+            abs(
+                validation_partial_pressures_weight[i][0]
+                - tested_partial_pressures[i][0]
+            )
+            < 1e-3
+        )
     for i in range(11):
-        assert abs(validation_partial_pressures_weight[i][1] - tested_partial_pressures[i][1]) < 1e-3
-
+        assert (
+            abs(
+                validation_partial_pressures_weight[i][1]
+                - tested_partial_pressures[i][1]
+            )
+            < 1e-3
+        )

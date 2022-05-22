@@ -104,12 +104,16 @@ def get_nrtl_partial_pressures(
 
     tau = numpy.array(
         [
-            mixture.nrtl_params.g12 / (R * temperature),
-            mixture.nrtl_params.g21 / (R * temperature),
+            (mixture.nrtl_params.a12 + mixture.nrtl_params.g12 / (R * temperature)),
+            (mixture.nrtl_params.a21 + mixture.nrtl_params.g21 / (R * temperature)),
         ]
     )
+    if mixture.nrtl_params.alpha21 is None:
+        alphas = mixture.nrtl_params.alpha12
+    else:
+        alphas = [mixture.nrtl_params.alpha12, mixture.nrtl_params.alpha21]
 
-    g_exp = numpy.exp(-tau * mixture.nrtl_params.alpha)
+    g_exp = numpy.exp(numpy.multiply(-tau, alphas))
 
     activity_coefficients = [
         numpy.exp(

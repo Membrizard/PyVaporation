@@ -1,63 +1,68 @@
 h2o_meoh:
   components: ['h2o', 'meoh']
   nrtl_params:
-    g12: 0
-    g21: 0
-    alpha: 0
+    g12: -5132.51739
+    g21: 1438.40193
+    alpha12: 0
+    alpha21: 0.3
+    a12: 2.7321
+    a21: -0.693
 
 h2o_etoh:
   components: ['h2o', 'etoh']
   nrtl_params:
     g12: 5823
     g21: -633
-    alpha: 0.3
+    alpha12: 0.3
 
-# Need To Validate against Experimental VLE data
+
 h2o_ipoh:
   components: ['h2o', 'ipoh']
   nrtl_params:
-    g12: 2489.18
-    g21: -639.21
-    alpha: 0.2
+    g12: 6900.81
+    g21: 77.49
+    alpha12: 0.3
 
 etoh_etbe:
   components: ['etoh', 'etbe']
   nrtl_params:
-    g12: 726.34
-    g21: 318.22
-    alpha: 0.3
+    g12: 272.6511
+    g21: 494.5447
+    alpha12: 0.3
 
 meoh_toluene:
   components: ['meoh', 'toluene']
   nrtl_params:
     g12: 3715.5266
     g21: 3085.3254
-    alpha: 0.3
+    alpha12: 0.3
+    alpha21: 0
 
 meoh_mtbe:
   components: ['meoh', 'mtbe']
   nrtl_params:
     g12: 2025.3
     g21: 2133.5
-    alpha: 0.6
+    alpha12: 0.6
 
 meoh_dme:
   components: ['meoh', 'dme']
   nrtl_params:
     g12: 782.0202
     g21: -229.0431
-    alpha: 0.2982
+    alpha12: 0.2982
 
 meoh_dmc:
   components: ['meoh', 'dmc']
   nrtl_params:
     g12: 1429.444
     g21: 2641.108
-    alpha: 0.2
+    alpha12: 0.2
 
 meoh_cyclohexane:
   components: ['meoh', 'cyclohexane']
   nrtl_params:
     g12: 6415.36
     g21: 5714.0
-    alpha: 0.4199
+    alpha12: 0.4199
+
