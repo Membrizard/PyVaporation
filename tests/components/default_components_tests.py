@@ -17,8 +17,6 @@ def test_constants_h2o():
     assert abs(all_components.h2o.get_specific_heat(323) - 33.800943) < 1e-3
     assert abs(all_components.h2o.get_specific_heat(333) - 33.877785) < 1e-3
 
-    # Frost equation Constants Calculated from:
-
 
 def test_constants_meoh():
 
