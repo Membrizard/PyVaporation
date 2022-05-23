@@ -1,8 +1,0 @@
-Membrane name,"Temperature, oC",Composition (component 2),Поток парциальный H2O (component) кг/м2ч,Поток парциальный EtOH кг/м2ч (Component 2),Проницаемость H2O (Component 1) Optional,Проницаемость EtOH (Component 2) Optional,Comment
-Romakon PM102,40,"0,08","0,45280","0,00023","0,01911","0,00002",Experimental Non-ideal
-Romakon PM102,40,"0,16","0,37915","0,00019","0,01648","0,00001",Experimental Non-ideal
-Romakon PM102,40,"0,27","0,31210","0,00016","0,01391","0,00001",Experimental Non-ideal
-Romakon PM102,40,"0,35","0,42855","0,00129","0,01945","0,00005",Experimental Non-ideal
-Romakon PM102,40,"0,46","0,43126","0,00880","0,02006","0,00030",Experimental Non-ideal
-Romakon PM102,40,"0,55","0,48233","0,01237","0,02300","0,00040",Experimental Non-ideal
-Romakon PM102,40,"0,95","0,10118","0,05448","0,01556","0,00104",Experimental Non-ideal

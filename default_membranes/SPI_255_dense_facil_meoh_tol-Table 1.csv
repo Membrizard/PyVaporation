@@ -1,0 +1,5 @@
+Membrane name;Temperature, oC;Component;Apparent Activation Energy, J/mol;Permeance, kg/m2*h*kPa;Comment
+SPI-255 Dense 20 mcm;20;MeOH;;0,010350;36 wt% toluene
+SPI-255 Dense 20 mcm;40;MeOH;;0,010550;36 wt% toluene
+SPI-255 Dense 20 mcm;20;Toluene;;0,000250;36 wt% toluene
+SPI-255 Dense 20 mcm;40;Toluene;;0,000400;36 wt% toluene

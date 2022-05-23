@@ -1,0 +1,12 @@
+Membrane name;Mixture;Temperature, oC;Composition (component 1), wt;Partial flux H2O (component 1) kg/m2*h;Partial flux EtOH (component) kg/m2*h;Permeance H2O (Component 1) Optional, kg/m2*h*kPa;Permeance EtOH (Component 2) Optional, kg/m2*h*kPa;Comment
+PervapTM 4100;h2o_etoh;95;0,0080;0,082;0,0402;0,02295;0,00001685;Experimental Non Ideal  DOI: 10.22079/JMSR.2018.88186.1198
+PervapTM 4100;h2o_etoh;95;0,0105;0,102;0,0421;0,02130;0,00001541;Experimental Non Ideal  DOI: 10.22079/JMSR.2018.88186.1199
+PervapTM 4100;h2o_etoh;95;0,0193;0,250;0,0572;0,02663;0,00002202;Experimental Non Ideal  DOI: 10.22079/JMSR.2018.88186.1200
+PervapTM 4100;h2o_etoh;95;0,0247;0,333;0,0572;0,02764;0,00002286;Experimental Non Ideal  DOI: 10.22079/JMSR.2018.88186.1201
+PervapTM 4100;h2o_etoh;95;0,0315;0,233;0,0496;0,02977;0,00002170;Experimental Non Ideal  DOI: 10.22079/JMSR.2018.88186.1202
+PervapTM 4100;h2o_etoh;95;0,0585;0,880;0,0930;0,03722;0,00004239;Experimental Non Ideal  DOI: 10.22079/JMSR.2018.88186.1203
+PervapTM 4100;h2o_etoh;95;0,0728;1,155;0,0987;0,04161;0,00004775;Experimental Non Ideal  DOI: 10.22079/JMSR.2018.88186.1204
+PervapTM 4100;h2o_etoh;95;0,0869;1,440;0,1157;0,04550;0,00005624;Experimental Non Ideal  DOI: 10.22079/JMSR.2018.88186.1205
+PervapTM 4100;h2o_etoh;95;0,1000;1,655;0,1213;0,04758;0,00006104;Experimental Non Ideal  DOI: 10.22079/JMSR.2018.88186.1206
+PervapTM 4100;h2o_etoh;95;0,1341;2,289;0,1855;0,05440;0,00010353;Experimental Non Ideal  DOI: 10.22079/JMSR.2018.88186.1207
+PervapTM 4100;h2o_etoh;95;0,1536;2,614;0,1760;0,05860;0,00009610;Experimental Non Ideal  DOI: 10.22079/JMSR.2018.88186.1208

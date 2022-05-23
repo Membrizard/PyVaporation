@@ -14,5 +14,5 @@ def test_mixtures_and_components_matching():
 
 
 def test_loading_ideal_experiments():
-    ideal_experiments = IdealExperiments.from_csv("sample_inputs/IdealExperiment-4.csv")
+    ideal_experiments = IdealExperiments.from_csv("default_membranes/IdealExperiment-4.csv")
     pass

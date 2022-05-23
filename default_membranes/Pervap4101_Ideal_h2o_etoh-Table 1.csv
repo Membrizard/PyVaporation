@@ -1,0 +1,7 @@
+Membrane name;Temperature, oC;Component;Apparent Activation Energy, J/mol;Permeance, kg/m2*h*kPa;Comment
+PervapTM 4101;60;H2O;65156,28;0,01491;DOI: 10.22079/JMSR.2018.88186.1198 (Averaged over Concentration Range)
+PervapTM 4101;95;H2O;65156,28;0,02460;DOI: 10.22079/JMSR.2018.88186.1198 (Averaged over Concentration Range)
+PervapTM 4101;105;H2O;65156,28;0,03555;DOI: 10.22079/JMSR.2018.88186.1198 (Averaged over Concentration Range)
+PervapTM 4101;60;EtOH;;;DOI: 10.22079/JMSR.2018.88186.1198 (Averaged over Concentration Range)
+PervapTM 4101;95;EtOH;;0,0000098;DOI: 10.22079/JMSR.2018.88186.1198 (Averaged over Concentration Range)
+PervapTM 4101;105;EtOH;;;DOI: 10.22079/JMSR.2018.88186.1198 (Averaged over Concentration Range)

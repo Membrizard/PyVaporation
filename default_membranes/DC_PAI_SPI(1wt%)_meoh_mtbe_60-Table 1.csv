@@ -1,0 +1,17 @@
+Membrane name;Mixture;Temperature, oC;Composition (component 1), wt;Partial flux MeOH (component 1) kg/m2*h;Partial flux MTBE (component) kg/m2*h;Permeance MeOH (Component 1) Optional, kg/m2*h*kPa;Permeance MTBE (Component 2) Optional, kg/m2*h*kPa;Comment
+PAI:SPI (1wt%) asymmetric;meoh_mtbe;60;0,07500;3,017;0,175;;;Modelled ideal
+PAI:SPI (1wt%) asymmetric;meoh_mtbe;60;0,07000;2,901;0,176;;;Modelled ideal
+PAI:SPI (1wt%) asymmetric;meoh_mtbe;60;0,06500;2,777;0,178;;;Modelled ideal
+PAI:SPI (1wt%) asymmetric;meoh_mtbe;60;0,06000;2,646;0,179;;;Modelled ideal
+PAI:SPI (1wt%) asymmetric;meoh_mtbe;60;0,05500;2,505;0,181;;;Modelled ideal
+PAI:SPI (1wt%) asymmetric;meoh_mtbe;60;0,05000;2,355;0,183;;;Modelled ideal
+PAI:SPI (1wt%) asymmetric;meoh_mtbe;60;0,04500;2,194;0,184;;;Modelled ideal
+PAI:SPI (1wt%) asymmetric;meoh_mtbe;60;0,04000;2,022;0,186;;;Modelled ideal
+PAI:SPI (1wt%) asymmetric;meoh_mtbe;60;0,03500;1,835;0,188;;;Modelled ideal
+PAI:SPI (1wt%) asymmetric;meoh_mtbe;60;0,03000;1,634;0,190;;;Modelled ideal
+PAI:SPI (1wt%) asymmetric;meoh_mtbe;60;0,02500;1,417;0,192;;;Modelled ideal
+PAI:SPI (1wt%) asymmetric;meoh_mtbe;60;0,02000;1,181;0,195;;;Modelled ideal
+PAI:SPI (1wt%) asymmetric;meoh_mtbe;60;0,01500;0,924;0,197;;;Modelled ideal
+PAI:SPI (1wt%) asymmetric;meoh_mtbe;60;0,01000;0,644;0,199;;;Modelled ideal
+PAI:SPI (1wt%) asymmetric;meoh_mtbe;60;0,00500;0,337;0,202;;;Modelled ideal
+PAI:SPI (1wt%) asymmetric;meoh_mtbe;60;0,00000;0,000;0,205;;;Modelled ideal
