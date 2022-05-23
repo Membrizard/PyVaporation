@@ -124,9 +124,9 @@ def test_calculate_activation_energy(romakon_pm102t, component_list):
     assert (
         abs(
             romakon_pm102t.calculate_activation_energy(component_list[1])
-            + 5710.911
+            + 5705.989801
         )
-        < 5710.911 * 0.03
+        < 5705.989801 * 0.0005
     )
 
 
