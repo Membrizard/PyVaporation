@@ -1,4 +1,4 @@
-Membrane name;Temperature, oC;Component;Apparent Activation Energy, J/mol;Permeance, kg/m2*h*kPa;Comment
+Membrane name;Temperature. oC;Component;Apparent Activation Energy. J/mol;Permeance. kg/m2*h*kPa;Comment
 SPI-2 Dense 20 mcm;20;MeOH;;0,000600;91 wt% toluene
 SPI-2 Dense 20 mcm;40;MeOH;;0,000650;91 wt% toluene
 SPI-2 Dense 20 mcm;20;Toluene;;0,000150;91 wt% toluene
