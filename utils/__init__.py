@@ -1,3 +1,3 @@
-from .utils import AntoineConstants, HeatCapacityConstants, NRTLParameters, R
+from .utils import VaporPressureConstants, HeatCapacityConstants, NRTLParameters, R
 
-__all__ = ["AntoineConstants", "R", "NRTLParameters", "HeatCapacityConstants"]
+__all__ = ["VaporPressureConstants", "R", "NRTLParameters", "HeatCapacityConstants"]

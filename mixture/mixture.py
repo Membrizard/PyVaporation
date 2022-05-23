@@ -145,10 +145,10 @@ def get_nrtl_partial_pressures(
     ]
 
     return (
-        mixture.first_component.get_antoine_pressure(temperature)
+        mixture.first_component.get_vapor_pressure(temperature)
         * activity_coefficients[0]
         * composition.first,
-        mixture.second_component.get_antoine_pressure(temperature)
+        mixture.second_component.get_vapor_pressure(temperature)
         * activity_coefficients[1]
         * composition.second,
     )

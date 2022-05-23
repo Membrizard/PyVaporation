@@ -19,10 +19,10 @@ class IdealExperiment:
 
     name: str
     temperature: float
-    component: str  # TODO: use real components
-    activation_energy: float
+    component: Component  # TODO: use real components
     permeance: float
-    comment: str
+    activation_energy: typing.Optional[float] = None
+    comment: typing.Optional[str] = None
 
     @classmethod
     def from_dict(

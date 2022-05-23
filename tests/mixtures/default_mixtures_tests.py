@@ -52,11 +52,11 @@ def test_constants_h2o_meoh(all_mixtures):
     for i in range(4):
         rmsd_1 = (
             tested_partial_pressures[i][0] - validation_pressures[i][0]
-        ) ** 2 / validation_pressures[i][0]**2 + rmsd_1
+        ) ** 2 / validation_pressures[i][0] ** 2 + rmsd_1
 
         rmsd_2 = (
             tested_partial_pressures[i][1] - validation_pressures[i][1]
-        ) ** 2 / validation_pressures[i][1]**2 + rmsd_2
+        ) ** 2 / validation_pressures[i][1] ** 2 + rmsd_2
         assert (
             abs(tested_partial_pressures[i][0] - validation_pressures[i][0])
             < validation_pressures[i][0] * 0.05
@@ -104,11 +104,11 @@ def test_constants_h2o_etoh(all_mixtures):
     for i in range(4):
         rmsd_1 = (
             tested_partial_pressures[i][0] - validation_pressures[i][0]
-        ) ** 2 / validation_pressures[i][0]**2 + rmsd_1
+        ) ** 2 / validation_pressures[i][0] ** 2 + rmsd_1
 
         rmsd_2 = (
             tested_partial_pressures[i][1] - validation_pressures[i][1]
-        ) ** 2 / validation_pressures[i][1]**2 + rmsd_2
+        ) ** 2 / validation_pressures[i][1] ** 2 + rmsd_2
         assert (
             abs(tested_partial_pressures[i][0] - validation_pressures[i][0])
             < validation_pressures[i][0] * 0.05
@@ -157,11 +157,11 @@ def test_constants_h2o_ipoh(all_mixtures):
     for i in range(4):
         rmsd_1 = (
             tested_partial_pressures[i][0] - validation_pressures[i][0]
-        ) ** 2 / validation_pressures[i][0]**2 + rmsd_1
+        ) ** 2 / validation_pressures[i][0] ** 2 + rmsd_1
 
         rmsd_2 = (
             tested_partial_pressures[i][1] - validation_pressures[i][1]
-        ) ** 2 / validation_pressures[i][1]**2 + rmsd_2
+        ) ** 2 / validation_pressures[i][1] ** 2 + rmsd_2
         assert (
             abs(tested_partial_pressures[i][0] - validation_pressures[i][0])
             < validation_pressures[i][0] * 0.1
@@ -209,11 +209,11 @@ def test_constants_etoh_etbe(all_mixtures):
     for i in range(4):
         rmsd_1 = (
             tested_partial_pressures[i][0] - validation_pressures[i][0]
-        ) ** 2 / validation_pressures[i][0]**2 + rmsd_1
+        ) ** 2 / validation_pressures[i][0] ** 2 + rmsd_1
 
         rmsd_2 = (
             tested_partial_pressures[i][1] - validation_pressures[i][1]
-        ) ** 2 / validation_pressures[i][1]**2 + rmsd_2
+        ) ** 2 / validation_pressures[i][1] ** 2 + rmsd_2
         assert (
             abs(tested_partial_pressures[i][0] - validation_pressures[i][0])
             < validation_pressures[i][0] * 0.05
@@ -259,11 +259,11 @@ def test_constants_meoh_toluene(all_mixtures):
     for i in range(4):
         rmsd_1 = (
             tested_partial_pressures[i][0] - validation_pressures[i][0]
-        ) ** 2 / validation_pressures[i][0]**2 + rmsd_1
+        ) ** 2 / validation_pressures[i][0] ** 2 + rmsd_1
 
         rmsd_2 = (
             tested_partial_pressures[i][1] - validation_pressures[i][1]
-        ) ** 2 / validation_pressures[i][1]**2 + rmsd_2
+        ) ** 2 / validation_pressures[i][1] ** 2 + rmsd_2
         assert (
             abs(tested_partial_pressures[i][0] - validation_pressures[i][0])
             < validation_pressures[i][0] * 0.05
@@ -311,10 +311,10 @@ def test_constants_meoh_mtbe(all_mixtures):
     for i in range(4):
         rmsd_1 = (
             tested_partial_pressures[i][0] - validation_pressures[i][0]
-        ) ** 2 / validation_pressures[i][0]**2 + rmsd_1
+        ) ** 2 / validation_pressures[i][0] ** 2 + rmsd_1
         rmsd_2 = (
             tested_partial_pressures[i][1] - validation_pressures[i][1]
-        ) ** 2 / validation_pressures[i][1]**2 + rmsd_2
+        ) ** 2 / validation_pressures[i][1] ** 2 + rmsd_2
         assert (
             abs(tested_partial_pressures[i][0] - validation_pressures[i][0])
             < validation_pressures[i][0] * 0.06
@@ -362,10 +362,10 @@ def test_constants_meoh_dmc(all_mixtures):
     for i in range(4):
         rmsd_1 = (
             tested_partial_pressures[i][0] - validation_pressures[i][0]
-        ) ** 2 / validation_pressures[i][0]**2 + rmsd_1
+        ) ** 2 / validation_pressures[i][0] ** 2 + rmsd_1
         rmsd_2 = (
             tested_partial_pressures[i][1] - validation_pressures[i][1]
-        ) ** 2 / validation_pressures[i][1]**2 + rmsd_2
+        ) ** 2 / validation_pressures[i][1] ** 2 + rmsd_2
         assert (
             abs(tested_partial_pressures[i][0] - validation_pressures[i][0])
             < validation_pressures[i][0] * 0.06

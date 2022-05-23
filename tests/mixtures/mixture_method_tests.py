@@ -1,8 +1,8 @@
 from component import Component
 from mixture import Mixture, Composition, CompositionType, get_nrtl_partial_pressures
-from utils import AntoineConstants, HeatCapacityConstants, NRTLParameters
+from utils import VaporPressureConstants, HeatCapacityConstants, NRTLParameters
 
-antoine_constants = AntoineConstants(
+antoine_constants = VaporPressureConstants(
     a=7.20389,
     b=-1733.926,
     c=-39.485,
@@ -20,7 +20,7 @@ test_component_1 = Component(
     heat_capacity_constants=heat_capacity_constants,
 )
 
-antoine_constants = AntoineConstants(
+antoine_constants = VaporPressureConstants(
     a=7.24677,
     b=-1598.673,
     c=-46.424,

@@ -1,7 +1,7 @@
 from component import Component
-from utils import AntoineConstants, HeatCapacityConstants
+from utils import VaporPressureConstants, HeatCapacityConstants
 
-antoine_constants = AntoineConstants(
+antoine_constants = VaporPressureConstants(
     a=7.20389,
     b=-1733.926,
     c=-39.485,
@@ -25,9 +25,9 @@ def test_antoine_pressure():
 
     # Calculated from https://dx.doi.org/10.1115/1.3687121
 
-    assert abs(test_component.get_antoine_pressure(313) - 7.31934) < 1e-4
-    assert abs(test_component.get_antoine_pressure(323) - 12.24821) < 1e-4
-    assert abs(test_component.get_antoine_pressure(333) - 19.78961) < 1e-4
+    assert abs(test_component.get_vapor_pressure(313) - 7.31934) < 1e-4
+    assert abs(test_component.get_vapor_pressure(323) - 12.24821) < 1e-4
+    assert abs(test_component.get_vapor_pressure(333) - 19.78961) < 1e-4
 
 
 # Covers Vaporisation heat calculation from Clapeyron-Clausius equation written with Antoine constants
@@ -55,7 +55,6 @@ def test_get_specific_heat():
 # including the change in specific heat over a considered temperature range
 def test_get_cooling_heat():
 
-    assert abs(test_component.get_cooling_heat(333, 273)-2019.442222) < 2.5e-1
-    assert abs(test_component.get_cooling_heat(323, 273)-1681.011314) < 2.5e-1
-    assert abs(test_component.get_cooling_heat(313, 273)-1343.342474) < 2.5e-1
-
+    assert abs(test_component.get_cooling_heat(333, 273) - 2019.442222) < 2.5e-1
+    assert abs(test_component.get_cooling_heat(323, 273) - 1681.011314) < 2.5e-1
+    assert abs(test_component.get_cooling_heat(313, 273) - 1343.342474) < 2.5e-1

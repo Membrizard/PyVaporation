@@ -50,12 +50,12 @@ class Membrane:
             )
 
         # Get all the temperature values corresponding to the permeances for a given penetrant convert to 1/T
-        x = numpy.power(
+        x = numpy.divide(
+            1,
             [
                 ideal_experiment.temperature
                 for ideal_experiment in component_experiments.experiments
             ],
-            -1,
         )
         # Get all the permeance values for a given Penetrant convert to Ln(permeance)
         y = numpy.log(
@@ -124,9 +124,9 @@ class Membrane:
         if permeate_temperature is None:
             return self.get_permeance(
                 temperature, component
-            ) * component.get_antoine_pressure(temperature)
+            ) * component.get_vapor_pressure(temperature)
         else:
             return self.get_permeance(temperature, component) * (
-                component.get_antoine_pressure(temperature)
-                - component.get_antoine_pressure(permeate_temperature)
+                component.get_vapor_pressure(temperature)
+                - component.get_vapor_pressure(permeate_temperature)
             )
