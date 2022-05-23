@@ -71,16 +71,6 @@ class Membrane:
 
         return activation_energy
 
-        # if rewrite:
-        #     # Rewriting the corresponding activation energy values in Ideal Experiments of the Membrane
-        #     for ideal_experiment in component_experiments.experiments:
-        #         ideal_experiment.activation_energy = activation_energy
-        #     # TODO: Rewrite in Config Membranes.yml or whatever
-        #
-        #     return activation_energy
-        # else:
-        #     return activation_energy
-
     def get_permeance(
         self,
         temperature: float,

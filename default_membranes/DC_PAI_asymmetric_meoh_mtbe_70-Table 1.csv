@@ -1,4 +1,4 @@
-Membrane name;Mixture;Temperature. oC;Composition (component 1). wt;Partial flux MeOH (component 1) kg/m2*h;Partial flux MTBE (component) kg/m2*h;Permeance MeOH (Component 1) Optional. kg/m2*h*kPa;Permeance MTBE (Component 2) Optional. kg/m2*h*kPa;Comment
+Membrane name;Mixture;Temperature.оС;Composition (component 1). weight;Partial flux сomponent 1. kg/m2*h;Partial flux сomponent 2. kg/m2*h;Permeance сomponent 1. Optional. kg/m2*h*kPa;Permeance сomponent 2. Optional. kg/m2*h*kPa;Comment
 PAI asymmetric;meoh_mtbe;70;0.1500;3.128;0.054;;;Modelled Ideal
 PAI asymmetric;meoh_mtbe;70;0.1400;3.041;0.055;;;Modelled Ideal
 PAI asymmetric;meoh_mtbe;70;0.1300;2.947;0.056;;;Modelled Ideal

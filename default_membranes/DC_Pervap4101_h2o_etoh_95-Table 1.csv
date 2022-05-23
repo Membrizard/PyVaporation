@@ -1,4 +1,4 @@
-Membrane name;Mixture;Temperature. oC;Composition (component 1). wt;Partial flux H2O (component 1) kg/m2*h;Partial flux EtOH (component) kg/m2*h;Permeance H2O (Component 1) Optional. kg/m2*h*kPa;Permeance EtOH (Component 2) Optional. kg/m2*h*kPa;Comment
+Membrane name;Mixture;Temperature.оС;Composition (component 1). weight;Partial flux сomponent 1. kg/m2*h;Partial flux сomponent 2. kg/m2*h;Permeance сomponent 1. Optional. kg/m2*h*kPa;Permeance сomponent 2. Optional. kg/m2*h*kPa;Comment
 PervapTM 4101;h2o_etoh;95;0.0080;0.057;0.010;0.0147;0.00000536;Experimental Close to Ideal  DOI: 10.22079/JMSR.2018.88186.1198
 PervapTM 4101;h2o_etoh;95;0.0105;0.070;0.018;0.0154;0.00000556;Experimental Close to Ideal  DOI: 10.22079/JMSR.2018.88186.1199
 PervapTM 4101;h2o_etoh;95;0.0193;0.159;0.016;0.0182;0.00000716;Experimental Close to Ideal  DOI: 10.22079/JMSR.2018.88186.1200

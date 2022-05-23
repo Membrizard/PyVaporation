@@ -1,4 +1,4 @@
-Membrane name;Mixture;Temperature. oC;Composition (component 1). wt;Partial flux H2O (component 1) kg/m2*h;Partial flux EtOH (component) kg/m2*h;Permeance H2O (Component 1) Optional. kg/m2*h*kPa;Permeance EtOH (Component 2) Optional. kg/m2*h*kPa;Comment
+Membrane name;Mixture;Temperature.оС;Composition (component 1). weight;Partial flux сomponent 1. kg/m2*h;Partial flux сomponent 2. kg/m2*h;Permeance сomponent 1. Optional. kg/m2*h*kPa;Permeance сomponent 2. Optional. kg/m2*h*kPa;Comment
 Romakon PM102;h2o_etoh;40;0.92;0.45280;0.00023;0.01911;0.00002;Experimental Non-ideal
 Romakon PM102;h2o_etoh;40;0.84;0.37915;0.00019;0.01648;0.00001;Experimental Non-ideal
 Romakon PM102;h2o_etoh;40;0.73;0.31210;0.00016;0.01391;0.00001;Experimental Non-ideal
