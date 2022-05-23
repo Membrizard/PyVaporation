@@ -69,7 +69,7 @@ class Membrane:
         # Calculation of Least-squares Linear Fit of Ln(Permeance) versus 1/T
         activation_energy, c = numpy.linalg.lstsq(a, y, rcond=-1)[0] * R
 
-        return activation_energy
+        return -activation_energy
 
     def get_permeance(
         self,

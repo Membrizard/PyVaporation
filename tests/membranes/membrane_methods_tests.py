@@ -103,36 +103,32 @@ def test_get_penetrant_data(romakon_pm102t, component_list):
 
 
 def test_calculate_activation_energy(romakon_pm102t, component_list):
-    validation_energy_h2o = abs(
-        romakon_pm102t.get_penetrant_data(component_list[0])
-        .experiments[0]
-        .activation_energy
-    )
-    validation_energy_etoh = abs(
-        romakon_pm102t.get_penetrant_data(component_list[2])
-        .experiments[0]
-        .activation_energy
-    )
+    validation_energy_h2o = romakon_pm102t.get_penetrant_data(component_list[0]).experiments[0].activation_energy
+    validation_energy_etoh = romakon_pm102t.get_penetrant_data(component_list[2]).experiments[0].activation_energy
 
     assert (
         abs(
-            abs(romakon_pm102t.calculate_activation_energy(component_list[0]))
+            romakon_pm102t.calculate_activation_energy(component_list[0])
             - validation_energy_h2o
         )
-        < validation_energy_h2o * 0.04
+        < abs(validation_energy_h2o * 0.04)
     )
     assert (
         abs(
-            abs(romakon_pm102t.calculate_activation_energy(component_list[2]))
+            romakon_pm102t.calculate_activation_energy(component_list[2])
             - validation_energy_etoh
         )
-        < validation_energy_etoh * 0.04
+        < abs(validation_energy_etoh * 0.04)
     )
 
     assert (
         abs(
-            abs(romakon_pm102t.calculate_activation_energy(component_list[1]))
-            - 0
+            romakon_pm102t.calculate_activation_energy(component_list[1])
+            + 5710.911
         )
-        < validation_energy_etoh * 0.04
+        < 5710.911 * 0.03
     )
+
+
+def test_get_permeance(romakon_pm102t):
+    assert 0 == 0
