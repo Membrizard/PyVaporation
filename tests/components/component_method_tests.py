@@ -54,4 +54,8 @@ def test_get_specific_heat():
 # Covers the integration of the integral heat required for cooling of the compound,
 # including the change in specific heat over a considered temperature range
 def test_get_cooling_heat():
-    assert 0 == 0
+
+    assert abs(test_component.get_cooling_heat(333, 273)-2019.442222) < 2.5e-1
+    assert abs(test_component.get_cooling_heat(323, 273)-1681.011314) < 2.5e-1
+    assert abs(test_component.get_cooling_heat(313, 273)-1343.342474) < 2.5e-1
+
