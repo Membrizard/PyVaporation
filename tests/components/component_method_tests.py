@@ -55,7 +55,7 @@ def test_frost_pressure():
                 test_component_2.get_vapor_pressure(validation_temperatures[i])
                 - validation_pressures[i]
             )
-            < validation_pressures[i]*0.02
+            < validation_pressures[i] * 0.02
         )
         assert (
             abs(
@@ -63,6 +63,34 @@ def test_frost_pressure():
                 - test_component.get_vapor_pressure(validation_temperatures[i])
             )
             != 0
+        )
+
+
+def test_frost_vaporisation_enthalpy():
+    validation_temperatures = [298.15, 373.10, 373.15, 373.20]
+    validation_enthalpies = [43.950, 40.7, 40.599, 41.110]
+
+    for i in range(len(validation_temperatures)):
+        assert (
+            abs(
+                test_component_2.get_vaporisation_heat(validation_temperatures[i])
+                - validation_enthalpies[i]
+            )
+            < validation_enthalpies[i] * 0.02
+        )
+
+
+def test_antoine_vaporisation_enthalpy():
+    validation_temperatures = [298.15, 373.10, 373.15, 373.20]
+    validation_enthalpies = [43.950, 40.7, 40.599, 41.110]
+
+    for i in range(len(validation_temperatures)):
+        assert (
+                abs(
+                    test_component.get_vaporisation_heat(validation_temperatures[i])
+                    - validation_enthalpies[i]
+                )
+                < validation_enthalpies[i] * 0.03
         )
 
 
