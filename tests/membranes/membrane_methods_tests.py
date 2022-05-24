@@ -213,3 +213,7 @@ def test_get_ideal_selectivity(romakon_pm102t, all_components):
         )
         < 1e-5
     )
+
+
+def test_get_pure_component_flux():
+    assert 0 == 0

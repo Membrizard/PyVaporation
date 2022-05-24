@@ -1,11 +1,19 @@
 from component import Component
 from utils import VaporPressureConstants, HeatCapacityConstants
 
-antoine_constants = VaporPressureConstants(
+vapor_pressure_constants_antoine = VaporPressureConstants(
     a=7.20389,
     b=-1733.926,
     c=-39.485,
 )
+
+vapor_pressure_constants_frost = VaporPressureConstants(
+    a=7.20389,
+    b=-1733.926,
+    c=-39.485,
+    type="frost",
+)
+
 heat_capacity_constants = HeatCapacityConstants(
     a=32.2,
     b=1.924e-3,
@@ -15,7 +23,14 @@ heat_capacity_constants = HeatCapacityConstants(
 test_component = Component(
     name="Water",
     molecular_weight=18.02,
-    antoine_constants=antoine_constants,
+    antoine_constants=vapor_pressure_constants_antoine,
+    heat_capacity_constants=heat_capacity_constants,
+)
+
+test_component_2 = Component(
+    name="Water",
+    molecular_weight=18.02,
+    antoine_constants=vapor_pressure_constants_frost,
     heat_capacity_constants=heat_capacity_constants,
 )
 
@@ -28,6 +43,10 @@ def test_antoine_pressure():
     assert abs(test_component.get_vapor_pressure(313) - 7.31934) < 1e-4
     assert abs(test_component.get_vapor_pressure(323) - 12.24821) < 1e-4
     assert abs(test_component.get_vapor_pressure(333) - 19.78961) < 1e-4
+
+
+def test_frost_pressure():
+    assert 0 == 0
 
 
 # Covers Vaporisation heat calculation from Clapeyron-Clausius equation written with Antoine constants
