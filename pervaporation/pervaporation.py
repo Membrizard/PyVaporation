@@ -10,7 +10,7 @@ from membrane import Membrane
 from mixture import Composition, CompositionType, Mixture, get_nrtl_partial_pressures
 
 
-def _get_permeate_composition_from_fluxes(
+def get_permeate_composition_from_fluxes(
     fluxes: typing.Tuple[float, float],
 ) -> Composition:
     return Composition(
@@ -39,9 +39,13 @@ class Pervaporation:
         feed_nrtl_partial_pressures = get_nrtl_partial_pressures(
             feed_temperature, self.mixture, feed_composition
         )
-        permeate_nrtl_partial_pressures = get_nrtl_partial_pressures(
-            permeate_temperature, self.mixture, permeate_composition
-        )
+        if permeate_temperature is None:
+            permeate_nrtl_partial_pressures = (0, 0)
+
+        else:
+            permeate_nrtl_partial_pressures = get_nrtl_partial_pressures(
+                permeate_temperature, self.mixture, permeate_composition
+            )
 
         return (
             first_component_permeance
@@ -71,11 +75,11 @@ class Pervaporation:
             (first_component_permeance, second_component_permeance),
             get_nrtl_partial_pressures(feed_temperature, self.mixture, composition),
         )
-        permeate_composition = _get_permeate_composition_from_fluxes(initial_fluxes)
+        permeate_composition = get_permeate_composition_from_fluxes(initial_fluxes)
         d = 1
 
         while d >= precision:
-            permeate_composition_new = _get_permeate_composition_from_fluxes(
+            permeate_composition_new = get_permeate_composition_from_fluxes(
                 self.get_partial_fluxes_from_permeate_composition(
                     first_component_permeance=first_component_permeance,
                     second_component_permeance=second_component_permeance,
@@ -86,9 +90,8 @@ class Pervaporation:
                 )
             )
             d = max(
-                numpy.absolute(
-                    numpy.subtract(permeate_composition_new, permeate_composition)
-                )
+                abs(permeate_composition_new.first - permeate_composition.first),
+                abs(permeate_composition_new.second - permeate_composition.second),
             )
             permeate_composition = permeate_composition_new
             # TODO: max iter and logs!!!
@@ -105,13 +108,16 @@ class Pervaporation:
     def calculate_permeate_composition(
         self,
         feed_temperature: float,
-        permeate_temperature: float,
         composition: Composition,
-        precision: float,
+        precision: typing.Optional[float] = 5e-5,
+        permeate_temperature: typing.Optional[float] = None,
     ) -> Composition:
-        x = self.calculate_partial_fluxes(
-            feed_temperature, composition, permeate_temperature, precision
-        )
+        if permeate_temperature is None:
+            x = self.calculate_partial_fluxes(feed_temperature, composition, precision)
+        else:
+            x = self.calculate_partial_fluxes(
+                feed_temperature, composition, precision, permeate_temperature
+            )
         return Composition(x[0] / numpy.sum(x), type=CompositionType("weight"))
 
     def calculate_separation_factor(

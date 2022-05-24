@@ -3,7 +3,6 @@ from .utils import (
     HeatCapacityConstants,
     NRTLParameters,
     R,
-    Conditions,
 )
 
 __all__ = [
@@ -11,5 +10,4 @@ __all__ = [
     "R",
     "NRTLParameters",
     "HeatCapacityConstants",
-    "Conditions",
 ]

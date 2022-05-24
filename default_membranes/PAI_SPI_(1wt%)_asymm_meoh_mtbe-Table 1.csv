@@ -1,5 +1,0 @@
-Membrane name;Temperature. oC;Component;Apparent Activation Energy. J/mol;Permeance. kg/m2*h*kPa;Comment
-PAI:SPI (1wt%) asymmetric;20;MeOH;20250;0.02634;Pervaporation (small unit)
-PAI:SPI (1wt%) asymmetric;40;MeOH;20250;0.04479;Pervaporation (small unit)
-PAI:SPI (1wt%) asymmetric;20;MTBE;-27980;0.01102;Pervaporation (small unit)
-PAI:SPI (1wt%) asymmetric;40;MTBE;-27980;0.00529;Pervaporation (small unit)

@@ -17,55 +17,55 @@ def component_list(all_components):
 @fixture
 def romakon_pm102t(all_components):
     experiment_h2o_1 = IdealExperiment(
-        name="Romakon PM102T",
+        name="Romakon-PM102T",
         temperature=333,
         component=all_components.h2o,
         permeance=0.0449064,
         activation_energy=-23600,
     )
     experiment_h2o_2 = IdealExperiment(
-        name="Romakon PM102T",
+        name="Romakon-PM102T",
         temperature=343,
         component=all_components.h2o,
         permeance=0.0348624,
         activation_energy=-23600,
     )
     experiment_h2o_3 = IdealExperiment(
-        name="Romakon PM102T",
+        name="Romakon-PM102T",
         temperature=353,
         component=all_components.h2o,
         permeance=0.0282528,
         activation_energy=-23600,
     )
     experiment_etoh_1 = IdealExperiment(
-        name="Romakon PM102T",
+        name="Romakon-PM102T",
         temperature=333,
         component=all_components.etoh,
         permeance=0.0004743,
         activation_energy=-12600,
     )
     experiment_etoh_2 = IdealExperiment(
-        name="Romakon PM102T",
+        name="Romakon-PM102T",
         temperature=343,
         component=all_components.etoh,
         permeance=0.0004428,
         activation_energy=-12600,
     )
     experiment_etoh_3 = IdealExperiment(
-        name="Romakon PM102T",
+        name="Romakon-PM102T",
         temperature=353,
         component=all_components.etoh,
         permeance=0.0003698,
         activation_energy=-12600,
     )
     experiment_meoh_1 = IdealExperiment(
-        name="Romakon PM102T",
+        name="Romakon-PM102T",
         temperature=343,
         component=all_components.meoh,
         permeance=0.0012226,
     )
     experiment_meoh_2 = IdealExperiment(
-        name="Romakon PM102T",
+        name="Romakon-PM102T",
         temperature=353,
         component=all_components.meoh,
         permeance=0.0014764,

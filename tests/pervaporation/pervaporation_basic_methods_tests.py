@@ -18,46 +18,90 @@ def all_mixtures(all_components):
 
 
 @fixture
-def pai_spi(all_components):
-    experiment_meoh_1 = IdealExperiment(
-        name="PAI:SPI 1wt%",
-        temperature=293.15,
-        component=all_components.meoh,
-        permeance=0.02634,
-        activation_energy=20250,
-    )
-    experiment_meoh_2 = IdealExperiment(
-        name="PAI:SPI 1wt%",
+def romakon_pm102_binary(all_components):
+    experiment_h2o_1 = IdealExperiment(
+        name="Romakon-PM102",
         temperature=313.15,
-        component=all_components.meoh,
-        permeance=0.04479,
-        activation_energy=-23600,
+        component=all_components.h2o,
+        permeance=0.05500,
+        activation_energy=19944,
     )
-    experiment_mtbe_1 = IdealExperiment(
-        name="PAI:SPI 1wt%",
-        temperature=293.15,
-        component=all_components.mtbe,
-        permeance=0.01102,
-        activation_energy=-27980,
+    experiment_h2o_2 = IdealExperiment(
+        name="Romakon-PM102",
+        temperature=323.15,
+        component=all_components.h2o,
+        permeance=0.06713,
+        activation_energy=19944,
     )
-    experiment_mtbe_2 = IdealExperiment(
-        name="PAI:SPI 1wt%",
+    experiment_h2o_3 = IdealExperiment(
+        name="Romakon-PM102",
+        temperature=333.15,
+        component=all_components.h2o,
+        permeance=0.08718,
+        activation_energy=19944,
+    )
+    experiment_etoh_1 = IdealExperiment(
+        name="Romakon-PM102",
         temperature=313.15,
-        component=all_components.mtbe,
-        permeance=0.00529,
-        activation_energy=-27980,
+        component=all_components.etoh,
+        permeance=0.00002,
+        activation_energy=110806,
+    )
+    experiment_etoh_2 = IdealExperiment(
+        name="Romakon-PM102",
+        temperature=323.15,
+        component=all_components.etoh,
+        permeance=0.00003,
+        activation_energy=110806,
+    )
+    experiment_etoh_3 = IdealExperiment(
+        name="Romakon-PM102",
+        temperature=333.15,
+        component=all_components.etoh,
+        permeance=0.00027,
+        activation_energy=110806,
     )
 
     ideal_experiments = IdealExperiments(
         experiments=[
-            experiment_meoh_1,
-            experiment_meoh_2,
-            experiment_mtbe_1,
-            experiment_mtbe_2,
+            experiment_h2o_1,
+            experiment_h2o_2,
+            experiment_h2o_3,
+            experiment_etoh_1,
+            experiment_etoh_2,
+            experiment_etoh_3,
         ]
     )
 
-    return Membrane(ideal_experiments=ideal_experiments, name="PAI:SPI 1wt%")
+    return Membrane(ideal_experiments=ideal_experiments, name="Romakon-PM102")
+
+
+@fixture
+def romakon_pm102_real(all_components):
+    experiment_h2o_1 = IdealExperiment(
+        name="Romakon-PM102",
+        temperature=313.15,
+        component=all_components.h2o,
+        permeance=0.036091,
+        activation_energy=19944,
+    )
+
+    experiment_etoh_1 = IdealExperiment(
+        name="Romakon-PM102",
+        temperature=313.15,
+        component=all_components.etoh,
+        permeance=0.0000282,
+        activation_energy=110806,
+    )
+
+    ideal_experiments = IdealExperiments(
+        experiments=[
+            experiment_h2o_1,
+            experiment_etoh_1,
+        ]
+    )
+
+    return Membrane(ideal_experiments=ideal_experiments, name="Romakon-PM102")
 
 
 @fixture
@@ -72,21 +116,107 @@ def test_conditions():
 
 
 @fixture()
-def pervaporation(pai_spi, all_mixtures, test_conditions):
+def pervaporation_binary(romakon_pm102_binary, all_mixtures, test_conditions):
     return Pervaporation(
-        membrane=pai_spi,
-        mixture=all_mixtures.meoh_mtbe,
+        membrane=romakon_pm102_binary,
+        mixture=all_mixtures.h2o_etoh,
         conditions=test_conditions,
     )
 
 
-def test_calculate_partial_fluxes(pervaporation):
-    modelled_fluxes = pervaporation.calculate_partial_fluxes(
-        feed_temperature=325.5,
-        composition=Composition(p=0.03, type=CompositionType("weight")),
-        precision=5e-5,
+@fixture()
+def pervaporation_real(romakon_pm102_real, all_mixtures, test_conditions):
+    return Pervaporation(
+        membrane=romakon_pm102_real,
+        mixture=all_mixtures.h2o_etoh,
+        conditions=test_conditions,
     )
 
-    experimental_fluxes = (0.8282, 0.1818)
 
-    assert abs(modelled_fluxes[0] - experimental_fluxes[0]) < 0
+def test_check_activation_energies(romakon_pm102_binary, all_components):
+    assert (
+        abs(
+            romakon_pm102_binary.calculate_activation_energy(all_components.h2o)
+            - romakon_pm102_binary.get_penetrant_data(all_components.h2o)
+            .experiments[0]
+            .activation_energy
+        )
+        < romakon_pm102_binary.get_penetrant_data(all_components.h2o)
+        .experiments[0]
+        .activation_energy
+        * 0.05
+    )
+    assert (
+        abs(
+            romakon_pm102_binary.calculate_activation_energy(all_components.etoh)
+            - romakon_pm102_binary.get_penetrant_data(all_components.etoh)
+            .experiments[0]
+            .activation_energy
+        )
+        < romakon_pm102_binary.get_penetrant_data(all_components.etoh)
+        .experiments[0]
+        .activation_energy
+        * 0.05
+    )
+
+
+def test_calculate_partial_fluxes_variable_concentration(
+    pervaporation_binary, all_components
+):
+    validation_fluxes_40 = [
+        (0.4528037879, 0.0002265151515),
+        (0.3791491736, 0.0001896694215),
+        (0.3120968379, 0.0001561264822),
+    ]
+    validation_permeate_compositions_40 = [
+        Composition(p=0.9995, type=CompositionType("weight")),
+        Composition(p=0.9995, type=CompositionType("weight")),
+        Composition(p=0.9995, type=CompositionType("weight")),
+    ]
+
+    validation_feed_compositions_40 = [
+        Composition(p=0.92, type=CompositionType("weight")),
+        Composition(p=0.84, type=CompositionType("weight")),
+        Composition(p=0.73, type=CompositionType("weight")),
+    ]
+
+    modelled_fluxes = [
+        pervaporation_binary.calculate_partial_fluxes(
+            feed_temperature=313.15, composition=validation_feed_compositions_40[i]
+        )
+        for i in range(len(validation_fluxes_40))
+    ]
+
+    for i in range(len(validation_fluxes_40)):
+        assert abs(modelled_fluxes[i][0] - validation_fluxes_40[i][0]) < 7e-2
+        assert abs(modelled_fluxes[i][1] - validation_fluxes_40[i][1]) < 2e-4
+
+
+def test_calculate_partial_fluxes_variable_permeate_temperature(
+    pervaporation_real, romakon_pm102_real
+):
+    validation_permeate_temperatures = [80, 276.15, 290.15]
+    validation_fluxes = [1.107195, 1.069, 1.0416]
+
+    for i in range(len(validation_permeate_temperatures)):
+        assert (
+            abs(
+                pervaporation_real.calculate_partial_fluxes(
+                    feed_temperature=333.15,
+                    composition=Composition(p=0.9362, type=CompositionType("weight")),
+                    precision=5e-5,
+                    permeate_temperature=validation_permeate_temperatures[i],
+                )[0]
+                - validation_fluxes[i]
+            )
+            < 5e-2
+        )
+
+
+def test_calculate_permeate_composition_variable_permeate_temperature(pervaporation_real, all_components):
+    validation_permeate_compositions = [
+        Composition(p=0.9995, type=CompositionType("weight")),
+        Composition(p=0.9995, type=CompositionType("weight")),
+        Composition(p=0.9970, type=CompositionType("weight")),
+    ]
+

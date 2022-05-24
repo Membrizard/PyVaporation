@@ -1,5 +1,0 @@
-Membrane name;Temperature. oC;Component;Apparent Activation Energy. J/mol;Permeance. kg/m2*h*kPa;Comment
-SPI-255 asymmetric;40;MeOH;;0.037800;36 wt% toluene
-SPI-255 asymmetric;50;MeOH;;0.038000;36 wt% toluene
-SPI-255 asymmetric;40;Toluene;;0.004600;36 wt% toluene
-SPI-255 asymmetric;50;Toluene;;0.010500;36 wt% toluene

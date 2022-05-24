@@ -30,4 +30,3 @@ class HeatCapacityConstants:
     b: float = attr.ib(converter=lambda value: float(value))  # type: ignore
     c: float = attr.ib(converter=lambda value: float(value))  # type: ignore
     d: float = attr.ib(converter=lambda value: float(value))  # type: ignore
-

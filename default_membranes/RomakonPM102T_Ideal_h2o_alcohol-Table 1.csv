@@ -1,9 +1,0 @@
-Membrane name;Temperature. oC;Component;Apparent Activation Energy. J/mol;Permeance. kg/m2*h*kPa;Comment
-Romakon PM102T;60;H2O;-23600;0.0449064;Evaporation (INPC RAS)
-Romakon PM102T;70;H2O;-23600;0.0348624;Evaporation (INPC RAS)
-Romakon PM102T;80;H2O;-23600;0.0282528;Evaporation (INPC RAS)
-Romakon PM102T;60;EtOH;-12600;0.0004743;Evaporation (INPC RAS)
-Romakon PM102T;70;EtOH;-12600;0.0004428;Evaporation (INPC RAS)
-Romakon PM102T;80;EtOH;-12600;0.0003698;Evaporation (INPC RAS)
-Romakon PM102T;70;MeOH;;0.0012226;Evaporation (INPC RAS)
-Romakon PM102T;80;MeOH;;0.0014764;Evaporation (INPC RAS)
