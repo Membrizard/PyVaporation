@@ -231,8 +231,10 @@ def test_calculate_permeate_composition_variable_permeate_temperature(pervaporat
                 ).second
                 - validation_permeate_compositions[i].second
             )
-            < 2e-3
+            < 1.8e-3
         )
+
+
 def test_calculate_partial_fluxes_variable_precision(pervaporation_real):
     precision_range = [1,0.5,0.05,0.005, 0.0005, 0.00005]
     pervaporation_real.calculate_partial_fluxes(
