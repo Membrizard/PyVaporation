@@ -24,9 +24,9 @@ class Pervaporation:
     membrane: Membrane
     mixture: Mixture
     conditions: Conditions
-    ideal: bool = True
+    ideal: typing.Optional[bool] = True
 
-    def _get_partial_fluxes_from_permeate_composition(
+    def get_partial_fluxes_from_permeate_composition(
         self,
         first_component_permeance: float,
         second_component_permeance: float,
@@ -76,7 +76,7 @@ class Pervaporation:
 
         while d >= precision:
             permeate_composition_new = _get_permeate_composition_from_fluxes(
-                self._get_partial_fluxes_from_permeate_composition(
+                self.get_partial_fluxes_from_permeate_composition(
                     first_component_permeance=first_component_permeance,
                     second_component_permeance=second_component_permeance,
                     permeate_composition=permeate_composition,
@@ -92,7 +92,7 @@ class Pervaporation:
             )
             permeate_composition = permeate_composition_new
             # TODO: max iter and logs!!!
-        return self._get_partial_fluxes_from_permeate_composition(
+        return self.get_partial_fluxes_from_permeate_composition(
             first_component_permeance=first_component_permeance,
             second_component_permeance=second_component_permeance,
             permeate_composition=permeate_composition,

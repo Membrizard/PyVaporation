@@ -2,6 +2,7 @@ import typing
 
 import attr
 
+
 R = 8.314462
 
 
@@ -29,3 +30,4 @@ class HeatCapacityConstants:
     b: float = attr.ib(converter=lambda value: float(value))  # type: ignore
     c: float = attr.ib(converter=lambda value: float(value))  # type: ignore
     d: float = attr.ib(converter=lambda value: float(value))  # type: ignore
+

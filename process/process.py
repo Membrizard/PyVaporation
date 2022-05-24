@@ -23,7 +23,7 @@ class ProcessModel:
     time: typing.List[float]
     feed_evaporation_heat: typing.List[float]
     permeate_condensation_heat: typing.List[float]
-    initial_condtioins: Conditions
+    initial_conditions: Conditions
     IsTimeDefined: True
     comments: typing.Optional[str]
 

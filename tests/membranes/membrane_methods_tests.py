@@ -1,6 +1,5 @@
 from component import AllComponents
 from experiments import IdealExperiments, IdealExperiment
-from mixture import AllMixtures
 from membrane import Membrane
 from pytest import fixture
 
@@ -226,6 +225,5 @@ def test_get_pure_component_flux(romakon_pm102t, all_components):
                 )
                 - validation_fluxes_h2o[i]
             )
-            < validation_fluxes_h2o[i]*0.04
-
+            < validation_fluxes_h2o[i] * 0.04
         )
