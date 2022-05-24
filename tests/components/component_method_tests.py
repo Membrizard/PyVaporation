@@ -86,11 +86,11 @@ def test_antoine_vaporisation_enthalpy():
 
     for i in range(len(validation_temperatures)):
         assert (
-                abs(
-                    test_component.get_vaporisation_heat(validation_temperatures[i])
-                    - validation_enthalpies[i]
-                )
-                < validation_enthalpies[i] * 0.03
+            abs(
+                test_component.get_vaporisation_heat(validation_temperatures[i])
+                - validation_enthalpies[i]
+            )
+            < validation_enthalpies[i] * 0.03
         )
 
 

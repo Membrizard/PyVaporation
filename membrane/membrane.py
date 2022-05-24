@@ -124,7 +124,7 @@ class Membrane:
                 / first_component.molecular_weight
             )
 
-    def get_pure_component_flux(
+    def get_estimated_pure_component_flux(
         self,
         temperature: float,
         component: Component,

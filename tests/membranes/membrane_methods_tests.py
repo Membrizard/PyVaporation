@@ -215,5 +215,17 @@ def test_get_ideal_selectivity(romakon_pm102t, all_components):
     )
 
 
-def test_get_pure_component_flux():
-    assert 0 == 0
+def test_get_pure_component_flux(romakon_pm102t, all_components):
+    validation_fluxes_h2o = [0.726, 0.9923, 1.201]
+    validation_temperatures = [333, 343, 353]
+    for i in range(len(validation_temperatures)):
+        assert (
+            abs(
+                romakon_pm102t.get_estimated_pure_component_flux(
+                    validation_temperatures[i], all_components.h2o, 298
+                )
+                - validation_fluxes_h2o[i]
+            )
+            < validation_fluxes_h2o[i]*0.04
+
+        )
