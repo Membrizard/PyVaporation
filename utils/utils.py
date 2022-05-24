@@ -10,7 +10,7 @@ class VaporPressureConstants:
     a: float = attr.ib(converter=lambda value: float(value))  # type: ignore
     b: float = attr.ib(converter=lambda value: float(value))  # type: ignore
     c: float = attr.ib(converter=lambda value: float(value))  # type: ignore
-    type: typing.Optional[str] = 'antoine'
+    type: typing.Optional[str] = "antoine"
 
 
 @attr.s(auto_attribs=True)

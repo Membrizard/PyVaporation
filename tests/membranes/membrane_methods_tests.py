@@ -63,13 +63,13 @@ def romakon_pm102t(all_components):
         name="Romakon PM102T",
         temperature=343,
         component=all_components.meoh,
-        permeance=0.0018311,
+        permeance=0.0012226,
     )
     experiment_meoh_2 = IdealExperiment(
         name="Romakon PM102T",
         temperature=353,
         component=all_components.meoh,
-        permeance=0.0017302,
+        permeance=0.0014764,
     )
     ideal_experiments = IdealExperiments(
         experiments=[
@@ -103,32 +103,113 @@ def test_get_penetrant_data(romakon_pm102t, component_list):
 
 
 def test_calculate_activation_energy(romakon_pm102t, component_list):
-    validation_energy_h2o = romakon_pm102t.get_penetrant_data(component_list[0]).experiments[0].activation_energy
-    validation_energy_etoh = romakon_pm102t.get_penetrant_data(component_list[2]).experiments[0].activation_energy
+    validation_energy_h2o = (
+        romakon_pm102t.get_penetrant_data(component_list[0])
+        .experiments[0]
+        .activation_energy
+    )
+    validation_energy_etoh = (
+        romakon_pm102t.get_penetrant_data(component_list[2])
+        .experiments[0]
+        .activation_energy
+    )
+
+    assert abs(
+        romakon_pm102t.calculate_activation_energy(component_list[0])
+        - validation_energy_h2o
+    ) < abs(validation_energy_h2o * 0.04)
+    assert abs(
+        romakon_pm102t.calculate_activation_energy(component_list[2])
+        - validation_energy_etoh
+    ) < abs(validation_energy_etoh * 0.04)
+
+    assert (
+        abs(romakon_pm102t.calculate_activation_energy(component_list[1]) - 18985.56372)
+        < 18985.56372 * 0.0005
+    )
+
+
+def test_get_permeance(romakon_pm102t, all_components):
 
     assert (
         abs(
-            romakon_pm102t.calculate_activation_energy(component_list[0])
-            - validation_energy_h2o
+            romakon_pm102t.get_permeance(343, all_components.etoh)
+            - romakon_pm102t.get_penetrant_data(all_components.etoh)
+            .experiments[1]
+            .permeance
         )
-        < abs(validation_energy_h2o * 0.04)
-    )
-    assert (
-        abs(
-            romakon_pm102t.calculate_activation_energy(component_list[2])
-            - validation_energy_etoh
-        )
-        < abs(validation_energy_etoh * 0.04)
+        == 0
     )
 
     assert (
-        abs(
-            romakon_pm102t.calculate_activation_energy(component_list[1])
-            + 5705.989801
-        )
-        < 5705.989801 * 0.0005
+        abs(romakon_pm102t.get_permeance(348, all_components.etoh) - 0.0004155648872)
+        < 1e-9
+    )
+
+    assert (
+        abs(romakon_pm102t.get_permeance(349, all_components.meoh) - 0.0013708803)
+        < 1e-9
     )
 
 
-def test_get_permeance(romakon_pm102t):
-    assert 0 == 0
+def test_get_ideal_selectivity(romakon_pm102t, all_components):
+
+    assert (
+        abs(
+            romakon_pm102t.get_ideal_selectivity(
+                343, all_components.h2o, all_components.etoh, "weight"
+            )
+            - 78.73170732
+        )
+        < 1e-5
+    )
+    assert (
+        abs(
+            romakon_pm102t.get_ideal_selectivity(
+                348, all_components.h2o, all_components.etoh, "weight"
+            )
+            - 74.48720837
+        )
+        < 1e-5
+    )
+    assert (
+        abs(
+            romakon_pm102t.get_ideal_selectivity(
+                348, all_components.h2o, all_components.meoh, "weight"
+            )
+            - 23.0084745
+        )
+        < 1e-5
+    )
+
+    assert (
+        abs(
+            romakon_pm102t.get_ideal_selectivity(
+                343, all_components.h2o, all_components.etoh
+            )
+            - 201.28578
+        )
+        < 1e-5
+    )
+    assert (
+        abs(
+            romakon_pm102t.get_ideal_selectivity(
+                348,
+                all_components.h2o,
+                all_components.etoh,
+            )
+            - 190.434278
+        )
+        < 1e-5
+    )
+    assert (
+        abs(
+            romakon_pm102t.get_ideal_selectivity(
+                348,
+                all_components.h2o,
+                all_components.meoh,
+            )
+            - 40.9096295
+        )
+        < 1e-5
+    )

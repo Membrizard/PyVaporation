@@ -110,10 +110,19 @@ class Membrane:
         temperature: float,
         first_component: Component,
         second_component: Component,
+        type: typing.Optional[str] = "molar",
     ) -> float:
-        return self.get_permeance(temperature, first_component) / self.get_permeance(
-            temperature, second_component
-        )
+        if type == "weight":
+            return self.get_permeance(
+                temperature, first_component
+            ) / self.get_permeance(temperature, second_component)
+        elif type == "molar":
+            return (
+                self.get_permeance(temperature, first_component)
+                / self.get_permeance(temperature, second_component)
+                * second_component.molecular_weight
+                / first_component.molecular_weight
+            )
 
     def get_pure_component_flux(
         self,

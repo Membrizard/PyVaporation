@@ -20,7 +20,9 @@ class Component:
         return Component(
             name=d["name"],
             molecular_weight=d["molecular_weight"],
-            vapour_pressure_constants=VaporPressureConstants(**d["vapor_pressure_constants"]),
+            vapour_pressure_constants=VaporPressureConstants(
+                **d["vapor_pressure_constants"]
+            ),
             heat_capacity_constants=HeatCapacityConstants(
                 **d["heat_capacity_constants"]
             ),
@@ -36,13 +38,15 @@ class Component:
         """
         if self.vapour_pressure_constants.type == "antoine":
             return 10 ** (
-                    self.vapour_pressure_constants.a
-                    + self.vapour_pressure_constants.b / (temperature + self.vapour_pressure_constants.c)
+                self.vapour_pressure_constants.a
+                + self.vapour_pressure_constants.b
+                / (temperature + self.vapour_pressure_constants.c)
             )
         elif self.vapour_pressure_constants.type == "frost":
             return numpy.exp(
-                    self.vapour_pressure_constants.a
-                    + self.vapour_pressure_constants.b / temperature + self.vapour_pressure_constants.c/temperature**2
+                self.vapour_pressure_constants.a
+                + self.vapour_pressure_constants.b / temperature
+                + self.vapour_pressure_constants.c / temperature**2
             )
         else:
             raise ValueError("Type of calculation not supported")
@@ -58,16 +62,22 @@ class Component:
         if self.vapour_pressure_constants.type == "antoine":
             return (
                 -(
-                        (temperature / (temperature + self.vapour_pressure_constants.c)) ** 2
-                        * R
-                        * self.vapour_pressure_constants.b
-                        * numpy.log(10)
+                    (temperature / (temperature + self.vapour_pressure_constants.c))
+                    ** 2
+                    * R
+                    * self.vapour_pressure_constants.b
+                    * numpy.log(10)
                 )
                 / 1000
             )
         elif self.vapour_pressure_constants.type == "frost":
             return (
-               -R*(self.vapour_pressure_constants.b+2*self.vapour_pressure_constants.c/temperature)/1000
+                -R
+                * (
+                    self.vapour_pressure_constants.b
+                    + 2 * self.vapour_pressure_constants.c / temperature
+                )
+                / 1000
             )
         else:
             raise ValueError("Type of calculation not supported")
