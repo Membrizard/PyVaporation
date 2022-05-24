@@ -213,10 +213,28 @@ def test_calculate_partial_fluxes_variable_permeate_temperature(
         )
 
 
-def test_calculate_permeate_composition_variable_permeate_temperature(pervaporation_real, all_components):
+def test_calculate_permeate_composition_variable_permeate_temperature(pervaporation_real):
     validation_permeate_compositions = [
         Composition(p=0.9995, type=CompositionType("weight")),
         Composition(p=0.9995, type=CompositionType("weight")),
         Composition(p=0.9970, type=CompositionType("weight")),
     ]
+    validation_permeate_temperatures = [80, 276.15, 290.15]
 
+    for i in range(len(validation_permeate_temperatures)):
+        assert (
+            abs(
+                pervaporation_real.calculate_permeate_composition(
+                    feed_temperature=333.15,
+                    composition=Composition(p=0.9362, type=CompositionType("weight")),
+                    permeate_temperature=validation_permeate_temperatures[i],
+                ).second
+                - validation_permeate_compositions[i].second
+            )
+            < 2e-3
+        )
+def test_calculate_partial_fluxes_variable_precision(pervaporation_real):
+    precision_range = [1,0.5,0.05,0.005, 0.0005, 0.00005]
+    pervaporation_real.calculate_partial_fluxes(
+
+    )
