@@ -98,19 +98,19 @@ class Component:
     def get_cooling_heat(self, temperature_1, temperature_2):
         """
         Calculation of Specific Heat in J/mol using Integral (T2-T1) (CpdT)
-        :param temperature: temperature in K (temperature_2 < temperature_1)
+        :param temperature_1 and temperature_2: temperature in K (temperature_2 < temperature_1)
         :return: Specific Heat in J/mol
         """
         return (
             self.heat_capacity_constants.a * (temperature_1 - temperature_2)
             + self.heat_capacity_constants.b
-            * (temperature_2**2 - temperature_1**2)
+            * (temperature_1**2 - temperature_2**2)
             / 2
             + self.heat_capacity_constants.c
-            * (temperature_2**3 - temperature_1**3)
+            * (temperature_1**3 - temperature_2**3)
             / 3
             + self.heat_capacity_constants.d
-            * (temperature_2**4 - temperature_1**4)
+            * (temperature_1**4 - temperature_2**4)
             / 4
         )
 

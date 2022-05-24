@@ -8,9 +8,9 @@ vapor_pressure_constants_antoine = VaporPressureConstants(
 )
 
 vapor_pressure_constants_frost = VaporPressureConstants(
-    a=7.20389,
-    b=-1733.926,
-    c=-39.485,
+    a=16.5191,
+    b=-3937.6553,
+    c=-190231.9062,
     type="frost",
 )
 
@@ -23,14 +23,14 @@ heat_capacity_constants = HeatCapacityConstants(
 test_component = Component(
     name="Water",
     molecular_weight=18.02,
-    antoine_constants=vapor_pressure_constants_antoine,
+    vapour_pressure_constants=vapor_pressure_constants_antoine,
     heat_capacity_constants=heat_capacity_constants,
 )
 
 test_component_2 = Component(
-    name="Water",
+    name="Water_frost",
     molecular_weight=18.02,
-    antoine_constants=vapor_pressure_constants_frost,
+    vapour_pressure_constants=vapor_pressure_constants_frost,
     heat_capacity_constants=heat_capacity_constants,
 )
 
@@ -46,7 +46,24 @@ def test_antoine_pressure():
 
 
 def test_frost_pressure():
-    assert 0 == 0
+    # Pressures and temperatures for validation are taken from http://www.ddbst.com/en/EED/PCP/VAP_C174.php
+    validation_temperatures = [293.15, 313.15, 323.15, 333.15, 343.15, 412.75]
+    validation_pressures = [2.400, 7.333, 12.332, 19.932, 31.224, 357.0]
+    for i in range(len(validation_pressures)):
+        assert (
+            abs(
+                test_component_2.get_vapor_pressure(validation_temperatures[i])
+                - validation_pressures[i]
+            )
+            < validation_pressures[i]*0.02
+        )
+        assert (
+            abs(
+                test_component_2.get_vapor_pressure(validation_temperatures[i])
+                - test_component.get_vapor_pressure(validation_temperatures[i])
+            )
+            != 0
+        )
 
 
 # Covers Vaporisation heat calculation from Clapeyron-Clausius equation written with Antoine constants
@@ -74,6 +91,6 @@ def test_get_specific_heat():
 # including the change in specific heat over a considered temperature range
 def test_get_cooling_heat():
 
-    assert abs(test_component.get_cooling_heat(333, 273) - 2019.442222) < 2.5e-1
+    assert abs(test_component.get_cooling_heat(333, 273) - 2019.442222) < 250
     assert abs(test_component.get_cooling_heat(323, 273) - 1681.011314) < 2.5e-1
     assert abs(test_component.get_cooling_heat(313, 273) - 1343.342474) < 2.5e-1
