@@ -103,7 +103,7 @@ def get_nrtl_partial_pressures(
     :param temperature: temperature in K
            NRTL parameters:
            gij in J/mol (may also be as aij+gij/RT)
-    :return: Partial pressures as a tuole, component wise in kPa
+    :return: Partial pressures as a tuple, component wise in kPa
     """
     if composition.type == CompositionType.weight:
         composition = composition.to_molar(mixture=mixture)

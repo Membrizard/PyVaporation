@@ -103,19 +103,18 @@ feed_compositions = [
 # Validation of Diffusion curve according to #DOI: 10.1002/app.49982
 for i in range(len(feed_compositions)):
     partial_fluxes = meoh_mtbe_pervaporation.calculate_partial_fluxes(
-        feed_temperature=333.15, composition=feed_compositions[i]
+        feed_temperature=325.45, composition=feed_compositions[i]
     )
     psat = get_nrtl_partial_pressures(
         333.15, all_mixtures.meoh_mtbe, feed_compositions[i]
     )
     print(
-        "MTBE in feed",
         feed_compositions[i].second,
-        " Total Flux ",
-        sum(partial_fluxes),
-        " MTBE in Permeate ",
-        (partial_fluxes[1] / sum(partial_fluxes)),
-        "Psat MeOH ",
+        " ",
+        partial_fluxes[0],
+        " ",
+        partial_fluxes[1],
+        " ",
         psat[0],
     )
 
@@ -124,10 +123,10 @@ precision_range = [1, 0.5, 0.05, 0.005, 0.0005, 0.00005, 5e-10]
 
 for i in range(len(precision_range)):
     partial_fluxes = meoh_mtbe_pervaporation.calculate_partial_fluxes(
-        feed_temperature=333.15,
+        feed_temperature=325.35,
         composition=Composition(p=0.03, type=CompositionType("weight")),
         precision=precision_range[i],
-        permeate_temperature=300.15,
+        permeate_temperature=198,
     )
     print(
         "Precision ",

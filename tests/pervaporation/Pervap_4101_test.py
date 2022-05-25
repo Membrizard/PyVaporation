@@ -78,7 +78,7 @@ def h2o_etoh_pervaporation(pervap_4101, all_mixtures):
 
 
 def test_validate_against_experimet(
-    pervap_4101, h2o_etoh_pervaporation, all_mixtures, all_components
+    pervap_4101, meoh_mtbe_pervaporation, all_mixtures, all_components
 ):
 
     feed = [
@@ -114,7 +114,7 @@ def test_validate_against_experimet(
     ]
 
     for i in range(len(feed_compositions)):
-        partial_fluxes = h2o_etoh_pervaporation.calculate_partial_fluxes(
+        partial_fluxes = meoh_mtbe_pervaporation.calculate_partial_fluxes(
             feed_temperature=368.15, composition=feed_compositions[i]
         )
         assert abs(partial_fluxes[0] - validation_fluxes[i][0]) < 0.54

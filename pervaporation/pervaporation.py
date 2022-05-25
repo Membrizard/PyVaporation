@@ -137,9 +137,9 @@ class Pervaporation:
     def get_ideal_diffusion_curve(
         self,
         feed_temperature: float,
-        permeate_temperature: float,
         compositions: typing.List[Composition],
-        precision,
+        permeate_temperature: typing.Optional[float] = None,
+        precision: typing.Optional[float] = 5e-5,
     ) -> DiffusionCurve:
         return DiffusionCurve(
             mixture=self.mixture,
