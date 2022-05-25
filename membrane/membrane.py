@@ -13,7 +13,7 @@ class Membrane:
     ideal_experiments: IdealExperiments
     name: str
 
-    # non_ideal_experiments: typing.List[NonIdealExperiment]  # TODO: non ideal experiments
+    # non_ideal_experiments: typing.List[NonIdealExperiment]  # TODO: non ideal experiments - Diffusion curves
 
     # @property
     # def ideal_experiments_names(self) -> typing.List[str]:
@@ -91,12 +91,17 @@ class Membrane:
 
         given_permeance = component_experiments.experiments[index].permeance
 
-        if component_experiments.experiments[index].activation_energy is None:
+        if (
+            component_experiments.experiments[index].activation_energy is None
+            and component_experiments.experiments[index].temperature != temperature
+        ):
             # TODO: add logs
             activation_energy = self.calculate_activation_energy(component)
             return given_permeance * numpy.exp(
                 -activation_energy / R * (1 / temperature - 1 / temperature_list[index])
             )
+        elif component_experiments.experiments[index].temperature == temperature:
+            return given_permeance
         else:
             return given_permeance * numpy.exp(
                 -component_experiments.experiments[index].activation_energy

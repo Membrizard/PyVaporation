@@ -23,7 +23,7 @@ def get_permeate_composition_from_fluxes(
 class Pervaporation:
     membrane: Membrane
     mixture: Mixture
-    conditions: Conditions
+    conditions: typing.Optional[Conditions] = None
     ideal: typing.Optional[bool] = True
 
     def get_partial_fluxes_from_permeate_composition(
@@ -123,12 +123,12 @@ class Pervaporation:
     def calculate_separation_factor(
         self,
         feed_temperature: float,
-        permeate_temperature: float,
         composition: Composition,
-        precision: float,
+        permeate_temperature: typing.Optional[float] = None,
+        precision: typing.Optional[float] = 5e-5,
     ) -> float:
         perm_comp = self.calculate_permeate_composition(
-            feed_temperature, permeate_temperature, composition, precision
+            feed_temperature, composition, precision, permeate_temperature
         )
         return (composition.second / (1 - composition.second)) / (
             perm_comp.second / (1 - perm_comp.second)
