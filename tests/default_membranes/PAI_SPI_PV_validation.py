@@ -119,10 +119,10 @@ precision_range = [1, 0.5, 0.05, 0.005, 0.0005, 0.00005, 5e-10]
 
 for i in range(len(precision_range)):
     partial_fluxes = meoh_mtbe_pervaporation.calculate_partial_fluxes(
-        feed_temperature=325.35,
+        feed_temperature=333.35,
         composition=Composition(p=0.03, type=CompositionType("weight")),
         precision=precision_range[i],
-        permeate_temperature=198,
+        permeate_temperature=298,
     )
     print(
         "Precision ",

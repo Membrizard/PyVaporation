@@ -62,11 +62,15 @@ def test_frost_pressure():
                 test_component_2.get_vapor_pressure(validation_temperatures[i])
                 - test_component.get_vapor_pressure(validation_temperatures[i])
             )
-            != 0
+            < abs(
+                test_component_2.get_vapor_pressure(validation_temperatures[i])
+                + test_component.get_vapor_pressure(validation_temperatures[i])
+            ) * 0.03
+            / 2
         )
 
 
-def test_frost_vaporisation_enthalpy():
+def test_frost_vaporisation_heat():
     validation_temperatures = [298.15, 373.10, 373.15, 373.20]
     validation_enthalpies = [43.950, 40.7, 40.599, 41.110]
 
@@ -80,7 +84,7 @@ def test_frost_vaporisation_enthalpy():
         )
 
 
-def test_antoine_vaporisation_enthalpy():
+def test_antoine_vaporisation_heat():
     validation_temperatures = [298.15, 373.10, 373.15, 373.20]
     validation_enthalpies = [43.950, 40.7, 40.599, 41.110]
 
@@ -119,6 +123,6 @@ def test_get_specific_heat():
 # including the change in specific heat over a considered temperature range
 def test_get_cooling_heat():
 
-    assert abs(test_component.get_cooling_heat(333, 273) - 2019.442222) < 250
+    assert abs(test_component.get_cooling_heat(333, 273) - 2019.442222) < 2.5e-1
     assert abs(test_component.get_cooling_heat(323, 273) - 1681.011314) < 2.5e-1
     assert abs(test_component.get_cooling_heat(313, 273) - 1343.342474) < 2.5e-1

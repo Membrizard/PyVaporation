@@ -114,8 +114,6 @@ def romakon_al2(all_components):
         activation_energy=19944,
     )
 
-
-
     ideal_experiments = IdealExperiments(
         experiments=[
             experiment_h2o_1,
