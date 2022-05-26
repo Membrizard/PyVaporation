@@ -79,21 +79,28 @@ class Pervaporation:
         d = 1
 
         while d >= precision:
-            permeate_composition_new = get_permeate_composition_from_fluxes(
-                self.get_partial_fluxes_from_permeate_composition(
-                    first_component_permeance=first_component_permeance,
-                    second_component_permeance=second_component_permeance,
-                    permeate_composition=permeate_composition,
-                    feed_composition=composition,
-                    feed_temperature=feed_temperature,
-                    permeate_temperature=permeate_temperature,
+            try:
+                permeate_composition_new = get_permeate_composition_from_fluxes(
+                    self.get_partial_fluxes_from_permeate_composition(
+                        first_component_permeance=first_component_permeance,
+                        second_component_permeance=second_component_permeance,
+                        permeate_composition=permeate_composition,
+                        feed_composition=composition,
+                        feed_temperature=feed_temperature,
+                        permeate_temperature=permeate_temperature,
+                    )
                 )
-            )
-            d = max(
-                abs(permeate_composition_new.first - permeate_composition.first),
-                abs(permeate_composition_new.second - permeate_composition.second),
-            )
-            permeate_composition = permeate_composition_new
+                d = max(
+                    abs(permeate_composition_new.first - permeate_composition.first),
+                    abs(permeate_composition_new.second - permeate_composition.second),
+                )
+            except:
+                raise ValueError(
+                    "Partial fluxes are not defined in the stated conditions range"
+                )
+            else:
+                permeate_composition = permeate_composition_new
+
             # TODO: max iter and logs!!!
         return self.get_partial_fluxes_from_permeate_composition(
             first_component_permeance=first_component_permeance,

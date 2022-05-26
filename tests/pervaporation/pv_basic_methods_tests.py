@@ -209,7 +209,7 @@ def test_calculate_partial_fluxes_variable_permeate_temperature(
                 )[0]
                 - validation_fluxes[i]
             )
-            < 5e-2
+            < 4e-2
         )
 
 

@@ -10,8 +10,8 @@ from mixture import (
 )
 from pervaporation import Pervaporation
 
-all_components: AllComponents = AllComponents.load("components.yml")
-all_mixtures: AllMixtures = AllMixtures.load("mixtures.yml", all_components)
+all_components: AllComponents = AllComponents.load("../../components.yml")
+all_mixtures: AllMixtures = AllMixtures.load("../../mixtures.yml", all_components)
 
 experiment_h2o_1 = IdealExperiment(
     name="Pervap 4101",

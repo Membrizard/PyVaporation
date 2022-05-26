@@ -10,8 +10,8 @@ from mixture import (
 )
 from pervaporation import Pervaporation
 
-all_components: AllComponents = AllComponents.load("components.yml")
-all_mixtures: AllMixtures = AllMixtures.load("mixtures.yml", all_components)
+all_components: AllComponents = AllComponents.load("../../components.yml")
+all_mixtures: AllMixtures = AllMixtures.load("../../mixtures.yml", all_components)
 
 experiment_meoh_1 = IdealExperiment(
     name="PAI_SPI_1(wt%)_asym",
@@ -65,10 +65,10 @@ ideal_experiments = IdealExperiments(
     experiments=[
         experiment_meoh_1,
         experiment_meoh_2,
-        experiment_meoh_3,
+        # experiment_meoh_3,
         experiment_mtbe_1,
         experiment_mtbe_2,
-        experiment_mtbe_3,
+        # experiment_mtbe_3,
     ]
 )
 
@@ -109,13 +109,9 @@ for i in range(len(feed_compositions)):
         333.15, all_mixtures.meoh_mtbe, feed_compositions[i]
     )
     print(
-        feed_compositions[i].second,
-        " ",
         partial_fluxes[0],
         " ",
         partial_fluxes[1],
-        " ",
-        psat[0],
     )
 
 # Check functions of precision
