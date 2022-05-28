@@ -11,4 +11,4 @@ class Conditions:
     feed_temperature: float
     feed_amount: float
     initial_feed_composition: Composition
-    permeate_temperature: typing.Optional[float] = None
+    permeate_temperature: float

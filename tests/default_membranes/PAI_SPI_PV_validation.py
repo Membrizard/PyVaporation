@@ -10,8 +10,8 @@ from mixture import (
 )
 from pervaporation import Pervaporation
 
-all_components: AllComponents = AllComponents.load("components.yml")
-all_mixtures: AllMixtures = AllMixtures.load("mixtures.yml", all_components)
+all_components: AllComponents = AllComponents.load("../../components.yml")
+all_mixtures: AllMixtures = AllMixtures.load("../../mixtures.yml", all_components)
 
 experiment_meoh_1 = IdealExperiment(
     name="PAI_SPI_1(wt%)_asym",

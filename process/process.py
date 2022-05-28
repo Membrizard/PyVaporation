@@ -25,7 +25,7 @@ class ProcessModel:
     permeate_condensation_heat: typing.List[float]
     initial_conditions: Conditions
     IsTimeDefined: True
-    comments: typing.Optional[str]
+    comments: typing.Optional[str] = None
 
     @property
     def to_dimensionless_length(self):

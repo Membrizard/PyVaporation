@@ -173,17 +173,17 @@ class Pervaporation:
     ) -> ProcessModel:
         time_steps = [d_time_step_hours * step for step in range(number_of_steps)]
         feed_temperature = conditions.feed_temperature
-        feed_temperature_list = [] * number_of_steps
+        feed_temperature_list = [float] * (number_of_steps + 1)
         permeate_temperature = conditions.permeate_temperature
-        permeate_temperature_list = [] * number_of_steps
-        partial_fluxes = [] * number_of_steps
-        permeances = [] * number_of_steps
-        permeate_composition = [] * number_of_steps
-        feed_composition = [] * number_of_steps
+        permeate_temperature_list = [float] * (number_of_steps + 1)
+        partial_fluxes = [(0, 0)] * (number_of_steps + 1)
+        permeances = [tuple] * (number_of_steps + 1)
+        permeate_composition = [Composition] * (number_of_steps + 1)
+        feed_composition = [Composition] * (number_of_steps + 1)
         feed_composition[0] = conditions.initial_feed_composition
-        feed_evaporation_heat = [] * number_of_steps
-        permeate_condensation_heat = [] * number_of_steps
-        feed_mass = [] * number_of_steps
+        feed_evaporation_heat = [float] * (number_of_steps + 1)
+        permeate_condensation_heat = [float] * (number_of_steps + 1)
+        feed_mass = [float] * (number_of_steps + 1)
         feed_mass[0] = conditions.feed_amount
         area = conditions.membrane_area
 
@@ -275,16 +275,16 @@ class Pervaporation:
             feed_temperature=feed_temperature_list,
             feed_composition=feed_composition,
             permeate_composition=permeate_composition,
+            permeate_temperature=permeate_temperature_list,
             feed_mass=feed_mass,
             partial_fluxes=partial_fluxes,
             permeances=permeances,
             time=time_steps,
             feed_evaporation_heat=feed_evaporation_heat,
             permeate_condensation_heat=permeate_condensation_heat,
-            initial_condtioins=conditions,
+            initial_conditions=conditions,
             IsTimeDefined=True,
             comments="",
-            permeate_temperature=permeate_temperature_list,
         )
 
     def model_ideal_non_isothermal_process(
@@ -297,11 +297,11 @@ class Pervaporation:
         time_steps = [d_time_step_hours * step for step in range(number_of_steps)]
         feed_temperature = [] * number_of_steps
         feed_temperature[0] = conditions.feed_temperature
-        permeate_temperature = [] * number_of_steps
+        permeate_temperature = [float] * number_of_steps
         permeate_temperature[0] = conditions.permeate_temperature
         partial_fluxes = [] * number_of_steps
         permeances = [] * number_of_steps
-        permeate_composition = [] * number_of_steps
+        permeate_composition = [Composition] * number_of_steps
         feed_composition = [] * number_of_steps
         feed_composition[0] = conditions.initial_feed_composition.to_weight(
             self.mixture
@@ -371,9 +371,9 @@ class Pervaporation:
 
             partial_fluxes[step] = self.calculate_partial_fluxes(
                 feed_temperature[step],
-                permeate_temperature[step],
                 feed_composition[step],
                 precision,
+                permeate_temperature[step],
             )
 
             permeate_composition[step] = Composition(

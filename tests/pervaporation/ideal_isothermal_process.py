@@ -137,6 +137,7 @@ def romakon_al2_experiment_conditions():
         feed_temperature=319.65,
         feed_amount=0.047,
         initial_feed_composition=Composition(p=0.04, type=CompositionType("weight")),
+        permeate_temperature=198,
     )
 
 
@@ -147,6 +148,7 @@ def romakon_pm102_experiment_conditions():
         feed_temperature=320.4,
         feed_amount=0.14706,
         initial_feed_composition=Composition(p=0.949, type=CompositionType("weight")),
+        permeate_temperature=1,
     )
 
 
@@ -167,7 +169,6 @@ def romakon_pm102_real_pervaporation(
     return Pervaporation(
         membrane=romakon_pm102_real,
         mixture=all_mixtures.h2o_etoh,
-        conditions=romakon_pm102_experiment_conditions,
     )
 
 
@@ -178,6 +179,7 @@ def test_experimet_romakon_al2(
         number_of_steps=5,
         d_time_step_hours=1,
         conditions=romakon_al2_experiment_conditions,
+        precision=5e-5
     )
     experiment_partial_fluxes = [
         (0.0621, 0.0061),
@@ -188,7 +190,8 @@ def test_experimet_romakon_al2(
     ]
     for i in range(5):
 
-        assert (model.partial_fluxes[0] - experiment_partial_fluxes[0]) < 1e-1
+        assert abs(model.partial_fluxes[i][0] - experiment_partial_fluxes[i][0]) < 2.5e-2
+        assert abs(model.partial_fluxes[i][1] - experiment_partial_fluxes[i][1]) < 3e-3
 
 
 def test_experimet_romakon_pm102():
