@@ -179,7 +179,7 @@ def test_experimet_romakon_al2(
         number_of_steps=5,
         d_time_step_hours=1,
         conditions=romakon_al2_experiment_conditions,
-        precision=5e-5
+        precision=5e-5,
     )
     experiment_partial_fluxes = [
         (0.0621, 0.0061),
@@ -188,10 +188,19 @@ def test_experimet_romakon_al2(
         (0.0047, 0.0008),
         (0.0056, 0.0010),
     ]
+    experiment_permeate_composition = [0.91, 0.91, 0.90, 0.86, 0.86]
     for i in range(5):
 
-        assert abs(model.partial_fluxes[i][0] - experiment_partial_fluxes[i][0]) < 2.5e-2
-        assert abs(model.partial_fluxes[i][1] - experiment_partial_fluxes[i][1]) < 3e-3
+        assert (
+            abs(model.partial_fluxes[i][0] - experiment_partial_fluxes[i][0]) < 2.5e-2
+        )
+        assert abs(model.partial_fluxes[i][1] - experiment_partial_fluxes[i][1]) < 3.2e-3
+        assert (
+            abs(
+                model.permeate_composition[i].first - experiment_permeate_composition[i]
+            )
+            < experiment_permeate_composition[i] * 0.05
+        )
 
 
 def test_experimet_romakon_pm102():
