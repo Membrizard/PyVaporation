@@ -14,7 +14,6 @@ class ProcessModel:
     membrane_name: str
     isothermal: bool
     feed_temperature: typing.List[float]
-    permeate_temperature: typing.List[float]
     feed_composition: typing.List[Composition]
     permeate_composition: typing.List[Composition]
     feed_mass: typing.List[float]
@@ -26,6 +25,7 @@ class ProcessModel:
     initial_conditions: Conditions
     IsTimeDefined: True
     comments: typing.Optional[str]
+    permeate_temperature: typing.Optional.List[float] = None
 
     @property
     def to_dimensionless_length(self):

@@ -23,7 +23,6 @@ def get_permeate_composition_from_fluxes(
 class Pervaporation:
     membrane: Membrane
     mixture: Mixture
-    conditions: typing.Optional[Conditions] = None
     ideal: typing.Optional[bool] = True
 
     def get_partial_fluxes_from_permeate_composition(
@@ -167,10 +166,11 @@ class Pervaporation:
 
     def model_ideal_isothermal_process(
         self,
-        conditions: Conditions,
         number_of_steps: int,
         d_time_step_hours: float,
-        precision: float = 5e-5,
+        conditions: Conditions,
+        precision: typing.Optional[float] = 5e-5,
+
     ) -> ProcessModel:
         time_steps = [d_time_step_hours * step for step in range(number_of_steps)]
         feed_temperature = conditions.feed_temperature
@@ -274,7 +274,6 @@ class Pervaporation:
             membrane_name=self.membrane.name,
             isothermal=True,
             feed_temperature=feed_temperature_list,
-            permeate_temperature=permeate_temperature_list,
             feed_composition=feed_composition,
             permeate_composition=permeate_composition,
             feed_mass=feed_mass,
@@ -286,6 +285,7 @@ class Pervaporation:
             initial_condtioins=conditions,
             IsTimeDefined=True,
             comments="",
+            permeate_temperature=permeate_temperature_list,
         )
 
     def model_ideal_non_isothermal_process(
@@ -406,7 +406,7 @@ class Pervaporation:
             feed_temperature[step + 1] = feed_temperature[step] - (
                 feed_evaporation_heat[step] / (feed_heat_capacity * feed_mass[step])
             )
-            # TODO:
+
 
         return ProcessModel(
             mixture=self.mixture,

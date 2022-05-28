@@ -1,3 +1,5 @@
+import typing
+
 from mixture import Composition
 
 import attr
@@ -7,6 +9,6 @@ import attr
 class Conditions:
     membrane_area: float
     feed_temperature: float
-    permeate_temperature: float
     feed_amount: float
     initial_feed_composition: Composition
+    permeate_temperature: typing.Optional[float] = None

@@ -65,7 +65,8 @@ def test_frost_pressure():
             < abs(
                 test_component_2.get_vapor_pressure(validation_temperatures[i])
                 + test_component.get_vapor_pressure(validation_temperatures[i])
-            ) * 0.03
+            )
+            * 0.03
             / 2
         )
 

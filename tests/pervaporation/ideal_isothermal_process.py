@@ -4,6 +4,7 @@ from mixture import AllMixtures, Composition, CompositionType
 from membrane import Membrane
 from pervaporation import Pervaporation
 from conditions import Conditions
+from process import ProcessModel
 from pytest import fixture
 
 
@@ -108,10 +109,15 @@ def romakon_pm102_real(all_components):
 def romakon_al2(all_components):
     experiment_h2o_1 = IdealExperiment(
         name="Romakon-Al2",
-        temperature=0,
+        temperature=319.65,
         component=all_components.h2o,
-        permeance=0.036091,
-        activation_energy=19944,
+        permeance=0.016876,
+    )
+    experiment_etoh_1 = IdealExperiment(
+        name="Romakon-Al2",
+        temperature=319.65,
+        component=all_components.etoh,
+        permeance=0.000139,
     )
 
     ideal_experiments = IdealExperiments(
@@ -121,4 +127,68 @@ def romakon_al2(all_components):
         ]
     )
 
-    return Membrane(ideal_experiments=ideal_experiments, name="Romakon-PM102")
+    return Membrane(ideal_experiments=ideal_experiments, name="Romakon-Al2")
+
+
+@fixture
+def romakon_al2_experiment_conditions():
+    return Conditions(
+        membrane_area=0.0048,
+        feed_temperature=319.65,
+        feed_amount=0.047,
+        initial_feed_composition=Composition(p=0.04, type=CompositionType("weight")),
+    )
+
+
+@fixture
+def romakon_pm102_experiment_conditions():
+    return Conditions(
+        membrane_area=0.01,
+        feed_temperature=320.4,
+        feed_amount=0.14706,
+        initial_feed_composition=Composition(p=0.949, type=CompositionType("weight")),
+    )
+
+
+@fixture
+def romakon_al2_pervaporation(
+    romakon_al2, romakon_al2_experiment_conditions, all_mixtures
+):
+    return Pervaporation(
+        membrane=romakon_al2,
+        mixture=all_mixtures.h2o_etoh,
+    )
+
+
+@fixture
+def romakon_pm102_real_pervaporation(
+    romakon_pm102_real, romakon_pm102_experiment_conditions, all_mixtures
+):
+    return Pervaporation(
+        membrane=romakon_pm102_real,
+        mixture=all_mixtures.h2o_etoh,
+        conditions=romakon_pm102_experiment_conditions,
+    )
+
+
+def test_experimet_romakon_al2(romakon_al2_pervaporation, romakon_al2_experiment_conditions, all_mixtures):
+    model = romakon_al2_pervaporation.model_ideal_isothermal_process(
+        number_of_steps=5,
+        d_time_step_hours=1,
+        conditions=romakon_al2_experiment_conditions,
+    )
+    experiment_partial_fluxes = [(0.0621,	0.0061),
+                                 (0.0399,	0.0039),
+                                 (0.0372,	0.0041),
+                                 (0.0047,	0.0008),
+                                 (0.0056,	0.0010)]
+    for i in range (5):
+          assert (model.partial_fluxes[0]-experiment_partial_fluxes[0]) < 1e-1
+
+
+def test_experimet_romakon_pm102():
+    assert 0 == 0
+
+
+def test_model_romakon_pm102():
+    assert 0 == 0
