@@ -16,6 +16,7 @@ class ProcessModel:
     feed_temperature: typing.List[float]
     feed_composition: typing.List[Composition]
     permeate_composition: typing.List[Composition]
+    permeate_temperature: typing.List[float]
     feed_mass: typing.List[float]
     partial_fluxes: typing.List[typing.Tuple[float, float]]
     permeances: typing.List[typing.Tuple[float, float]]
@@ -25,7 +26,6 @@ class ProcessModel:
     initial_conditions: Conditions
     IsTimeDefined: True
     comments: typing.Optional[str]
-    permeate_temperature: typing.Optional.List[float] = None
 
     @property
     def to_dimensionless_length(self):

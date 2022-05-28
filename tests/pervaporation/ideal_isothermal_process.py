@@ -171,19 +171,24 @@ def romakon_pm102_real_pervaporation(
     )
 
 
-def test_experimet_romakon_al2(romakon_al2_pervaporation, romakon_al2_experiment_conditions, all_mixtures):
+def test_experimet_romakon_al2(
+    romakon_al2_pervaporation, romakon_al2_experiment_conditions, all_mixtures
+):
     model = romakon_al2_pervaporation.model_ideal_isothermal_process(
         number_of_steps=5,
         d_time_step_hours=1,
         conditions=romakon_al2_experiment_conditions,
     )
-    experiment_partial_fluxes = [(0.0621,	0.0061),
-                                 (0.0399,	0.0039),
-                                 (0.0372,	0.0041),
-                                 (0.0047,	0.0008),
-                                 (0.0056,	0.0010)]
-    for i in range (5):
-          assert (model.partial_fluxes[0]-experiment_partial_fluxes[0]) < 1e-1
+    experiment_partial_fluxes = [
+        (0.0621, 0.0061),
+        (0.0399, 0.0039),
+        (0.0372, 0.0041),
+        (0.0047, 0.0008),
+        (0.0056, 0.0010),
+    ]
+    for i in range(5):
+
+        assert (model.partial_fluxes[0] - experiment_partial_fluxes[0]) < 1e-1
 
 
 def test_experimet_romakon_pm102():

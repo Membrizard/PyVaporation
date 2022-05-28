@@ -10,8 +10,8 @@ from mixture import (
 )
 from pervaporation import Pervaporation
 
-all_components: AllComponents = AllComponents.load("../../components.yml")
-all_mixtures: AllMixtures = AllMixtures.load("../../mixtures.yml", all_components)
+all_components: AllComponents = AllComponents.load("components.yml")
+all_mixtures: AllMixtures = AllMixtures.load("mixtures.yml", all_components)
 
 experiment_meoh_1 = IdealExperiment(
     name="PAI_SPI_1(wt%)_asym",
@@ -82,7 +82,7 @@ test_conditions = Conditions(
     initial_feed_composition=Composition(p=0.15, type=CompositionType("weight")),
 )
 meoh_mtbe_pervaporation = Pervaporation(
-    membrane=pai_spi, mixture=all_mixtures.meoh_mtbe, conditions=test_conditions
+    membrane=pai_spi, mixture=all_mixtures.meoh_mtbe
 )
 
 # Check Activation Energy values

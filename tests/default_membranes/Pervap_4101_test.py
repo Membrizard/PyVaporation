@@ -67,13 +67,6 @@ def pervap_4101(all_components, all_mixtures):
 
 @fixture
 def h2o_etoh_pervaporation(pervap_4101, all_mixtures):
-    test_conditions = Conditions(
-        membrane_area=0.05,
-        feed_temperature=323.15,
-        permeate_temperature=1,
-        feed_amount=1,
-        initial_feed_composition=Composition(p=0.15, type=CompositionType("weight")),
-    )
     return Pervaporation(membrane=pervap_4101, mixture=all_mixtures.h2o_etoh)
 
 

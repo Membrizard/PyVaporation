@@ -170,7 +170,6 @@ class Pervaporation:
         d_time_step_hours: float,
         conditions: Conditions,
         precision: typing.Optional[float] = 5e-5,
-
     ) -> ProcessModel:
         time_steps = [d_time_step_hours * step for step in range(number_of_steps)]
         feed_temperature = conditions.feed_temperature
@@ -406,7 +405,6 @@ class Pervaporation:
             feed_temperature[step + 1] = feed_temperature[step] - (
                 feed_evaporation_heat[step] / (feed_heat_capacity * feed_mass[step])
             )
-
 
         return ProcessModel(
             mixture=self.mixture,
