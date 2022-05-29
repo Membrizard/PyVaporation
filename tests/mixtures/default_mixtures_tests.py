@@ -2,8 +2,12 @@ import numpy
 from pytest import fixture
 
 from component import AllComponents
-from mixture import (AllMixtures, Composition, CompositionType,
-                     get_nrtl_partial_pressures)
+from mixture import (
+    AllMixtures,
+    Composition,
+    CompositionType,
+    get_nrtl_partial_pressures,
+)
 
 
 @fixture

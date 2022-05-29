@@ -18,35 +18,6 @@ def all_components():
 def all_mixtures(all_components):
     return AllMixtures.load("mixtures.yml", all_components)
 
-
-@fixture
-def romakon_pm102_real(all_components):
-    experiment_h2o_1 = IdealExperiment(
-        name="Romakon-PM102",
-        temperature=313.15,
-        component=all_components.h2o,
-        permeance=0.036091,
-        activation_energy=19944,
-    )
-
-    experiment_etoh_1 = IdealExperiment(
-        name="Romakon-PM102",
-        temperature=313.15,
-        component=all_components.etoh,
-        permeance=0.0000282,
-        activation_energy=110806,
-    )
-
-    ideal_experiments = IdealExperiments(
-        experiments=[
-            experiment_h2o_1,
-            experiment_etoh_1,
-        ]
-    )
-
-    return Membrane(ideal_experiments=ideal_experiments, name="Romakon-PM102")
-
-
 @fixture
 def romakon_al2(all_components):
     experiment_h2o_1 = IdealExperiment(
@@ -84,32 +55,11 @@ def romakon_al2_experiment_conditions():
 
 
 @fixture
-def romakon_pm102_experiment_conditions():
-    return Conditions(
-        membrane_area=0.01,
-        feed_temperature=320.4,
-        feed_amount=0.14706,
-        initial_feed_composition=Composition(p=0.949, type=CompositionType("weight")),
-        permeate_temperature=200,
-    )
-
-
-@fixture
 def romakon_al2_pervaporation(
     romakon_al2, romakon_al2_experiment_conditions, all_mixtures
 ):
     return Pervaporation(
         membrane=romakon_al2,
-        mixture=all_mixtures.h2o_etoh,
-    )
-
-
-@fixture
-def romakon_pm102_real_pervaporation(
-    romakon_pm102_real, romakon_pm102_experiment_conditions, all_mixtures
-):
-    return Pervaporation(
-        membrane=romakon_pm102_real,
         mixture=all_mixtures.h2o_etoh,
     )
 
@@ -145,13 +95,3 @@ def test_experimet_romakon_al2(
             )
             < experiment_permeate_composition[i] * 0.05
         )
-
-
-def test_experimet_romakon_pm102(romakon_pm102_real_pervaporation, romakon_pm102_experiment_conditions):
-    model = romakon_al2_pervaporation.model_ideal_isothermal_process(
-        number_of_steps=14,
-        d_time_step_hours=1,
-        conditions=romakon_al2_experiment_conditions,
-        precision=5e-5,
-    )
-    assert 0 == 0

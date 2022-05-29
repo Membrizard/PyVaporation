@@ -7,8 +7,8 @@ R = 8.314462
 
 
 class VPConstantsType(Enum):
-    antoine: str = 'antoine'
-    frost: str = 'frost'
+    antoine: str = "antoine"
+    frost: str = "frost"
 
 
 @attr.s(auto_attribs=True)
@@ -17,7 +17,10 @@ class VaporPressureConstants:
     b: float = attr.ib(converter=lambda value: float(value))  # type: ignore
     c: float = attr.ib(converter=lambda value: float(value))  # type: ignore
     type: VPConstantsType = attr.ib(
-        converter=lambda x: VPConstantsType(x) if x is not None else VPConstantsType('antoine')
+        default=VPConstantsType("antoine"),
+        converter=lambda x: VPConstantsType(x)
+        if x is not None
+        else VPConstantsType("antoine"),
     )
 
 

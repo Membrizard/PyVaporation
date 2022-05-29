@@ -121,7 +121,6 @@ def pervaporation_binary(romakon_pm102_binary, all_mixtures, test_conditions):
     return Pervaporation(
         membrane=romakon_pm102_binary,
         mixture=all_mixtures.h2o_etoh,
-        conditions=test_conditions,
     )
 
 
@@ -130,7 +129,6 @@ def pervaporation_real(romakon_pm102_real, all_mixtures, test_conditions):
     return Pervaporation(
         membrane=romakon_pm102_real,
         mixture=all_mixtures.h2o_etoh,
-        conditions=test_conditions,
     )
 
 
@@ -168,11 +166,6 @@ def test_calculate_partial_fluxes_variable_concentration(
         (0.4528037879, 0.0002265151515),
         (0.3791491736, 0.0001896694215),
         (0.3120968379, 0.0001561264822),
-    ]
-    validation_permeate_compositions_40 = [
-        Composition(p=0.9995, type=CompositionType("weight")),
-        Composition(p=0.9995, type=CompositionType("weight")),
-        Composition(p=0.9995, type=CompositionType("weight")),
     ]
 
     validation_feed_compositions_40 = [

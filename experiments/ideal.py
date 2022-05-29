@@ -30,7 +30,7 @@ class IdealExperiment:
         d: typing.Mapping[str, typing.Union[str, float]],
         all_components: AllComponents,
     ) -> "IdealExperiment":
-        component = getattr(all_components, d['component'])
+        component = getattr(all_components, d["component"])
         return cls(**d)
 
 

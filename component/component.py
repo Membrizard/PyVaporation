@@ -5,7 +5,7 @@ import attr
 import numpy
 import yaml
 
-from utils import HeatCapacityConstants, R, VaporPressureConstants
+from utils import HeatCapacityConstants, R, VaporPressureConstants, VPConstantsType
 
 
 @attr.s(auto_attribs=True)
@@ -36,13 +36,13 @@ class Component:
         :param temperature: temperature in K
         :return: saturated pressure in kPa calculated with respect to constants and given temperature
         """
-        if self.vapour_pressure_constants.type == "antoine":
+        if self.vapour_pressure_constants.type == VPConstantsType.antoine:
             return 10 ** (
                 self.vapour_pressure_constants.a
                 + self.vapour_pressure_constants.b
                 / (temperature + self.vapour_pressure_constants.c)
             )
-        elif self.vapour_pressure_constants.type == "frost":
+        elif self.vapour_pressure_constants.type == VPConstantsType.frost:
             return numpy.exp(
                 self.vapour_pressure_constants.a
                 + self.vapour_pressure_constants.b / temperature
@@ -59,7 +59,7 @@ class Component:
         :param temperature: temperature in K
         :return: Vaporisation heat in kJ/mol
         """
-        if self.vapour_pressure_constants.type == "antoine":
+        if self.vapour_pressure_constants.type == VPConstantsType.antoine:
             return (
                 -(
                     (temperature / (temperature + self.vapour_pressure_constants.c))
@@ -70,7 +70,7 @@ class Component:
                 )
                 / 1000
             )
-        elif self.vapour_pressure_constants.type == "frost":
+        elif self.vapour_pressure_constants.type == VPConstantsType.frost:
             return (
                 -R
                 * (
