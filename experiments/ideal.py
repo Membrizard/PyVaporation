@@ -26,8 +26,11 @@ class IdealExperiment:
 
     @classmethod
     def from_dict(
-        cls, d: typing.Mapping[str, typing.Union[str, float]]
+        cls,
+        d: typing.Mapping[str, typing.Union[str, float]],
+        all_components: AllComponents,
     ) -> "IdealExperiment":
+        component = getattr(all_components, d['component'])
         return cls(**d)
 
 
