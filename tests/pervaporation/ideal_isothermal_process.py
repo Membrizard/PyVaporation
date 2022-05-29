@@ -177,7 +177,7 @@ def test_experimet_romakon_al2(
 ):
     model = romakon_al2_pervaporation.model_ideal_isothermal_process(
         number_of_steps=5,
-        d_time_step_hours=1,
+        delta_hours=1,
         conditions=romakon_al2_experiment_conditions,
         precision=5e-5,
     )

@@ -18,8 +18,39 @@ class DiffusionCurve:
     permeances: typing.Optional[typing.List[typing.Tuple[float, float]]] = None
     comments: typing.Optional[str] = None
 
+    def __attrs_post_init__(self):
+        if self.permeances is None:
+            permeate_compositions = self.permeate_composition
+            feed_partial_pressures = [
+                get_nrtl_partial_pressures(
+                    self.feed_temperature, self.mixture, composition
+                )
+                for composition in self.feed_compositions
+            ]
+            if self.permeate_temperature is None:
+                self.permeances = [
+                    numpy.divide(self.partial_fluxes[i], feed_partial_pressures[i])
+                    for i in range(len(self.feed_compositions))
+                ]
+            else:
+                permeate_partial_pressures = [
+                    get_nrtl_partial_pressures(
+                        self.permeate_temperature, self.mixture, composition
+                    )
+                    for composition in permeate_compositions
+                ]
+                self.permeances = [
+                    numpy.divide(
+                        self.partial_fluxes[i],
+                        numpy.substract(
+                            feed_partial_pressures[i], permeate_partial_pressures[i]
+                        ),
+                    )
+                    for i in range(len(self.feed_compositions))
+                ]
+
     @property
-    def get_permeate_composition(self) -> typing.List[Composition]:
+    def permeate_composition(self) -> typing.List[Composition]:
         return [
             Composition(
                 self.partial_fluxes[i][0] / (sum(self.partial_fluxes[i])),
@@ -30,7 +61,7 @@ class DiffusionCurve:
 
     @property
     def get_separation_factor(self) -> typing.List[float]:
-        permeate_composition = self.get_permeate_composition
+        permeate_composition = self.permeate_composition
         feed_composition = self.feed_compositions
         return [
             ((1 - feed_composition[i].second) / feed_composition[i].p)
@@ -51,7 +82,7 @@ class DiffusionCurve:
         if self.permeances is not None:
             return self.permeances
         else:
-            permeate_compositions = self.get_permeate_composition
+            permeate_compositions = self.permeate_composition
             feed_partial_pressures = [
                 get_nrtl_partial_pressures(
                     self.feed_temperature, self.mixture, composition
