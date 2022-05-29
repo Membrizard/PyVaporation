@@ -1,11 +1,12 @@
-from component import AllComponents
-from experiments import IdealExperiments, IdealExperiment
-from mixture import AllMixtures, Composition, CompositionType
-from membrane import Membrane
-from pervaporation import Pervaporation
-from conditions import Conditions
-from process import ProcessModel
 from pytest import fixture
+
+from component import AllComponents
+from conditions import Conditions
+from experiments import IdealExperiment, IdealExperiments
+from membrane import Membrane
+from mixture import AllMixtures, Composition, CompositionType
+from pervaporation import Pervaporation
+from process import ProcessModel
 
 
 @fixture
@@ -118,7 +119,7 @@ def test_experimet_romakon_al2(
 ):
     model = romakon_al2_pervaporation.model_ideal_isothermal_process(
         number_of_steps=5,
-        d_time_step_hours=1,
+        delta_hours=1,
         conditions=romakon_al2_experiment_conditions,
         precision=5e-5,
     )
@@ -135,7 +136,9 @@ def test_experimet_romakon_al2(
         assert (
             abs(model.partial_fluxes[i][0] - experiment_partial_fluxes[i][0]) < 2.5e-2
         )
-        assert abs(model.partial_fluxes[i][1] - experiment_partial_fluxes[i][1]) < 3.2e-3
+        assert (
+            abs(model.partial_fluxes[i][1] - experiment_partial_fluxes[i][1]) < 3.2e-3
+        )
         assert (
             abs(
                 model.permeate_composition[i].first - experiment_permeate_composition[i]

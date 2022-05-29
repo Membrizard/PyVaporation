@@ -1,7 +1,8 @@
-from component import AllComponents
-from experiments import IdealExperiments, IdealExperiment
-from membrane import Membrane
 from pytest import fixture
+
+from component import AllComponents
+from experiments import IdealExperiment, IdealExperiments
+from membrane import Membrane
 
 
 @fixture

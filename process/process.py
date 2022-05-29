@@ -1,11 +1,11 @@
 import typing
-import numpy
 from pathlib import Path
 
 import attr
+import numpy
 
-from mixture import Composition, Mixture
 from conditions import Conditions
+from mixture import Composition, Mixture
 
 
 @attr.s(auto_attribs=True)

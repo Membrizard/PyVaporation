@@ -5,7 +5,7 @@ import attr
 import numpy
 import yaml
 
-from utils import VaporPressureConstants, HeatCapacityConstants, R
+from utils import HeatCapacityConstants, R, VaporPressureConstants
 
 
 @attr.s(auto_attribs=True)
