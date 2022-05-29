@@ -1,15 +1,12 @@
+from pytest import fixture
+
 from component import AllComponents
 from conditions import Conditions
-from experiments import IdealExperiments, IdealExperiment
+from experiments import IdealExperiment, IdealExperiments
 from membrane import Membrane
-from mixture import (
-    AllMixtures,
-    Composition,
-    CompositionType,
-    get_nrtl_partial_pressures,
-)
+from mixture import (AllMixtures, Composition, CompositionType,
+                     get_nrtl_partial_pressures)
 from pervaporation import Pervaporation
-from pytest import fixture
 
 
 @fixture

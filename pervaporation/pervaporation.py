@@ -3,11 +3,12 @@ import typing
 import attr
 import numpy
 
-from diffusion_curve import DiffusionCurve
-from process import ProcessModel
 from conditions import Conditions
+from diffusion_curve import DiffusionCurve
 from membrane import Membrane
-from mixture import Composition, CompositionType, Mixture, get_nrtl_partial_pressures
+from mixture import (Composition, CompositionType, Mixture,
+                     get_nrtl_partial_pressures)
+from process import ProcessModel
 
 
 def get_permeate_composition_from_fluxes(
@@ -176,7 +177,9 @@ class Pervaporation:
             delta_hours * step for step in range(number_of_steps)
         ]
 
-        partial_fluxes: typing.List[typing.Tuple[float, float]] = [(0.0, 0.0)] * (number_of_steps + 1)
+        partial_fluxes: typing.List[typing.Tuple[float, float]] = [(0.0, 0.0)] * (
+            number_of_steps + 1
+        )
 
         first_component_permeance = self.membrane.get_permeance(
             conditions.feed_temperature, self.mixture.first_component
@@ -189,29 +192,39 @@ class Pervaporation:
         ] * (number_of_steps + 1)
 
         permeate_composition: typing.List[Composition] = []
-        feed_composition: typing.List[Composition] = [conditions.initial_feed_composition]
+        feed_composition: typing.List[Composition] = [
+            conditions.initial_feed_composition
+        ]
 
         feed_evaporation_heat: typing.List[float] = []
         permeate_condensation_heat: typing.List[float] = []
         feed_mass: typing.List[float] = [conditions.feed_amount]
 
         evaporation_heat_1 = (
-            self.mixture.first_component.get_vaporisation_heat(conditions.feed_temperature)
+            self.mixture.first_component.get_vaporisation_heat(
+                conditions.feed_temperature
+            )
             / self.mixture.first_component.molecular_weight
             * 1000
         )
         evaporation_heat_2 = (
-            self.mixture.second_component.get_vaporisation_heat(conditions.feed_temperature)
+            self.mixture.second_component.get_vaporisation_heat(
+                conditions.feed_temperature
+            )
             / self.mixture.first_component.molecular_weight
             * 1000
         )
         condensation_heat_1 = (
-            self.mixture.first_component.get_vaporisation_heat(conditions.permeate_temperature)
+            self.mixture.first_component.get_vaporisation_heat(
+                conditions.permeate_temperature
+            )
             / self.mixture.first_component.molecular_weight
             * 1000
         )
         condensation_heat_2 = (
-            self.mixture.first_component.get_vaporisation_heat(conditions.permeate_temperature)
+            self.mixture.first_component.get_vaporisation_heat(
+                conditions.permeate_temperature
+            )
             / self.mixture.first_component.molecular_weight
             * 1000
         )

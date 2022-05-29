@@ -1,8 +1,8 @@
 import typing
 
-from mixture import Composition
-
 import attr
+
+from mixture import Composition
 
 
 @attr.s(auto_attribs=True)

@@ -2,7 +2,6 @@ import typing
 
 import attr
 
-
 R = 8.314462
 
 
