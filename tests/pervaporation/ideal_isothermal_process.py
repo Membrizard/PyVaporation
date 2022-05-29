@@ -19,65 +19,6 @@ def all_mixtures(all_components):
 
 
 @fixture
-def romakon_pm102_binary(all_components):
-    experiment_h2o_1 = IdealExperiment(
-        name="Romakon-PM102",
-        temperature=313.15,
-        component=all_components.h2o,
-        permeance=0.05500,
-        activation_energy=19944,
-    )
-    experiment_h2o_2 = IdealExperiment(
-        name="Romakon-PM102",
-        temperature=323.15,
-        component=all_components.h2o,
-        permeance=0.06713,
-        activation_energy=19944,
-    )
-    experiment_h2o_3 = IdealExperiment(
-        name="Romakon-PM102",
-        temperature=333.15,
-        component=all_components.h2o,
-        permeance=0.08718,
-        activation_energy=19944,
-    )
-    experiment_etoh_1 = IdealExperiment(
-        name="Romakon-PM102",
-        temperature=313.15,
-        component=all_components.etoh,
-        permeance=0.00002,
-        activation_energy=110806,
-    )
-    experiment_etoh_2 = IdealExperiment(
-        name="Romakon-PM102",
-        temperature=323.15,
-        component=all_components.etoh,
-        permeance=0.00003,
-        activation_energy=110806,
-    )
-    experiment_etoh_3 = IdealExperiment(
-        name="Romakon-PM102",
-        temperature=333.15,
-        component=all_components.etoh,
-        permeance=0.00027,
-        activation_energy=110806,
-    )
-
-    ideal_experiments = IdealExperiments(
-        experiments=[
-            experiment_h2o_1,
-            experiment_h2o_2,
-            experiment_h2o_3,
-            experiment_etoh_1,
-            experiment_etoh_2,
-            experiment_etoh_3,
-        ]
-    )
-
-    return Membrane(ideal_experiments=ideal_experiments, name="Romakon-PM102")
-
-
-@fixture
 def romakon_pm102_real(all_components):
     experiment_h2o_1 = IdealExperiment(
         name="Romakon-PM102",
@@ -148,7 +89,7 @@ def romakon_pm102_experiment_conditions():
         feed_temperature=320.4,
         feed_amount=0.14706,
         initial_feed_composition=Composition(p=0.949, type=CompositionType("weight")),
-        permeate_temperature=1,
+        permeate_temperature=200,
     )
 
 
@@ -173,7 +114,7 @@ def romakon_pm102_real_pervaporation(
 
 
 def test_experimet_romakon_al2(
-    romakon_al2_pervaporation, romakon_al2_experiment_conditions, all_mixtures
+    romakon_al2_pervaporation, romakon_al2_experiment_conditions
 ):
     model = romakon_al2_pervaporation.model_ideal_isothermal_process(
         number_of_steps=5,
@@ -203,9 +144,11 @@ def test_experimet_romakon_al2(
         )
 
 
-def test_experimet_romakon_pm102():
-    assert 0 == 0
-
-
-def test_model_romakon_pm102():
+def test_experimet_romakon_pm102(romakon_pm102_real_pervaporation, romakon_pm102_experiment_conditions):
+    model = romakon_al2_pervaporation.model_ideal_isothermal_process(
+        number_of_steps=14,
+        d_time_step_hours=1,
+        conditions=romakon_al2_experiment_conditions,
+        precision=5e-5,
+    )
     assert 0 == 0
