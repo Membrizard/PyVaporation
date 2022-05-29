@@ -302,10 +302,10 @@ class Pervaporation:
         self,
         conditions: Conditions,
         number_of_steps: int,
-        d_time_step_hours: float,
-        precision: float = 5e-5,
+        delta_hours: float,
+        precision: typing.Optional[float] = 5e-5,
     ) -> ProcessModel:
-        time_steps = [d_time_step_hours * step for step in range(number_of_steps)]
+        time_steps = [delta_hours * step for step in range(number_of_steps)]
         feed_temperature = [] * number_of_steps
         feed_temperature[0] = conditions.feed_temperature
         permeate_temperature = [float] * number_of_steps
@@ -392,8 +392,8 @@ class Pervaporation:
                 type=CompositionType("weight"),
             )
 
-            d_mass_1 = partial_fluxes[step][0] * area * d_time_step_hours
-            d_mass_2 = partial_fluxes[step][1] * area * d_time_step_hours
+            d_mass_1 = partial_fluxes[step][0] * area * delta_hours
+            d_mass_2 = partial_fluxes[step][1] * area * delta_hours
 
             feed_evaporation_heat[step] = (
                 evaporation_heat_1 * d_mass_1 + evaporation_heat_2 * d_mass_2

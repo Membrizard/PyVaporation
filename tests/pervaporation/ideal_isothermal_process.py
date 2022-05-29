@@ -18,6 +18,7 @@ def all_components():
 def all_mixtures(all_components):
     return AllMixtures.load("mixtures.yml", all_components)
 
+
 @fixture
 def romakon_al2(all_components):
     experiment_h2o_1 = IdealExperiment(
