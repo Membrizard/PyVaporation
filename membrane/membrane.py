@@ -35,21 +35,19 @@ class Membrane:
             )
         )
 
-    # Calculate an apparent activation energy of permeation
     def calculate_activation_energy(
         self,
         component: Component,
-        # rewrite: bool = True,  # TODO: make rewrite great again
     ) -> float:
 
         component_experiments = self.get_penetrant_data(component)
 
         if len(component_experiments) < 2:
             raise ValueError(
-                "At Least Two points are required for the calculation of Apparent Activation Energy"
+                "At least two measurements at different temperatures are required for "
+                "the calculation of Apparent Activation Energy"
             )
 
-        # Get all the temperature values corresponding to the permeances for a given penetrant convert to 1/T
         x = numpy.divide(
             1,
             [
@@ -57,16 +55,16 @@ class Membrane:
                 for ideal_experiment in component_experiments.experiments
             ],
         )
-        # Get all the permeance values for a given Penetrant convert to Ln(permeance)
+
         y = numpy.log(
             [
                 ideal_experiment.permeance
                 for ideal_experiment in component_experiments.experiments
             ]
         )
-        # Converting Ln(permeance) to the matrix equation form
+
         a = numpy.vstack([x, numpy.ones(len(x))]).T
-        # Calculation of Least-squares Linear Fit of Ln(Permeance) versus 1/T
+
         activation_energy, c = numpy.linalg.lstsq(a, y, rcond=-1)[0] * R
 
         return -activation_energy
@@ -109,7 +107,6 @@ class Membrane:
                 * (1 / temperature - 1 / temperature_list[index])
             )
 
-    # calculating the selectivity
     def get_ideal_selectivity(
         self,
         temperature: float,

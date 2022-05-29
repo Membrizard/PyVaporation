@@ -95,4 +95,4 @@ def test_ideal_non_isothermal_process(pervaporation, test_conditions):
     ]
 
     for i in range(len(validation_permeances_h2o)):
-        assert abs(validation_permeances_h2o[i]-model.permeances[i][0])<0
+        assert abs(validation_permeances_h2o[i] - model.permeances[i][0]) < 0
