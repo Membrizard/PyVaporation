@@ -1,3 +1,3 @@
-from .diffusion_curve import DiffusionCurve
+from .diffusion_curve import DiffusionCurve, DiffusionCurves
 
-__all__ = ["DiffusionCurve"]
+__all__ = ["DiffusionCurve","DiffusionCurves"]

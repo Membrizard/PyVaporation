@@ -5,12 +5,14 @@ import numpy
 
 from component import Component
 from experiments import IdealExperiments
+from diffusion_curve import DiffusionCurves
 from utils import R
 
 
 @attr.s(auto_attribs=True)
 class Membrane:
     ideal_experiments: IdealExperiments
+    diffusion_curves : DiffusionCurves
     name: str
 
     # non_ideal_experiments: typing.List[NonIdealExperiment]  # TODO: non ideal experiments - Diffusion curves

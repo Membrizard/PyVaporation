@@ -122,3 +122,8 @@ class DiffusionCurve:
     @classmethod
     def from_csv(cls, path: typing.Union[str, Path]) -> "DiffusionCurve":
         pass
+
+
+@attr.s(auto_attribs=True)
+class DiffusionCurves:
+    diffusion_curves: typing.List[DiffusionCurve]
