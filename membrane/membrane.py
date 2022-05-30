@@ -11,27 +11,17 @@ from utils import R
 
 @attr.s(auto_attribs=True)
 class Membrane:
-    ideal_experiments: IdealExperiments
     name: str
+    ideal_experiments: IdealExperiments
     diffusion_curves: typing.Optional[DiffusionCurves] = None
 
-    # non_ideal_experiments: typing.List[NonIdealExperiment]  # TODO: non ideal experiments - Diffusion curves
-
-    # @property
-    # def ideal_experiments_names(self) -> typing.List[str]:
-    #     return [ie.component.name for ie in self.ideal_experiments.experiments]
-
-    # Get all the penetrants the membrane was tested for
-    # def get_known_penetrants(self) -> typing.List[Component]:
-    #     return numpy.unique(
-    #         [ideal_experiment.component for ideal_experiment in self.ideal_experiments]
-    #     )
+    # TODO: non ideal experiments - Diffusion curves
 
     def get_penetrant_data(self, component: Component) -> IdealExperiments:
         return IdealExperiments(
             experiments=list(
                 filter(
-                    lambda x: x.component.name == component.name,  # TODO: fix names
+                    lambda x: x.component.name == component.name,
                     self.ideal_experiments.experiments,
                 )
             )
