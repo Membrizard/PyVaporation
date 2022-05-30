@@ -24,7 +24,7 @@ def romakon_pm102_real(all_components):
         name="Romakon-PM102",
         temperature=323.15,
         component=all_components.h2o,
-        permeance=0.027,
+        permeance=0.036091,
         activation_energy=19944,
     )
 
@@ -52,7 +52,7 @@ def test_conditions():
         membrane_area=0.04155,
         feed_temperature=333.15,
         permeate_temperature=293.15,
-        feed_amount=72,
+        feed_amount=12,
         initial_feed_composition=Composition(p=0.94, type=CompositionType("weight")),
     )
 
@@ -70,29 +70,32 @@ def test_ideal_non_isothermal_process(pervaporation, test_conditions):
         conditions=test_conditions, number_of_steps=8, delta_hours=0.125
     )
 
-    validation_permeances_h2o = [0.034, 0.034, 0.034, 0.033, 0.033, 0.033, 0.032, 0.032]
+    validation_permeances_h2o = [
+        0.0451084,
+        0.0454345,
+        0.0451811,
+        0.0449334,
+        0.0446911,
+        0.0444539,
+        0.0442218,
+        0.0439945
+    ]
     validation_fluxes_h2o = [
-        1.480173991,
-        1.429324803,
-        1.381641193,
-        1.336840606,
-        1.294672953,
-        1.254916091,
-        1.217372039,
-        1.181863786,
+        0.791,
+        0.775,
+        0.761,
+        0.747,
+        0.734,
+        0.721,
+        0.709,
+        0.697
     ]
 
     validation_temperatures = [60, 59.5, 59.1, 58.7, 58.2, 57.8, 57.5, 57.1]
-    validation_evaporation_heat = [
-        40.68,
-        40.68,
-        40.68,
-        40.69,
-        40.69,
-        40.69,
-        40.70,
-        40.70,
-    ]
 
     for i in range(len(validation_permeances_h2o)):
-        assert abs(validation_permeances_h2o[i] - model.permeances[i][0]) < 0
+        assert abs(validation_permeances_h2o[i] - model.permeances[i][0]) < 2e-3
+        assert (
+            abs((validation_temperatures[i] + 273.15) - model.feed_temperature[i]) < 3e-1
+        )
+        assert abs(validation_fluxes_h2o[i]-model.partial_fluxes[i][0]) < 6.3e-2
