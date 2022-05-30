@@ -164,7 +164,7 @@ class Pervaporation:
             ],
         )
 
-    def model_ideal_isothermal_process(
+    def ideal_isothermal_process(
         self,
         number_of_steps: int,
         delta_hours: float,
@@ -293,7 +293,7 @@ class Pervaporation:
             IsTimeDefined=True,
         )
 
-    def model_ideal_non_isothermal_process(
+    def ideal_non_isothermal_process(
         self,
         conditions: Conditions,
         number_of_steps: int,
@@ -448,9 +448,9 @@ class Pervaporation:
             comments="",
         )
 
-    def model_non_ideal_process(
+    def non_ideal_process(
         self,
         conditions: Conditions,
-        diffusion_curve: DiffusionCurve,
+        diffusion_curves: DiffusionCurves,
     ):
         pass

@@ -66,7 +66,7 @@ def pervaporation(romakon_pm102_real, all_mixtures):
 
 
 def test_ideal_non_isothermal_process(pervaporation, test_conditions):
-    model = pervaporation.model_ideal_non_isothermal_process(
+    model = pervaporation.ideal_non_isothermal_process(
         conditions=test_conditions, number_of_steps=8, delta_hours=0.125
     )
 
