@@ -5,6 +5,7 @@ import attr
 import numpy
 
 from mixture import Composition, CompositionType, Mixture, get_nrtl_partial_pressures
+from component import Component
 
 
 @attr.s(auto_attribs=True)
@@ -121,7 +122,9 @@ class DiffusionCurve:
 
     @property
     def fit_permeances(self) -> typing.Tuple[typing.List[float], typing.List[float]]:
-        x = [self.feed_compositions[i].first for i in range(len(self.feed_compositions))]
+        x = [
+            self.feed_compositions[i].first for i in range(len(self.feed_compositions))
+        ]
         y = [numpy.log(self.permeances[i]) for i in range(len(self.permeances))]
         fit = numpy.polynomial.polynomial.Polynomial.fit()
         return 0
@@ -136,3 +139,25 @@ class DiffusionCurves:
     diffusion_curves: typing.List[DiffusionCurve]
 
 
+@attr.s(auto_attribs=True)
+class Units:
+    GPU: str = "GPU"
+    SI: str = "SI"
+    kg_m2_h_kPa: str = "kg/(m2*h*kPa)"
+    barrer: str = "Barrer"
+
+
+def permeance_converter(
+    value: float,
+    initial_units: str,
+    converted_units: str,
+    component: typing.Optional[Component],
+) -> float:
+    conversion_dict = {
+        "GPU": 3.35e-16,
+        "SI": 1,
+        "Barrer": 3.35e-16,
+        "kg/(m2*h*kPa)": component.molecular_weight*3.6e3,
+    }
+
+    return value * conversion_dict[initial_units] / conversion_dict[converted_units]
