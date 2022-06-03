@@ -93,7 +93,7 @@ class Pervaporation:
                     abs(permeate_composition_new.first - permeate_composition.first),
                     abs(permeate_composition_new.second - permeate_composition.second),
                 )
-            except:
+            except ():
                 raise ValueError(
                     "Partial fluxes are not defined in the stated conditions range"
                 )

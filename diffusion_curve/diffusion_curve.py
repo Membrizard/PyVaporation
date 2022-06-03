@@ -128,27 +128,3 @@ class DiffusionCurve:
 @attr.s(auto_attribs=True)
 class DiffusionCurves:
     diffusion_curves: typing.List[DiffusionCurve]
-
-
-@attr.s(auto_attribs=True)
-class Units:
-    GPU: str = "GPU"
-    SI: str = "SI"
-    kg_m2_h_kPa: str = "kg/(m2*h*kPa)"
-    barrer: str = "Barrer"
-
-
-def permeance_converter(
-    value: float,
-    initial_units: str,
-    converted_units: str,
-    component: typing.Optional[Component],
-) -> float:
-    conversion_dict = {
-        "GPU": 3.35e-16,
-        "SI": 1,
-        "Barrer": 3.35e-16,
-        "kg/(m2*h*kPa)": component.molecular_weight*3.6e3,
-    }
-
-    return value * conversion_dict[initial_units] / conversion_dict[converted_units]
