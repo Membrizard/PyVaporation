@@ -120,15 +120,6 @@ class DiffusionCurve:
             for i in range(len(self.feed_compositions))
         ]
 
-    @property
-    def fit_permeances(self) -> typing.Tuple[typing.List[float], typing.List[float]]:
-        x = [
-            self.feed_compositions[i].first for i in range(len(self.feed_compositions))
-        ]
-        y = [numpy.log(self.permeances[i]) for i in range(len(self.permeances))]
-        fit = numpy.polynomial.polynomial.Polynomial.fit()
-        return 0
-
     @classmethod
     def from_csv(cls, path: typing.Union[str, Path]) -> "DiffusionCurve":
         pass
