@@ -1,6 +1,5 @@
 import attr
 import typing
-from enum import Enum
 from component import Component
 
 
@@ -40,7 +39,7 @@ class Permeance:
                     "kg/(m2*h*kPa)": component.molecular_weight * 3.6e3,
                 }
         except KeyError:
-            raise KeyError("Convertion to specified units is not supported")
+            raise KeyError("Conversion to specified units is not supported")
 
         return Permeance(
                 value=(
