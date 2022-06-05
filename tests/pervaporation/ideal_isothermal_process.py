@@ -48,8 +48,8 @@ def romakon_al2(all_components):
 def romakon_al2_experiment_conditions():
     return Conditions(
         membrane_area=0.0048,
-        feed_temperature=319.65,
-        feed_amount=0.047,
+        initial_feed_temperature=319.65,
+        initial_feed_amount=0.047,
         initial_feed_composition=Composition(p=0.04, type=CompositionType("weight")),
         permeate_temperature=198,
     )
