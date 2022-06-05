@@ -8,7 +8,7 @@ from mixture import Composition, CompositionType
 
 
 @attr.s(auto_attribs=True)
-class CalculationType(Enum):
+class CalculationType:
     """
     A class for specification of a desired type of function,
     describing the dependency of Temperature versus process time
@@ -22,7 +22,7 @@ class CalculationType(Enum):
 @attr.s(auto_attribs=True)
 class TemperatureProgram:
     coefficients: typing.List[float]
-    type: CalculationType
+    type: str = CalculationType().polynomial
 
     def program(self, time):
         """
@@ -40,8 +40,8 @@ class TemperatureProgram:
             return self.coefficients[0] * numpy.exp(
                 sum(
                     [
-                        self.coefficients[i] * x**i
-                        for i in range(len(self.coefficients))
+                        self.coefficients[i] * x ** (i - 1)
+                        for i in range(1, len(self.coefficients))
                     ]
                 )
             )
@@ -50,8 +50,8 @@ class TemperatureProgram:
             return self.coefficients[0] * numpy.log(
                 sum(
                     [
-                        self.coefficients[i] * x**i
-                        for i in range(len(self.coefficients))
+                        self.coefficients[i] * x ** (i - 1)
+                        for i in range(1, len(self.coefficients))
                     ]
                 )
             )

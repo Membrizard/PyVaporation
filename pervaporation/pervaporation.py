@@ -520,7 +520,7 @@ class Pervaporation:
                 )
             else:
                 feed_temperature.append(
-                    conditions.temperature_program.program(time[step + 1])
+                    conditions.temperature_program.program(time[step] + delta_hours)
                 )
 
         time.pop()

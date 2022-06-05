@@ -57,7 +57,9 @@ class ProcessModel:
         :return: List of Calculated selectivities
         """
         permeance = self.permeances
-        return [permeance[i][0].value / permeance[i][1].value for i in range(len(permeance))]
+        return [
+            permeance[i][0].value / permeance[i][1].value for i in range(len(permeance))
+        ]
 
     @classmethod
     def from_csv(cls, path: typing.Union[str, Path]) -> "ProcessModel":
