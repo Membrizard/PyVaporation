@@ -1,17 +1,38 @@
 import typing
 
 import attr
-from pandas.compat.numpy import function
 
-from mixture import Composition
+import numpy
+from enum import Enum
+from mixture import Composition, CompositionType
+
+
+@attr.s(auto_attribs=True)
+class CalculationType(Enum):
+    polynomial: str = 'polynomial'
+    exponential: str = 'exponential'
+    logarithmic: str = 'logarithmic'
 
 
 @attr.s(auto_attribs=True)
 class TemperatureProgram:
-    coefs: typing.List[float]
+    coefficients: typing.List[float]
+    type: CalculationType
 
-    def temperature(self, time):
-        return time*self.coefs
+    def program(self, time):
+
+        def polynomial(x):
+            return sum([self.coefficients[i]*x**i for i in range(len(self.coefficients))])
+
+        def exponential(x):
+            return self.coefficients[0]*numpy.exp(sum([self.coefficients[i]*x**i for i in range(len(self.coefficients))]))
+
+        def logarithmic(x):
+            return self.coefficients[0] * numpy.log(
+                sum([self.coefficients[i] * x ** i for i in range(len(self.coefficients))]))
+        d = {'polynomial': polynomial(time), 'exponential': exponential(time), 'logarithmic': logarithmic(time)}
+
+        return d[self.type]
 
 
 @attr.s(auto_attribs=True)
@@ -22,3 +43,6 @@ class Conditions:
     initial_feed_composition: Composition
     permeate_temperature: float
     temperature_program: typing.Optional[TemperatureProgram] = None
+
+
+

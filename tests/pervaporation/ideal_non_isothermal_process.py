@@ -1,7 +1,6 @@
 from pytest import fixture
-
 from component import AllComponents
-from conditions import Conditions
+from conditions import Conditions, TemperatureProgram, CalculationType
 from experiments import IdealExperiment, IdealExperiments
 from membrane import Membrane
 from mixture import AllMixtures, Composition, CompositionType
@@ -50,10 +49,22 @@ def romakon_pm102_real(all_components):
 def test_conditions():
     return Conditions(
         membrane_area=0.04155,
-        feed_temperature=333.15,
+        initial_feed_temperature=333.15,
         permeate_temperature=293.15,
-        feed_amount=12,
+        initial_feed_amount=12,
         initial_feed_composition=Composition(p=0.94, type=CompositionType("weight")),
+    )
+
+
+@fixture
+def test_conditions_temp_program():
+    return Conditions(
+        membrane_area=0.04155,
+        initial_feed_temperature=333.15,
+        permeate_temperature=293.15,
+        initial_feed_amount=12,
+        initial_feed_composition=Composition(p=0.94, type=CompositionType("weight")),
+        temperature_program=TemperatureProgram(coefficients=[333.15, -1], type=CalculationType('polynomial'))
     )
 
 

@@ -1,3 +1,3 @@
-from .conditions import Conditions
+from .conditions import Conditions, TemperatureProgram, CalculationType
 
-__all__ = ["Conditions"]
+__all__ = ["Conditions", "TemperatureProgram", "CalculationType"]

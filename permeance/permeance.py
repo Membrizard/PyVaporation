@@ -23,7 +23,9 @@ class Permeance:
     ) -> "Permeance":
 
         if component is None and to_units == Units().kg_m2_h_kPa:
-            raise ValueError("For conversion from and to kg/(m2*h*kPa) Component must be specified ")
+            raise ValueError(
+                "For conversion from and to kg/(m2*h*kPa) Component must be specified "
+            )
         try:
             if component is None:
                 conversion_dict = {
@@ -42,9 +44,8 @@ class Permeance:
             raise KeyError("Conversion to specified units is not supported")
 
         return Permeance(
-                value=(
-                        self.value * conversion_dict[self.units] / conversion_dict[to_units]
-                ),
-                units=to_units,
-            )
-
+            value=(
+                self.value * conversion_dict[self.units] / conversion_dict[to_units]
+            ),
+            units=to_units,
+        )
