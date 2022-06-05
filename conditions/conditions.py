@@ -3,8 +3,7 @@ import typing
 import attr
 
 import numpy
-from enum import Enum
-from mixture import Composition, CompositionType
+from mixture import Composition
 
 
 @attr.s(auto_attribs=True)

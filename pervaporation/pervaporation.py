@@ -365,7 +365,7 @@ class Pervaporation:
                 + " / "
                 + str(self.mixture.second_component.name)
                 + " "
-                + str(datetime.now())
+                + datetime.now().strftime("%m/%d/%Y, %H:%M")
             ),
         )
 
