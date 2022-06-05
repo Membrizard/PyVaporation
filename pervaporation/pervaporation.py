@@ -9,6 +9,7 @@ from diffusion_curve import DiffusionCurve, DiffusionCurves
 from membrane import Membrane
 from mixture import Composition, CompositionType, Mixture, get_nrtl_partial_pressures
 from process import ProcessModel
+from permeance import Permeance
 
 
 def get_permeate_composition_from_fluxes(
@@ -201,7 +202,9 @@ class Pervaporation:
                 )
                 for composition in compositions
             ],
-            comments=(str(Membrane)+" "+str(Mixture)+" "+str(datetime.datetime))
+            comments=(
+                str(Membrane) + " " + str(Mixture) + " " + str(datetime.datetime)
+            ),
         )
 
     def ideal_isothermal_process(
@@ -341,7 +344,9 @@ class Pervaporation:
             feed_evaporation_heat=feed_evaporation_heat,
             permeate_condensation_heat=permeate_condensation_heat,
             initial_conditions=conditions,
-            comments=(str(Membrane)+' '+str('Mixture')+' '+str(datetime.datetime))
+            comments=(
+                str(Membrane) + " " + str("Mixture") + " " + str(datetime.datetime)
+            ),
         )
 
     def ideal_non_isothermal_process(
@@ -515,7 +520,9 @@ class Pervaporation:
             feed_evaporation_heat=feed_evaporation_heat,
             permeate_condensation_heat=permeate_condensation_heat,
             initial_conditions=conditions,
-            comments=(str(Membrane)+' '+str('Mixture')+' '+str(datetime.datetime))
+            comments=(
+                str(Membrane) + " " + str("Mixture") + " " + str(datetime.datetime)
+            ),
         )
 
     def non_ideal_process(

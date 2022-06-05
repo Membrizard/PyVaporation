@@ -6,6 +6,7 @@ import numpy
 from component import Component
 from experiments import IdealExperiments
 from diffusion_curve import DiffusionCurves
+from permeance import Permeance
 from utils import R
 
 

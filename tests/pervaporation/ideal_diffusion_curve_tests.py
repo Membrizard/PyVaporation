@@ -68,9 +68,9 @@ def pai_spi(all_components, all_mixtures):
 def meoh_mtbe_pervaporation(pai_spi, all_mixtures):
     test_conditions = Conditions(
         membrane_area=0.05,
-        feed_temperature=323.15,
+        initial_feed_temperature=323.15,
         permeate_temperature=1,
-        feed_amount=1,
+        initial_feed_amount=1,
         initial_feed_composition=Composition(p=0.15, type=CompositionType("weight")),
     )
     return Pervaporation(membrane=pai_spi, mixture=all_mixtures.meoh_mtbe)
@@ -129,6 +129,6 @@ def test_get_permeances(meoh_mtbe_pervaporation):
     modelled_permeances = modelled_curve.get_permeances
     calculated_selectivity = modelled_curve.get_selectivity
     for i in range(15):
-        assert abs(modelled_permeances[i][0] - validation_permeances[0]) < 1e-5
-        assert abs(modelled_permeances[i][1] - validation_permeances[1]) < 1e-5
+        assert abs(modelled_permeances[i][0].value - validation_permeances[0]) < 1e-5
+        assert abs(modelled_permeances[i][1].value - validation_permeances[1]) < 1e-5
         assert abs(calculated_selectivity[i] - validation_selectivity) < 1e-3
