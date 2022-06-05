@@ -304,7 +304,7 @@ class Pervaporation:
         precision: typing.Optional[float] = 5e-5,
     ) -> ProcessModel:
         time: typing.List[float] = [
-            delta_hours * step for step in range(number_of_steps+1)
+            delta_hours * step for step in range(number_of_steps + 1)
         ]
 
         feed_temperature: typing.List[float] = [conditions.initial_feed_temperature]
@@ -429,11 +429,16 @@ class Pervaporation:
 
             if conditions.temperature_program is None:
                 feed_temperature.append(
-                        feed_temperature[step]
-                        - (feed_evaporation_heat[step] / (feed_heat_capacity * feed_mass[step]))
+                    feed_temperature[step]
+                    - (
+                        feed_evaporation_heat[step]
+                        / (feed_heat_capacity * feed_mass[step])
                     )
+                )
             else:
-                feed_temperature.append(conditions.temperature_program.program(time[step+1]))
+                feed_temperature.append(
+                    conditions.temperature_program.program(time[step + 1])
+                )
 
         time.pop()
 

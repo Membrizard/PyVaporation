@@ -8,7 +8,6 @@ class Units:
     GPU: str = "GPU"
     SI: str = "SI"
     kg_m2_h_kPa: str = "kg/(m2*h*kPa)"
-    Barrer: str = "Barrer"
 
 
 @attr.s(auto_attribs=True)
@@ -31,14 +30,12 @@ class Permeance:
                 conversion_dict = {
                     "GPU": 3.35e-10,
                     "SI": 1,
-                    "Barrer": 3.35e-16,
                 }
             else:
                 conversion_dict = {
                     "GPU": 3.35e-10,
                     "SI": 1,
-                    "Barrer": 3.35e-16,
-                    "kg/(m2*h*kPa)": component.molecular_weight * 3.6e3,
+                    "kg/(m2*h*kPa)": 1/(component.molecular_weight * 3.6e3),
                 }
         except KeyError:
             raise KeyError("Conversion to specified units is not supported")

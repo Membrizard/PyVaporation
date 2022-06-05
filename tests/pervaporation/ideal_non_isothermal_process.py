@@ -64,7 +64,9 @@ def test_conditions_temp_program():
         permeate_temperature=293.15,
         initial_feed_amount=12,
         initial_feed_composition=Composition(p=0.94, type=CompositionType("weight")),
-        temperature_program=TemperatureProgram(coefficients=[333.15, -1], type=CalculationType('polynomial'))
+        temperature_program=TemperatureProgram(
+            coefficients=[333.15, -1], type=CalculationType("polynomial")
+        ),
     )
 
 
