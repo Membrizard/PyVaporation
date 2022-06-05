@@ -137,11 +137,11 @@ class DiffusionCurve:
                     (
                         Permeance(
                             value=self.partial_fluxes[i][0]
-                                  / feed_partial_pressures[i][0]
+                            / feed_partial_pressures[i][0]
                         ),
                         Permeance(
                             value=self.partial_fluxes[i][1]
-                                  / feed_partial_pressures[i][1]
+                            / feed_partial_pressures[i][1]
                         ),
                     )
                     for i in range(len(self.feed_compositions))
@@ -157,17 +157,17 @@ class DiffusionCurve:
                     (
                         Permeance(
                             value=self.partial_fluxes[i][0]
-                                  / (
-                                          feed_partial_pressures[i][0]
-                                          - permeate_partial_pressures[i][0]
-                                  )
+                            / (
+                                feed_partial_pressures[i][0]
+                                - permeate_partial_pressures[i][0]
+                            )
                         ),
                         Permeance(
                             value=self.partial_fluxes[i][1]
-                                  / (
-                                          feed_partial_pressures[i][1]
-                                          - permeate_partial_pressures[i][1]
-                                  )
+                            / (
+                                feed_partial_pressures[i][1]
+                                - permeate_partial_pressures[i][1]
+                            )
                         ),
                     )
                     for i in range(len(self.feed_compositions))
@@ -183,8 +183,9 @@ class DiffusionCurve:
         """
         permeances = self.permeances
         return [
-                permeances[i][0].value / permeances[i][1].value
-                for i in range(len(self.feed_compositions))]
+            permeances[i][0].value / permeances[i][1].value
+            for i in range(len(self.feed_compositions))
+        ]
 
     @classmethod
     def from_csv(cls, path: typing.Union[str, Path]) -> "DiffusionCurve":

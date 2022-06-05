@@ -33,6 +33,8 @@ class IdealExperiment:
         component = getattr(all_components, d["component"])
         return cls(**d)
 
+    # TODO Add check for units and conversion to kg/(m2*h*kPa) using Permeance.convert()
+
 
 @attr.s(auto_attribs=True)
 class IdealExperiments:

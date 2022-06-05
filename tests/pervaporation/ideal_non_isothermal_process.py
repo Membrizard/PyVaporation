@@ -98,7 +98,7 @@ def test_ideal_non_isothermal_process(pervaporation, test_conditions):
     validation_temperatures = [60, 59.5, 59.1, 58.7, 58.2, 57.8, 57.5, 57.1]
 
     for i in range(len(validation_permeances_h2o)):
-        assert abs(validation_permeances_h2o[i] - model.permeances[i][0]) < 2e-3
+        assert abs(validation_permeances_h2o[i] - model.permeances[i][0].value) < 2e-3
         assert (
             abs((validation_temperatures[i] + 273.15) - model.feed_temperature[i])
             < 3e-1

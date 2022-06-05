@@ -6,6 +6,7 @@ import numpy
 
 from conditions import Conditions
 from mixture import Composition, Mixture
+from permeance import Permeance
 
 
 @attr.s(auto_attribs=True)
@@ -19,7 +20,7 @@ class ProcessModel:
     permeate_temperature: typing.List[float]
     feed_mass: typing.List[float]
     partial_fluxes: typing.List[typing.Tuple[float, float]]
-    permeances: typing.List[typing.Tuple[float, float]]
+    permeances: typing.List[typing.Tuple[Permeance, Permeance]]
     time: typing.List[float]
     feed_evaporation_heat: typing.List[float]
     permeate_condensation_heat: typing.List[float]

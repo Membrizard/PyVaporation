@@ -76,9 +76,9 @@ pai_spi = Membrane(ideal_experiments=ideal_experiments, name="PAI_SPI_1(wt%)_asy
 
 test_conditions = Conditions(
     membrane_area=0.05,
-    feed_temperature=323.15,
+    initial_feed_temperature=323.15,
     permeate_temperature=1,
-    feed_amount=1,
+    initial_feed_amount=1,
     initial_feed_composition=Composition(p=0.15, type=CompositionType("weight")),
 )
 meoh_mtbe_pervaporation = Pervaporation(

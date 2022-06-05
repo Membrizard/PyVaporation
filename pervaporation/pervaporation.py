@@ -235,8 +235,11 @@ class Pervaporation:
         second_component_permeance = self.membrane.get_permeance(
             conditions.initial_feed_temperature, self.mixture.second_component
         )
-        permeances: typing.List[typing.Tuple[float, float]] = [
-            (first_component_permeance, second_component_permeance)
+        permeances: typing.List[typing.Tuple[Permeance, Permeance]] = [
+            (
+                Permeance(value=first_component_permeance),
+                Permeance(value=second_component_permeance),
+            )
         ] * number_of_steps
 
         permeate_composition: typing.List[Composition] = []
@@ -374,7 +377,7 @@ class Pervaporation:
 
         partial_fluxes: typing.List[typing.Tuple[float, float]] = []
 
-        permeances: typing.List[typing.Tuple[float, float]] = []
+        permeances: typing.List[typing.Tuple[Permeance, Permeance]] = []
 
         permeate_composition: typing.List[Composition] = []
 
@@ -440,11 +443,15 @@ class Pervaporation:
 
             permeances.append(
                 (
-                    self.membrane.get_permeance(
-                        feed_temperature[step], self.mixture.first_component
+                    Permeance(
+                        value=self.membrane.get_permeance(
+                            feed_temperature[step], self.mixture.first_component
+                        )
                     ),
-                    self.membrane.get_permeance(
-                        feed_temperature[step], self.mixture.second_component
+                    Permeance(
+                        value=self.membrane.get_permeance(
+                            feed_temperature[step], self.mixture.second_component
+                        )
                     ),
                 )
             )
@@ -455,8 +462,8 @@ class Pervaporation:
                     feed_composition[step],
                     precision,
                     conditions.permeate_temperature,
-                    permeances[step][0],
-                    permeances[step][1],
+                    permeances[step][0].value,
+                    permeances[step][1].value,
                 )
             )
 
