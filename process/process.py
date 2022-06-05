@@ -24,12 +24,7 @@ class ProcessModel:
     feed_evaporation_heat: typing.List[float]
     permeate_condensation_heat: typing.List[float]
     initial_conditions: Conditions
-    IsTimeDefined: True
     comments: typing.Optional[str] = None
-
-    @property
-    def to_dimensionless_length(self):
-        return [0]
 
     @property
     def get_separation_factor(self) -> typing.List[float]:
@@ -53,8 +48,6 @@ class ProcessModel:
     def get_selectivity(self) -> typing.List[float]:
         permeance = self.permeances
         return [permeance[i][0] / permeance[i][1] for i in range(len(permeance))]
-
-    # TODO Add interpolations with GEKKO
 
     @classmethod
     def from_csv(cls, path: typing.Union[str, Path]) -> "ProcessModel":
