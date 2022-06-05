@@ -5,10 +5,13 @@ from pandas.compat.numpy import function
 
 from mixture import Composition
 
+
 @attr.s(auto_attribs=True)
 class TemperatureProgram:
+    coefs: typing.List[float]
 
-
+    def temperature(self, time):
+        return time*self.coefs
 
 
 @attr.s(auto_attribs=True)
