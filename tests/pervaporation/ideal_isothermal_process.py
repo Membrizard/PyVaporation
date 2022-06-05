@@ -6,7 +6,7 @@ from experiments import IdealExperiment, IdealExperiments
 from membrane import Membrane
 from mixture import AllMixtures, Composition, CompositionType
 from pervaporation import Pervaporation
-from process import ProcessModel
+from permeance import Permeance
 
 
 @fixture
@@ -25,13 +25,13 @@ def romakon_al2(all_components):
         name="Romakon-Al2",
         temperature=319.65,
         component=all_components.h2o,
-        permeance=0.016876,
+        permeance=Permeance(0.016876),
     )
     experiment_etoh_1 = IdealExperiment(
         name="Romakon-Al2",
         temperature=319.65,
         component=all_components.etoh,
-        permeance=0.000139,
+        permeance=Permeance(0.000139),
     )
 
     ideal_experiments = IdealExperiments(

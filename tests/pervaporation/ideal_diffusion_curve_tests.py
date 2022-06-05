@@ -1,11 +1,11 @@
 from pytest import fixture
 
 from component import AllComponents
-from conditions import Conditions
 from experiments import IdealExperiment, IdealExperiments
 from membrane import Membrane
 from mixture import AllMixtures, Composition, CompositionType
 from pervaporation import Pervaporation
+from permeance import Permeance
 
 
 @fixture
@@ -24,7 +24,7 @@ def pai_spi(all_components, all_mixtures):
         name="PAI_SPI_1(wt%)_asym",
         temperature=293.15,
         component=all_components.meoh,
-        permeance=0.0267,
+        permeance=Permeance(0.0267),
         activation_energy=20904.65064,
     )
 
@@ -32,7 +32,7 @@ def pai_spi(all_components, all_mixtures):
         name="PAI_SPI_1(wt%)_asym",
         temperature=313.15,
         component=all_components.meoh,
-        permeance=0.04498,
+        permeance=Permeance(0.04498),
         activation_energy=20904.65064,
     )
 
@@ -40,7 +40,7 @@ def pai_spi(all_components, all_mixtures):
         name="PAI_SPI_1(wt%)_asym",
         temperature=293.15,
         component=all_components.mtbe,
-        permeance=0.01077,
+        permeance=Permeance(0.01077),
         activation_energy=-39656.76576,
     )
 
@@ -48,7 +48,7 @@ def pai_spi(all_components, all_mixtures):
         name="PAI_SPI_1(wt%)_asym",
         temperature=313.15,
         component=all_components.mtbe,
-        permeance=0.00425,
+        permeance=Permeance(0.00425),
         activation_energy=-39656.76576,
     )
 
@@ -66,13 +66,6 @@ def pai_spi(all_components, all_mixtures):
 
 @fixture
 def meoh_mtbe_pervaporation(pai_spi, all_mixtures):
-    test_conditions = Conditions(
-        membrane_area=0.05,
-        initial_feed_temperature=323.15,
-        permeate_temperature=1,
-        initial_feed_amount=1,
-        initial_feed_composition=Composition(p=0.15, type=CompositionType("weight")),
-    )
     return Pervaporation(membrane=pai_spi, mixture=all_mixtures.meoh_mtbe)
 
 

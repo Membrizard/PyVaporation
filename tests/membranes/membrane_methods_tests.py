@@ -3,6 +3,7 @@ from pytest import fixture
 from component import AllComponents
 from experiments import IdealExperiment, IdealExperiments
 from membrane import Membrane
+from permeance import Permeance
 
 
 @fixture
@@ -21,55 +22,55 @@ def romakon_pm102t(all_components):
         name="Romakon-PM102T",
         temperature=333,
         component=all_components.h2o,
-        permeance=0.0449064,
+        permeance=Permeance(value=0.0449064),
         activation_energy=-23600,
     )
     experiment_h2o_2 = IdealExperiment(
         name="Romakon-PM102T",
         temperature=343,
         component=all_components.h2o,
-        permeance=0.0348624,
+        permeance=Permeance(value=0.0348624),
         activation_energy=-23600,
     )
     experiment_h2o_3 = IdealExperiment(
         name="Romakon-PM102T",
         temperature=353,
         component=all_components.h2o,
-        permeance=0.0282528,
+        permeance=Permeance(value=0.0282528),
         activation_energy=-23600,
     )
     experiment_etoh_1 = IdealExperiment(
         name="Romakon-PM102T",
         temperature=333,
         component=all_components.etoh,
-        permeance=0.0004743,
+        permeance=Permeance(value=0.0004743),
         activation_energy=-12600,
     )
     experiment_etoh_2 = IdealExperiment(
         name="Romakon-PM102T",
         temperature=343,
         component=all_components.etoh,
-        permeance=0.0004428,
+        permeance=Permeance(value=0.0004428),
         activation_energy=-12600,
     )
     experiment_etoh_3 = IdealExperiment(
         name="Romakon-PM102T",
         temperature=353,
         component=all_components.etoh,
-        permeance=0.0003698,
+        permeance=Permeance(value=0.0003698),
         activation_energy=-12600,
     )
     experiment_meoh_1 = IdealExperiment(
         name="Romakon-PM102T",
         temperature=343,
         component=all_components.meoh,
-        permeance=0.0012226,
+        permeance=Permeance(value=0.0012226),
     )
     experiment_meoh_2 = IdealExperiment(
         name="Romakon-PM102T",
         temperature=353,
         component=all_components.meoh,
-        permeance=0.0014764,
+        permeance=Permeance(value=0.0014764),
     )
     ideal_experiments = IdealExperiments(
         experiments=[
@@ -133,21 +134,24 @@ def test_get_permeance(romakon_pm102t, all_components):
 
     assert (
         abs(
-            romakon_pm102t.get_permeance(343, all_components.etoh)
+            romakon_pm102t.get_permeance(343, all_components.etoh).value
             - romakon_pm102t.get_penetrant_data(all_components.etoh)
             .experiments[1]
-            .permeance
+            .permeance.value
         )
         == 0
     )
 
     assert (
-        abs(romakon_pm102t.get_permeance(348, all_components.etoh) - 0.0004155648872)
+        abs(
+            romakon_pm102t.get_permeance(348, all_components.etoh).value
+            - 0.0004155648872
+        )
         < 1e-9
     )
 
     assert (
-        abs(romakon_pm102t.get_permeance(349, all_components.meoh) - 0.0013708803)
+        abs(romakon_pm102t.get_permeance(349, all_components.meoh).value - 0.0013708803)
         < 1e-9
     )
 

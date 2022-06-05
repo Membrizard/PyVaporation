@@ -6,6 +6,7 @@ from experiments import IdealExperiment, IdealExperiments
 from membrane import Membrane
 from mixture import AllMixtures, Composition, CompositionType
 from pervaporation import Pervaporation
+from permeance import Permeance
 
 
 @fixture
@@ -24,42 +25,42 @@ def romakon_pm102_binary(all_components):
         name="Romakon-PM102",
         temperature=313.15,
         component=all_components.h2o,
-        permeance=0.05500,
+        permeance=Permeance(0.05500),
         activation_energy=19944,
     )
     experiment_h2o_2 = IdealExperiment(
         name="Romakon-PM102",
         temperature=323.15,
         component=all_components.h2o,
-        permeance=0.06713,
+        permeance=Permeance(0.06713),
         activation_energy=19944,
     )
     experiment_h2o_3 = IdealExperiment(
         name="Romakon-PM102",
         temperature=333.15,
         component=all_components.h2o,
-        permeance=0.08718,
+        permeance=Permeance(0.08718),
         activation_energy=19944,
     )
     experiment_etoh_1 = IdealExperiment(
         name="Romakon-PM102",
         temperature=313.15,
         component=all_components.etoh,
-        permeance=0.00002,
+        permeance=Permeance(0.00002),
         activation_energy=110806,
     )
     experiment_etoh_2 = IdealExperiment(
         name="Romakon-PM102",
         temperature=323.15,
         component=all_components.etoh,
-        permeance=0.00003,
+        permeance=Permeance(0.00003),
         activation_energy=110806,
     )
     experiment_etoh_3 = IdealExperiment(
         name="Romakon-PM102",
         temperature=333.15,
         component=all_components.etoh,
-        permeance=0.00027,
+        permeance=Permeance(0.00027),
         activation_energy=110806,
     )
 
@@ -83,7 +84,7 @@ def romakon_pm102_real(all_components):
         name="Romakon-PM102",
         temperature=313.15,
         component=all_components.h2o,
-        permeance=0.036091,
+        permeance=Permeance(0.036091),
         activation_energy=19944,
     )
 
@@ -91,7 +92,7 @@ def romakon_pm102_real(all_components):
         name="Romakon-PM102",
         temperature=313.15,
         component=all_components.etoh,
-        permeance=0.0000282,
+        permeance=Permeance(0.0000282),
         activation_energy=110806,
     )
 

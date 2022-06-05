@@ -7,6 +7,7 @@ from component import Component
 from experiments import IdealExperiments
 from diffusion_curve import DiffusionCurves
 from permeance import Permeance
+from permeance import Units
 from utils import R
 
 
@@ -59,7 +60,7 @@ class Membrane:
 
         y = numpy.log(
             [
-                ideal_experiment.permeance
+                ideal_experiment.permeance.value
                 for ideal_experiment in component_experiments.experiments
             ]
         )
@@ -74,7 +75,7 @@ class Membrane:
         self,
         temperature: float,
         component: Component,
-    ) -> float:
+    ) -> Permeance:
         """
         Calculates Permeance of a specified component (kg/(m2*h*kPa)) at a specified Temperature (K)
         based on a given or calculated Apparent Activation Energy of Transport
@@ -92,7 +93,9 @@ class Membrane:
             key=lambda i: abs(temperature_list[i] - temperature),
         )
 
-        given_permeance = component_experiments.experiments[index].permeance
+        given_permeance = component_experiments.experiments[index].permeance.convert(
+            to_units=Units().kg_m2_h_kPa, component=component
+        )
 
         if (
             component_experiments.experiments[index].activation_energy is None
@@ -100,16 +103,24 @@ class Membrane:
         ):
             # TODO: add logs
             activation_energy = self.calculate_activation_energy(component)
-            return given_permeance * numpy.exp(
-                -activation_energy / R * (1 / temperature - 1 / temperature_list[index])
+            return Permeance(
+                value=given_permeance.value
+                * numpy.exp(
+                    -activation_energy
+                    / R
+                    * (1 / temperature - 1 / temperature_list[index])
+                )
             )
         elif component_experiments.experiments[index].temperature == temperature:
             return given_permeance
         else:
-            return given_permeance * numpy.exp(
-                -component_experiments.experiments[index].activation_energy
-                / R
-                * (1 / temperature - 1 / temperature_list[index])
+            return Permeance(
+                value=given_permeance.value
+                * numpy.exp(
+                    -component_experiments.experiments[index].activation_energy
+                    / R
+                    * (1 / temperature - 1 / temperature_list[index])
+                )
             )
 
     def get_ideal_selectivity(
@@ -123,15 +134,18 @@ class Membrane:
         Calculates Ideal selectivity of one specified component over the other at a specified temperature.
         """
         if calculation_type == "weight":
-            return self.get_permeance(
-                temperature, first_component
-            ) / self.get_permeance(temperature, second_component)
+            return (
+                self.get_permeance(temperature, first_component).value
+                / self.get_permeance(temperature, second_component).value
+            )
         elif calculation_type == "molar":
             return (
                 self.get_permeance(temperature, first_component)
+                .convert(to_units=Units().SI, component=first_component)
+                .value
                 / self.get_permeance(temperature, second_component)
-                * second_component.molecular_weight
-                / first_component.molecular_weight
+                .convert(to_units=Units().SI, component=second_component)
+                .value
             )
 
     def get_estimated_pure_component_flux(
@@ -147,9 +161,9 @@ class Membrane:
         if permeate_temperature is None:
             return self.get_permeance(
                 temperature, component
-            ) * component.get_vapor_pressure(temperature)
+            ).value * component.get_vapor_pressure(temperature)
         else:
-            return self.get_permeance(temperature, component) * (
+            return self.get_permeance(temperature, component).value * (
                 component.get_vapor_pressure(temperature)
                 - component.get_vapor_pressure(permeate_temperature)
             )

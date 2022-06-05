@@ -4,6 +4,7 @@ from pathlib import Path
 import attr
 import pandas
 
+from permeance import Permeance
 from component import AllComponents, Component
 
 # def convert_component(name: str, all_components: AllComponents) -> Component:
@@ -20,7 +21,7 @@ class IdealExperiment:
     name: str
     temperature: float
     component: Component  # TODO: use real components
-    permeance: float
+    permeance: Permeance
     activation_energy: typing.Optional[float] = None
     comment: typing.Optional[str] = None
 

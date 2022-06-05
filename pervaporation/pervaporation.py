@@ -9,7 +9,8 @@ from diffusion_curve import DiffusionCurve, DiffusionCurves
 from membrane import Membrane
 from mixture import Composition, CompositionType, Mixture, get_nrtl_partial_pressures
 from process import ProcessModel
-from permeance import Permeance
+from permeance import Permeance, Units
+from datetime import datetime
 
 
 def get_permeate_composition_from_fluxes(
@@ -29,8 +30,8 @@ class Pervaporation:
 
     def get_partial_fluxes_from_permeate_composition(
         self,
-        first_component_permeance: float,
-        second_component_permeance: float,
+        first_component_permeance: Permeance,
+        second_component_permeance: Permeance,
         permeate_composition: Composition,
         feed_composition: Composition,
         feed_temperature: float,
@@ -58,9 +59,9 @@ class Pervaporation:
             )
 
         return (
-            first_component_permeance
+            first_component_permeance.value
             * (feed_nrtl_partial_pressures[0] - permeate_nrtl_partial_pressures[0]),
-            second_component_permeance
+            second_component_permeance.value
             * (feed_nrtl_partial_pressures[1] - permeate_nrtl_partial_pressures[1]),
         )
 
@@ -70,8 +71,8 @@ class Pervaporation:
         composition: Composition,
         precision: float = 5e-5,
         permeate_temperature: typing.Optional[float] = None,
-        first_component_permeance: typing.Optional[float] = None,
-        second_component_permeance: typing.Optional[float] = None,
+        first_component_permeance: typing.Optional[Permeance] = None,
+        second_component_permeance: typing.Optional[Permeance] = None,
     ) -> typing.Tuple[float, float]:
         """
         Calculates partial fluxes of the components at specified conditions
@@ -86,13 +87,17 @@ class Pervaporation:
         if second_component_permeance is None or first_component_permeance is None:
             first_component_permeance = self.membrane.get_permeance(
                 feed_temperature, self.mixture.first_component
+            ).convert(
+                to_units=Units().kg_m2_h_kPa, component=self.mixture.first_component
             )
             second_component_permeance = self.membrane.get_permeance(
                 feed_temperature, self.mixture.second_component
+            ).convert(
+                to_units=Units().kg_m2_h_kPa, component=self.mixture.second_component
             )
 
         initial_fluxes: typing.Tuple[float, float] = numpy.multiply(
-            (first_component_permeance, second_component_permeance),
+            (first_component_permeance.value, second_component_permeance.value),
             get_nrtl_partial_pressures(feed_temperature, self.mixture, composition),
         )
         permeate_composition = get_permeate_composition_from_fluxes(initial_fluxes)
@@ -203,7 +208,13 @@ class Pervaporation:
                 for composition in compositions
             ],
             comments=(
-                str(Membrane) + " " + str(Mixture) + " " + str(datetime.datetime)
+                str(self.membrane.name)
+                + " "
+                + str(self.mixture.first_component.name)
+                + " / "
+                + str(self.mixture.second_component.name)
+                + " "
+                + str(datetime.now())
             ),
         )
 
@@ -237,8 +248,8 @@ class Pervaporation:
         )
         permeances: typing.List[typing.Tuple[Permeance, Permeance]] = [
             (
-                Permeance(value=first_component_permeance),
-                Permeance(value=second_component_permeance),
+                first_component_permeance,
+                second_component_permeance,
             )
         ] * number_of_steps
 
@@ -348,7 +359,13 @@ class Pervaporation:
             permeate_condensation_heat=permeate_condensation_heat,
             initial_conditions=conditions,
             comments=(
-                str(Membrane) + " " + str("Mixture") + " " + str(datetime.datetime)
+                str(self.membrane.name)
+                + " "
+                + str(self.mixture.first_component.name)
+                + " / "
+                + str(self.mixture.second_component.name)
+                + " "
+                + str(datetime.now())
             ),
         )
 
@@ -443,15 +460,11 @@ class Pervaporation:
 
             permeances.append(
                 (
-                    Permeance(
-                        value=self.membrane.get_permeance(
-                            feed_temperature[step], self.mixture.first_component
-                        )
+                    self.membrane.get_permeance(
+                        feed_temperature[step], self.mixture.first_component
                     ),
-                    Permeance(
-                        value=self.membrane.get_permeance(
-                            feed_temperature[step], self.mixture.second_component
-                        )
+                    self.membrane.get_permeance(
+                        feed_temperature[step], self.mixture.second_component
                     ),
                 )
             )
@@ -462,8 +475,8 @@ class Pervaporation:
                     feed_composition[step],
                     precision,
                     conditions.permeate_temperature,
-                    permeances[step][0].value,
-                    permeances[step][1].value,
+                    permeances[step][0],
+                    permeances[step][1],
                 )
             )
 
@@ -528,7 +541,13 @@ class Pervaporation:
             permeate_condensation_heat=permeate_condensation_heat,
             initial_conditions=conditions,
             comments=(
-                str(Membrane) + " " + str("Mixture") + " " + str(datetime.datetime)
+                str(self.membrane.name)
+                + " "
+                + str(self.mixture.first_component.name)
+                + " / "
+                + str(self.mixture.second_component.name)
+                + " "
+                + str(datetime.now())
             ),
         )
 

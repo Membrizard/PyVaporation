@@ -26,6 +26,8 @@ class Permeance:
         SI - (mol/(m2*s*Pa))
         GPU
         """
+        if to_units == self.units:
+            return self
 
         if component is None and to_units == Units().kg_m2_h_kPa:
             raise ValueError(
