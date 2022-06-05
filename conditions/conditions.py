@@ -9,6 +9,11 @@ from mixture import Composition, CompositionType
 
 @attr.s(auto_attribs=True)
 class CalculationType(Enum):
+    """
+    A class for specification of a desired type of function,
+    describing the dependency of Temperature versus process time
+    """
+
     polynomial: str = "polynomial"
     exponential: str = "exponential"
     logarithmic: str = "logarithmic"
@@ -20,6 +25,12 @@ class TemperatureProgram:
     type: CalculationType
 
     def program(self, time):
+        """
+        Calculation of the Temperature based on a given temperature program
+        :param time - time in hours
+        :return - Temperature in K
+        """
+
         def polynomial(x):
             return sum(
                 [self.coefficients[i] * x**i for i in range(len(self.coefficients))]
@@ -56,6 +67,10 @@ class TemperatureProgram:
 
 @attr.s(auto_attribs=True)
 class Conditions:
+    """
+    A class for specification initial conditions for modelling of the pervaporation processes
+    """
+
     membrane_area: float
     initial_feed_temperature: float
     initial_feed_amount: float

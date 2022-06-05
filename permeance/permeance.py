@@ -20,6 +20,12 @@ class Permeance:
         to_units: str,
         component: typing.Optional[Component] = None,
     ) -> "Permeance":
+        """
+        Converts Permeance values from and to commonly used units:
+        kg/m2*h*kPa,
+        SI (mol/(m2*s*Pa))
+        GPU
+        """
 
         if component is None and to_units == Units().kg_m2_h_kPa:
             raise ValueError(
@@ -35,7 +41,7 @@ class Permeance:
                 conversion_dict = {
                     "GPU": 3.35e-10,
                     "SI": 1,
-                    "kg/(m2*h*kPa)": 1/(component.molecular_weight * 3.6e3),
+                    "kg/(m2*h*kPa)": 1 / (component.molecular_weight * 3.6e3),
                 }
         except KeyError:
             raise KeyError("Conversion to specified units is not supported")

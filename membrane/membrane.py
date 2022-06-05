@@ -12,12 +12,15 @@ from utils import R
 @attr.s(auto_attribs=True)
 class Membrane:
     name: str
-    ideal_experiments: IdealExperiments
+    ideal_experiments: typing.Optional[IdealExperiments] = None
     diffusion_curves: typing.Optional[DiffusionCurves] = None
 
     # TODO: non ideal experiments - Diffusion curves
 
     def get_penetrant_data(self, component: Component) -> IdealExperiments:
+        """
+        Gets all ideal experiments of the membrane for a specified Component
+        """
         return IdealExperiments(
             experiments=list(
                 filter(
@@ -31,7 +34,12 @@ class Membrane:
         self,
         component: Component,
     ) -> float:
+        """
+        Calculates Apparent Activation Energy of Transport i J/mol
+        for a specified component, based on its Ideal Experiments.
+        Activation energy is assumed to be independent of concentration for Ideal Process
 
+        """
         component_experiments = self.get_penetrant_data(component)
 
         if len(component_experiments) < 2:
@@ -66,6 +74,10 @@ class Membrane:
         temperature: float,
         component: Component,
     ) -> float:
+        """
+        Calculates Permeance of a specified component (kg/(m2*h*kPa)) at a specified Temperature (K)
+        based on a given or calculated Apparent Activation Energy of Transport
+        """
 
         component_experiments = self.get_penetrant_data(component)
 
@@ -104,13 +116,16 @@ class Membrane:
         temperature: float,
         first_component: Component,
         second_component: Component,
-        type: typing.Optional[str] = "molar",
+        calculation_type: typing.Optional[str] = "molar",
     ) -> float:
-        if type == "weight":
+        """
+        Calculates Ideal selectivity of one specified component over the other at a specified temperature.
+        """
+        if calculation_type == "weight":
             return self.get_permeance(
                 temperature, first_component
             ) / self.get_permeance(temperature, second_component)
-        elif type == "molar":
+        elif calculation_type == "molar":
             return (
                 self.get_permeance(temperature, first_component)
                 / self.get_permeance(temperature, second_component)
@@ -124,6 +139,10 @@ class Membrane:
         component: Component,
         permeate_temperature: typing.Optional[float] = None,
     ) -> float:
+        """
+        Calculates Flux of a specified component during individual Pervaporation based on the specified Permeance
+        from Ideal Experiments Of the Component.
+        """
         if permeate_temperature is None:
             return self.get_permeance(
                 temperature, component

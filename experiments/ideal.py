@@ -12,6 +12,11 @@ from component import AllComponents, Component
 
 @attr.s(auto_attribs=True)
 class IdealExperiment:
+    """
+    Class for specification of Ideal experiments, where Permeance is assumed to be constant
+    over considered composition range
+    """
+
     name: str
     temperature: float
     component: Component  # TODO: use real components

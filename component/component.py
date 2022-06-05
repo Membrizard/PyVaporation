@@ -10,6 +10,11 @@ from utils import HeatCapacityConstants, R, VaporPressureConstants, VPConstantsT
 
 @attr.s(auto_attribs=True)
 class Component:
+    """
+    A class to create Components,
+    Defined with required Component's constants
+    """
+
     name: str
     molecular_weight: float = attr.ib(converter=lambda value: float(value))
     vapour_pressure_constants: VaporPressureConstants
@@ -31,7 +36,7 @@ class Component:
     def get_vapor_pressure(self, temperature: float) -> float:
         """
         Calculation of saturated pressure in kPa at a given temperature in K using Antoine equation (by the basis of 10)
-        :param type: type of the calculation using Antoine (antoine) log10(P)=a+b/(T+C)
+        type of the calculation using Antoine (antoine) log10(P)=a+b/(T+C)
         or Frost equation (Frost) ln(P) = a+b/T+c/T^2
         :param temperature: temperature in K
         :return: saturated pressure in kPa calculated with respect to constants and given temperature

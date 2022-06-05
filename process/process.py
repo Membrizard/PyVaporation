@@ -28,6 +28,9 @@ class ProcessModel:
 
     @property
     def get_separation_factor(self) -> typing.List[float]:
+        """
+        :return: List of separation Factors
+        """
         feed = self.feed_composition
         permeate = self.permeate_composition
         return [
@@ -38,6 +41,9 @@ class ProcessModel:
 
     @property
     def get_psi(self) -> typing.List[float]:
+        """
+        :return: List of Pervaporation Separation Index (PSI) values
+        """
         separation_factor = self.get_separation_factor
         total_flux = [
             sum(self.partial_fluxes[i]) for i in range(len(self.partial_fluxes))
@@ -46,6 +52,9 @@ class ProcessModel:
 
     @property
     def get_selectivity(self) -> typing.List[float]:
+        """
+        :return: List of Calculated selectivities
+        """
         permeance = self.permeances
         return [permeance[i][0] / permeance[i][1] for i in range(len(permeance))]
 

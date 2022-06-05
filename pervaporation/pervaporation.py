@@ -1,3 +1,4 @@
+import datetime
 import typing
 
 import attr
@@ -34,6 +35,15 @@ class Pervaporation:
         feed_temperature: float,
         permeate_temperature: typing.Optional[float],
     ) -> typing.Tuple[float, float]:
+        """
+        Calculates partial fluxes at a given Permeate composition, accounting for the driving force change
+        :param first_component_permeance - Permeance of the first component
+        :param second_component_permeance - Permeance of the second component
+        :param permeate_composition - permeate composition
+        :param feed_composition - feed composition
+        :param feed_temperature - temperature, K
+        :param permeate_temperature - permeate temperature, K , if not specified permeate pressure is considered 0 kPa
+        """
 
         feed_nrtl_partial_pressures = get_nrtl_partial_pressures(
             feed_temperature, self.mixture, feed_composition
@@ -62,6 +72,16 @@ class Pervaporation:
         first_component_permeance: typing.Optional[float] = None,
         second_component_permeance: typing.Optional[float] = None,
     ) -> typing.Tuple[float, float]:
+        """
+        Calculates partial fluxes of the components at specified conditions
+        :param feed_temperature: Feed temperature, K
+        :param composition: Feed composition
+        :param precision: Precision in obtained permeate composition, by default is 5e-5
+        :param permeate_temperature: Permeate temperature, if not specified permeate pressure is set to 0 kPa
+        :param first_component_permeance: Permeance of the first component, if not specified is calculated
+        :param second_component_permeance: Permeance of the second component, if not specified is calculated
+        :return: Partial fluxes of components as a tuple
+        """
         if second_component_permeance is None or first_component_permeance is None:
             first_component_permeance = self.membrane.get_permeance(
                 feed_temperature, self.mixture.first_component
@@ -110,7 +130,6 @@ class Pervaporation:
             permeate_temperature=permeate_temperature,
         )
 
-    # Calculate Permeate composition for at the given conditions
     def calculate_permeate_composition(
         self,
         feed_temperature: float,
@@ -118,6 +137,14 @@ class Pervaporation:
         precision: typing.Optional[float] = 5e-5,
         permeate_temperature: typing.Optional[float] = None,
     ) -> Composition:
+        """
+        Calculates permeate composition at given conditions
+        :param feed_temperature: Feed temperature, K
+        :param composition: Feed Composition
+        :param precision: Precision in obtained permeate composition, by default is 5e-5
+        :param permeate_temperature: Permeate temperature, if not specified permeate pressure is set to 0 kPa
+        :return: Permeate composition in weight %
+        """
         if permeate_temperature is None:
             x = self.calculate_partial_fluxes(feed_temperature, composition, precision)
         else:
@@ -133,6 +160,9 @@ class Pervaporation:
         permeate_temperature: typing.Optional[float] = None,
         precision: typing.Optional[float] = 5e-5,
     ) -> float:
+        """
+        Calculates separation factor at given conditions
+        """
         perm_comp = self.calculate_permeate_composition(
             feed_temperature, composition, precision, permeate_temperature
         )
@@ -147,6 +177,15 @@ class Pervaporation:
         permeate_temperature: typing.Optional[float] = None,
         precision: typing.Optional[float] = 5e-5,
     ) -> DiffusionCurve:
+        """
+        Models Ideal Diffusion curve of a specified membrane, at a given temperature, for a given Mixture
+        if Ideal experiments for both components are available.
+        :param feed_temperature: Feed temperature, K
+        :param compositions: List of compositions to model parameters at
+        :param permeate_temperature: Permeate temperature, if not specified permeate pressure is set to 0 kPa
+        :param precision: Precision in obtained permeate composition, by default is 5e-5
+        :return: A DiffusionCurve Object
+        """
         return DiffusionCurve(
             mixture=self.mixture,
             membrane_name=self.membrane.name,
@@ -162,6 +201,7 @@ class Pervaporation:
                 )
                 for composition in compositions
             ],
+            comments=(str(Membrane)+" "+str(Mixture)+" "+str(datetime.datetime))
         )
 
     def ideal_isothermal_process(
@@ -171,6 +211,14 @@ class Pervaporation:
         conditions: Conditions,
         precision: typing.Optional[float] = 5e-5,
     ) -> ProcessModel:
+        """
+        Models mass and heat balance of an Ideal (constant Permeance) Isothermal Pervaporation Process
+        :param number_of_steps: Number of time steps to include in the model
+        :param delta_hours: The duration of each step in hours
+        :param conditions: Conditions object, where initial conditions are specified
+        :param precision: Precision in obtained permeate composition, by default is 5e-5
+        :return: A ProcessModel Object
+        """
 
         time: typing.List[float] = [
             delta_hours * step for step in range(number_of_steps)
@@ -293,7 +341,7 @@ class Pervaporation:
             feed_evaporation_heat=feed_evaporation_heat,
             permeate_condensation_heat=permeate_condensation_heat,
             initial_conditions=conditions,
-            IsTimeDefined=True,
+            comments=(str(Membrane)+' '+str('Mixture')+' '+str(datetime.datetime))
         )
 
     def ideal_non_isothermal_process(
@@ -303,6 +351,16 @@ class Pervaporation:
         delta_hours: float,
         precision: typing.Optional[float] = 5e-5,
     ) -> ProcessModel:
+        """
+        Models mass and heat balance of an Ideal (constant Permeance) Non Isothermal Pervaporation Process.
+        The temperature program maybe specified in Conditions, by including a TemperatureProgram object.
+        If temperature program is not specified, models self-cooling process.
+        :param number_of_steps: Number of time steps to include in the model
+        :param delta_hours: The duration of each step in hours
+        :param conditions: Conditions object, where initial conditions are specified
+        :param precision: Precision in obtained permeate composition, by default is 5e-5
+        :return: A ProcessModel Object
+        """
         time: typing.List[float] = [
             delta_hours * step for step in range(number_of_steps + 1)
         ]
@@ -457,8 +515,7 @@ class Pervaporation:
             feed_evaporation_heat=feed_evaporation_heat,
             permeate_condensation_heat=permeate_condensation_heat,
             initial_conditions=conditions,
-            IsTimeDefined=True,
-            comments="",
+            comments=(str(Membrane)+' '+str('Mixture')+' '+str(datetime.datetime))
         )
 
     def non_ideal_process(
