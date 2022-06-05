@@ -1,4 +1,3 @@
-import numpy
 from pytest import fixture
 
 from permeance import Permeance, Units
