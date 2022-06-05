@@ -22,8 +22,8 @@ class Permeance:
     ) -> "Permeance":
         """
         Converts Permeance values from and to commonly used units:
-        kg/m2*h*kPa,
-        SI (mol/(m2*s*Pa))
+        kg/(m2*h*kPa),
+        SI - (mol/(m2*s*Pa))
         GPU
         """
 
