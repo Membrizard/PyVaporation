@@ -179,10 +179,10 @@ class Pervaporation:
         partial_fluxes: typing.List[typing.Tuple[float, float]] = []
 
         first_component_permeance = self.membrane.get_permeance(
-            conditions.feed_temperature, self.mixture.first_component
+            conditions.initial_feed_temperature, self.mixture.first_component
         )
         second_component_permeance = self.membrane.get_permeance(
-            conditions.feed_temperature, self.mixture.second_component
+            conditions.initial_feed_temperature, self.mixture.second_component
         )
         permeances: typing.List[typing.Tuple[float, float]] = [
             (first_component_permeance, second_component_permeance)
@@ -195,18 +195,18 @@ class Pervaporation:
 
         feed_evaporation_heat: typing.List[float] = []
         permeate_condensation_heat: typing.List[float] = []
-        feed_mass: typing.List[float] = [conditions.feed_amount]
+        feed_mass: typing.List[float] = [conditions.initial_feed_amount]
 
         evaporation_heat_1 = (
             self.mixture.first_component.get_vaporisation_heat(
-                conditions.feed_temperature
+                conditions.initial_feed_temperature
             )
             / self.mixture.first_component.molecular_weight
             * 1000
         )
         evaporation_heat_2 = (
             self.mixture.second_component.get_vaporisation_heat(
-                conditions.feed_temperature
+                conditions.initial_feed_temperature
             )
             / self.mixture.first_component.molecular_weight
             * 1000
@@ -227,16 +227,16 @@ class Pervaporation:
         )
 
         cooling_heat_1 = self.mixture.first_component.get_cooling_heat(
-            conditions.permeate_temperature, conditions.feed_temperature
+            conditions.permeate_temperature, conditions.initial_feed_temperature
         )
         cooling_heat_2 = self.mixture.second_component.get_cooling_heat(
-            conditions.permeate_temperature, conditions.feed_temperature
+            conditions.permeate_temperature, conditions.initial_feed_temperature
         )
 
         for step in range(len(time)):
             partial_fluxes.append(
                 self.calculate_partial_fluxes(
-                    conditions.feed_temperature,
+                    conditions.initial_feed_temperature,
                     feed_composition[step],
                     precision,
                     conditions.permeate_temperature,
@@ -262,7 +262,7 @@ class Pervaporation:
                 condensation_heat_1 * d_mass_1
                 + condensation_heat_2 * d_mass_2
                 + (cooling_heat_1 * d_mass_1 + cooling_heat_2 * d_mass_2)
-                * (conditions.feed_temperature - conditions.permeate_temperature)
+                * (conditions.initial_feed_temperature - conditions.permeate_temperature)
             )
 
             feed_mass.append(feed_mass[step] - d_mass_1 - d_mass_2)
@@ -279,7 +279,7 @@ class Pervaporation:
             mixture=self.mixture,
             membrane_name=self.membrane.name,
             isothermal=True,
-            feed_temperature=[conditions.feed_temperature] * number_of_steps,
+            feed_temperature=[conditions.initial_feed_temperature] * number_of_steps,
             feed_composition=feed_composition,
             permeate_composition=permeate_composition,
             permeate_temperature=[conditions.permeate_temperature] * number_of_steps,
@@ -304,7 +304,7 @@ class Pervaporation:
             delta_hours * step for step in range(number_of_steps)
         ]
 
-        feed_temperature: typing.List[float] = [conditions.feed_temperature]
+        feed_temperature: typing.List[float] = [conditions.initial_feed_temperature]
 
         partial_fluxes: typing.List[typing.Tuple[float, float]] = []
 
@@ -320,7 +320,7 @@ class Pervaporation:
 
         permeate_condensation_heat: typing.List[float] = []
 
-        feed_mass: typing.List[float] = [conditions.feed_amount]
+        feed_mass: typing.List[float] = [conditions.initial_feed_amount]
 
         for step in range(len(time)):
 
