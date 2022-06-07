@@ -16,11 +16,11 @@ class CalculationType(Enum):
 @attr.s(auto_attribs=True)
 class TemperatureProgram:
     coefficients: typing.List[float]
-    type: CalculationType = CalculationType('polynomial')
+    type: CalculationType = CalculationType("polynomial")
 
     def polynomial(self, x: float) -> float:
         return sum(
-            [self.coefficients[i] * x ** i for i in range(len(self.coefficients))]
+            [self.coefficients[i] * x**i for i in range(len(self.coefficients))]
         )
 
     def exponential(self, x: float) -> float:
@@ -57,6 +57,7 @@ class Conditions:
     """
     A class for specification initial conditions for modelling of the pervaporation processes
     """
+
     membrane_area: float
     initial_feed_temperature: float
     initial_feed_amount: float

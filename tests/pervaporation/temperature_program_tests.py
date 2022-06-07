@@ -57,7 +57,7 @@ def test_conditions_isothermal():
         initial_feed_amount=12,
         initial_feed_composition=Composition(p=0.94, type=CompositionType("weight")),
         temperature_program=TemperatureProgram(
-            coefficients=[333.15], type=CalculationType('polynomial')
+            coefficients=[333.15], type=CalculationType("polynomial")
         ),
     )
 
@@ -71,7 +71,7 @@ def test_conditions_linear():
         initial_feed_amount=12,
         initial_feed_composition=Composition(p=0.94, type=CompositionType("weight")),
         temperature_program=TemperatureProgram(
-            coefficients=[333.15, -1], type=CalculationType('polynomial')
+            coefficients=[333.15, -1], type=CalculationType("polynomial")
         ),
     )
 
@@ -85,7 +85,7 @@ def test_conditions_exp():
         initial_feed_amount=12,
         initial_feed_composition=Composition(p=0.94, type=CompositionType("weight")),
         temperature_program=TemperatureProgram(
-            coefficients=[333.15, 0, -1e-3], type=CalculationType('exponential')
+            coefficients=[333.15, 0, -1e-3], type=CalculationType("exponential")
         ),
     )
 
@@ -100,7 +100,7 @@ def test_conditions_ln():
         initial_feed_composition=Composition(p=0.94, type=CompositionType("weight")),
         temperature_program=TemperatureProgram(
             coefficients=[333.15, numpy.exp(1), 1e-2],
-            type=CalculationType('logarithmic'),
+            type=CalculationType("logarithmic"),
         ),
     )
 
