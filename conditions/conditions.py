@@ -7,17 +7,6 @@ from enum import Enum
 from mixture import Composition
 
 
-# @attr.s(auto_attribs=True)
-# class CalculationType:
-#     """
-#     A class for specification of a desired type of function,
-#     describing the dependency of Temperature versus process time
-#     """
-#
-#     polynomial: str = "polynomial"
-#     exponential: str = "exponential"
-#     logarithmic: str = "logarithmic"
-
 class CalculationType(Enum):
     polynomial: str = "polynomial"
     exponential: str = "exponential"
