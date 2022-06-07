@@ -515,7 +515,7 @@ class Pervaporation:
             d_mass_2 = partial_fluxes[step][1] * conditions.membrane_area * delta_hours
 
             if conditions.permeate_temperature is None:
-                permeate_condensation_heat.append()
+                permeate_condensation_heat.append(None)
             else:
                 condensation_heat_1 = (
                         self.mixture.first_component.get_vaporisation_heat(

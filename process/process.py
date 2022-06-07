@@ -24,7 +24,7 @@ class ProcessModel:
     permeances: typing.List[typing.Tuple[Permeance, Permeance]]
     time: typing.List[float]
     feed_evaporation_heat: typing.List[float]
-    permeate_condensation_heat: typing.List[float]
+    permeate_condensation_heat: typing.List[typing.Optional[float]]
     initial_conditions: Conditions
     comments: typing.Optional[str] = None
 
