@@ -215,7 +215,7 @@ class Pervaporation:
         """
         Models Ideal Diffusion curve of a specified membrane, at a given temperature, for a given Mixture
         if Ideal experiments for both components are available.
-        Either permeate temperature or permeate pressure could be stated
+        Either permeate temperature or permeate pressure could be stated;
         :param feed_temperature: Feed temperature, K
         :param compositions: List of compositions to model parameters at
         :param permeate_temperature: Permeate temperature, if not specified permeate pressure is set to 0 kPa
@@ -420,9 +420,9 @@ class Pervaporation:
         precision: typing.Optional[float] = 5e-5,
     ) -> ProcessModel:
         """
-        Models mass and heat balance of an Ideal (constant Permeance) Non Isothermal Pervaporation Process.
+        Models mass and heat balance of an Ideal (constant Permeance) Non-Isothermal Pervaporation Process.
         The temperature program maybe specified in Conditions, by including a TemperatureProgram object.
-        If temperature program is not specified, models self-cooling process.
+        If temperature program is not specified, models self-cooling process;
         :param number_of_steps: Number of time steps to include in the model
         :param delta_hours: The duration of each step in hours
         :param conditions: Conditions object, where initial conditions are specified
