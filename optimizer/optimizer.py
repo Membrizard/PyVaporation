@@ -4,6 +4,8 @@ import attr
 
 from scipy import optimize
 
+from diffusion_curve import DiffusionCurve, DiffusionCurves
+
 
 @attr.s(auto_attribs=True)
 class Measurement:
@@ -21,6 +23,49 @@ class Measurements:
 
     def __getitem__(self, item: int) -> Measurement:
         return self.data[item]
+
+    def __add__(self, other):
+        return Measurements(
+            data=self.data + other.data
+        )
+
+    @classmethod
+    def from_diffusion_curve_first(cls, curve: DiffusionCurve) -> 'Measurements':
+        return Measurements(
+            data=[
+                Measurement(
+                    x=curve.feed_compositions[i].first,
+                    t=curve.feed_temperature,
+                    p=curve.permeances[i][0].value,
+                ) for i in range(len(curve))
+            ]
+        )
+
+    @classmethod
+    def from_diffusion_curve_second(cls, curve: DiffusionCurve) -> 'Measurements':
+        return Measurements(
+            data=[
+                Measurement(
+                    x=curve.feed_compositions[i].first,
+                    t=curve.feed_temperature,
+                    p=curve.permeances[i][1].value,
+                ) for i in range(len(curve))
+            ]
+        )
+
+    @classmethod
+    def from_diffusion_curves_first(cls, curves: DiffusionCurves) -> 'Measurements':
+        output = Measurements(data=[])
+        for curve in curves:
+            output += cls.from_diffusion_curve_first(curve)
+        return output
+
+    @classmethod
+    def from_diffusion_curves_second(cls, curves: DiffusionCurves) -> 'Measurements':
+        output = Measurements(data=[])
+        for curve in curves:
+            output += cls.from_diffusion_curve_second(curve)
+        return output
 
 
 @attr.s(auto_attribs=True)
