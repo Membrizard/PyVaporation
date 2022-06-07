@@ -1,7 +1,7 @@
 import typing
-import numpy
-import attr
 
+import attr
+import numpy
 from scipy import optimize
 
 from diffusion_curve import DiffusionCurve, DiffusionCurves
@@ -25,43 +25,43 @@ class Measurements:
         return self.data[item]
 
     def __add__(self, other):
-        return Measurements(
-            data=self.data + other.data
-        )
+        return Measurements(data=self.data + other.data)
 
     @classmethod
-    def from_diffusion_curve_first(cls, curve: DiffusionCurve) -> 'Measurements':
+    def from_diffusion_curve_first(cls, curve: DiffusionCurve) -> "Measurements":
         return Measurements(
             data=[
                 Measurement(
                     x=curve.feed_compositions[i].first,
                     t=curve.feed_temperature,
                     p=curve.permeances[i][0].value,
-                ) for i in range(len(curve))
+                )
+                for i in range(len(curve))
             ]
         )
 
     @classmethod
-    def from_diffusion_curve_second(cls, curve: DiffusionCurve) -> 'Measurements':
+    def from_diffusion_curve_second(cls, curve: DiffusionCurve) -> "Measurements":
         return Measurements(
             data=[
                 Measurement(
                     x=curve.feed_compositions[i].first,
                     t=curve.feed_temperature,
                     p=curve.permeances[i][1].value,
-                ) for i in range(len(curve))
+                )
+                for i in range(len(curve))
             ]
         )
 
     @classmethod
-    def from_diffusion_curves_first(cls, curves: DiffusionCurves) -> 'Measurements':
+    def from_diffusion_curves_first(cls, curves: DiffusionCurves) -> "Measurements":
         output = Measurements(data=[])
         for curve in curves:
             output += cls.from_diffusion_curve_first(curve)
         return output
 
     @classmethod
-    def from_diffusion_curves_second(cls, curves: DiffusionCurves) -> 'Measurements':
+    def from_diffusion_curves_second(cls, curves: DiffusionCurves) -> "Measurements":
         output = Measurements(data=[])
         for curve in curves:
             output += cls.from_diffusion_curve_second(curve)
@@ -86,8 +86,8 @@ class PervaporationFunction:
             n=n,
             m=m,
             alpha=array[0],
-            a=array[1: n + 2],
-            b=array[n + 2:],
+            a=array[1 : n + 2],
+            b=array[n + 2 :],
         )
 
     def __call__(self, x: float, t: float) -> float:

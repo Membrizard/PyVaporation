@@ -4,8 +4,8 @@ from pathlib import Path
 import attr
 import pandas
 
-from permeance import Permeance
 from component import AllComponents, Component
+from permeance import Permeance
 
 # def convert_component(name: str, all_components: AllComponents) -> Component:
 #     return getattr(all_components, name)

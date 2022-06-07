@@ -1,7 +1,7 @@
 import typing
-import attr
-
 from enum import Enum
+
+import attr
 
 R = 8.314462
 

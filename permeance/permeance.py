@@ -1,5 +1,7 @@
-import attr
 import typing
+
+import attr
+
 from component import Component
 
 

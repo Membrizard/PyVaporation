@@ -1,8 +1,8 @@
 import typing
 
 import attr
-
 import numpy
+
 from mixture import Composition
 
 

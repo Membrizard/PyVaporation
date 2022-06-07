@@ -5,8 +5,8 @@ from conditions import Conditions
 from experiments import IdealExperiment, IdealExperiments
 from membrane import Membrane
 from mixture import AllMixtures, Composition, CompositionType
-from pervaporation import Pervaporation
 from permeance import Permeance
+from pervaporation import Pervaporation
 
 
 @fixture

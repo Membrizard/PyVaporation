@@ -1,5 +1,6 @@
 import datetime
 import typing
+from datetime import datetime
 
 import attr
 import numpy
@@ -7,10 +8,10 @@ import numpy
 from conditions import Conditions
 from diffusion_curve import DiffusionCurve, DiffusionCurves
 from membrane import Membrane
-from mixture import Composition, CompositionType, Mixture, get_nrtl_partial_pressures
-from process import ProcessModel
+from mixture import (Composition, CompositionType, Mixture,
+                     get_nrtl_partial_pressures)
 from permeance import Permeance, Units
-from datetime import datetime
+from process import ProcessModel
 
 
 def get_permeate_composition_from_fluxes(

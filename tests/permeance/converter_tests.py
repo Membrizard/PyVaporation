@@ -1,7 +1,7 @@
 from pytest import fixture
 
-from permeance import Permeance, Units
 from component import AllComponents
+from permeance import Permeance, Units
 
 
 @fixture

@@ -4,10 +4,9 @@ import attr
 import numpy
 
 from component import Component
-from experiments import IdealExperiments
 from diffusion_curve import DiffusionCurves
-from permeance import Permeance
-from permeance import Units
+from experiments import IdealExperiments
+from permeance import Permeance, Units
 from utils import R
 
 

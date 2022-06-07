@@ -4,7 +4,8 @@ from pathlib import Path
 import attr
 import numpy
 
-from mixture import Composition, CompositionType, Mixture, get_nrtl_partial_pressures
+from mixture import (Composition, CompositionType, Mixture,
+                     get_nrtl_partial_pressures)
 from permeance import Permeance
 
 
