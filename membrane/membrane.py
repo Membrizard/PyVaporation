@@ -153,17 +153,25 @@ class Membrane:
         temperature: float,
         component: Component,
         permeate_temperature: typing.Optional[float] = None,
+        permeate_pressure: typing.Optional[float] = None,
     ) -> float:
         """
         Calculates Flux of a specified component during individual Pervaporation based on the specified Permeance
         from Ideal Experiments Of the Component.
+        May be performed either on the basis of permeate temperature in K or permeate pressure in kPa
         """
-        if permeate_temperature is None:
+        if permeate_temperature is None and permeate_pressure is None:
             return self.get_permeance(
                 temperature, component
             ).value * component.get_vapor_pressure(temperature)
-        else:
+        elif permeate_temperature is not None and permeate_pressure is None:
             return self.get_permeance(temperature, component).value * (
                 component.get_vapor_pressure(temperature)
                 - component.get_vapor_pressure(permeate_temperature)
             )
+        elif permeate_pressure is not None and permeate_temperature is None:
+            return self.get_permeance(temperature, component).value * (
+                component.get_vapor_pressure(temperature)
+                - permeate_pressure)
+        else:
+            raise ValueError("Either permeate temperature or permeate pressure should be stated")
