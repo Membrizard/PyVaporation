@@ -98,7 +98,8 @@ def test_conditions_ln():
         initial_feed_amount=12,
         initial_feed_composition=Composition(p=0.94, type=CompositionType("weight")),
         temperature_program=TemperatureProgram(
-            coefficients=[333.15, numpy.exp(1), 1e-2], type=CalculationType().logarithmic
+            coefficients=[333.15, numpy.exp(1), 1e-2],
+            type=CalculationType().logarithmic,
         ),
     )
 
@@ -160,7 +161,7 @@ def test_exp_temperature_program(pervaporation, test_conditions_exp):
         conditions=test_conditions_exp, number_of_steps=8, delta_hours=1
     )
 
-    validation_temperatures = [333.15 * numpy.exp(-1e-3*i) for i in range(8)]
+    validation_temperatures = [333.15 * numpy.exp(-1e-3 * i) for i in range(8)]
     validation_permeances = [
         0.0450987,
         0.0447750,
@@ -182,7 +183,9 @@ def test_ln_temperature_program(pervaporation, test_conditions_ln):
         conditions=test_conditions_ln, number_of_steps=8, delta_hours=1
     )
 
-    validation_temperatures = [333.15 * numpy.log(1e-2*i+numpy.exp(1)) for i in range(8)]
+    validation_temperatures = [
+        333.15 * numpy.log(1e-2 * i + numpy.exp(1)) for i in range(8)
+    ]
     validation_permeances = [
         0.0450987,
         0.0463025,

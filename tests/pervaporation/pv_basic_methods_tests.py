@@ -1,5 +1,5 @@
+import pytest
 from pytest import fixture
-
 from component import AllComponents
 from conditions import Conditions
 from experiments import IdealExperiment, IdealExperiments
@@ -229,6 +229,41 @@ def test_calculate_permeate_composition_variable_permeate_temperature(
                 - validation_permeate_compositions[i].second
             )
             < 1.8e-3
+        )
+
+
+def test_calculate_permeate_composition_variable_permeate_pressure(
+    pervaporation_real,
+):
+    validation_permeate_compositions = [
+        Composition(p=0.9995, type=CompositionType("weight")),
+        Composition(p=0.9995, type=CompositionType("weight")),
+        Composition(p=0.9970, type=CompositionType("weight")),
+    ]
+    validation_permeate_pressures = [0, 0.5, 0.6]
+
+    for i in range(len(validation_permeate_pressures)):
+        assert (
+            abs(
+                pervaporation_real.calculate_permeate_composition(
+                    feed_temperature=333.15,
+                    composition=Composition(p=0.9362, type=CompositionType("weight")),
+                    permeate_pressure=validation_permeate_pressures[i],
+                ).second
+                - validation_permeate_compositions[i].second
+            )
+            < 1.8e-3
+        )
+
+
+def test_calculate_permeate_composition_perm_temp_and_comp(pervaporation_real):
+
+    with pytest.raises(ValueError):
+        pervaporation_real.calculate_permeate_composition(
+            feed_temperature=333.15,
+            composition=Composition(p=0.9362, type=CompositionType("weight")),
+            permeate_temperature=0,
+            permeate_pressure=0,
         )
 
 

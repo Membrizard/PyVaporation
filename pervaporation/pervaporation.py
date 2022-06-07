@@ -26,7 +26,6 @@ def get_permeate_composition_from_fluxes(
 class Pervaporation:
     membrane: Membrane
     mixture: Mixture
-    ideal: typing.Optional[bool] = True
 
     def get_partial_fluxes_from_permeate_composition(
         self,
@@ -35,27 +34,40 @@ class Pervaporation:
         permeate_composition: Composition,
         feed_composition: Composition,
         feed_temperature: float,
-        permeate_temperature: typing.Optional[float],
+        permeate_temperature: typing.Optional[float] = None,
+        permeate_pressure: typing.Optional[float] = None,
     ) -> typing.Tuple[float, float]:
         """
         Calculates partial fluxes at a given Permeate composition, accounting for the driving force change
+        Either permeate temperature or permeate pressure could be stated
         :param first_component_permeance - Permeance of the first component
         :param second_component_permeance - Permeance of the second component
         :param permeate_composition - permeate composition
         :param feed_composition - feed composition
         :param feed_temperature - temperature, K
         :param permeate_temperature - permeate temperature, K , if not specified permeate pressure is considered 0 kPa
+        :param permeate_pressure - permeate pressure, kPa , if not specified permeate pressure is considered 0 kPa
         """
 
         feed_nrtl_partial_pressures = get_nrtl_partial_pressures(
             feed_temperature, self.mixture, feed_composition
         )
-        if permeate_temperature is None:
+        if permeate_temperature is None and permeate_pressure is None:
             permeate_nrtl_partial_pressures = (0, 0)
 
-        else:
+        elif permeate_temperature is not None and permeate_pressure is None:
             permeate_nrtl_partial_pressures = get_nrtl_partial_pressures(
                 permeate_temperature, self.mixture, permeate_composition
+            )
+        elif permeate_pressure is not None and permeate_temperature is None:
+            permeate_nrtl_partial_pressures = (
+                permeate_pressure * permeate_composition.first,
+                permeate_pressure * permeate_composition.second,
+            )
+
+        else:
+            raise ValueError(
+                "Either permeate temperature or permeate pressure could be stated not both"
             )
 
         return (
@@ -71,15 +83,18 @@ class Pervaporation:
         composition: Composition,
         precision: float = 5e-5,
         permeate_temperature: typing.Optional[float] = None,
+        permeate_pressure: typing.Optional[float] = None,
         first_component_permeance: typing.Optional[Permeance] = None,
         second_component_permeance: typing.Optional[Permeance] = None,
     ) -> typing.Tuple[float, float]:
         """
-        Calculates partial fluxes of the components at specified conditions
+        Calculates partial fluxes of the components at specified conditions.
+        Either permeate temperature or permeate pressure could be stated
         :param feed_temperature: Feed temperature, K
         :param composition: Feed composition
         :param precision: Precision in obtained permeate composition, by default is 5e-5
         :param permeate_temperature: Permeate temperature, if not specified permeate pressure is set to 0 kPa
+        :param permeate_pressure - permeate pressure, kPa , if not specified permeate pressure is considered 0 kPa
         :param first_component_permeance: Permeance of the first component, if not specified is calculated
         :param second_component_permeance: Permeance of the second component, if not specified is calculated
         :return: Partial fluxes of components as a tuple
@@ -113,6 +128,7 @@ class Pervaporation:
                         feed_composition=composition,
                         feed_temperature=feed_temperature,
                         permeate_temperature=permeate_temperature,
+                        permeate_pressure=permeate_pressure,
                     )
                 )
                 d = max(
@@ -134,6 +150,7 @@ class Pervaporation:
             feed_composition=composition,
             feed_temperature=feed_temperature,
             permeate_temperature=permeate_temperature,
+            permeate_pressure=permeate_pressure,
         )
 
     def calculate_permeate_composition(
@@ -142,21 +159,26 @@ class Pervaporation:
         composition: Composition,
         precision: typing.Optional[float] = 5e-5,
         permeate_temperature: typing.Optional[float] = None,
+        permeate_pressure: typing.Optional[float] = None,
     ) -> Composition:
         """
         Calculates permeate composition at given conditions
+        Either permeate temperature or permeate pressure could be stated
         :param feed_temperature: Feed temperature, K
         :param composition: Feed Composition
         :param precision: Precision in obtained permeate composition, by default is 5e-5
         :param permeate_temperature: Permeate temperature, if not specified permeate pressure is set to 0 kPa
+        :param permeate_pressure - permeate pressure, kPa , if not specified permeate pressure is considered 0 kPa
         :return: Permeate composition in weight %
         """
-        if permeate_temperature is None:
-            x = self.calculate_partial_fluxes(feed_temperature, composition, precision)
-        else:
-            x = self.calculate_partial_fluxes(
-                feed_temperature, composition, precision, permeate_temperature
-            )
+
+        x = self.calculate_partial_fluxes(
+            feed_temperature,
+            composition,
+            precision,
+            permeate_temperature,
+            permeate_pressure,
+        )
         return Composition(x[0] / numpy.sum(x), type=CompositionType("weight"))
 
     def calculate_separation_factor(
@@ -164,13 +186,18 @@ class Pervaporation:
         feed_temperature: float,
         composition: Composition,
         permeate_temperature: typing.Optional[float] = None,
+        permeate_pressure: typing.Optional[float] = None,
         precision: typing.Optional[float] = 5e-5,
     ) -> float:
         """
         Calculates separation factor at given conditions
         """
         perm_comp = self.calculate_permeate_composition(
-            feed_temperature, composition, precision, permeate_temperature
+            feed_temperature,
+            composition,
+            precision,
+            permeate_temperature,
+            permeate_pressure,
         )
         return (composition.second / (1 - composition.second)) / (
             perm_comp.second / (1 - perm_comp.second)
@@ -181,14 +208,17 @@ class Pervaporation:
         feed_temperature: float,
         compositions: typing.List[Composition],
         permeate_temperature: typing.Optional[float] = None,
+        permeate_pressure: typing.Optional[float] = None,
         precision: typing.Optional[float] = 5e-5,
     ) -> DiffusionCurve:
         """
         Models Ideal Diffusion curve of a specified membrane, at a given temperature, for a given Mixture
         if Ideal experiments for both components are available.
+        Either permeate temperature or permeate pressure could be stated
         :param feed_temperature: Feed temperature, K
         :param compositions: List of compositions to model parameters at
         :param permeate_temperature: Permeate temperature, if not specified permeate pressure is set to 0 kPa
+        :param permeate_pressure - permeate pressure, kPa , if not specified permeate pressure is considered 0 kPa
         :param precision: Precision in obtained permeate composition, by default is 5e-5
         :return: A DiffusionCurve Object
         """
@@ -197,6 +227,7 @@ class Pervaporation:
             membrane_name=self.membrane.name,
             feed_temperature=feed_temperature,
             permeate_temperature=permeate_temperature,
+            permeate_pressure=permeate_pressure,
             feed_compositions=compositions,
             partial_fluxes=[
                 self.calculate_partial_fluxes(
@@ -276,37 +307,44 @@ class Pervaporation:
             / self.mixture.first_component.molecular_weight
             * 1000
         )
-        condensation_heat_1 = (
-            self.mixture.first_component.get_vaporisation_heat(
-                conditions.permeate_temperature
-            )
-            / self.mixture.first_component.molecular_weight
-            * 1000
-        )
-        condensation_heat_2 = (
-            self.mixture.first_component.get_vaporisation_heat(
-                conditions.permeate_temperature
-            )
-            / self.mixture.first_component.molecular_weight
-            * 1000
-        )
+        if conditions.permeate_temperature is None:
+            condensation_heat_1 = None
+            condensation_heat_2 = None
+            cooling_heat_1 = None
+            cooling_heat_2 = None
 
-        cooling_heat_1 = self.mixture.first_component.get_cooling_heat(
-            conditions.permeate_temperature, conditions.initial_feed_temperature
-        )
-        cooling_heat_2 = self.mixture.second_component.get_cooling_heat(
-            conditions.permeate_temperature, conditions.initial_feed_temperature
-        )
+        else:
+            condensation_heat_1 = (
+                self.mixture.first_component.get_vaporisation_heat(
+                    conditions.permeate_temperature
+                )
+                / self.mixture.first_component.molecular_weight
+                * 1000
+            )
+            condensation_heat_2 = (
+                self.mixture.first_component.get_vaporisation_heat(
+                    conditions.permeate_temperature
+                )
+                / self.mixture.first_component.molecular_weight
+                * 1000
+            )
+            cooling_heat_1 = self.mixture.first_component.get_cooling_heat(
+                conditions.permeate_temperature, conditions.initial_feed_temperature
+            )
+            cooling_heat_2 = self.mixture.second_component.get_cooling_heat(
+                conditions.permeate_temperature, conditions.initial_feed_temperature
+            )
 
         for step in range(len(time)):
             partial_fluxes.append(
                 self.calculate_partial_fluxes(
-                    conditions.initial_feed_temperature,
-                    feed_composition[step],
-                    precision,
-                    conditions.permeate_temperature,
-                    first_component_permeance,
-                    second_component_permeance,
+                    feed_temperature=conditions.initial_feed_temperature,
+                    composition=feed_composition[step],
+                    precision=precision,
+                    permeate_temperature=conditions.permeate_temperature,
+                    permeate_pressure=conditions.permeate_pressure,
+                    first_component_permeance=first_component_permeance,
+                    second_component_permeance=second_component_permeance,
                 )
             )
 
@@ -323,15 +361,18 @@ class Pervaporation:
             feed_evaporation_heat.append(
                 evaporation_heat_1 * d_mass_1 + evaporation_heat_2 * d_mass_2
             )
-            permeate_condensation_heat.append(
-                condensation_heat_1 * d_mass_1
-                + condensation_heat_2 * d_mass_2
-                + (cooling_heat_1 * d_mass_1 + cooling_heat_2 * d_mass_2)
-                * (
-                    conditions.initial_feed_temperature
-                    - conditions.permeate_temperature
+            if conditions.permeate_temperature is None:
+                pass
+            else:
+                permeate_condensation_heat.append(
+                    condensation_heat_1 * d_mass_1
+                    + condensation_heat_2 * d_mass_2
+                    + (cooling_heat_1 * d_mass_1 + cooling_heat_2 * d_mass_2)
+                    * (
+                        conditions.initial_feed_temperature
+                        - conditions.permeate_temperature
+                    )
                 )
-            )
 
             feed_mass.append(feed_mass[step] - d_mass_1 - d_mass_2)
 
@@ -351,6 +392,7 @@ class Pervaporation:
             feed_composition=feed_composition,
             permeate_composition=permeate_composition,
             permeate_temperature=[conditions.permeate_temperature] * number_of_steps,
+            permeate_pressure=[conditions.permeate_pressure] * number_of_steps,
             feed_mass=feed_mass,
             partial_fluxes=partial_fluxes,
             permeances=permeances,
@@ -424,27 +466,7 @@ class Pervaporation:
                 / self.mixture.second_component.molecular_weight
                 * 1000
             )
-            condensation_heat_1 = (
-                self.mixture.first_component.get_vaporisation_heat(
-                    conditions.permeate_temperature
-                )
-                / self.mixture.first_component.molecular_weight
-                * 1000
-            )
-            condensation_heat_2 = (
-                self.mixture.second_component.get_vaporisation_heat(
-                    conditions.permeate_temperature
-                )
-                / self.mixture.second_component.molecular_weight
-                * 1000
-            )
 
-            specific_heat_1 = self.mixture.first_component.get_cooling_heat(
-                feed_temperature[step], conditions.permeate_temperature
-            )
-            specific_heat_2 = self.mixture.second_component.get_cooling_heat(
-                feed_temperature[step], conditions.permeate_temperature
-            )
             heat_capacity_1 = (
                 self.mixture.first_component.get_specific_heat(feed_temperature[step])
                 / self.mixture.first_component.molecular_weight
@@ -475,6 +497,7 @@ class Pervaporation:
                     feed_composition[step],
                     precision,
                     conditions.permeate_temperature,
+                    conditions.permeate_pressure,
                     permeances[step][0],
                     permeances[step][1],
                 )
@@ -490,14 +513,40 @@ class Pervaporation:
             d_mass_1 = partial_fluxes[step][0] * conditions.membrane_area * delta_hours
             d_mass_2 = partial_fluxes[step][1] * conditions.membrane_area * delta_hours
 
+            if conditions.permeate_temperature is None:
+                permeate_condensation_heat.append()
+            else:
+                condensation_heat_1 = (
+                        self.mixture.first_component.get_vaporisation_heat(
+                            conditions.permeate_temperature
+                        )
+                        / self.mixture.first_component.molecular_weight
+                        * 1000
+                )
+                condensation_heat_2 = (
+                        self.mixture.second_component.get_vaporisation_heat(
+                            conditions.permeate_temperature
+                        )
+                        / self.mixture.second_component.molecular_weight
+                        * 1000
+                )
+
+                specific_heat_1 = self.mixture.first_component.get_cooling_heat(
+                    feed_temperature[step], conditions.permeate_temperature
+                )
+                specific_heat_2 = self.mixture.second_component.get_cooling_heat(
+                    feed_temperature[step], conditions.permeate_temperature
+                )
+
+                permeate_condensation_heat.append(
+                    condensation_heat_1 * d_mass_1
+                    + condensation_heat_2 * d_mass_2
+                    + (specific_heat_1 * d_mass_1 + specific_heat_2 * d_mass_2)
+                    * (feed_temperature[step] - conditions.permeate_temperature)
+                )
+
             feed_evaporation_heat.append(
                 evaporation_heat_1 * d_mass_1 + evaporation_heat_2 * d_mass_2
-            )
-            permeate_condensation_heat.append(
-                condensation_heat_1 * d_mass_1
-                + condensation_heat_2 * d_mass_2
-                + (specific_heat_1 * d_mass_1 + specific_heat_2 * d_mass_2)
-                * (feed_temperature[step] - conditions.permeate_temperature)
             )
 
             feed_mass.append(feed_mass[step] - d_mass_1 - d_mass_2)
@@ -523,14 +572,13 @@ class Pervaporation:
                     conditions.temperature_program.program(time[step] + delta_hours)
                 )
 
-        time.pop()
-
         return ProcessModel(
             mixture=self.mixture,
             membrane_name=self.membrane.name,
             isothermal=False,
             feed_temperature=feed_temperature,
             permeate_temperature=[conditions.permeate_temperature] * number_of_steps,
+            permeate_pressure=[conditions.permeate_pressure] * number_of_steps,
             feed_composition=feed_composition,
             permeate_composition=permeate_composition,
             feed_mass=feed_mass,

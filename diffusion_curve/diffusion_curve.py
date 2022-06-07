@@ -18,9 +18,10 @@ class DiffusionCurve:
     mixture: Mixture
     membrane_name: str
     feed_temperature: float
-    permeate_temperature: typing.Optional[float]
     feed_compositions: typing.List[Composition]
     partial_fluxes: typing.List[typing.Tuple[float, float]]
+    permeate_temperature: typing.Optional[float] = None
+    permeate_pressure: typing.Optional[float] = None
     permeances: typing.Optional[typing.List[typing.Tuple[Permeance, Permeance]]] = None
     comments: typing.Optional[str] = None
 
@@ -39,7 +40,7 @@ class DiffusionCurve:
                 )
                 for composition in self.feed_compositions
             ]
-            if self.permeate_temperature is None:
+            if self.permeate_temperature is None and self.permeate_pressure is None:
                 self.permeances = [
                     (
                         Permeance(
@@ -53,7 +54,9 @@ class DiffusionCurve:
                     )
                     for i in range(len(self.feed_compositions))
                 ]
-            else:
+            elif (
+                self.permeate_temperature is not None and self.permeate_pressure is None
+            ):
                 permeate_partial_pressures = [
                     get_nrtl_partial_pressures(
                         self.permeate_temperature, self.mixture, composition
@@ -79,6 +82,42 @@ class DiffusionCurve:
                     )
                     for i in range(len(self.feed_compositions))
                 ]
+
+            elif (
+                self.permeate_pressure is not None and self.permeate_temperature is None
+            ):
+                permeate_partial_pressures = [
+                    (
+                        self.permeate_pressure
+                        * composition.to_molar(self.mixture).first,
+                        self.permeate_pressure
+                        * composition.to_molar(self.mixture).second,
+                    )
+                    for composition in permeate_compositions
+                ]
+                self.permeances = [
+                    (
+                        Permeance(
+                            value=self.partial_fluxes[i][0]
+                            / (
+                                feed_partial_pressures[i][0]
+                                - permeate_partial_pressures[i][0]
+                            )
+                        ),
+                        Permeance(
+                            value=self.partial_fluxes[i][1]
+                            / (
+                                feed_partial_pressures[i][1]
+                                - permeate_partial_pressures[i][1]
+                            )
+                        ),
+                    )
+                    for i in range(len(self.feed_compositions))
+                ]
+            else:
+                raise ValueError(
+                    "Either permeate temperature or permeate pressure could be stated not both"
+                )
 
     @property
     def permeate_composition(self) -> typing.List[Composition]:

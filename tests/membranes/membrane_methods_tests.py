@@ -240,16 +240,18 @@ def test_get_pure_component_flux_permeate_pressure(romakon_pm102t, all_component
     validation_temperatures = [333, 343, 353]
     for i in range(len(validation_temperatures)):
         assert (
-                abs(
-                    romakon_pm102t.get_estimated_pure_component_flux(
-                        validation_temperatures[i], all_components.h2o, permeate_pressure=3.165
-                    )
-                    - validation_fluxes_h2o[i]
+            abs(
+                romakon_pm102t.get_estimated_pure_component_flux(
+                    validation_temperatures[i],
+                    all_components.h2o,
+                    permeate_pressure=3.165,
                 )
-                < validation_fluxes_h2o[i] * 0.04
+                - validation_fluxes_h2o[i]
+            )
+            < validation_fluxes_h2o[i] * 0.04
         )
 
     with pytest.raises(ValueError):
         romakon_pm102t.get_estimated_pure_component_flux(
-                        333, all_components.h2o, 298, permeate_pressure=0
-                    )
+            333, all_components.h2o, 298, permeate_pressure=0
+        )

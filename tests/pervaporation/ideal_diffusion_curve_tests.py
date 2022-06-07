@@ -125,3 +125,22 @@ def test_get_permeances(meoh_mtbe_pervaporation):
         assert abs(modelled_permeances[i][0].value - validation_permeances[0]) < 1e-5
         assert abs(modelled_permeances[i][1].value - validation_permeances[1]) < 1e-5
         assert abs(calculated_selectivity[i] - validation_selectivity) < 1e-3
+
+
+def test_get_permeances_permeate_pressure(meoh_mtbe_pervaporation):
+    feed_compositions = [
+        Composition(p=(0.15 - i / 100), type=CompositionType("weight"))
+        for i in range(15)
+    ]
+    modelled_curve = meoh_mtbe_pervaporation.get_ideal_diffusion_curve(
+        feed_temperature=325.45,
+        compositions=feed_compositions,
+    )
+    validation_permeances = (0.06093311, 0.002390)
+    validation_selectivity = 25.4925
+    modelled_permeances = modelled_curve.get_permeances
+    calculated_selectivity = modelled_curve.get_selectivity
+    for i in range(15):
+        assert abs(modelled_permeances[i][0].value - validation_permeances[0]) < 1e-5
+        assert abs(modelled_permeances[i][1].value - validation_permeances[1]) < 1e-5
+        assert abs(calculated_selectivity[i] - validation_selectivity) < 1e-3

@@ -5,7 +5,7 @@ import attr
 import numpy
 
 from conditions import Conditions
-from mixture import Composition, Mixture
+from mixture import Composition, Mixture, get_nrtl_partial_pressures
 from permeance import Permeance
 
 
@@ -18,6 +18,7 @@ class ProcessModel:
     feed_composition: typing.List[Composition]
     permeate_composition: typing.List[Composition]
     permeate_temperature: typing.List[float]
+    permeate_pressure: typing.List[float]
     feed_mass: typing.List[float]
     partial_fluxes: typing.List[typing.Tuple[float, float]]
     permeances: typing.List[typing.Tuple[Permeance, Permeance]]
@@ -26,6 +27,21 @@ class ProcessModel:
     permeate_condensation_heat: typing.List[float]
     initial_conditions: Conditions
     comments: typing.Optional[str] = None
+
+    def __attrs_post_init__(self):
+
+        for i in range(len(self.time)):
+            if (
+                self.permeate_pressure[i] is None
+                and self.permeate_temperature[i] is not None
+            ):
+                self.permeate_pressure[i] = sum(
+                    get_nrtl_partial_pressures(
+                        self.permeate_temperature[i],
+                        self.mixture,
+                        self.permeate_composition[i],
+                    )
+                )
 
     @property
     def get_separation_factor(self) -> typing.List[float]:

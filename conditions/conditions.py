@@ -74,5 +74,6 @@ class Conditions:
     initial_feed_temperature: float
     initial_feed_amount: float
     initial_feed_composition: Composition
-    permeate_temperature: float
+    permeate_temperature: typing.Optional[float] = None
+    permeate_pressure: typing.Optional[float] = None
     temperature_program: typing.Optional[TemperatureProgram] = None
