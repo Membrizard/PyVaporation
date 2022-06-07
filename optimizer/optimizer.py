@@ -13,14 +13,14 @@ class Measurement:
 
 
 @attr.s(auto_attribs=True)
-class FitData:
-    measurements: typing.List[Measurement]
+class Measurements:
+    data: typing.List[Measurement]
 
     def __len__(self) -> int:
-        return len(self.measurements)
+        return len(self.data)
 
     def __getitem__(self, item: int) -> Measurement:
-        return self.measurements[item]
+        return self.data[item]
 
 
 @attr.s(auto_attribs=True)
@@ -58,7 +58,7 @@ def get_initial_guess(n: int, m: int) -> typing.List[float]:
     return [1] * (3 + n + m)
 
 
-def objective(data: FitData, params: typing.List[float], n: int, m: int) -> float:
+def objective(data: Measurements, params: typing.List[float], n: int, m: int) -> float:
     error = 0
     foo = PervaporationFunction.from_array(array=params, n=n, m=m)
     for d in data:
@@ -66,7 +66,7 @@ def objective(data: FitData, params: typing.List[float], n: int, m: int) -> floa
     return numpy.sqrt(error / len(data))
 
 
-def fit(data: FitData, n: int, m: int) -> PervaporationFunction:
+def fit(data: Measurements, n: int, m: int) -> PervaporationFunction:
     result = optimize.minimize(
         lambda params: objective(data, params, n=n, m=m),
         x0=numpy.array([1] * (3 + n + m)),
