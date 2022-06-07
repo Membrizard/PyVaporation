@@ -86,8 +86,8 @@ class PervaporationFunction:
             n=n,
             m=m,
             alpha=array[0],
-            a=array[1 : n + 2],
-            b=array[n + 2 :],
+            a=array[1: n + 2],
+            b=array[n + 2:],
         )
 
     def __call__(self, x: float, t: float) -> float:
