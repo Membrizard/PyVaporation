@@ -174,4 +174,4 @@ class Membrane:
                 component.get_vapor_pressure(temperature)
                 - permeate_pressure)
         else:
-            raise ValueError("Either permeate temperature or permeate pressure should be stated")
+            raise ValueError("Either permeate temperature or permeate pressure could be stated")
