@@ -4,7 +4,8 @@ from pathlib import Path
 import attr
 import numpy
 
-from mixture import Composition, CompositionType, Mixture, get_nrtl_partial_pressures
+from mixture import (Composition, CompositionType, Mixture,
+                     get_nrtl_partial_pressures)
 from permeance import Permeance
 
 
@@ -118,6 +119,9 @@ class DiffusionCurve:
                 raise ValueError(
                     "Either permeate temperature or permeate pressure could be stated not both"
                 )
+
+    def __len__(self):
+        return len(self.feed_compositions)
 
     @property
     def permeate_composition(self) -> typing.List[Composition]:
@@ -234,3 +238,6 @@ class DiffusionCurve:
 @attr.s(auto_attribs=True)
 class DiffusionCurves:
     diffusion_curves: typing.List[DiffusionCurve]
+
+    def __getitem__(self, item):
+        return self.diffusion_curves[item]
