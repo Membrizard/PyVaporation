@@ -40,6 +40,9 @@ class Measurements:
             ]
         )
 
+    def append(self, measurement: Measurement) -> None:
+        self.data.append(measurement)
+
     @classmethod
     def from_diffusion_curve_second(cls, curve: DiffusionCurve) -> "Measurements":
         return Measurements(
@@ -99,6 +102,20 @@ class PervaporationFunction:
         )
 
 
+def _suggest_n_m(
+    data: Measurements, n: typing.Optional[int] = None, m: typing.Optional[int] = None
+) -> typing.Tuple[int, int]:
+    if n is None:
+        suggested_n = int(numpy.sqrt(len(data)))
+    else:
+        suggested_n = n
+    if m is None:
+        suggested_m = int(numpy.sqrt(len(data)))
+    else:
+        suggested_m = m
+    return suggested_n, suggested_m
+
+
 def get_initial_guess(n: int, m: int) -> typing.List[float]:
     return [1] * (3 + n + m)
 
@@ -111,10 +128,29 @@ def objective(data: Measurements, params: typing.List[float], n: int, m: int) ->
     return numpy.sqrt(error / len(data))
 
 
-def fit(data: Measurements, n: int, m: int) -> PervaporationFunction:
+def fit(
+    data: Measurements,
+    n: typing.Optional[int] = None,
+    m: typing.Optional[int] = None,
+    include_zero: bool = True,
+) -> PervaporationFunction:
+
+    _n, _m = _suggest_n_m(data, n, m)
+
+    if include_zero:
+        unique_temperatures = set([m.t for m in data])
+        for t in unique_temperatures:
+            data.append(
+                Measurement(
+                    x=0,
+                    t=t,
+                    p=0,
+                )
+            )
+
     result = optimize.minimize(
-        lambda params: objective(data, params, n=n, m=m),
+        lambda params: objective(data, params, n=_n, m=_m),
         x0=numpy.array([1] * (3 + n + m)),
         method="Powell",
     )
-    return PervaporationFunction.from_array(array=result.x, n=n, m=m)
+    return PervaporationFunction.from_array(array=result.x, n=_n, m=_m)
