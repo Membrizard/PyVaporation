@@ -6,6 +6,7 @@ import numpy
 
 from mixture import Composition, CompositionType, Mixture, get_nrtl_partial_pressures
 from permeance import Permeance
+from optimizer import PervaporationFunction, Measurements
 
 
 @attr.s(auto_attribs=True)
@@ -23,6 +24,7 @@ class DiffusionCurve:
     permeate_temperature: typing.Optional[float] = None
     permeate_pressure: typing.Optional[float] = None
     permeances: typing.Optional[typing.List[typing.Tuple[Permeance, Permeance]]] = None
+    fit: typing.Optional[typing.Tuple[PervaporationFunction, PervaporationFunction]] = None
     comments: typing.Optional[str] = None
 
     def __attrs_post_init__(self):
@@ -118,6 +120,10 @@ class DiffusionCurve:
                 raise ValueError(
                     "Either permeate temperature or permeate pressure could be stated not both"
                 )
+
+        if self.fit is None:
+            measurements_first = Measurements.from_diffusion_curve_first(self)
+            measurements_second = Measurements.from_diffusion_curve_second(self)
 
     def __len__(self):
         return len(self.feed_compositions)
