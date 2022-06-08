@@ -6,7 +6,6 @@ import numpy
 
 from mixture import Composition, CompositionType, Mixture, get_nrtl_partial_pressures
 from permeance import Permeance
-from optimizer import PervaporationFunction, Measurements
 
 
 @attr.s(auto_attribs=True)
@@ -19,12 +18,13 @@ class DiffusionCurve:
     mixture: Mixture
     membrane_name: str
     feed_temperature: float
+    # TODO When loaded from csv need to assure compositions conversion to weight
     feed_compositions: typing.List[Composition]
     partial_fluxes: typing.List[typing.Tuple[float, float]]
     permeate_temperature: typing.Optional[float] = None
     permeate_pressure: typing.Optional[float] = None
+    # TODO when loaded from csv need to assure permeances conversion to kg/(m2*h*kPa)
     permeances: typing.Optional[typing.List[typing.Tuple[Permeance, Permeance]]] = None
-    fit: typing.Optional[typing.Tuple[PervaporationFunction, PervaporationFunction]] = None
     comments: typing.Optional[str] = None
 
     def __attrs_post_init__(self):
@@ -120,10 +120,6 @@ class DiffusionCurve:
                 raise ValueError(
                     "Either permeate temperature or permeate pressure could be stated not both"
                 )
-
-        if self.fit is None:
-            measurements_first = Measurements.from_diffusion_curve_first(self)
-            measurements_second = Measurements.from_diffusion_curve_second(self)
 
     def __len__(self):
         return len(self.feed_compositions)
@@ -227,11 +223,12 @@ class DiffusionCurve:
     ) -> typing.List[float]:
         """
         Calculation of selectivity at each concentration
-        :return - List of selectivity (Permeances are in kg/(m2*h*kPa) by default)
+        :return - List of selectivities (Permeances are in SI by default)
         """
         permeances = self.permeances
         return [
-            permeances[i][0].value / permeances[i][1].value
+            permeances[i][0].convert("SI", self.mixture.first_component).value
+            / permeances[i][1].convert("SI", self.mixture.second_component).value
             for i in range(len(self.feed_compositions))
         ]
 
@@ -241,7 +238,12 @@ class DiffusionCurve:
 
 
 @attr.s(auto_attribs=True)
-class DiffusionCurves:
+class DiffusionCurveSet:
+    """
+    A class for storing and working with multiple diffusion curves related to the same set of experiments.
+    """
+
+    name_of_the_set: str
     diffusion_curves: typing.List[DiffusionCurve]
 
     def __getitem__(self, item):

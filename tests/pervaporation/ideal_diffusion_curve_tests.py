@@ -118,7 +118,7 @@ def test_get_permeances(meoh_mtbe_pervaporation):
         compositions=feed_compositions,
     )
     validation_permeances = (0.06093311, 0.002390)
-    validation_selectivity = 25.4925
+    validation_selectivity = 70.136
     modelled_permeances = modelled_curve.get_permeances
     calculated_selectivity = modelled_curve.get_selectivity
     for i in range(15):
@@ -137,7 +137,7 @@ def test_get_permeances_permeate_pressure(meoh_mtbe_pervaporation):
         compositions=feed_compositions,
     )
     validation_permeances = (0.06093311, 0.002390)
-    validation_selectivity = 25.4925
+    validation_selectivity = 70.136
     modelled_permeances = modelled_curve.get_permeances
     calculated_selectivity = modelled_curve.get_selectivity
     for i in range(15):

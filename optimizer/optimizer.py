@@ -4,7 +4,7 @@ import attr
 import numpy
 from scipy import optimize
 
-from diffusion_curve import DiffusionCurve, DiffusionCurves
+from diffusion_curve import DiffusionCurve, DiffusionCurveSet
 
 
 @attr.s(auto_attribs=True)
@@ -57,14 +57,14 @@ class Measurements:
         )
 
     @classmethod
-    def from_diffusion_curves_first(cls, curves: DiffusionCurves) -> "Measurements":
+    def from_diffusion_curves_first(cls, curves: DiffusionCurveSet) -> "Measurements":
         output = Measurements(data=[])
         for curve in curves:
             output += cls.from_diffusion_curve_first(curve)
         return output
 
     @classmethod
-    def from_diffusion_curves_second(cls, curves: DiffusionCurves) -> "Measurements":
+    def from_diffusion_curves_second(cls, curves: DiffusionCurveSet) -> "Measurements":
         output = Measurements(data=[])
         for curve in curves:
             output += cls.from_diffusion_curve_second(curve)
@@ -96,6 +96,40 @@ class PervaporationFunction:
     def __call__(self, x: float, t: float) -> float:
         return self.alpha * (
             numpy.exp(
+                sum(self.a[i] * x**i for i in range(len(self.a)))
+                - sum(self.b[i] * x**i for i in range(len(self.b))) / t
+            )
+        )
+
+    def __mul__(self, constant: float) -> "PervaporationFunction":
+        return PervaporationFunction(
+            n=self.n,
+            m=self.m,
+            alpha=self.alpha * constant,
+            a=self.a,
+            b=self.b,
+        )
+
+    def derivative_temperature(self, x: float, t: float):
+        return (
+            self.alpha
+            * (sum(self.b[i] * x**i for i in range(len(self.b))) / t**2)
+            * (
+                numpy.exp(
+                    sum(self.a[i] * x**i for i in range(len(self.a)))
+                    - sum(self.b[i] * x**i for i in range(len(self.b))) / t
+                )
+            )
+        )
+
+    def derivative_composition(self, x: float, t: float):
+        return (
+            self.alpha
+            * (
+                sum(self.a[i] * i * x ** (i - 1) for i in range(1, len(self.a)))
+                - sum(self.b[i] * i * x ** (i - 1) for i in range(1, len(self.b))) / t
+            )
+            * numpy.exp(
                 sum(self.a[i] * x**i for i in range(len(self.a)))
                 - sum(self.b[i] * x**i for i in range(len(self.b))) / t
             )
@@ -133,16 +167,19 @@ def fit(
     n: typing.Optional[int] = None,
     m: typing.Optional[int] = None,
     include_zero: bool = True,
+    component_index: int = 0,
 ) -> PervaporationFunction:
 
     _n, _m = _suggest_n_m(data, n, m)
+    if component_index > 1:
+        raise ValueError("Index should be either 0 or 1")
 
     if include_zero:
         unique_temperatures = set([m.t for m in data])
         for t in unique_temperatures:
             data.append(
                 Measurement(
-                    x=0,
+                    x=component_index,
                     t=t,
                     p=0,
                 )

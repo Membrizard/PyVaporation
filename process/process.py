@@ -7,13 +7,13 @@ import numpy
 from conditions import Conditions
 from mixture import Composition, Mixture, get_nrtl_partial_pressures
 from permeance import Permeance
+from optimizer import PervaporationFunction
 
 
 @attr.s(auto_attribs=True)
 class ProcessModel:
     mixture: Mixture
     membrane_name: str
-    isothermal: bool
     feed_temperature: typing.List[float]
     feed_composition: typing.List[Composition]
     permeate_composition: typing.List[Composition]
@@ -26,6 +26,9 @@ class ProcessModel:
     feed_evaporation_heat: typing.List[float]
     permeate_condensation_heat: typing.List[typing.Optional[float]]
     initial_conditions: Conditions
+    permeance_fits: typing.Optional[
+        typing.Tuple[PervaporationFunction, PervaporationFunction]
+    ] = None
     comments: typing.Optional[str] = None
 
     def __attrs_post_init__(self):

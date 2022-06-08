@@ -4,7 +4,7 @@ import attr
 import numpy
 
 from component import Component
-from diffusion_curve import DiffusionCurves
+from diffusion_curve import DiffusionCurveSet
 from experiments import IdealExperiments
 from permeance import Permeance, Units
 from utils import R
@@ -14,7 +14,7 @@ from utils import R
 class Membrane:
     name: str
     ideal_experiments: typing.Optional[IdealExperiments] = None
-    diffusion_curves: typing.Optional[DiffusionCurves] = None
+    diffusion_curve_sets: typing.Optional[typing.List[DiffusionCurveSet]] = None
 
     # TODO: non ideal experiments - Diffusion curves
 
@@ -74,6 +74,7 @@ class Membrane:
         self,
         temperature: float,
         component: Component,
+        initial_permeance: typing.Optional[Permeance] = None,
     ) -> Permeance:
         """
         Calculates Permeance of a specified component (kg/(m2*h*kPa)) at a specified Temperature (K)
@@ -112,6 +113,17 @@ class Membrane:
             )
         elif component_experiments.experiments[index].temperature == temperature:
             return given_permeance
+
+        elif initial_permeance is not None:
+            return Permeance(
+                value=initial_permeance.value
+                * numpy.exp(
+                    -component_experiments.experiments[index].activation_energy
+                    / R
+                    * (1 / temperature - 1 / temperature_list[index])
+                )
+            )
+
         else:
             return Permeance(
                 value=given_permeance.value
