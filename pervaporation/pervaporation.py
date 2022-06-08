@@ -602,6 +602,16 @@ class Pervaporation:
             ),
         )
 
+    # TODO
+    def non_ideal_diffusion_curve(self,
+                                  diffusion_curves: DiffusionCurveSet,
+                                  compositions: typing.List[Composition],
+                                  permeate_temperature: typing.Optional[float] = None,
+                                  permeate_pressure: typing.Optional[float] = None,
+                                  precision: typing.Optional[float] = 5e-5,
+                                  initial_permeances: typing.Optional[typing.Tuple[Permeance, Permeance]] = None):
+        return self.membrane
+
     def non_ideal_isothermal_process(
         self,
         conditions: Conditions,
