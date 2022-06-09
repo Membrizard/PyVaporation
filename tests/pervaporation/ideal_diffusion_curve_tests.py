@@ -74,7 +74,7 @@ def test_get_basic_ideal_diffusion_curve(meoh_mtbe_pervaporation):
         Composition(p=(0.15 - i / 100), type=CompositionType("weight"))
         for i in range(15)
     ]
-    modelled_curve = meoh_mtbe_pervaporation.get_ideal_diffusion_curve(
+    modelled_curve = meoh_mtbe_pervaporation.ideal_diffusion_curve(
         feed_temperature=325.45,
         compositions=feed_compositions,
     )
@@ -113,7 +113,7 @@ def test_get_permeances(meoh_mtbe_pervaporation):
         Composition(p=(0.15 - i / 100), type=CompositionType("weight"))
         for i in range(15)
     ]
-    modelled_curve = meoh_mtbe_pervaporation.get_ideal_diffusion_curve(
+    modelled_curve = meoh_mtbe_pervaporation.ideal_diffusion_curve(
         feed_temperature=325.45,
         compositions=feed_compositions,
     )
@@ -132,7 +132,7 @@ def test_get_permeances_permeate_pressure(meoh_mtbe_pervaporation):
         Composition(p=(0.15 - i / 100), type=CompositionType("weight"))
         for i in range(15)
     ]
-    modelled_curve = meoh_mtbe_pervaporation.get_ideal_diffusion_curve(
+    modelled_curve = meoh_mtbe_pervaporation.ideal_diffusion_curve(
         feed_temperature=325.45,
         compositions=feed_compositions,
     )

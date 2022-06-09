@@ -42,12 +42,15 @@ class Membrane:
 
         """
         component_experiments = self.get_penetrant_data(component)
+        stated_activation_energy = component_experiments.experiments[0].activation_energy
 
-        if len(component_experiments) < 2:
+        if len(component_experiments) < 2 and stated_activation_energy is None:
             raise ValueError(
                 "At least two measurements at different temperatures are required for "
                 "the calculation of Apparent Activation Energy"
             )
+        elif len(component_experiments) < 2 and stated_activation_energy is not None:
+            return stated_activation_energy
 
         x = numpy.divide(
             1,
