@@ -898,6 +898,6 @@ class Pervaporation:
                 + str(self.mixture.second_component.name)
                 + " "
                 + datetime.now().strftime("%m/%d/%Y, %H:%M")
-                + " Ideal Proces Model"
+                + " Non-Ideal Proces Model"
             ),
         )
