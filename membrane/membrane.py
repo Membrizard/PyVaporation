@@ -42,7 +42,9 @@ class Membrane:
 
         """
         component_experiments = self.get_penetrant_data(component)
-        stated_activation_energy = component_experiments.experiments[0].activation_energy
+        stated_activation_energy = component_experiments.experiments[
+            0
+        ].activation_energy
 
         if len(component_experiments) < 2 and stated_activation_energy is None:
             raise ValueError(

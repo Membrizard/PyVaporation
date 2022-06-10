@@ -12,7 +12,7 @@ from mixture import Composition, CompositionType, Mixture, get_nrtl_partial_pres
 from permeance import Permeance, Units
 from process import ProcessModel
 from utils import R
-from optimizer import Measurements, fit
+from optimizer import Measurements, fit, PervaporationFunction
 
 
 def get_permeate_composition_from_fluxes(
@@ -674,21 +674,6 @@ class Pervaporation:
             diffusion_curves
         )
 
-        pervaporation_function_first = fit(
-            data=measurements_first,
-            n=n_first,
-            m=m_first,
-            include_zero=include_zero,
-            component_index=0,
-        )
-        pervaporation_function_second = fit(
-            data=measurements_second,
-            n=n_second,
-            m=m_second,
-            include_zero=include_zero,
-            component_index=1,
-        )
-
         if len(diffusion_curves.diffusion_curves) == 1:
             pervaporation_function_temperature = diffusion_curves.diffusion_curves[
                 0
@@ -699,24 +684,53 @@ class Pervaporation:
             activation_energy_second = self.membrane.calculate_activation_energy(
                 self.mixture.second_component
             )
-            pervaporation_function_first = pervaporation_function_first * numpy.exp(
-                -activation_energy_first
-                / R
-                * (
-                    1 / conditions.initial_feed_temperature
-                    - 1 / pervaporation_function_temperature
-                )
+
+            pervaporation_function_first = fit(
+                data=measurements_first,
+                n=n_first,
+                m=0,
+                include_zero=False,
+                component_index=0,
             )
-            pervaporation_function_second = pervaporation_function_second * numpy.exp(
-                -activation_energy_second
-                / R
-                * (
-                    1 / conditions.initial_feed_temperature
-                    - 1 / pervaporation_function_temperature
-                )
+            pervaporation_function_second = fit(
+                data=measurements_second,
+                n=n_second,
+                m=0,
+                include_zero=False,
+                component_index=1,
             )
+
+            pervaporation_function_first.a[0] = (
+                pervaporation_function_first.a[0]
+                + pervaporation_function_first.b[0] / pervaporation_function_temperature
+                + activation_energy_first / (R * pervaporation_function_temperature)
+            )
+
+            pervaporation_function_second.a[0] = (
+                pervaporation_function_second.a[0]
+                + pervaporation_function_second.b[0]
+                / pervaporation_function_temperature
+                + activation_energy_second / (R * pervaporation_function_temperature)
+            )
+
+            pervaporation_function_first.b[0] = activation_energy_first/R
+            pervaporation_function_second.b[0] = activation_energy_second/R
+
         else:
-            pervaporation_function_temperature = conditions.initial_feed_temperature
+            pervaporation_function_first = fit(
+                data=measurements_first,
+                n=n_first,
+                m=m_first,
+                include_zero=include_zero,
+                component_index=0,
+            )
+            pervaporation_function_second = fit(
+                data=measurements_second,
+                n=n_second,
+                m=m_second,
+                include_zero=include_zero,
+                component_index=1,
+            )
 
         if initial_permeances is None:
             first_component_permeance = Permeance(
@@ -836,7 +850,7 @@ class Pervaporation:
                         value=permeances[step][0].value
                         + pervaporation_function_first.derivative_composition(
                             feed_composition[step].p,
-                            pervaporation_function_temperature,
+                            conditions.initial_feed_temperature,
                         )
                         * (
                             feed_composition[step + 1].first
@@ -847,7 +861,7 @@ class Pervaporation:
                         value=permeances[step][1].value
                         + pervaporation_function_second.derivative_composition(
                             feed_composition[step].p,
-                            pervaporation_function_temperature,
+                            conditions.initial_feed_temperature,
                         )
                         * (
                             feed_composition[step + 1].first

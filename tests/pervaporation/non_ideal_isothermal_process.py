@@ -84,7 +84,8 @@ def pervaporation(romakon_pm102_real, all_mixtures):
 
 
 def test_validate_against_ideal_process():
-    assert 0==0
+    assert 0 == 0
+
 
 def test_non_ideal_isothermal_process():
-    assert 0==0
+    assert 0 == 0
