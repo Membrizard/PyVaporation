@@ -17,6 +17,14 @@ class Permeance:
     value: float
     units: str = Units().kg_m2_h_kPa
 
+    def __add__(self, other: 'Permeance') -> 'Permeance':
+        if self.units != other.units:
+            raise ValueError("Only Permeances in same units could be added")
+        return Permeance(
+          value=self.value+other.value,
+          units=self.units
+      )
+
     def convert(
         self,
         to_units: str,

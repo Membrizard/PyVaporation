@@ -293,7 +293,7 @@ class Pervaporation:
         ]
 
         feed_evaporation_heat: typing.List[float] = []
-        permeate_condensation_heat: typing.List[float] = []
+        permeate_condensation_heat: typing.List[typing.Optional[float]] = []
         feed_mass: typing.List[float] = [conditions.initial_feed_amount]
 
         evaporation_heat_1 = (
@@ -365,7 +365,7 @@ class Pervaporation:
                 evaporation_heat_1 * d_mass_1 + evaporation_heat_2 * d_mass_2
             )
             if conditions.permeate_temperature is None:
-                pass
+                permeate_condensation_heat.append(None)
             else:
                 permeate_condensation_heat.append(
                     condensation_heat_1 * d_mass_1
@@ -666,7 +666,7 @@ class Pervaporation:
         ]
 
         feed_evaporation_heat: typing.List[float] = []
-        permeate_condensation_heat: typing.List[float] = []
+        permeate_condensation_heat: typing.List[typing.Optional[float]] = []
         feed_mass: typing.List[float] = [conditions.initial_feed_amount]
 
         measurements_first = Measurements.from_diffusion_curves_first(diffusion_curves)
@@ -823,7 +823,7 @@ class Pervaporation:
                 evaporation_heat_1 * d_mass_1 + evaporation_heat_2 * d_mass_2
             )
             if conditions.permeate_temperature is None:
-                pass
+                permeate_condensation_heat.append(None)
             else:
                 permeate_condensation_heat.append(
                     condensation_heat_1 * d_mass_1
