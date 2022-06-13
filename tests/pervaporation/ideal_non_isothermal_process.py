@@ -1,11 +1,11 @@
 import pytest
 from pytest import fixture
 
-from component import AllComponents
+from components import AllComponents
 from conditions import CalculationType, Conditions, TemperatureProgram
 from experiments import IdealExperiment, IdealExperiments
 from membrane import Membrane
-from mixture import AllMixtures, Composition, CompositionType
+from mixtures import AllMixtures, Composition, CompositionType
 from permeance import Permeance
 from pervaporation import Pervaporation
 

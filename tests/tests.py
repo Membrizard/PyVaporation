@@ -1,6 +1,6 @@
-from component import AllComponents
+from components import AllComponents
 from experiments import IdealExperiments
-from mixture import AllMixtures
+from mixtures import AllMixtures
 
 
 def test_mixtures_and_components_matching():

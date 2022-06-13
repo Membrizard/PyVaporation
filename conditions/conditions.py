@@ -4,7 +4,7 @@ import attr
 import numpy
 from enum import Enum
 
-from mixture import Composition
+from mixtures import Composition
 
 
 class CalculationType(Enum):

@@ -2,7 +2,7 @@ import typing
 
 import attr
 
-from component import Component
+from components import Component
 
 
 @attr.s(auto_attribs=True)
@@ -17,13 +17,10 @@ class Permeance:
     value: float
     units: str = Units().kg_m2_h_kPa
 
-    def __add__(self, other: 'Permeance') -> 'Permeance':
+    def __add__(self, other: "Permeance") -> "Permeance":
         if self.units != other.units:
             raise ValueError("Only Permeances in same units could be added")
-        return Permeance(
-          value=self.value+other.value,
-          units=self.units
-      )
+        return Permeance(value=self.value + other.value, units=self.units)
 
     def convert(
         self,

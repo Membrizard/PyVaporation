@@ -4,7 +4,7 @@ from pathlib import Path
 import attr
 import numpy
 
-from mixture import Composition, CompositionType, Mixture, get_nrtl_partial_pressures
+from mixtures import Composition, CompositionType, Mixture, get_nrtl_partial_pressures
 from permeance import Permeance
 
 
@@ -32,7 +32,7 @@ class DiffusionCurve:
         Calculation of Permeance values if they are not specified
         Permeance values are in kg/(m2*h*kPa)
         If needed, Permeance values may be converted using Permeance.converter()
-        :return a list of Permeances for each component tuple(Pi,Pj) at each concentration
+        :return a list of Permeances for each components tuple(Pi,Pj) at each concentration
         """
         if self.permeances is None:
             permeate_compositions = self.permeate_composition

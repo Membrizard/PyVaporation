@@ -1,8 +1,8 @@
-from component import AllComponents
+from components import AllComponents
 from conditions import Conditions
 from experiments import IdealExperiment, IdealExperiments
 from membrane import Membrane
-from mixture import (
+from mixtures import (
     AllMixtures,
     Composition,
     CompositionType,

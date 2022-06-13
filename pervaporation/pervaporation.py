@@ -8,7 +8,7 @@ import numpy
 from conditions import Conditions
 from diffusion_curve import DiffusionCurve, DiffusionCurveSet
 from membrane import Membrane
-from mixture import Composition, CompositionType, Mixture, get_nrtl_partial_pressures
+from mixtures import Composition, CompositionType, Mixture, get_nrtl_partial_pressures
 from permeance import Permeance, Units
 from process import ProcessModel
 from utils import R
@@ -42,8 +42,8 @@ class Pervaporation:
         """
         Calculates partial fluxes at a given Permeate composition, accounting for the driving force change
         Either permeate temperature or permeate pressure could be stated
-        :param first_component_permeance - Permeance of the first component
-        :param second_component_permeance - Permeance of the second component
+        :param first_component_permeance - Permeance of the first components
+        :param second_component_permeance - Permeance of the second components
         :param permeate_composition - permeate composition
         :param feed_composition - feed composition
         :param feed_temperature - temperature, K
@@ -97,8 +97,8 @@ class Pervaporation:
         :param precision: Precision in obtained permeate composition, by default is 5e-5
         :param permeate_temperature: Permeate temperature, if not specified permeate pressure is set to 0 kPa
         :param permeate_pressure - permeate pressure, kPa , if not specified permeate pressure is considered 0 kPa
-        :param first_component_permeance: Permeance of the first component, if not specified is calculated
-        :param second_component_permeance: Permeance of the second component, if not specified is calculated
+        :param first_component_permeance: Permeance of the first components, if not specified is calculated
+        :param second_component_permeance: Permeance of the second components, if not specified is calculated
         :return: Partial fluxes of components as a tuple
         """
         if second_component_permeance is None or first_component_permeance is None:
@@ -633,7 +633,7 @@ class Pervaporation:
         Based on a set of Diffusion curves measured at different temperatures;
         The modelling could be also performed based on a single diffusion curve:
         In that case the apparent activation energy of transport is considered constant
-        and is calculated for each component based on the IdealExperiments data provided for the Membrane.
+        and is calculated for each components based on the IdealExperiments data provided for the Membrane.
         :param conditions: Initial Conditions of the Process
         :param diffusion_curves: A set of Diffusion curves picked for the Modelling form the Membrane
         :param number_of_steps: Number of time steps for modelling
@@ -641,16 +641,16 @@ class Pervaporation:
         :param precision: Precision in obtained permeate composition, by default is 5e-5
         :param initial_permeances: Initial Permeances, should be stated if the Membranes swelling history is significant
         :param n_first: Optional parameter,
-        indicates the order of the polynomial of the composition part of the Permeance function for the first component
+        indicates the order of the polynomial of the composition part of the Permeance function for the first components
         :param m_first: Optional parameter,
-        indicates the order of the polynomial of the temperature part of the Permeance function for the first component
+        indicates the order of the polynomial of the temperature part of the Permeance function for the first components
         :param n_second: Optional parameter,
-        indicates the order of the polynomial of the composition part of the Permeance function for the second component
+        indicates the order of the polynomial of the composition part of the Permeance function for the second components
         :param m_second: Optional parameter,
-        indicates the order of the polynomial of the temperature part of the Permeance function for the second component
+        indicates the order of the polynomial of the temperature part of the Permeance function for the second components
         :param include_zero: if True, points:
-         first_component_fraction = 0 first_component_permeance=0 for the first component
-         first_component_fraction = 1 second_component_permeance=0 for the second component
+         first_component_fraction = 0 first_component_permeance=0 for the first components
+         first_component_fraction = 1 second_component_permeance=0 for the second components
          for each temperature are added to the measurements in order to improve obtained fits
         :return: ProcessModel object
         """
@@ -713,8 +713,8 @@ class Pervaporation:
                 + activation_energy_second / (R * pervaporation_function_temperature)
             )
 
-            pervaporation_function_first.b[0] = activation_energy_first/R
-            pervaporation_function_second.b[0] = activation_energy_second/R
+            pervaporation_function_first.b[0] = activation_energy_first / R
+            pervaporation_function_second.b[0] = activation_energy_second / R
 
         else:
             pervaporation_function_first = fit(

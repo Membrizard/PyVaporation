@@ -3,7 +3,7 @@ import typing
 import attr
 import numpy
 
-from component import Component
+from components import Component
 from diffusion_curve import DiffusionCurveSet
 from experiments import IdealExperiments
 from permeance import Permeance, Units
@@ -37,7 +37,7 @@ class Membrane:
     ) -> float:
         """
         Calculates Apparent Activation Energy of Transport i J/mol
-        for a specified component, based on its Ideal Experiments.
+        for a specified components, based on its Ideal Experiments.
         Activation energy is assumed to be independent of concentration for Ideal Process
 
         """
@@ -82,7 +82,7 @@ class Membrane:
         initial_permeance: typing.Optional[Permeance] = None,
     ) -> Permeance:
         """
-        Calculates Permeance of a specified component (kg/(m2*h*kPa)) at a specified Temperature (K)
+        Calculates Permeance of a specified components (kg/(m2*h*kPa)) at a specified Temperature (K)
         based on a given or calculated Apparent Activation Energy of Transport
         """
 
@@ -147,7 +147,7 @@ class Membrane:
         calculation_type: typing.Optional[str] = "molar",
     ) -> float:
         """
-        Calculates Ideal selectivity of one specified component over the other at a specified temperature.
+        Calculates Ideal selectivity of one specified components over the other at a specified temperature.
         """
         if calculation_type == "weight":
             return (
@@ -172,10 +172,10 @@ class Membrane:
         permeate_pressure: typing.Optional[float] = None,
     ) -> float:
         """
-        Calculates Flux of a specified component during individual Pervaporation based on the specified Permeance
+        Calculates Flux of a specified components during individual Pervaporation based on the specified Permeance
         from Ideal Experiments Of the Component.
         May be performed either on the basis of permeate temperature in K or permeate pressure in kPa.
-        If permeate conditions are not stated partial pressure of the component in permeate is considered zero.
+        If permeate conditions are not stated partial pressure of the components in permeate is considered zero.
         """
         if permeate_temperature is None and permeate_pressure is None:
             return self.get_permeance(

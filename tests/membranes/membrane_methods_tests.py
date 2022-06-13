@@ -1,7 +1,7 @@
 import pytest
 from pytest import fixture
 
-from component import AllComponents
+from components import AllComponents
 from experiments import IdealExperiment, IdealExperiments
 from membrane import Membrane
 from permeance import Permeance

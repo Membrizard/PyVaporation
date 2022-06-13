@@ -1,37 +1,14 @@
-import typing
-from pathlib import Path
-
 import attr
 import numpy
-import yaml
 
-from utils import HeatCapacityConstants, R, VaporPressureConstants, VPConstantsType
+from utils import VaporPressureConstants, HeatCapacityConstants, VPConstantsType, R
 
 
 @attr.s(auto_attribs=True)
 class Component:
-    """
-    A class to create Components,
-    Defined with required Component's constants
-    """
-
-    name: str
     molecular_weight: float = attr.ib(converter=lambda value: float(value))
     vapour_pressure_constants: VaporPressureConstants
     heat_capacity_constants: HeatCapacityConstants
-
-    @classmethod
-    def from_dict(cls, d: typing.Mapping) -> "Component":
-        return Component(
-            name=d["name"],
-            molecular_weight=d["molecular_weight"],
-            vapour_pressure_constants=VaporPressureConstants(
-                **d["vapor_pressure_constants"]
-            ),
-            heat_capacity_constants=HeatCapacityConstants(
-                **d["heat_capacity_constants"]
-            ),
-        )
 
     def get_vapor_pressure(self, temperature: float) -> float:
         """
@@ -100,42 +77,16 @@ class Component:
             + self.heat_capacity_constants.d * temperature**3
         )
 
-    def get_cooling_heat(self, temperature_1, temperature_2):
+    def get_cooling_heat(self, t0, t1):
         """
         Calculation of Specific Heat in J/mol using Integral (T2-T1) (CpdT)
-        :param temperature_1 and temperature_2: temperature in K (temperature_2 < temperature_1)
+        :param t0: temperature in K (t1 < t0)
+        :param t1: temperature in K (t1 < t0)
         :return: Specific Heat in J/mol
         """
         return (
-            self.heat_capacity_constants.a * (temperature_1 - temperature_2)
-            + self.heat_capacity_constants.b
-            * (temperature_1**2 - temperature_2**2)
-            / 2
-            + self.heat_capacity_constants.c
-            * (temperature_1**3 - temperature_2**3)
-            / 3
-            + self.heat_capacity_constants.d
-            * (temperature_1**4 - temperature_2**4)
-            / 4
+            self.heat_capacity_constants.a * (t0 - t1)
+            + self.heat_capacity_constants.b * (t0**2 - t1**2) / 2
+            + self.heat_capacity_constants.c * (t0**3 - t1**3) / 3
+            + self.heat_capacity_constants.d * (t0**4 - t1**4) / 4
         )
-
-
-@attr.s(auto_attribs=True)
-class AllComponents:
-    components: typing.Mapping[str, Component]
-
-    @classmethod
-    def load(cls, path: typing.Union[str, Path]) -> "AllComponents":
-        with open(path, "r") as handle:
-            _components = yaml.load(handle, Loader=yaml.FullLoader)
-
-        output = AllComponents(
-            components={
-                name: Component.from_dict(value) for name, value in _components.items()
-            }
-        )
-
-        for name, component in output.components.items():
-            setattr(output, name, component)
-
-        return output
