@@ -3,6 +3,7 @@ import typing
 import attr
 import numpy
 from scipy import optimize
+from copy import copy
 
 from diffusion_curve import DiffusionCurve, DiffusionCurveSet
 
@@ -89,8 +90,8 @@ class PervaporationFunction:
             n=n,
             m=m,
             alpha=array[0],
-            a=array[1 : n + 2],
-            b=array[n + 2 :],
+            a=array[1: n + 2],
+            b=array[n + 2:],
         )
 
     def __call__(self, x: float, t: float) -> float:
@@ -171,13 +172,15 @@ def fit(
 ) -> PervaporationFunction:
 
     _n, _m = _suggest_n_m(data, n, m)
-    if component_index > 1:
+    if component_index not in {0, 1}:
         raise ValueError("Index should be either 0 or 1")
+
+    _data = copy(data)
 
     if include_zero:
         unique_temperatures = set([m.t for m in data])
         for t in unique_temperatures:
-            data.append(
+            _data.append(
                 Measurement(
                     x=component_index,
                     t=t,
@@ -186,8 +189,33 @@ def fit(
             )
 
     result = optimize.minimize(
-        lambda params: objective(data, params, n=_n, m=_m),
+        lambda params: objective(_data, params, n=_n, m=_m),
         x0=numpy.array([1] * (3 + _n + _m)),
         method="Powell",
     )
     return PervaporationFunction.from_array(array=result.x, n=_n, m=_m)
+
+
+def find_best_curve(data: Measurements, include_zero: bool = True, component_index: int = 0) -> PervaporationFunction:
+    n_tries = [
+        i for i in range(int(numpy.power(len(data), 0.75)))
+    ]
+    m_tries = [
+        i for i in range(int(numpy.power(len(data), 0.75)))
+    ]
+
+    best_curve = None
+    best_loss = numpy.inf
+
+    for n in n_tries:
+        for m in m_tries:
+            curve = fit(data, n=n, m=m, include_zero=include_zero, component_index=component_index)
+            loss = sum([
+                (curve(m.x, m.t) - m.p) ** 2 for m in data
+            ])
+
+            if loss < best_loss:
+                best_curve = curve
+                best_loss = loss
+
+    return best_curve

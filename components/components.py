@@ -4,6 +4,7 @@ from utils import VaporPressureConstants, HeatCapacityConstants
 
 class Components:
     H2O: Component = Component(
+        name='H2O',
         molecular_weight=18.02,
         vapour_pressure_constants=VaporPressureConstants(
             a=7.20389,
@@ -19,6 +20,7 @@ class Components:
     )
 
     MeOH: Component = Component(
+        name='MeOH',
         molecular_weight=32.04,
         vapour_pressure_constants=VaporPressureConstants(
             a=7.2209903,
@@ -34,6 +36,7 @@ class Components:
     )
 
     EtOH: Component = Component(
+        name='EtOH',
         molecular_weight=46.07,
         vapour_pressure_constants=VaporPressureConstants(
             a=7.24677,
@@ -49,6 +52,7 @@ class Components:
     )
 
     iPOH: Component = Component(
+        name='iPOH',
         molecular_weight=60.10,
         vapour_pressure_constants=VaporPressureConstants(
             a=6.861,
@@ -64,6 +68,7 @@ class Components:
     )
 
     MTBE: Component = Component(
+        name='MTBE',
         molecular_weight=88.15,
         vapour_pressure_constants=VaporPressureConstants(
             a=6.050931522,
@@ -79,6 +84,7 @@ class Components:
     )
 
     ETBE: Component = Component(
+        name='ETBE',
         molecular_weight=102.17,
         vapour_pressure_constants=VaporPressureConstants(
             a=6.0703,
@@ -94,6 +100,7 @@ class Components:
     )
 
     DME: Component = Component(
+        name='DME',
         molecular_weight=90.12,
         vapour_pressure_constants=VaporPressureConstants(
             a=5.83775,
@@ -109,6 +116,7 @@ class Components:
     )
 
     DMC: Component = Component(
+        name='DMC',
         molecular_weight=90.08,
         vapour_pressure_constants=VaporPressureConstants(
             a=5.78894,
@@ -124,6 +132,7 @@ class Components:
     )
 
     CycloHexane: Component = Component(
+        name='CycloHexane',
         molecular_weight=84.16,
         vapour_pressure_constants=VaporPressureConstants(
             a=5.97636182,
@@ -139,6 +148,7 @@ class Components:
     )
 
     Benzene: Component = Component(
+        name='Benzene',
         molecular_weight=78.11,
         vapour_pressure_constants=VaporPressureConstants(
             a=6.00477182,
@@ -154,6 +164,7 @@ class Components:
     )
 
     Toluene: Component = Component(
+        name='Toluene',
         molecular_weight=92.14,
         vapour_pressure_constants=VaporPressureConstants(
             a=6.0854,

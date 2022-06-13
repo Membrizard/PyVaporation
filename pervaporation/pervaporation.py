@@ -20,7 +20,7 @@ def get_permeate_composition_from_fluxes(
 ) -> Composition:
     return Composition(
         p=fluxes[0] / sum(fluxes),
-        type=CompositionType("weight"),
+        type=CompositionType.weight,
     )
 
 
@@ -181,7 +181,7 @@ class Pervaporation:
             permeate_temperature,
             permeate_pressure,
         )
-        return Composition(x[0] / numpy.sum(x), type=CompositionType("weight"))
+        return Composition(x[0] / numpy.sum(x), type=CompositionType.weight)
 
     def calculate_separation_factor(
         self,
@@ -354,7 +354,7 @@ class Pervaporation:
             permeate_composition.append(
                 Composition(
                     p=partial_fluxes[step][0] / (sum(partial_fluxes[step])),
-                    type=CompositionType("weight"),
+                    type=CompositionType.weight,
                 )
             )
 
@@ -383,7 +383,7 @@ class Pervaporation:
                 Composition(
                     p=(feed_composition[step].p * feed_mass[step] - d_mass_1)
                     / feed_mass[step + 1],
-                    type=CompositionType("weight"),
+                    type=CompositionType.weight,
                 )
             )
 
@@ -509,7 +509,7 @@ class Pervaporation:
             permeate_composition.append(
                 Composition(
                     p=partial_fluxes[step][0] / (sum(partial_fluxes[step])),
-                    type=CompositionType("weight"),
+                    type=CompositionType.weight,
                 )
             )
 
@@ -558,7 +558,7 @@ class Pervaporation:
                 Composition(
                     p=(feed_composition[step].p * feed_mass[step] - d_mass_1)
                     / feed_mass[step + 1],
-                    type=CompositionType("weight"),
+                    type=CompositionType.weight,
                 )
             )
 
@@ -812,7 +812,7 @@ class Pervaporation:
             permeate_composition.append(
                 Composition(
                     p=partial_fluxes[step][0] / (sum(partial_fluxes[step])),
-                    type=CompositionType("weight"),
+                    type=CompositionType.weight,
                 )
             )
 
@@ -841,7 +841,7 @@ class Pervaporation:
                 Composition(
                     p=(feed_composition[step].p * feed_mass[step] - d_mass_1)
                     / feed_mass[step + 1],
-                    type=CompositionType("weight"),
+                    type=CompositionType.weight,
                 )
             )
             permeances.append(

@@ -1,24 +1,19 @@
-from optimizer import Measurements, fit
+from optimizer import Measurements, fit, find_best_curve
 import matplotlib.pyplot as plt
-from components import AllComponents
-from conditions import CalculationType, Conditions, TemperatureProgram
+from components import Components
+from conditions import Conditions
 from experiments import IdealExperiment, IdealExperiments
 from membrane import Membrane
-from mixtures import AllMixtures, Composition, CompositionType
+from mixtures import Mixtures, Composition, CompositionType
 from permeance import Permeance
 from pervaporation import Pervaporation
 from diffusion_curve import DiffusionCurveSet
 
 
-all_components = AllComponents.load("components.yml")
-
-all_mixtures = AllMixtures.load("mixtures.yml", all_components)
-
-
 experiment_h2o_1 = IdealExperiment(
     name="Romakon-PM102",
     temperature=323.15,
-    component=all_components.h2o,
+    component=Components.H2O,
     permeance=Permeance(0.036091),
     activation_energy=19944,
 )
@@ -26,7 +21,7 @@ experiment_h2o_1 = IdealExperiment(
 experiment_etoh_1 = IdealExperiment(
     name="Romakon-PM102",
     temperature=323.15,
-    component=all_components.etoh,
+    component=Components.EtOH,
     permeance=Permeance(0.0000282),
     activation_energy=110806,
 )
@@ -41,13 +36,16 @@ ideal_experiments = IdealExperiments(
 membrane = Membrane(ideal_experiments=ideal_experiments, name="Romakon-PM102")
 diffusion_curve = Pervaporation(
     membrane=membrane,
-    mixture=all_mixtures.h2o_etoh,
+    mixture=Mixtures.H2O_EtOH,
 ).ideal_diffusion_curve(
     compositions=[
-        Composition(p=i / 10, type=CompositionType("weight")) for i in range(1, 10)
+        Composition(p=i / 10, type=CompositionType.weight) for i in range(1, 10)
     ],
     feed_temperature=323.15,
 )
+
+measurements = Measurements.from_diffusion_curve_first(diffusion_curve)
+best_fit = find_best_curve(measurements, include_zero=False)
 
 membrane = Membrane(
     ideal_experiments=ideal_experiments,
@@ -59,10 +57,10 @@ conditions = Conditions(
     membrane_area=0.4155,
     initial_feed_temperature=333.15,
     initial_feed_amount=12,
-    initial_feed_composition=Composition(p=0.94, type=CompositionType("weight")),
+    initial_feed_composition=Composition(p=0.94, type=CompositionType.weight),
 )
 
-pervaporation = Pervaporation(membrane, all_mixtures.h2o_etoh)
+pervaporation = Pervaporation(membrane, Mixtures.H2O_EtOH)
 ideal_model = pervaporation.ideal_isothermal_process(
     conditions=conditions, number_of_steps=1000, delta_hours=0.125
 )
@@ -81,5 +79,9 @@ non_ideal_model = pervaporation.non_ideal_isothermal_process(
 x = ideal_model.time
 y_ideal = [ideal_model.feed_composition[i].first for i in range(len(x))]
 y_non_ideal = [non_ideal_model.feed_composition[i].first for i in range(len(x))]
-plt.plot(x, y_ideal, x, y_non_ideal)
+plt.plot(
+    [fc.first for fc in diffusion_curve.feed_compositions],
+    [p[0].value for p in diffusion_curve.permeances],
+    [fc.first for fc in diffusion_curve.feed_compositions],
+    [best_fit(composition.first, diffusion_curve.feed_temperature) for composition in diffusion_curve.feed_compositions])
 plt.show()

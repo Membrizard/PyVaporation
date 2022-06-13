@@ -6,6 +6,7 @@ from utils import VaporPressureConstants, HeatCapacityConstants, VPConstantsType
 
 @attr.s(auto_attribs=True)
 class Component:
+    name: str
     molecular_weight: float = attr.ib(converter=lambda value: float(value))
     vapour_pressure_constants: VaporPressureConstants
     heat_capacity_constants: HeatCapacityConstants

@@ -133,7 +133,7 @@ class DiffusionCurve:
         return [
             Composition(
                 self.partial_fluxes[i][0] / (sum(self.partial_fluxes[i])),
-                type=CompositionType("weight"),
+                type=CompositionType.weight,
             )
             for i in range(len(self.feed_compositions))
         ]
