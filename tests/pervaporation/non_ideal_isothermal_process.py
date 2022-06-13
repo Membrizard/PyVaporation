@@ -1,11 +1,11 @@
 import pytest
 from pytest import fixture
 
-from component import AllComponents
+from components import AllComponents
 from conditions import CalculationType, Conditions, TemperatureProgram
 from experiments import IdealExperiment, IdealExperiments
 from membrane import Membrane
-from mixture import AllMixtures, Composition, CompositionType
+from mixtures import AllMixtures, Composition, CompositionType
 from permeance import Permeance
 from pervaporation import Pervaporation
 from diffusion_curve import DiffusionCurveSet
@@ -14,11 +14,11 @@ from diffusion_curve import DiffusionCurveSet
 import pytest
 from pytest import fixture
 
-from component import AllComponents
+from components import AllComponents
 from conditions import Conditions
 from experiments import IdealExperiment, IdealExperiments
 from membrane import Membrane
-from mixture import AllMixtures, Composition, CompositionType
+from mixtures import AllMixtures, Composition, CompositionType
 from permeance import Permeance
 from pervaporation import Pervaporation
 
@@ -106,11 +106,44 @@ def test_validate_against_ideal_process(pervaporation, conditions):
     )
 
     for i in range(number_of_steps):
-        assert abs(non_ideal_model.partial_fluxes[i][0]-ideal_model.partial_fluxes[i][0]) < 8e-3
-        assert abs(non_ideal_model.partial_fluxes[i][1]-ideal_model.partial_fluxes[i][1]) < 8e-3
-        assert abs(non_ideal_model.permeances[i][0].value - ideal_model.permeances[i][0].value) < 5e-4
-        assert abs(non_ideal_model.permeances[i][1].value - ideal_model.permeances[i][1].value) < 5e-4
-        assert abs(non_ideal_model.feed_mass[i]-ideal_model.feed_mass[i]) < 6.5e-2
-        assert abs(non_ideal_model.feed_evaporation_heat[i] - ideal_model.feed_evaporation_heat[i]) < 1
-        assert non_ideal_model.permeate_condensation_heat[i] == ideal_model.permeate_condensation_heat[i]
-        assert abs(non_ideal_model.feed_composition[i].first-ideal_model.feed_composition[i].first) < 1e-2
+        assert (
+            abs(non_ideal_model.partial_fluxes[i][0] - ideal_model.partial_fluxes[i][0])
+            < 8e-3
+        )
+        assert (
+            abs(non_ideal_model.partial_fluxes[i][1] - ideal_model.partial_fluxes[i][1])
+            < 8e-3
+        )
+        assert (
+            abs(
+                non_ideal_model.permeances[i][0].value
+                - ideal_model.permeances[i][0].value
+            )
+            < 5e-4
+        )
+        assert (
+            abs(
+                non_ideal_model.permeances[i][1].value
+                - ideal_model.permeances[i][1].value
+            )
+            < 5e-4
+        )
+        assert abs(non_ideal_model.feed_mass[i] - ideal_model.feed_mass[i]) < 6.5e-2
+        assert (
+            abs(
+                non_ideal_model.feed_evaporation_heat[i]
+                - ideal_model.feed_evaporation_heat[i]
+            )
+            < 1
+        )
+        assert (
+            non_ideal_model.permeate_condensation_heat[i]
+            == ideal_model.permeate_condensation_heat[i]
+        )
+        assert (
+            abs(
+                non_ideal_model.feed_composition[i].first
+                - ideal_model.feed_composition[i].first
+            )
+            < 1e-2
+        )

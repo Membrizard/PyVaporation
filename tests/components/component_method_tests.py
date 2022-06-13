@@ -1,4 +1,4 @@
-from component import Component
+from components import Component
 from utils import HeatCapacityConstants, VaporPressureConstants
 
 vapor_pressure_constants_antoine = VaporPressureConstants(
@@ -21,14 +21,12 @@ heat_capacity_constants = HeatCapacityConstants(
     d=-3.596e-9,
 )
 test_component = Component(
-    name="Water",
     molecular_weight=18.02,
     vapour_pressure_constants=vapor_pressure_constants_antoine,
     heat_capacity_constants=heat_capacity_constants,
 )
 
 test_component_2 = Component(
-    name="Water_frost",
     molecular_weight=18.02,
     vapour_pressure_constants=vapor_pressure_constants_frost,
     heat_capacity_constants=heat_capacity_constants,

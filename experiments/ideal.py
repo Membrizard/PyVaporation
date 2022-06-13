@@ -4,7 +4,7 @@ from pathlib import Path
 import attr
 import pandas
 
-from component import AllComponents, Component
+from components import AllComponents, Component
 from permeance import Permeance
 
 # def convert_component(name: str, all_components: AllComponents) -> Component:
@@ -31,7 +31,7 @@ class IdealExperiment:
         d: typing.Mapping[str, typing.Union[str, float]],
         all_components: AllComponents,
     ) -> "IdealExperiment":
-        component = getattr(all_components, d["component"])
+        component = getattr(all_components, d["components"])
         return cls(**d)
 
     # TODO Add check for units and conversion to kg/(m2*h*kPa) using Permeance.convert()

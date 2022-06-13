@@ -1,5 +1,5 @@
-from component import Component
-from mixture import Composition, CompositionType, Mixture, get_nrtl_partial_pressures
+from components import Component
+from mixtures import Composition, CompositionType, Mixture, get_nrtl_partial_pressures
 from utils import HeatCapacityConstants, NRTLParameters, VaporPressureConstants
 
 antoine_constants = VaporPressureConstants(
@@ -14,9 +14,8 @@ heat_capacity_constants = HeatCapacityConstants(
     d=-3.596e-9,
 )
 test_component_1 = Component(
-    name="Water",
     molecular_weight=18.02,
-    antoine_constants=antoine_constants,
+    vapour_pressure_constants=antoine_constants,
     heat_capacity_constants=heat_capacity_constants,
 )
 
@@ -32,9 +31,8 @@ heat_capacity_constants = HeatCapacityConstants(
     d=0,
 )
 test_component_2 = Component(
-    name="Ethanol",
     molecular_weight=46.07,
-    antoine_constants=antoine_constants,
+    vapour_pressure_constants=antoine_constants,
     heat_capacity_constants=heat_capacity_constants,
 )
 
@@ -59,16 +57,16 @@ test_mixture = Mixture(
 
 
 def test_composition_to_mol():
-    test_composition_1 = Composition(p=0, type=CompositionType("weight"))
-    test_composition_2 = Composition(p=1, type=CompositionType("weight"))
-    test_composition_3 = Composition(p=0.1, type=CompositionType("weight"))
-    test_composition_4 = Composition(p=0.3, type=CompositionType("weight"))
+    test_composition_1 = Composition(p=0, type=CompositionType.weight)
+    test_composition_2 = Composition(p=1, type=CompositionType.weight)
+    test_composition_3 = Composition(p=0.1, type=CompositionType.weight)
+    test_composition_4 = Composition(p=0.3, type=CompositionType.weight)
 
     assert test_composition_1.to_molar(mixture=test_mixture) == Composition(
-        p=0, type=CompositionType("molar")
+        p=0, type=CompositionType.molar
     )
     assert test_composition_2.to_molar(mixture=test_mixture) == Composition(
-        p=1, type=CompositionType("molar")
+        p=1, type=CompositionType.molar
     )
     assert (
         abs(test_composition_3.to_molar(mixture=test_mixture).first - 0.22122449) < 1e-4
@@ -79,16 +77,16 @@ def test_composition_to_mol():
 
 
 def test_composition_to_weight():
-    test_composition_1 = Composition(p=0, type=CompositionType("molar"))
-    test_composition_2 = Composition(p=1, type=CompositionType("molar"))
-    test_composition_3 = Composition(p=0.22122449, type=CompositionType("molar"))
-    test_composition_4 = Composition(p=0.63023256, type=CompositionType("molar"))
+    test_composition_1 = Composition(p=0, type=CompositionType.molar)
+    test_composition_2 = Composition(p=1, type=CompositionType.molar)
+    test_composition_3 = Composition(p=0.22122449, type=CompositionType.molar)
+    test_composition_4 = Composition(p=0.63023256, type=CompositionType.molar)
 
     assert test_composition_1.to_weight(mixture=test_mixture) == Composition(
-        p=0, type=CompositionType("weight")
+        p=0, type=CompositionType.weight
     )
     assert test_composition_2.to_weight(mixture=test_mixture) == Composition(
-        p=1, type=CompositionType("weight")
+        p=1, type=CompositionType.weight
     )
     assert abs(test_composition_3.to_weight(mixture=test_mixture).first - 0.1) < 1e-4
     assert abs(test_composition_4.to_weight(mixture=test_mixture).second - 0.6) < 1e-4

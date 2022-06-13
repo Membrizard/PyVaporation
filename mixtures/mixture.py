@@ -1,12 +1,9 @@
 import typing
-from enum import Enum
-from pathlib import Path
 
 import attr
 import numpy
-import yaml
 
-from component import AllComponents, Component
+from components import Component
 from utils import NRTLParameters, R
 
 
@@ -17,7 +14,7 @@ def _is_in_0_to_1_range(
         raise ValueError("Give %s value is not in [0, 1] range" % value)
 
 
-class CompositionType(Enum):
+class CompositionType:
     molar: str = "molar"
     weight: str = "weight"
 
@@ -28,55 +25,23 @@ class Mixture:
     second_component: Component
     nrtl_params: NRTLParameters
 
-    @classmethod
-    def from_dict(cls, d: typing.Mapping, all_components: AllComponents) -> "Mixture":
-        return Mixture(
-            first_component=all_components.__getattribute__(d["components"][0]),
-            second_component=all_components.__getattribute__(d["components"][1]),
-            nrtl_params=NRTLParameters(**d["nrtl_params"]),
-        )
-
-
-@attr.s(auto_attribs=True)
-class AllMixtures:
-    mixtures: typing.Mapping[str, Mixture]
-
-    @classmethod
-    def load(
-        cls, path: typing.Union[str, Path], all_components: AllComponents
-    ) -> "AllMixtures":
-        with open(path, "r") as handle:
-            _mixtures = yaml.load(handle, Loader=yaml.FullLoader)
-
-        output = AllMixtures(
-            mixtures={
-                name: Mixture.from_dict(value, all_components)
-                for name, value in _mixtures.items()
-            }
-        )
-
-        for name, mixture in output.mixtures.items():
-            setattr(output, name, mixture)
-
-        return output
-
 
 @attr.s(auto_attribs=True)
 class Composition:
     p: float = attr.ib(validator=_is_in_0_to_1_range)
-    type: CompositionType
+    type: str
 
     @property
     def first(self) -> float:
         """
-        Returns fraction of the first component
+        Returns fraction of the first components
         """
         return self.p
 
     @property
     def second(self) -> float:
         """
-        Returns fraction of the second component
+        Returns fraction of the second components
         """
         return 1 - self.p
 
@@ -91,7 +56,7 @@ class Composition:
                 self.p / mixture.first_component.molecular_weight
                 + (1 - self.p) / mixture.second_component.molecular_weight
             )
-            return Composition(p=p, type=CompositionType("molar"))
+            return Composition(p=p, type=CompositionType.molar)
 
     def to_weight(self, mixture: Mixture) -> "Composition":
         """
@@ -104,7 +69,7 @@ class Composition:
                 mixture.first_component.molecular_weight * self.p
                 + mixture.second_component.molecular_weight * (1 - self.p)
             )
-            return Composition(p=p, type=CompositionType("weight"))
+            return Composition(p=p, type=CompositionType.weight)
 
 
 def get_nrtl_partial_pressures(
@@ -116,9 +81,9 @@ def get_nrtl_partial_pressures(
     temperature: temperature in K
     NRTL parameters:
     gij in J/mol (may also be as aij+gij/RT)
-    mixture: Mixture
+    mixtures: Mixture
     composition: specified composition in mol or weight %
-    :return: Partial pressures as a tuple, component wise in kPa
+    :return: Partial pressures as a tuple, components wise in kPa
     """
     if composition.type == CompositionType.weight:
         composition = composition.to_molar(mixture=mixture)

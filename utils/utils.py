@@ -1,12 +1,11 @@
 import typing
-from enum import Enum
 
 import attr
 
 R = 8.314462
 
 
-class VPConstantsType(Enum):
+class VPConstantsType:
     antoine: str = "antoine"
     frost: str = "frost"
 
@@ -16,12 +15,12 @@ class VaporPressureConstants:
     a: float = attr.ib(converter=lambda value: float(value))  # type: ignore
     b: float = attr.ib(converter=lambda value: float(value))  # type: ignore
     c: float = attr.ib(converter=lambda value: float(value))  # type: ignore
-    type: VPConstantsType = attr.ib(
-        default=VPConstantsType("antoine"),
-        converter=lambda x: VPConstantsType(x)
+    type: str = attr.ib(
+        default=VPConstantsType.antoine,
+        converter=lambda x: getattr(VPConstantsType, x)
         if x is not None
-        else VPConstantsType("antoine"),
-    )
+        else VPConstantsType.antoine,
+    )  # type: ignore
 
 
 @attr.s(auto_attribs=True)

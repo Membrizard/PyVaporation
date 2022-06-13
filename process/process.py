@@ -5,7 +5,7 @@ import attr
 import numpy
 
 from conditions import Conditions
-from mixture import Composition, Mixture, get_nrtl_partial_pressures
+from mixtures import Composition, Mixture, get_nrtl_partial_pressures
 from permeance import Permeance
 from optimizer import PervaporationFunction
 
