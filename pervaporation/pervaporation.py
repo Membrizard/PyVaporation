@@ -902,6 +902,7 @@ class Pervaporation:
             ),
         )
 
+    #TODO Update docstrings and check fitting
     def non_ideal_non_isothermal_process(
         self,
         conditions: Conditions,
