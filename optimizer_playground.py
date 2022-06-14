@@ -67,19 +67,14 @@ ideal_model = pervaporation.ideal_non_isothermal_process(
 non_ideal_model = pervaporation.non_ideal_non_isothermal_process(
     conditions=conditions,
     diffusion_curves=membrane.diffusion_curve_sets[0],
-    n_first=0,
-    m_first=0,
-    n_second=0,
-    m_second=0,
     number_of_steps=10,
     delta_hours=0.125,
     include_zero=False,
 )
 
-print(non_ideal_model.permeance_fits[0])
 x = ideal_model.time
 y_ideal = [ideal_model.permeances[i][0].value for i in range(len(x))]
 y_non_ideal = [non_ideal_model.permeances[i][0].value for i in range(len(x))]
-plt.plot(x, y_non_ideal)
+plt.plot(x, y_ideal, x, y_non_ideal)
 plt.legend(["Ideal", "Non-Ideal"])
 plt.show()

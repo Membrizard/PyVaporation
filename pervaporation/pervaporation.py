@@ -685,14 +685,14 @@ class Pervaporation:
                 self.mixture.second_component
             )
 
-            pervaporation_function_first = fit(
+            pervaporation_function_first = find_best_fit(
                 data=measurements_first,
                 n=n_first,
                 m=0,
                 include_zero=False,
                 component_index=0,
             )
-            pervaporation_function_second = fit(
+            pervaporation_function_second = find_best_fit(
                 data=measurements_second,
                 n=n_second,
                 m=0,
@@ -849,7 +849,7 @@ class Pervaporation:
                     Permeance(
                         value=permeances[step][0].value
                         + pervaporation_function_first.derivative_composition(
-                            feed_composition[step].p,
+                            feed_composition[step].first,
                             conditions.initial_feed_temperature,
                         )
                         * (
@@ -860,7 +860,7 @@ class Pervaporation:
                     Permeance(
                         value=permeances[step][1].value
                         + pervaporation_function_second.derivative_composition(
-                            feed_composition[step].p,
+                            feed_composition[step].first,
                             conditions.initial_feed_temperature,
                         )
                         * (
@@ -915,8 +915,17 @@ class Pervaporation:
         n_second: typing.Optional[int] = None,
         m_second: typing.Optional[int] = None,
         include_zero: bool = True,
-    ):
-
+    ) -> ProcessModel:
+        """
+        Models mass and heat balance of an Ideal (constant Permeance) Non-Isothermal Pervaporation Process.
+        The temperature program maybe specified in Conditions, by including a TemperatureProgram object.
+        If temperature program is not specified, models self-cooling process;
+        :param number_of_steps: Number of time steps to include in the model
+        :param delta_hours: The duration of each step in hours
+        :param conditions: Conditions object, where initial conditions are specified
+        :param precision: Precision in obtained permeate composition, by default is 5e-5
+        :return: A ProcessModel Object
+        """
         time: typing.List[float] = [
             delta_hours * step for step in range(number_of_steps)
         ]
@@ -924,8 +933,6 @@ class Pervaporation:
         feed_temperature: typing.List[float] = [conditions.initial_feed_temperature]
 
         partial_fluxes: typing.List[typing.Tuple[float, float]] = []
-
-        permeances: typing.List[typing.Tuple[Permeance, Permeance]] = []
 
         permeate_composition: typing.List[Composition] = []
 
@@ -955,14 +962,14 @@ class Pervaporation:
                 self.mixture.second_component
             )
 
-            pervaporation_function_first = fit(
+            pervaporation_function_first = find_best_fit(
                 data=measurements_first,
                 n=n_first,
                 m=0,
                 include_zero=False,
                 component_index=0,
             )
-            pervaporation_function_second = fit(
+            pervaporation_function_second = find_best_fit(
                 data=measurements_second,
                 n=n_second,
                 m=0,
@@ -982,21 +989,25 @@ class Pervaporation:
                 / pervaporation_function_temperature
                 + activation_energy_second / (R * pervaporation_function_temperature)
             )
+
+            pervaporation_function_first.b[0] = activation_energy_first / R
+            pervaporation_function_second.b[0] = activation_energy_second / R
+
         else:
             pervaporation_function_first = find_best_fit(
-                    data=measurements_first,
-                    n=n_first,
-                    m=m_first,
-                    include_zero=include_zero,
-                    component_index=0,
-                )
+                data=measurements_first,
+                n=n_first,
+                m=m_first,
+                include_zero=include_zero,
+                component_index=0,
+            )
             pervaporation_function_second = find_best_fit(
-                    data=measurements_second,
-                    n=n_second,
-                    m=m_second,
-                    include_zero=include_zero,
-                    component_index=1,
-                )
+                data=measurements_second,
+                n=n_second,
+                m=m_second,
+                include_zero=include_zero,
+                component_index=1,
+            )
 
         if initial_permeances is None:
             first_component_permeance = Permeance(
@@ -1015,7 +1026,9 @@ class Pervaporation:
             first_component_permeance = initial_permeances[0]
             second_component_permeance = initial_permeances[1]
 
-        permeances.append((first_component_permeance, second_component_permeance))
+        permeances: typing.List[typing.Tuple[Permeance, Permeance]] = [
+            (first_component_permeance, second_component_permeance)
+        ]
 
         for step in range(len(time)):
 
@@ -1131,30 +1144,36 @@ class Pervaporation:
             permeances.append(
                 (
                     Permeance(
-                        value=permeances[step][0].value
-                              + pervaporation_function_first.derivative_composition(
-                            feed_composition[step].p,
-                            feed_temperature[step],
+                        value=pervaporation_function_first(
+                            feed_composition[step].first, feed_temperature[step]
                         )
-                              * (
-                                      feed_composition[step + 1].first
-                                      - feed_composition[step].first
-                              )
-                        + pervaporation_function_first.derivative_temperature(feed_composition[step].p,
-                            feed_temperature[step]) * (feed_temperature[step+1]-feed_temperature[step])
+                        + pervaporation_function_first.derivative_composition(
+                            feed_composition[step].first, feed_temperature[step]
+                        )
+                        * (
+                            feed_composition[step + 1].first
+                            - feed_composition[step].first
+                        )
+                        + pervaporation_function_first.derivative_temperature(
+                            feed_composition[step].first, feed_temperature[step]
+                        )
+                        * (feed_temperature[step + 1] - feed_temperature[step])
                     ),
                     Permeance(
-                        value=permeances[step][1].value
-                              + pervaporation_function_second.derivative_composition(
-                            feed_composition[step].p,
-                            feed_temperature[step],
+                        value=pervaporation_function_first(
+                            feed_composition[step].first, feed_temperature[step]
                         )
-                              * (
-                                      feed_composition[step + 1].first
-                                      - feed_composition[step].first
-                              )
-                        + pervaporation_function_second.derivative_temperature(feed_composition[step].p,
-                            feed_temperature[step]) * (feed_temperature[step+1]-feed_temperature[step])
+                        + pervaporation_function_first.derivative_composition(
+                            feed_composition[step].first, feed_temperature[step]
+                        )
+                        * (
+                            feed_composition[step + 1].first
+                            - feed_composition[step].first
+                        )
+                        + pervaporation_function_first.derivative_temperature(
+                            feed_composition[step].first, feed_temperature[step]
+                        )
+                        * (feed_temperature[step + 1] - feed_temperature[step])
                     ),
                 )
             )
@@ -1183,6 +1202,6 @@ class Pervaporation:
                 + str(self.mixture.second_component.name)
                 + " "
                 + str(datetime.now())
-                + " Non-Ideal Proces Model"
+                + " Ideal Proces Model"
             ),
         )

@@ -201,7 +201,7 @@ def find_best_fit(
     include_zero: bool = True,
     component_index: int = 0,
     n: typing.Optional[int] = None,
-    m:typing.Optional[int] = None,
+    m: typing.Optional[int] = None,
 ) -> PervaporationFunction:
     if n is None:
         n_tries = [i for i in range(int(numpy.power(len(data), 0.5)))]
