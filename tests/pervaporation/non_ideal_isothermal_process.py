@@ -1,44 +1,21 @@
-import pytest
 from pytest import fixture
 
-from components import AllComponents
-from conditions import CalculationType, Conditions, TemperatureProgram
+from components import Components
+from conditions import Conditions
 from experiments import IdealExperiment, IdealExperiments
 from membrane import Membrane
-from mixtures import AllMixtures, Composition, CompositionType
+from mixtures import Mixtures, Composition, CompositionType
 from permeance import Permeance
 from pervaporation import Pervaporation
 from diffusion_curve import DiffusionCurveSet
 
 
-import pytest
-from pytest import fixture
-
-from components import AllComponents
-from conditions import Conditions
-from experiments import IdealExperiment, IdealExperiments
-from membrane import Membrane
-from mixtures import AllMixtures, Composition, CompositionType
-from permeance import Permeance
-from pervaporation import Pervaporation
-
-
 @fixture
-def all_components():
-    return AllComponents.load("components.yml")
-
-
-@fixture
-def all_mixtures(all_components):
-    return AllMixtures.load("mixtures.yml", all_components)
-
-
-@fixture
-def pervaporation(all_components, all_mixtures):
+def pervaporation():
     experiment_h2o_1 = IdealExperiment(
         name="Romakon-PM102",
         temperature=323.15,
-        component=all_components.h2o,
+        component=Components.H2O,
         permeance=Permeance(0.036091),
         activation_energy=19944,
     )
@@ -46,7 +23,7 @@ def pervaporation(all_components, all_mixtures):
     experiment_etoh_1 = IdealExperiment(
         name="Romakon-PM102",
         temperature=323.15,
-        component=all_components.etoh,
+        component=Components.EtOH,
         permeance=Permeance(0.0000282),
         activation_energy=110806,
     )
@@ -61,10 +38,10 @@ def pervaporation(all_components, all_mixtures):
     membrane = Membrane(ideal_experiments=ideal_experiments, name="Romakon-PM102")
     diffusion_curve = Pervaporation(
         membrane=membrane,
-        mixture=all_mixtures.h2o_etoh,
+        mixture=Mixtures.H2O_EtOH,
     ).ideal_diffusion_curve(
         compositions=[
-            Composition(p=i / 10, type=CompositionType("weight")) for i in range(1, 10)
+            Composition(p=i / 10, type=CompositionType.weight) for i in range(1, 10)
         ],
         feed_temperature=323.15,
     )
@@ -75,7 +52,7 @@ def pervaporation(all_components, all_mixtures):
         name="Romakon-PM102",
     )
 
-    return Pervaporation(membrane, all_mixtures.h2o_etoh)
+    return Pervaporation(membrane, Mixtures.H2O_EtOH)
 
 
 @fixture()
@@ -84,7 +61,7 @@ def conditions():
         membrane_area=0.4155,
         initial_feed_temperature=333.15,
         initial_feed_amount=12,
-        initial_feed_composition=Composition(p=0.94, type=CompositionType("weight")),
+        initial_feed_composition=Composition(p=0.94, type=CompositionType.weight),
     )
 
 

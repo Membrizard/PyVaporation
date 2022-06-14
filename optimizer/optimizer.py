@@ -90,8 +90,8 @@ class PervaporationFunction:
             n=n,
             m=m,
             alpha=array[0],
-            a=array[1: n + 2],
-            b=array[n + 2:],
+            a=array[1 : n + 2],
+            b=array[n + 2 :],
         )
 
     def __call__(self, x: float, t: float) -> float:
@@ -196,23 +196,35 @@ def fit(
     return PervaporationFunction.from_array(array=result.x, n=_n, m=_m)
 
 
-def find_best_curve(data: Measurements, include_zero: bool = True, component_index: int = 0) -> PervaporationFunction:
-    n_tries = [
-        i for i in range(int(numpy.power(len(data), 0.75)))
-    ]
-    m_tries = [
-        i for i in range(int(numpy.power(len(data), 0.75)))
-    ]
+def find_best_fit(
+    data: Measurements,
+    include_zero: bool = True,
+    component_index: int = 0,
+    n: typing.Optional[int] = None,
+    m:typing.Optional[int] = None,
+) -> PervaporationFunction:
+    if n is None:
+        n_tries = [i for i in range(int(numpy.power(len(data), 0.5)))]
+    else:
+        n_tries = [n]
+    if m is None:
+        m_tries = [i for i in range(int(numpy.power(len(data), 0.5)))]
+    else:
+        m_tries = [m]
 
     best_curve = None
     best_loss = numpy.inf
 
     for n in n_tries:
         for m in m_tries:
-            curve = fit(data, n=n, m=m, include_zero=include_zero, component_index=component_index)
-            loss = sum([
-                (curve(m.x, m.t) - m.p) ** 2 for m in data
-            ])
+            curve = fit(
+                data,
+                n=n,
+                m=m,
+                include_zero=include_zero,
+                component_index=component_index,
+            )
+            loss = sum([(curve(m.x, m.t) - m.p) ** 2 for m in data])
 
             if loss < best_loss:
                 best_curve = curve
