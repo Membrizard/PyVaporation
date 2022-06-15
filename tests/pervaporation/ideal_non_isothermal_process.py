@@ -1,31 +1,21 @@
 import pytest
 from pytest import fixture
 
-from components import AllComponents
-from conditions import CalculationType, Conditions, TemperatureProgram
+from components import Components
+from conditions import Conditions
 from experiments import IdealExperiment, IdealExperiments
 from membrane import Membrane
-from mixtures import AllMixtures, Composition, CompositionType
+from mixtures import Mixtures, Composition, CompositionType
 from permeance import Permeance
 from pervaporation import Pervaporation
 
 
 @fixture
-def all_components():
-    return AllComponents.load("components.yml")
-
-
-@fixture
-def all_mixtures(all_components):
-    return AllMixtures.load("mixtures.yml", all_components)
-
-
-@fixture
-def romakon_pm102_real(all_components):
+def romakon_pm102_real():
     experiment_h2o_1 = IdealExperiment(
         name="Romakon-PM102",
         temperature=323.15,
-        component=all_components.h2o,
+        component=Components.H2O,
         permeance=Permeance(0.036091),
         activation_energy=19944,
     )
@@ -33,7 +23,7 @@ def romakon_pm102_real(all_components):
     experiment_etoh_1 = IdealExperiment(
         name="Romakon-PM102",
         temperature=323.15,
-        component=all_components.etoh,
+        component=Components.EtOH,
         permeance=Permeance(0.0000282),
         activation_energy=110806,
     )
@@ -55,7 +45,7 @@ def test_conditions():
         initial_feed_temperature=333.15,
         permeate_temperature=293.15,
         initial_feed_amount=12,
-        initial_feed_composition=Composition(p=0.94, type=CompositionType("weight")),
+        initial_feed_composition=Composition(p=0.94, type=CompositionType.weight),
     )
 
 
@@ -66,7 +56,7 @@ def test_conditions_perm_pressure():
         initial_feed_temperature=333.15,
         permeate_pressure=0.6,
         initial_feed_amount=12,
-        initial_feed_composition=Composition(p=0.94, type=CompositionType("weight")),
+        initial_feed_composition=Composition(p=0.94, type=CompositionType.weight),
     )
 
 
@@ -78,15 +68,15 @@ def test_conditions_perm_pressure_and_comp():
         permeate_pressure=0.5,
         permeate_temperature=298,
         initial_feed_amount=12,
-        initial_feed_composition=Composition(p=0.94, type=CompositionType("weight")),
+        initial_feed_composition=Composition(p=0.94, type=CompositionType.weight),
     )
 
 
 @fixture()
-def pervaporation(romakon_pm102_real, all_mixtures):
+def pervaporation(romakon_pm102_real):
     return Pervaporation(
         membrane=romakon_pm102_real,
-        mixture=all_mixtures.h2o_etoh,
+        mixture=Mixtures.H2O_EtOH,
     )
 
 
@@ -148,12 +138,12 @@ def test_ideal_non_isothermal_process_perm_pressure(
         assert abs(validation_fluxes_h2o[i] - model.partial_fluxes[i][0]) < 6.3e-2
 
 
-def test_ideal_non_isothermal_process_perm_pressure_and_comp(
-    pervaporation, test_conditions_perm_pressure_and_comp
+def test_ideal_non_isothermal_process_perm_pressure_and_temp(
+    pervaporation, test_conditions_perm_pressure_and_temp
 ):
     with pytest.raises(ValueError):
         pervaporation.ideal_non_isothermal_process(
-            conditions=test_conditions_perm_pressure_and_comp,
+            conditions=test_conditions_perm_pressure_and_temp,
             number_of_steps=8,
             delta_hours=0.125,
         )

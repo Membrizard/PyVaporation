@@ -123,4 +123,4 @@ def test_validate_against_ideal_process_self_cooling(pervaporation, conditions):
 
 
 def test_validate_against_ideal_process_temperature_program(pervaporation, conditions):
-    assert 0==0
+    assert 0 == 0

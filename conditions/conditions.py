@@ -2,12 +2,11 @@ import typing
 
 import attr
 import numpy
-from enum import Enum
 
 from mixtures import Composition
 
 
-class CalculationType(Enum):
+class CalculationType:
     polynomial: str = "polynomial"
     exponential: str = "exponential"
     logarithmic: str = "logarithmic"
@@ -16,7 +15,7 @@ class CalculationType(Enum):
 @attr.s(auto_attribs=True)
 class TemperatureProgram:
     coefficients: typing.List[float]
-    type: CalculationType = CalculationType("polynomial")
+    type: str = CalculationType.polynomial
 
     def polynomial(self, x: float) -> float:
         return sum(
@@ -49,7 +48,7 @@ class TemperatureProgram:
         :param time - time in hours
         :return - Temperature in K
         """
-        return getattr(self, self.type.value)(time)
+        return getattr(self, self.type)(time)
 
 
 @attr.s(auto_attribs=True)

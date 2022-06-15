@@ -14,6 +14,7 @@ heat_capacity_constants = HeatCapacityConstants(
     d=-3.596e-9,
 )
 test_component_1 = Component(
+    name="h2o",
     molecular_weight=18.02,
     vapour_pressure_constants=antoine_constants,
     heat_capacity_constants=heat_capacity_constants,
@@ -31,6 +32,7 @@ heat_capacity_constants = HeatCapacityConstants(
     d=0,
 )
 test_component_2 = Component(
+    name="etoh",
     molecular_weight=46.07,
     vapour_pressure_constants=antoine_constants,
     heat_capacity_constants=heat_capacity_constants,

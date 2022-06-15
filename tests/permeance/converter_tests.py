@@ -1,12 +1,7 @@
 from pytest import fixture
 
-from components import AllComponents
+from components import Components
 from permeance import Permeance, Units
-
-
-@fixture
-def all_components():
-    return AllComponents.load("components.yml")
 
 
 @fixture
@@ -19,10 +14,10 @@ def real_permeance():
     return Permeance(value=675.64, units="GPU")
 
 
-def test_converter(unit_permeance, all_components):
+def test_converter(unit_permeance):
     assert (
         unit_permeance.convert(
-            to_units=Units().kg_m2_h_kPa, component=all_components.h2o
+            to_units=Units().kg_m2_h_kPa, component=Components.H2O
         ).units
         == "kg/(m2*h*kPa)"
     )
@@ -30,7 +25,7 @@ def test_converter(unit_permeance, all_components):
     assert unit_permeance.convert(to_units=Units().SI).units == "SI"
     assert round(
         unit_permeance.convert(
-            to_units=Units().kg_m2_h_kPa, component=all_components.h2o
+            to_units=Units().kg_m2_h_kPa, component=Components.H2O
         ).value,
         2,
     ) == round(18.02 * 3.6e3, 2)
@@ -38,10 +33,10 @@ def test_converter(unit_permeance, all_components):
     assert unit_permeance.convert(to_units=Units().GPU).value == 1 / 3.35e-10
 
 
-def test_converter_real_values(real_permeance, all_components):
+def test_converter_real_values(real_permeance):
     assert (
         real_permeance.convert(
-            to_units=Units().kg_m2_h_kPa, component=all_components.h2o
+            to_units=Units().kg_m2_h_kPa, component=Components.H2O
         ).units
         == "kg/(m2*h*kPa)"
     )
@@ -50,7 +45,7 @@ def test_converter_real_values(real_permeance, all_components):
     assert (
         abs(
             real_permeance.convert(
-                to_units=Units().kg_m2_h_kPa, component=all_components.h2o
+                to_units=Units().kg_m2_h_kPa, component=Components.H2O
             ).value
             - 0.0146831
         )

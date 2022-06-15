@@ -1,7 +1,4 @@
 import numpy
-from pytest import fixture
-
-from components import Components
 from mixtures import (
     Mixtures,
     Composition,
@@ -11,14 +8,17 @@ from mixtures import (
 
 
 def test_constants_h2o_meoh():
-    # Experimental data for validation is taken from https://doi.org/10.1021/je00019a033
-    # NRTL Constants are taken from https://doi.org/10.1002/9781118477304.app2
+    """
+    Experimental data for validation is taken from https://doi.org/10.1021/je00019a033
+    NRTL Constants are taken from https://doi.org/10.1002/9781118477304.app2
+    """
+
     test_mixture = Mixtures.H2O_MeOH
     validation_compositions = [
-        Composition(p=0.7530, type=CompositionType("molar")),
-        Composition(p=0.5972, type=CompositionType("molar")),
-        Composition(p=0.3855, type=CompositionType("molar")),
-        Composition(p=0.2270, type=CompositionType("molar")),
+        Composition(p=0.7530, type=CompositionType.molar),
+        Composition(p=0.5972, type=CompositionType.molar),
+        Composition(p=0.3855, type=CompositionType.molar),
+        Composition(p=0.2270, type=CompositionType.molar),
     ]
 
     validation_pressures = [
@@ -60,16 +60,18 @@ def test_constants_h2o_meoh():
 
 
 def test_constants_h2o_etoh():
-    # Experimental data for validation is taken from https://doi.org/10.1021/je00019a033
-    # NRTL Constants are taken from Identification of Best Model for Equilibrium Data of Ethanol-Water Mixture
-    # Bilel Hadrich and Nabil Kechaou
-    # June 2010, Volume 4, No.6 (Serial No.31)Journal of Chemistry and Chemical Engineering, ISSN 1934-7375, USA
+    """
+    Experimental data for validation is taken from https://doi.org/10.1021/je00019a033
+    NRTL Constants are taken from Identification of Best Model for Equilibrium Data of Ethanol-Water Mixture
+    Bilel Hadrich and Nabil Kechaou
+    June 2010, Volume 4, No.6 (Serial No.31)Journal of Chemistry and Chemical Engineering, ISSN 1934-7375, USA
+    """
     test_mixture = Mixtures.H2O_EtOH
     validation_compositions = [
-        Composition(p=0.82440, type=CompositionType("molar")),
-        Composition(p=0.62270, type=CompositionType("molar")),
-        Composition(p=0.40308, type=CompositionType("molar")),
-        Composition(p=0.09690, type=CompositionType("molar")),
+        Composition(p=0.82440, type=CompositionType.molar),
+        Composition(p=0.62270, type=CompositionType.molar),
+        Composition(p=0.40308, type=CompositionType.molar),
+        Composition(p=0.09690, type=CompositionType.molar),
     ]
 
     validation_pressures = [
@@ -111,16 +113,18 @@ def test_constants_h2o_etoh():
 
 
 def test_constants_h2o_ipoh():
-    # Experimental data for validation is taken from http://www.ddbst.com/en/EED/VLE/VLE%202-Propanol%3BWater.php
-    # Brunjes A.S.; Bogart M.J.P.: The Binary Systems Ethanol-n-Butanol, Acetone-Water
-    # and Isopropanol-Water. Ind.Eng.Chem. 35 (1943) 255-260
-    # NRTL Constants are taken from https://doi.org/10.1021/je960108n
+    """
+    Experimental data for validation is taken from http://www.ddbst.com/en/EED/VLE/VLE%202-Propanol%3BWater.php
+    Brunjes A.S.; Bogart M.J.P.: The Binary Systems Ethanol-n-Butanol, Acetone-Water
+    and Isopropanol-Water. Ind.Eng.Chem. 35 (1943) 255-260
+    NRTL Constants are taken from https://doi.org/10.1021/je960108n
+    """
     test_mixture = Mixtures.H2O_iPOH
     validation_compositions = [
-        Composition(p=0.9796, type=CompositionType("molar")),
-        Composition(p=0.7613, type=CompositionType("molar")),
-        Composition(p=0.3029, type=CompositionType("molar")),
-        Composition(p=0.06810, type=CompositionType("molar")),
+        Composition(p=0.9796, type=CompositionType.molar),
+        Composition(p=0.7613, type=CompositionType.molar),
+        Composition(p=0.3029, type=CompositionType.molar),
+        Composition(p=0.06810, type=CompositionType.molar),
     ]
 
     validation_temperature_list = [363.95, 354.26, 353.2, 354.36]
@@ -164,18 +168,20 @@ def test_constants_h2o_ipoh():
 
 
 def test_constants_etoh_etbe():
-    # Experimental data for validation and NRTL constants are taken from
-    # Isothermal vapor-liquid equilibria for binary and ternary systems containing ethyl tert-butyl ether,
-    # ethanol, benzene, and toluene at 313.15 K
-    # Oh, JH; Park, SJ
-    # Journal of Industrial and Engineering Chemistry, 2005
+    """
+    Experimental data for validation and NRTL constants are taken from
+    Isothermal vapor-liquid equilibria for binary and ternary systems containing ethyl tert-butyl ether,
+    ethanol, benzene, and toluene at 313.15 K
+    Oh, JH; Park, SJ
+    Journal of Industrial and Engineering Chemistry, 2005
+    """
 
     test_mixture = Mixtures.EtOH_ETBE
     validation_compositions = [
-        Composition(p=0.9007, type=CompositionType("molar")),
-        Composition(p=0.5026, type=CompositionType("molar")),
-        Composition(p=0.1994, type=CompositionType("molar")),
-        Composition(p=0.0204, type=CompositionType("molar")),
+        Composition(p=0.9007, type=CompositionType.molar),
+        Composition(p=0.5026, type=CompositionType.molar),
+        Composition(p=0.1994, type=CompositionType.molar),
+        Composition(p=0.0204, type=CompositionType.molar),
     ]
 
     validation_pressures = [
@@ -216,15 +222,17 @@ def test_constants_etoh_etbe():
 
 
 def test_constants_meoh_toluene():
-    # Experimental data for validation is taken from https://doi.org/10.1016/0021-9614(88)90185-1
-    # NRTL constants are taken from https://doi.org/10.1016/j.fluid.2019.112412
+    """
+    Experimental data for validation is taken from https://doi.org/10.1016/0021-9614(88)90185-1
+    NRTL constants are taken from https://doi.org/10.1016/j.fluid.2019.112412
+    """
 
     test_mixture = Mixtures.MeOH_Toluene
     validation_compositions = [
-        Composition(p=0.1830, type=CompositionType("molar")),
-        Composition(p=0.4980, type=CompositionType("molar")),
-        Composition(p=0.7640, type=CompositionType("molar")),
-        Composition(p=0.960, type=CompositionType("molar")),
+        Composition(p=0.1830, type=CompositionType.molar),
+        Composition(p=0.4980, type=CompositionType.molar),
+        Composition(p=0.7640, type=CompositionType.molar),
+        Composition(p=0.960, type=CompositionType.molar),
     ]
 
     validation_pressures = [
@@ -266,15 +274,17 @@ def test_constants_meoh_toluene():
 
 
 def test_constants_meoh_mtbe():
-    # Experimental data for validation and NRTL Parameters are taken from
-    # https://doi.org/10.1002/1521-4125(20020709)25:7<729::AID-CEAT729>3.0.CO;2-B
+    """
+    Experimental data for validation and NRTL Parameters are taken from
+    https://doi.org/10.1002/1521-4125(20020709)25:7<729::AID-CEAT729>3.0.CO;2-B
+    """
 
     test_mixture = Mixtures.MeOH_MTBE
     validation_compositions = [
-        Composition(p=0.87425, type=CompositionType("molar")),
-        Composition(p=0.59990, type=CompositionType("molar")),
-        Composition(p=0.25010, type=CompositionType("molar")),
-        Composition(p=0.0999, type=CompositionType("molar")),
+        Composition(p=0.87425, type=CompositionType.molar),
+        Composition(p=0.59990, type=CompositionType.molar),
+        Composition(p=0.25010, type=CompositionType.molar),
+        Composition(p=0.0999, type=CompositionType.molar),
     ]
 
     validation_pressures = [
@@ -317,14 +327,16 @@ def test_constants_meoh_mtbe():
 
 
 def test_constants_meoh_dmc():
-    # Experimental data for validation and NRTL Parameters are taken from https://doi.org/10.1016/j.fluid.2011.08.007
+    """
+    Experimental data for validation and NRTL Parameters are taken from https://doi.org/10.1016/j.fluid.2011.08.007
+    """
 
     test_mixture = Mixtures.MeOH_DMC
     validation_compositions = [
-        Composition(p=0.096, type=CompositionType("molar")),
-        Composition(p=0.318, type=CompositionType("molar")),
-        Composition(p=0.814, type=CompositionType("molar")),
-        Composition(p=0.905, type=CompositionType("molar")),
+        Composition(p=0.096, type=CompositionType.molar),
+        Composition(p=0.318, type=CompositionType.molar),
+        Composition(p=0.814, type=CompositionType.molar),
+        Composition(p=0.905, type=CompositionType.molar),
     ]
 
     validation_pressures = [

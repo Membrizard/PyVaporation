@@ -1,37 +1,27 @@
 import pytest
 from pytest import fixture
 
-from components import AllComponents
+from components import Components
 from conditions import Conditions
 from experiments import IdealExperiment, IdealExperiments
 from membrane import Membrane
-from mixtures import AllMixtures, Composition, CompositionType
+from mixtures import Mixtures, Composition, CompositionType
 from permeance import Permeance
 from pervaporation import Pervaporation
 
 
 @fixture
-def all_components():
-    return AllComponents.load("components.yml")
-
-
-@fixture
-def all_mixtures(all_components):
-    return AllMixtures.load("mixtures.yml", all_components)
-
-
-@fixture
-def romakon_al2(all_components):
+def romakon_al2():
     experiment_h2o_1 = IdealExperiment(
         name="Romakon-Al2",
         temperature=319.65,
-        component=all_components.h2o,
+        component=Components.H2O,
         permeance=Permeance(0.016876),
     )
     experiment_etoh_1 = IdealExperiment(
         name="Romakon-Al2",
         temperature=319.65,
-        component=all_components.etoh,
+        component=Components.EtOH,
         permeance=Permeance(0.000139),
     )
 
@@ -51,7 +41,7 @@ def romakon_al2_experiment_conditions():
         membrane_area=0.0048,
         initial_feed_temperature=319.65,
         initial_feed_amount=0.047,
-        initial_feed_composition=Composition(p=0.04, type=CompositionType("weight")),
+        initial_feed_composition=Composition(p=0.04, type=CompositionType.weight),
         permeate_temperature=198,
     )
 
@@ -62,7 +52,7 @@ def romakon_al2_experiment_conditions_2():
         membrane_area=0.0048,
         initial_feed_temperature=319.65,
         initial_feed_amount=0.047,
-        initial_feed_composition=Composition(p=0.04, type=CompositionType("weight")),
+        initial_feed_composition=Composition(p=0.04, type=CompositionType.weight),
     )
 
 
@@ -72,7 +62,7 @@ def romakon_al2_experiment_conditions_3():
         membrane_area=0.0048,
         initial_feed_temperature=319.65,
         initial_feed_amount=0.047,
-        initial_feed_composition=Composition(p=0.04, type=CompositionType("weight")),
+        initial_feed_composition=Composition(p=0.04, type=CompositionType.weight),
         permeate_pressure=0,
     )
 
@@ -83,7 +73,7 @@ def romakon_al2_experiment_conditions_4():
         membrane_area=0.0048,
         initial_feed_temperature=319.65,
         initial_feed_amount=0.047,
-        initial_feed_composition=Composition(p=0.04, type=CompositionType("weight")),
+        initial_feed_composition=Composition(p=0.04, type=CompositionType.weight),
         permeate_temperature=0,
         permeate_pressure=0,
     )
@@ -91,11 +81,12 @@ def romakon_al2_experiment_conditions_4():
 
 @fixture
 def romakon_al2_pervaporation(
-    romakon_al2, romakon_al2_experiment_conditions, all_mixtures
+    romakon_al2,
+    romakon_al2_experiment_conditions,
 ):
     return Pervaporation(
         membrane=romakon_al2,
-        mixture=all_mixtures.h2o_etoh,
+        mixture=Mixtures.H2O_EtOH,
     )
 
 
