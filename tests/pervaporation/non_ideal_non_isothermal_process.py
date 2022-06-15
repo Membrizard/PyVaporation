@@ -65,13 +65,13 @@ def conditions():
     )
 
 
-def test_validate_against_ideal_process(pervaporation, conditions):
+def test_validate_against_ideal_process_self_cooling(pervaporation, conditions):
     number_of_steps = 200
     delta_hours = 0.125
-    ideal_model = pervaporation.ideal_isothermal_process(
+    ideal_model = pervaporation.ideal_non_isothermal_process(
         conditions=conditions, number_of_steps=number_of_steps, delta_hours=delta_hours
     )
-    non_ideal_model = pervaporation.non_ideal_isothermal_process(
+    non_ideal_model = pervaporation.non_ideal_non_isothermal_process(
         conditions=conditions,
         diffusion_curves=pervaporation.membrane.diffusion_curve_sets[0],
         number_of_steps=number_of_steps,

@@ -1161,17 +1161,17 @@ class Pervaporation:
                         * (feed_temperature[step + 1] - feed_temperature[step])
                     ),
                     Permeance(
-                        value=pervaporation_function_first(
+                        value=pervaporation_function_second(
                             feed_composition[step].first, feed_temperature[step]
                         )
-                        + pervaporation_function_first.derivative_composition(
+                        + pervaporation_function_second.derivative_composition(
                             feed_composition[step].first, feed_temperature[step]
                         )
                         * (
                             feed_composition[step + 1].first
                             - feed_composition[step].first
                         )
-                        + pervaporation_function_first.derivative_temperature(
+                        + pervaporation_function_second.derivative_temperature(
                             feed_composition[step].first, feed_temperature[step]
                         )
                         * (feed_temperature[step + 1] - feed_temperature[step])
@@ -1203,6 +1203,6 @@ class Pervaporation:
                 + str(self.mixture.second_component.name)
                 + " "
                 + str(datetime.now())
-                + " Ideal Proces Model"
+                + " Non-Ideal Proces Model"
             ),
         )

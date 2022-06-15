@@ -203,12 +203,18 @@ def find_best_fit(
     n: typing.Optional[int] = None,
     m: typing.Optional[int] = None,
 ) -> PervaporationFunction:
+
+    if int(numpy.power(len(data), 0.5)) < 5:
+        power = int(numpy.power(len(data), 0.5))
+    else:
+        power = 5
+
     if n is None:
-        n_tries = [i for i in range(int(numpy.power(len(data), 0.5)))]
+        n_tries = [i for i in range(power)]
     else:
         n_tries = [n]
     if m is None:
-        m_tries = [i for i in range(int(numpy.power(len(data), 0.5)))]
+        m_tries = [i for i in range(power)]
     else:
         m_tries = [m]
 
