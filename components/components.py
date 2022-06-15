@@ -178,3 +178,21 @@ class Components:
             d=-2.86617e-6,
         ),
     )
+
+    AceticAcid: Component = Component(
+        name="Acetic acid",
+        molecular_weight=60.05,
+        vapour_pressure_constants=VaporPressureConstants(
+            a=6.68206,
+            b=-1642.54,
+            c=-39.764,
+        ),
+        heat_capacity_constants=HeatCapacityConstants(
+            a=-3.891576e3,
+            b=3.640888e1,
+            c=-1.099113e-1,
+            d=1.1060630e-4,
+        ),
+    )
+
+

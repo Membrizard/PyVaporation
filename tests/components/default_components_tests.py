@@ -167,3 +167,25 @@ def test_constants_toluene():
     assert abs(Components.Toluene.get_specific_heat(313) - 161.09761) < 1e-3
     assert abs(Components.Toluene.get_specific_heat(323) - 163.93334) < 1e-3
     assert abs(Components.Toluene.get_specific_heat(333) - 166.80588) < 1e-3
+
+
+def test_constants_acetic_acid():
+
+    # Antoine Pressure Constants Calculated from https://dx.doi.org/10.1021/je60004a009
+
+    assert abs(Components.AceticAcid.get_vapor_pressure(313) - 4.68410) < 1e-4
+    assert abs(Components.AceticAcid.get_vapor_pressure(323) - 7.63603) < 1e-4
+    assert abs(Components.AceticAcid.get_vapor_pressure(333) - 12.0401) < 1e-4
+
+    # Specific Heat Constants Calculated from
+    # Parks G.S.; Kelley K.K.: Thermal Data on Organic Compounds. II. The Heat Capacities of Five Organic Compounds.
+    # The Entropies and Free Energies of Some Homologous Series of Aliphatic Compounds.
+    # J.Am.Chem.Soc. 47 (1925) 2089-2097
+    # and
+    # von Reis M.A.: Die spezifische Wärme flüssiger organischer Verbindungen und
+    # ihre Beziehung zu deren Molekulargewicht. Ann.Physik 249 (1881) 447-465
+
+    assert abs(Components.AceticAcid.get_specific_heat(292.6) - 122.61) < 6e-1
+    assert abs(Components.AceticAcid.get_specific_heat(334.45) - 128.34) < 6e-1
+    assert abs(Components.AceticAcid.get_specific_heat(358.55) - 130.80) < 6e-1
+

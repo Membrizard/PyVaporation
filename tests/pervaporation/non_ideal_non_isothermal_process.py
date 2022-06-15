@@ -56,7 +56,7 @@ def pervaporation():
 
 
 @fixture()
-def conditions():
+def basic_conditions():
     return Conditions(
         membrane_area=0.4155,
         initial_feed_temperature=333.15,
@@ -120,3 +120,7 @@ def test_validate_against_ideal_process_self_cooling(pervaporation, conditions):
             )
             < 1e-2
         )
+
+
+def test_validate_against_ideal_process_temperature_program(pervaporation, conditions):
+    assert 0==0

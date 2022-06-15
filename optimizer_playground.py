@@ -58,6 +58,7 @@ conditions = Conditions(
     initial_feed_temperature=333.15,
     initial_feed_amount=12,
     initial_feed_composition=Composition(p=0.94, type=CompositionType.weight),
+    permeate_temperature=298,
 )
 
 pervaporation = Pervaporation(membrane, Mixtures.H2O_EtOH)

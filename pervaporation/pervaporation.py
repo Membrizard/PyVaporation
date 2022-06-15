@@ -902,7 +902,7 @@ class Pervaporation:
             ),
         )
 
-    #TODO Update docstrings and check fitting
+    # TODO Update docstrings and check fitting
     def non_ideal_non_isothermal_process(
         self,
         conditions: Conditions,
@@ -918,14 +918,30 @@ class Pervaporation:
         include_zero: bool = True,
     ) -> ProcessModel:
         """
-        Models mass and heat balance of an Ideal (constant Permeance) Non-Isothermal Pervaporation Process.
-        The temperature program maybe specified in Conditions, by including a TemperatureProgram object.
-        If temperature program is not specified, models self-cooling process;
-        :param number_of_steps: Number of time steps to include in the model
-        :param delta_hours: The duration of each step in hours
-        :param conditions: Conditions object, where initial conditions are specified
+        The function models Non-Ideal Non-Isothermal Process
+        Based on a set of Diffusion curves measured at different temperatures;
+        The modelling could be also performed based on a single diffusion curve:
+        In that case the apparent activation energy of transport is considered constant
+        and is calculated for each components based on the IdealExperiments data provided for the Membrane.
+        :param conditions: Initial Conditions of the Process, a Temperature program may be added if necessary
+        :param diffusion_curves: A set of Diffusion curves picked for the Modelling from the Membrane
+        :param number_of_steps: Number of time steps for modelling
+        :param delta_hours: Size of each step in hours
         :param precision: Precision in obtained permeate composition, by default is 5e-5
-        :return: A ProcessModel Object
+        :param initial_permeances: Initial Permeances, should be stated if the Membranes swelling history is significant
+        :param n_first: Optional parameter,
+        indicates the order of the polynomial of the composition part of the Permeance function for the first components
+        :param m_first: Optional parameter,
+        indicates the order of the polynomial of the temperature part of the Permeance function for the first components
+        :param n_second: Optional parameter,
+        indicates the order of the polynomial of the composition part of the Permeance function for the second components
+        :param m_second: Optional parameter,
+        indicates the order of the polynomial of the temperature part of the Permeance function for the second components
+        :param include_zero: if True, points:
+         first_component_fraction = 0 first_component_permeance=0 for the first components
+         first_component_fraction = 1 second_component_permeance=0 for the second components
+         for each temperature are added to the measurements in order to improve obtained fits
+        :return: ProcessModel object
         """
         time: typing.List[float] = [
             delta_hours * step for step in range(number_of_steps)
@@ -1194,7 +1210,10 @@ class Pervaporation:
             feed_evaporation_heat=feed_evaporation_heat,
             permeate_condensation_heat=permeate_condensation_heat,
             initial_conditions=conditions,
-            permeance_fits=(pervaporation_function_first, pervaporation_function_second),
+            permeance_fits=(
+                pervaporation_function_first,
+                pervaporation_function_second,
+            ),
             comments=(
                 str(self.membrane.name)
                 + " "
