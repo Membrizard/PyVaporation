@@ -38,6 +38,16 @@ class Mixtures:
         ),
     )
 
+    H2O_AceticAcid: Mixture = Mixture(
+        first_component=Components.H2O,
+        second_component=Components.AceticAcid,
+        nrtl_params=NRTLParameters(
+            g12=-352.42,
+            g21=715.43,
+            alpha12=0.25,
+        ),
+    )
+
     EtOH_ETBE: Mixture = Mixture(
         first_component=Components.EtOH,
         second_component=Components.ETBE,

@@ -4,7 +4,7 @@ from components import Components
 from conditions import Conditions
 from experiments import IdealExperiment, IdealExperiments
 from membrane import Membrane
-from mixtures import Mixtures, Composition, CompositionType
+from mixtures import Mixtures, Composition, CompositionType, get_nrtl_partial_pressures
 from permeance import Permeance
 from pervaporation import Pervaporation
 from diffusion_curve import DiffusionCurveSet
@@ -79,3 +79,4 @@ y_non_ideal = [non_ideal_model.feed_temperature[i] for i in range(len(x))]
 plt.plot(x, y_ideal, x, y_non_ideal)
 plt.legend(["Ideal", "Non-Ideal"])
 plt.show()
+
