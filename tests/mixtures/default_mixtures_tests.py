@@ -169,12 +169,12 @@ def test_constants_h2o_ipoh():
 
 def test_constants_h2o_acetic_acid():
     """
-        Experimental data for validation is taken from
-        http://dx.doi.org/10.1016/j.fluid.2011.03.006
-        NRTL constants are taken from
-        https://doi.org/10.1155/2012/641251
-        http://dx.doi.org/10.1016/j.fluid.2011.03.006
-        """
+    Experimental data for validation is taken from
+    http://dx.doi.org/10.1016/j.fluid.2011.03.006
+    NRTL constants are taken from
+    https://doi.org/10.1155/2012/641251
+    http://dx.doi.org/10.1016/j.fluid.2011.03.006
+    """
     test_mixture = Mixtures.H2O_AceticAcid
     validation_compositions = [
         Composition(p=0.808, type=CompositionType.molar),
@@ -184,10 +184,10 @@ def test_constants_h2o_acetic_acid():
     ]
 
     validation_pressures = [
-        (88.126701,	13.203299),
-        (76.585214,	24.744786),
-        (62.743536,	38.586464),
-        (22.373664,	78.956336),
+        (88.126701, 13.203299),
+        (76.585214, 24.744786),
+        (62.743536, 38.586464),
+        (22.373664, 78.956336),
     ]
 
     validation_temperatures = [374.98, 376.6, 379.42, 385.85]
@@ -206,18 +206,18 @@ def test_constants_h2o_acetic_acid():
 
     for i in range(4):
         rmsd_1 = (
-                         tested_partial_pressures[i][0] - validation_pressures[i][0]
-                 ) ** 2 / validation_pressures[i][0] ** 2 + rmsd_1
+            tested_partial_pressures[i][0] - validation_pressures[i][0]
+        ) ** 2 / validation_pressures[i][0] ** 2 + rmsd_1
         rmsd_2 = (
-                         tested_partial_pressures[i][1] - validation_pressures[i][1]
-                 ) ** 2 / validation_pressures[i][1] ** 2 + rmsd_2
+            tested_partial_pressures[i][1] - validation_pressures[i][1]
+        ) ** 2 / validation_pressures[i][1] ** 2 + rmsd_2
         assert (
-                abs(tested_partial_pressures[i][0] - validation_pressures[i][0])
-                < validation_pressures[i][0] * 0.1
+            abs(tested_partial_pressures[i][0] - validation_pressures[i][0])
+            < validation_pressures[i][0] * 0.1
         )
         assert (
-                abs(tested_partial_pressures[i][1] - validation_pressures[i][1])
-                < validation_pressures[i][1] * 0.07
+            abs(tested_partial_pressures[i][1] - validation_pressures[i][1])
+            < validation_pressures[i][1] * 0.07
         )
     assert numpy.sqrt(rmsd_1 / 4) < 0.05
     assert numpy.sqrt(rmsd_2 / 4) < 0.05

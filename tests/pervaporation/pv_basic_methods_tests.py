@@ -150,9 +150,7 @@ def test_check_activation_energies(romakon_pm102_binary):
     )
 
 
-def test_calculate_partial_fluxes_variable_concentration(
-    pervaporation_binary
-):
+def test_calculate_partial_fluxes_variable_concentration(pervaporation_binary):
     validation_fluxes_40 = [
         (0.4528037879, 0.0002265151515),
         (0.3791491736, 0.0001896694215),

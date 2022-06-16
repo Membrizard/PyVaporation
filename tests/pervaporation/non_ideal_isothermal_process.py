@@ -69,7 +69,9 @@ def test_validate_against_ideal_process(pervaporation, ideal_conditions):
     number_of_steps = 200
     delta_hours = 0.125
     ideal_model = pervaporation.ideal_isothermal_process(
-        conditions=ideal_conditions, number_of_steps=number_of_steps, delta_hours=delta_hours
+        conditions=ideal_conditions,
+        number_of_steps=number_of_steps,
+        delta_hours=delta_hours,
     )
     non_ideal_model = pervaporation.non_ideal_isothermal_process(
         conditions=ideal_conditions,

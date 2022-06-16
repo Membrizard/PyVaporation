@@ -167,7 +167,7 @@ def fit(
     data: Measurements,
     n: typing.Optional[int] = None,
     m: typing.Optional[int] = None,
-    include_zero: bool = True,
+    include_zero: bool = False,
     component_index: int = 0,
 ) -> PervaporationFunction:
 

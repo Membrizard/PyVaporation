@@ -79,4 +79,3 @@ y_non_ideal = [non_ideal_model.feed_temperature[i] for i in range(len(x))]
 plt.plot(x, y_ideal, x, y_non_ideal)
 plt.legend(["Ideal", "Non-Ideal"])
 plt.show()
-
