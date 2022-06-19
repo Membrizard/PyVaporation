@@ -5,7 +5,7 @@ import attr
 import numpy
 
 from mixtures import Composition, CompositionType, Mixture, get_nrtl_partial_pressures
-from permeance import Permeance
+from permeance import Permeance, Units
 
 
 @attr.s(auto_attribs=True)
@@ -20,7 +20,7 @@ class DiffusionCurve:
     feed_temperature: float
     # TODO When loaded from csv need to assure compositions conversion to weight
     feed_compositions: typing.List[Composition]
-    partial_fluxes: typing.List[typing.Tuple[float, float]]
+    partial_fluxes: typing.Optional[typing.List[typing.Tuple[float, float]]] = None
     permeate_temperature: typing.Optional[float] = None
     permeate_pressure: typing.Optional[float] = None
     # TODO when loaded from csv need to assure permeances conversion to kg/(m2*h*kPa)
@@ -28,13 +28,51 @@ class DiffusionCurve:
     comments: typing.Optional[str] = None
 
     def __attrs_post_init__(self):
-        """
-        Calculation of Permeance values if they are not specified
-        Permeance values are in kg/(m2*h*kPa)
-        If needed, Permeance values may be converted using Permeance.converter()
-        :return a list of Permeances for each components tuple(Pi,Pj) at each concentration
-        """
-        if self.permeances is None:
+
+        if self.partial_fluxes is None and self.permeances is not None:
+            """
+            Calculation of Partial Fluxes values if they are not specified
+            Permeance values are converted to kg/(m2*h*kPa),
+            The permeate temperature and pressure parameters are ignored, components' pressure in permeate
+            is considered zero
+            :return a list of Partial fluxes for each component tuple(Ji,Jj) at each concentration
+            """
+            feed_partial_pressures = [
+                get_nrtl_partial_pressures(
+                    self.feed_temperature, self.mixture, composition
+                )
+                for composition in self.feed_compositions
+            ]
+
+            self.permeances = [
+                (
+                    self.permeances[i][0].convert(
+                        to_units=Units.kg_m2_h_kPa,
+                        component=self.mixture.first_component,
+                    ),
+                    self.permeances[i][1].convert(
+                        to_units=Units.kg_m2_h_kPa,
+                        component=self.mixture.second_component,
+                    ),
+                )
+                for i in range(len(self.permeances))
+            ]
+
+            self.partial_fluxes = [
+                (
+                    self.permeances[i][0].value * feed_partial_pressures[i][0],
+                    self.permeances[i][1].value * feed_partial_pressures[i][1],
+                )
+                for i in range(len(self.permeances))
+            ]
+
+        if self.permeances is None and self.partial_fluxes is not None:
+            """
+            Calculation of Permeance values if they are not specified
+            Permeance values are in kg/(m2*h*kPa)
+            If needed, Permeance values may be converted using Permeance.converter()
+            :return a list of Permeances for each component tuple(Pi,Pj) at each concentration
+            """
             permeate_compositions = self.permeate_composition
             feed_partial_pressures = [
                 get_nrtl_partial_pressures(
@@ -120,6 +158,24 @@ class DiffusionCurve:
                 raise ValueError(
                     "Either permeate temperature or permeate pressure could be stated not both"
                 )
+        elif self.permeances is None and self.partial_fluxes is None:
+            raise ValueError(
+                "Either Permeances or Fluxes must be specified as functions of feed composition"
+            )
+        else:
+            self.permeances = [
+                (
+                    self.permeances[i][0].convert(
+                        to_units=Units.kg_m2_h_kPa,
+                        component=self.mixture.first_component,
+                    ),
+                    self.permeances[i][1].convert(
+                        to_units=Units.kg_m2_h_kPa,
+                        component=self.mixture.second_component,
+                    ),
+                )
+                for i in range(len(self.permeances))
+            ]
 
     def __len__(self):
         return len(self.feed_compositions)

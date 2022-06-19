@@ -198,7 +198,7 @@ def fit(
 
 def find_best_fit(
     data: Measurements,
-    include_zero: bool = True,
+    include_zero: bool = False,
     component_index: int = 0,
     n: typing.Optional[int] = None,
     m: typing.Optional[int] = None,

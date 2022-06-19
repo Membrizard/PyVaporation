@@ -5,7 +5,6 @@ import attr
 from components import Component
 
 
-@attr.s(auto_attribs=True)
 class Units:
     GPU: str = "GPU"
     SI: str = "SI"
@@ -15,7 +14,7 @@ class Units:
 @attr.s(auto_attribs=True)
 class Permeance:
     value: float
-    units: str = Units().kg_m2_h_kPa
+    units: str = Units.kg_m2_h_kPa
 
     def __add__(self, other: "Permeance") -> "Permeance":
         if self.units != other.units:

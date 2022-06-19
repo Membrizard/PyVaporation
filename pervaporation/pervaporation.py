@@ -12,7 +12,7 @@ from mixtures import Composition, CompositionType, Mixture, get_nrtl_partial_pre
 from permeance import Permeance, Units
 from process import ProcessModel
 from utils import R
-from optimizer import Measurements, fit, find_best_fit
+from optimizer import Measurements, find_best_fit
 
 
 def get_permeate_composition_from_fluxes(
@@ -624,47 +624,56 @@ class Pervaporation:
             diffusion_curves
         )
 
+        n=len(compositions)
+        compositions.append(compositions[-1])
+
         if len(diffusion_curves.diffusion_curves) == 1:
             pervaporation_function_temperature = diffusion_curves.diffusion_curves[
                 0
             ].feed_temperature
-            activation_energy_first = self.membrane.calculate_activation_energy(
-                self.mixture.first_component
-            )
-            activation_energy_second = self.membrane.calculate_activation_energy(
-                self.mixture.second_component
-            )
 
             pervaporation_function_first = find_best_fit(
                 data=measurements_first,
                 n=n_first,
                 m=0,
-                include_zero=False,
+                include_zero=include_zero,
                 component_index=0,
             )
             pervaporation_function_second = find_best_fit(
                 data=measurements_second,
                 n=n_second,
                 m=0,
-                include_zero=False,
+                include_zero=include_zero,
                 component_index=1,
             )
 
-            pervaporation_function_first.a[0] = (
-                pervaporation_function_first.a[0]
-                + pervaporation_function_first.b[0] / pervaporation_function_temperature
-                + activation_energy_first / (R * pervaporation_function_temperature)
-            )
+            if pervaporation_function_temperature == feed_temperature:
+                pass
+            else:
+                activation_energy_first = self.membrane.calculate_activation_energy(
+                    self.mixture.first_component
+                )
+                activation_energy_second = self.membrane.calculate_activation_energy(
+                    self.mixture.second_component
+                )
 
-            pervaporation_function_second.a[0] = (
-                pervaporation_function_second.a[0]
-                + pervaporation_function_second.b[0]
-                / pervaporation_function_temperature
-                + activation_energy_second / (R * pervaporation_function_temperature)
-            )
+                pervaporation_function_first.a[0] = (
+                    pervaporation_function_first.a[0]
+                    + pervaporation_function_first.b[0]
+                    / pervaporation_function_temperature
+                    + activation_energy_first / (R * pervaporation_function_temperature)
+                )
 
-            pervaporation_function_first.b[0] = activation_energy_first / R
-            pervaporation_function_second.b[0] = activation_energy_second / R
+                pervaporation_function_second.a[0] = (
+                    pervaporation_function_second.a[0]
+                    + pervaporation_function_second.b[0]
+                    / pervaporation_function_temperature
+                    + activation_energy_second
+                    / (R * pervaporation_function_temperature)
+                )
+
+                pervaporation_function_first.b[0] = activation_energy_first / R
+                pervaporation_function_second.b[0] = activation_energy_second / R
 
         else:
             pervaporation_function_first = find_best_fit(
@@ -692,14 +701,32 @@ class Pervaporation:
             )
 
         else:
-            first_component_permeance = initial_permeances[0].convert(to_units=Units.kg_m2_h_kPa, component=self.mixture.first_component)
-            second_component_permeance = initial_permeances[1].convert(to_units=Units.kg_m2_h_kPa, component=self.mixture.second_component)
+            first_component_permeance = initial_permeances[0].convert(
+                to_units=Units.kg_m2_h_kPa, component=self.mixture.first_component
+            )
+            second_component_permeance = initial_permeances[1].convert(
+                to_units=Units.kg_m2_h_kPa, component=self.mixture.second_component
+            )
 
         permeances: typing.List[typing.Tuple[Permeance, Permeance]] = [
             (first_component_permeance, second_component_permeance)
         ]
 
-        for i in range(len(compositions)):
+        partial_fluxes: typing.List[typing.Tuple[float, float]] = []
+
+        for i in range(n):
+            partial_fluxes.append(
+                self.calculate_partial_fluxes(
+                    feed_temperature=feed_temperature,
+                    composition=compositions[i],
+                    precision=precision,
+                    permeate_temperature=permeate_temperature,
+                    permeate_pressure=permeate_pressure,
+                    first_component_permeance=permeances[i][0],
+                    second_component_permeance=permeances[i][1],
+                )
+            )
+
             permeances.append(
                 (
                     Permeance(
@@ -707,12 +734,18 @@ class Pervaporation:
                         + pervaporation_function_first.derivative_composition(
                             compositions[i].first, feed_temperature
                         )
-                        * (compositions[i + 1].first - compositions[i].first)
+                        * (compositions[i+1].first - compositions[i].first)
                     ),
-                    Permeance(),
+                    Permeance(
+                        value=permeances[i][1].value
+                        + pervaporation_function_second.derivative_composition(
+                            compositions[i].first, feed_temperature
+                        )
+                        * (compositions[i+1].first - compositions[i].first)
+                    ),
                 )
             )
-
+        compositions.pop(-1)
         return DiffusionCurve(
             mixture=self.mixture,
             membrane_name=self.membrane.name,
@@ -797,12 +830,6 @@ class Pervaporation:
             pervaporation_function_temperature = diffusion_curves.diffusion_curves[
                 0
             ].feed_temperature
-            activation_energy_first = self.membrane.calculate_activation_energy(
-                self.mixture.first_component
-            )
-            activation_energy_second = self.membrane.calculate_activation_energy(
-                self.mixture.second_component
-            )
 
             pervaporation_function_first = find_best_fit(
                 data=measurements_first,
@@ -819,21 +846,36 @@ class Pervaporation:
                 component_index=1,
             )
 
-            pervaporation_function_first.a[0] = (
-                pervaporation_function_first.a[0]
-                + pervaporation_function_first.b[0] / pervaporation_function_temperature
-                + activation_energy_first / (R * pervaporation_function_temperature)
-            )
+            if (
+                pervaporation_function_temperature
+                == conditions.initial_feed_temperature
+            ):
+                pass
+            else:
+                activation_energy_first = self.membrane.calculate_activation_energy(
+                    self.mixture.first_component
+                )
+                activation_energy_second = self.membrane.calculate_activation_energy(
+                    self.mixture.second_component
+                )
 
-            pervaporation_function_second.a[0] = (
-                pervaporation_function_second.a[0]
-                + pervaporation_function_second.b[0]
-                / pervaporation_function_temperature
-                + activation_energy_second / (R * pervaporation_function_temperature)
-            )
+                pervaporation_function_first.a[0] = (
+                    pervaporation_function_first.a[0]
+                    + pervaporation_function_first.b[0]
+                    / pervaporation_function_temperature
+                    + activation_energy_first / (R * pervaporation_function_temperature)
+                )
 
-            pervaporation_function_first.b[0] = activation_energy_first / R
-            pervaporation_function_second.b[0] = activation_energy_second / R
+                pervaporation_function_second.a[0] = (
+                    pervaporation_function_second.a[0]
+                    + pervaporation_function_second.b[0]
+                    / pervaporation_function_temperature
+                    + activation_energy_second
+                    / (R * pervaporation_function_temperature)
+                )
+
+                pervaporation_function_first.b[0] = activation_energy_first / R
+                pervaporation_function_second.b[0] = activation_energy_second / R
 
         else:
             pervaporation_function_first = find_best_fit(
@@ -865,8 +907,12 @@ class Pervaporation:
             )
 
         else:
-            first_component_permeance = initial_permeances[0].convert(to_units=Units.kg_m2_h_kPa, component=self.mixture.first_component)
-            second_component_permeance = initial_permeances[1].convert(to_units=Units.kg_m2_h_kPa, component=self.mixture.second_component)
+            first_component_permeance = initial_permeances[0].convert(
+                to_units=Units.kg_m2_h_kPa, component=self.mixture.first_component
+            )
+            second_component_permeance = initial_permeances[1].convert(
+                to_units=Units.kg_m2_h_kPa, component=self.mixture.second_component
+            )
 
         permeances: typing.List[typing.Tuple[Permeance, Permeance]] = [
             (first_component_permeance, second_component_permeance)
@@ -1158,8 +1204,12 @@ class Pervaporation:
             )
 
         else:
-            first_component_permeance = initial_permeances[0].convert(to_units=Units.kg_m2_h_kPa, component=self.mixture.first_component)
-            second_component_permeance = initial_permeances[1].convert(to_units=Units.kg_m2_h_kPa, component=self.mixture.second_component)
+            first_component_permeance = initial_permeances[0].convert(
+                to_units=Units.kg_m2_h_kPa, component=self.mixture.first_component
+            )
+            second_component_permeance = initial_permeances[1].convert(
+                to_units=Units.kg_m2_h_kPa, component=self.mixture.second_component
+            )
 
         permeances: typing.List[typing.Tuple[Permeance, Permeance]] = [
             (first_component_permeance, second_component_permeance)
