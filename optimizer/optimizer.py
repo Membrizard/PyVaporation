@@ -191,7 +191,7 @@ def fit(
     result = optimize.minimize(
         lambda params: objective(_data, params, n=_n, m=_m),
         x0=numpy.array([1] * (3 + _n + _m)),
-        method="Powell",
+        #method="Powell"
     )
     return PervaporationFunction.from_array(array=result.x, n=_n, m=_m)
 
