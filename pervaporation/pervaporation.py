@@ -248,7 +248,7 @@ class Pervaporation:
                 + " / "
                 + str(self.mixture.second_component.name)
                 + " "
-                + str(datetime.now())
+                + datetime.now().strftime("%m/%d/%Y, %H:%M")
             ),
         )
 
@@ -624,7 +624,7 @@ class Pervaporation:
             diffusion_curves
         )
 
-        n=len(compositions)
+        n = len(compositions)
         compositions.append(compositions[-1])
 
         if len(diffusion_curves.diffusion_curves) == 1:
@@ -734,14 +734,14 @@ class Pervaporation:
                         + pervaporation_function_first.derivative_composition(
                             compositions[i].first, feed_temperature
                         )
-                        * (compositions[i+1].first - compositions[i].first)
+                        * (compositions[i + 1].first - compositions[i].first)
                     ),
                     Permeance(
                         value=permeances[i][1].value
                         + pervaporation_function_second.derivative_composition(
                             compositions[i].first, feed_temperature
                         )
-                        * (compositions[i+1].first - compositions[i].first)
+                        * (compositions[i + 1].first - compositions[i].first)
                     ),
                 )
             )
@@ -762,7 +762,7 @@ class Pervaporation:
                 + " / "
                 + str(self.mixture.second_component.name)
                 + " "
-                + str(datetime.now())
+                + datetime.now().strftime("%m/%d/%Y, %H:%M")
             ),
         )
 

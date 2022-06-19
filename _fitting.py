@@ -48,6 +48,7 @@ experimental_50 = DiffusionCurve(
         Composition(p=composition, type=CompositionType.weight)
         for composition in compositions_50
     ],
+    permeate_pressure=1,
     permeances=[
         (
             Permeance(value=permeances_50_H2O[i], units=Units.GPU),
@@ -56,29 +57,16 @@ experimental_50 = DiffusionCurve(
         for i in range(len(compositions_50))
     ],
 )
+measurements_etoh = Measurements.from_diffusion_curve_second(experimental_50)
 
-pervap_4100 = Membrane(
-    name=experimental_50.membrane_name,
-    diffusion_curve_sets=[
-        DiffusionCurveSet(
-            name_of_the_set="Various Initial Feed", diffusion_curves=[experimental_50]
-        )
-    ],
-)
-
-
-pervaporation = Pervaporation(pervap_4100, Mixtures.H2O_EtOH)
-modelled_curve = pervaporation.non_ideal_diffusion_curve(
-    pervap_4100.diffusion_curve_sets[0],
-    368.15,
-    experimental_50.feed_compositions,
-)
-print([modelled_curve.permeances[i][1].value for i in range(len(modelled_curve.permeances))])
+fit_etoh = find_best_fit(data=measurements_etoh, n=0, m=1)
+print(fit_etoh)
 x = compositions_50
-y_ideal = [experimental_50.permeances[i][1].value for i in range(len(x))]
-y_non_ideal = [modelled_curve.permeances[i][1].value for i in range(len(x))]
+y_ideal = [
+    Permeance(permeance, Units.GPU).convert(Units.kg_m2_h_kPa, Components.EtOH).value
+    for permeance in permeances_50_EtOH
+]
+y_non_ideal = [fit_etoh(composition, 368.15) for composition in compositions_50]
 plt.plot(x, y_ideal, x, y_non_ideal)
-plt.legend(["Experimental", "Modelled"])
+plt.legend(["experiment", "Model"])
 plt.show()
-
-
