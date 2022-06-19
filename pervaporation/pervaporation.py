@@ -83,12 +83,13 @@ class Pervaporation:
         self,
         feed_temperature: float,
         composition: Composition,
-        precision: float = 5e-5,
+        precision: float = 3e-4,
         permeate_temperature: typing.Optional[float] = None,
         permeate_pressure: typing.Optional[float] = None,
         first_component_permeance: typing.Optional[Permeance] = None,
         second_component_permeance: typing.Optional[Permeance] = None,
     ) -> typing.Tuple[float, float]:
+        print('CALCULATE PARTIAL FLUXES: %s' % (second_component_permeance.value))
         """
         Calculates partial fluxes of the components at specified conditions.
         Either permeate temperature or permeate pressure could be stated
@@ -639,6 +640,7 @@ class Pervaporation:
                 include_zero=include_zero,
                 component_index=0,
             )
+            print(pervaporation_function_first)
             pervaporation_function_second = find_best_fit(
                 data=measurements_second,
                 n=n_second,
@@ -730,18 +732,20 @@ class Pervaporation:
             permeances.append(
                 (
                     Permeance(
-                        value=permeances[i][0].value
-                        + pervaporation_function_first.derivative_composition(
-                            compositions[i].first, feed_temperature
+                        value=permeances[i][0].value +
+                        pervaporation_function_first.differential(
+                            x=compositions[i].first, t=feed_temperature, dx=(
+                                -compositions[i + 1].first + compositions[i].first
+                            )
                         )
-                        * (compositions[i + 1].first - compositions[i].first)
                     ),
                     Permeance(
-                        value=permeances[i][1].value
-                        + pervaporation_function_second.derivative_composition(
-                            compositions[i].first, feed_temperature
+                        value=permeances[i][1].value +
+                        pervaporation_function_second.differential(
+                            x=compositions[i].first, t=feed_temperature, dx=(
+                                   -compositions[i + 1].first + compositions[i].first
+                            )
                         )
-                        * (compositions[i + 1].first - compositions[i].first)
                     ),
                 )
             )

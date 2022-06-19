@@ -85,20 +85,20 @@ class PervaporationFunction:
     def from_array(
         cls, array: typing.Union[typing.List[float], numpy.ndarray], n: int, m: int
     ) -> "PervaporationFunction":
-        assert len(array) == 3 + n + m
+        assert len(array) == 2 + n + m
         return cls(
             n=n,
             m=m,
             alpha=array[0],
-            a=array[1 : n + 2],
-            b=array[n + 2 :],
+            a=array[1: n + 1],
+            b=array[n + 1:],
         )
 
     def __call__(self, x: float, t: float) -> float:
         return self.alpha * (
             numpy.exp(
-                sum(self.a[i] * x**i for i in range(len(self.a)))
-                - sum(self.b[i] * x**i for i in range(len(self.b))) / t
+                sum(self.a[i] * numpy.power(x, i + 1) for i in range(len(self.a)))
+                - sum(self.b[i] * numpy.power(x, i) for i in range(len(self.b))) / t
             )
         )
 
@@ -112,29 +112,21 @@ class PervaporationFunction:
         )
 
     def derivative_temperature(self, x: float, t: float):
-        return (
-            self.alpha
-            * (sum(self.b[i] * x**i for i in range(len(self.b))) / t**2)
-            * (
-                numpy.exp(
-                    sum(self.a[i] * x**i for i in range(len(self.a)))
-                    - sum(self.b[i] * x**i for i in range(len(self.b))) / t
-                )
-            )
-        )
+        return self(x, t) * sum(self.b[i] * x**i for i in range(len(self.b))) / t ** 2
 
     def derivative_composition(self, x: float, t: float):
         return (
-            self.alpha
-            * (
-                sum(self.a[i] * i * x ** (i - 1) for i in range(1, len(self.a)))
-                - sum(self.b[i] * i * x ** (i - 1) for i in range(1, len(self.b))) / t
-            )
-            * numpy.exp(
-                sum(self.a[i] * x**i for i in range(len(self.a)))
-                - sum(self.b[i] * x**i for i in range(len(self.b))) / t
-            )
-        )
+                sum(self.a[i] * i * numpy.power(x, i) for i in range(len(self.a)))
+                - sum(self.b[i] * i * numpy.power(x, i - 1) for i in range(1, len(self.b))) / t
+            ) * self(x, t)
+
+    def differential(self, x: float, t: float, dx: typing.Optional[float]=None, dt: typing.Optional[float]=None) -> float:
+        if dx is None:
+            assert dt is not None
+            return self.derivative_temperature(x, t) * dt
+        if dt is None:
+            return self.derivative_composition(x, t) * dx
+        return self.derivative_composition(x, t) * dx + self.derivative_temperature(x, t) * dt
 
 
 def _suggest_n_m(
@@ -152,7 +144,7 @@ def _suggest_n_m(
 
 
 def get_initial_guess(n: int, m: int) -> typing.List[float]:
-    return [1] * (3 + n + m)
+    return [1] * (2 + n + m)
 
 
 def objective(data: Measurements, params: typing.List[float], n: int, m: int) -> float:
@@ -190,7 +182,7 @@ def fit(
 
     result = optimize.minimize(
         lambda params: objective(_data, params, n=_n, m=_m),
-        x0=numpy.array([1] * (3 + _n + _m)),
+        x0=numpy.array([0] * (2 + _n + _m)),
         method="Powell",
     )
     return PervaporationFunction.from_array(array=result.x, n=_n, m=_m)
@@ -204,17 +196,14 @@ def find_best_fit(
     m: typing.Optional[int] = None,
 ) -> PervaporationFunction:
 
-    if int(numpy.power(len(data), 0.5)) < 5:
-        power = int(numpy.power(len(data), 0.5))
-    else:
-        power = 5
+    max_power = min(5, round(numpy.power(len(data), 0.5)))
 
     if n is None:
-        n_tries = [i for i in range(power)]
+        n_tries = list(range(max_power))
     else:
         n_tries = [n]
     if m is None:
-        m_tries = [i for i in range(power)]
+        m_tries = list(range(max_power))
     else:
         m_tries = [m]
 
@@ -230,7 +219,7 @@ def find_best_fit(
                 include_zero=include_zero,
                 component_index=component_index,
             )
-            loss = sum([(curve(m.x, m.t) - m.p) ** 2 for m in data])
+            loss = sum([(curve(measurement.x, measurement.t) - measurement.p) ** 2 for measurement in data])
 
             if loss < best_loss:
                 best_curve = curve
