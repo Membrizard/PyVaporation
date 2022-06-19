@@ -69,9 +69,10 @@ pervap_4100 = Membrane(
 
 pervaporation = Pervaporation(pervap_4100, Mixtures.H2O_EtOH)
 modelled_curve = pervaporation.non_ideal_diffusion_curve(
-    pervap_4100.diffusion_curve_sets[0],
-    368.15,
-    experimental_50.feed_compositions,
+    diffusion_curves=pervap_4100.diffusion_curve_sets[0],
+    feed_temperature=368.15,
+    compositions=experimental_50.feed_compositions,
+
 )
 print(
     [
@@ -79,12 +80,13 @@ print(
         for i in range(len(modelled_curve.permeances))
     ]
 )
+
 x = compositions_50
 y_ideal_EtOH = [experimental_50.permeances[i][1].value for i in range(len(x))]
 y_non_ideal_EtOH = [modelled_curve.permeances[i][1].value for i in range(len(x))]
 y_ideal_H2O = [experimental_50.permeances[i][0].value for i in range(len(x))]
 y_non_ideal_H2O = [modelled_curve.permeances[i][0].value for i in range(len(x))]
-plt.plot(x, y_ideal_EtOH, x, y_non_ideal_EtOH, x, y_ideal_H2O, x, y_non_ideal_H2O)
+plt.plot(x, y_ideal_EtOH, x, y_non_ideal_EtOH)
 plt.legend(["Experimental EtOH_50", "Modelled EtOH_50", "Experimental H2O_50", "Modelled H2O_50"])
 plt.show()
 
@@ -119,16 +121,16 @@ compositions_25.reverse()
 permeances_25_H2O.reverse()
 permeances_25_EtOH.reverse()
 
-permeances_25_H2O = [Permeance(permeance,Units.GPU).convert(Units.kg_m2_h_kPa,Components.H2O).value for permeance in permeances_25_H2O]
-permeances_25_EtOH = [Permeance(permeance,Units.GPU).convert(Units.kg_m2_h_kPa,Components.EtOH).value for permeance in permeances_25_EtOH]
+permeances_25_H2O = [Permeance(permeance, Units.GPU).convert(Units.kg_m2_h_kPa, Components.H2O).value for permeance in permeances_25_H2O]
+permeances_25_EtOH = [Permeance(permeance, Units.GPU).convert(Units.kg_m2_h_kPa, Components.EtOH).value for permeance in permeances_25_EtOH]
 
 
 modelled_curve_25 = pervaporation.non_ideal_diffusion_curve(
         diffusion_curves=pervaporation.membrane.diffusion_curve_sets[0],
         feed_temperature=368.15,
         compositions=[Composition(p=composition, type=CompositionType.weight) for composition in compositions_25],
-        initial_permeances=(Permeance(value=3598.01802380722, units=Units.GPU),
-                             Permeance(value=13.01528204, units=Units.GPU)),
+        initial_permeances=(Permeance(value=3598.018023, units=Units.GPU),
+                             Permeance(value=13.0152820, units=Units.GPU)),
     )
 
 x = compositions_25
@@ -136,6 +138,6 @@ y_ideal_EtOH = [permeances_25_EtOH[i] for i in range(len(x))]
 y_non_ideal_EtOH = [modelled_curve_25.permeances[i][1].value for i in range(len(x))]
 y_ideal_H2O = [permeances_25_H2O[i] for i in range(len(x))]
 y_non_ideal_H2O = [modelled_curve_25.permeances[i][0].value for i in range(len(x))]
-plt.plot(x, y_ideal_EtOH, x, y_non_ideal_EtOH, x, y_ideal_H2O, x, y_non_ideal_H2O)
+plt.plot(x, y_ideal_EtOH, x, y_non_ideal_EtOH)
 plt.legend(["Experimental EtOH_25", "Modelled EtOH_25", "Experimental H2O_25", "Modelled H2O_25"])
 plt.show()

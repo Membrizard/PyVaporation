@@ -59,7 +59,7 @@ experimental_50 = DiffusionCurve(
 )
 measurements_etoh = Measurements.from_diffusion_curve_second(experimental_50)
 
-fit_etoh = fit(data=measurements_etoh, n=1, m=0)
+fit_etoh = fit(data=measurements_etoh, n=0, m=1)
 print(fit_etoh)
 x = compositions_50
 y_ideal = [
