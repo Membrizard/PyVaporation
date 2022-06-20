@@ -98,6 +98,7 @@ def test_pervap_4100_50(pervaporation, experimental_50):
         assert abs(modelled_curve.permeances[index][0].value-experimental_50.permeances[i][0].value) < 6e-3
         assert abs(modelled_curve.permeances[index][1].value-experimental_50.permeances[i][1].value) < 4.2e-4
         assert abs(modelled_curve.partial_fluxes[index][0]-experimental_50.partial_fluxes[i][0]) < 4e-1
+        assert abs(modelled_curve.partial_fluxes[index][1]-experimental_50.partial_fluxes[i][1]) < 7e-2
 
 
 def test_pervap_4100_25(pervaporation):
