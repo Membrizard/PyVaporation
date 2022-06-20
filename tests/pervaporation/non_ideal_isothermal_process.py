@@ -83,11 +83,11 @@ def test_validate_against_ideal_process(ideal_pervaporation, ideal_conditions):
     for i in range(number_of_steps):
         assert (
             abs(non_ideal_model.partial_fluxes[i][0] - ideal_model.partial_fluxes[i][0])
-            < 8e-3
+            < 9e-3
         )
         assert (
             abs(non_ideal_model.partial_fluxes[i][1] - ideal_model.partial_fluxes[i][1])
-            < 8e-3
+            < 9e-3
         )
         assert (
             abs(
@@ -103,13 +103,13 @@ def test_validate_against_ideal_process(ideal_pervaporation, ideal_conditions):
             )
             < 5e-4
         )
-        assert abs(non_ideal_model.feed_mass[i] - ideal_model.feed_mass[i]) < 6.5e-2
+        assert abs(non_ideal_model.feed_mass[i] - ideal_model.feed_mass[i]) < 8.5e-2
         assert (
             abs(
                 non_ideal_model.feed_evaporation_heat[i]
                 - ideal_model.feed_evaporation_heat[i]
             )
-            < 1
+            < 1.1
         )
         assert (
             non_ideal_model.permeate_condensation_heat[i]

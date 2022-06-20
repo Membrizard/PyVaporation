@@ -90,8 +90,8 @@ class PervaporationFunction:
             n=n,
             m=m,
             alpha=array[0],
-            a=array[1: n + 1],
-            b=array[n + 1:],
+            a=array[1 : n + 1],
+            b=array[n + 1 :],
         )
 
     def __call__(self, x: float, t: float) -> float:
@@ -110,23 +110,6 @@ class PervaporationFunction:
             a=self.a,
             b=self.b,
         )
-
-    def derivative_temperature(self, x: float, t: float):
-        return self(x, t) * sum(self.b[i] * x**i for i in range(len(self.b))) / t ** 2
-
-    def derivative_composition(self, x: float, t: float):
-        return (
-                sum(self.a[i] * i * numpy.power(x, i) for i in range(len(self.a)))
-                - sum(self.b[i] * i * numpy.power(x, i - 1) for i in range(1, len(self.b))) / t
-            ) * self(x, t)
-
-    def differential(self, x: float, t: float, dx: typing.Optional[float]=None, dt: typing.Optional[float]=None) -> float:
-        if dx is None:
-            assert dt is not None
-            return self.derivative_temperature(x, t) * dt
-        if dt is None:
-            return self.derivative_composition(x, t) * dx
-        return self.derivative_composition(x, t) * dx + self.derivative_temperature(x, t) * dt
 
 
 def _suggest_n_m(
@@ -219,7 +202,12 @@ def find_best_fit(
                 include_zero=include_zero,
                 component_index=component_index,
             )
-            loss = sum([(curve(measurement.x, measurement.t) - measurement.p) ** 2 for measurement in data])
+            loss = sum(
+                [
+                    (curve(measurement.x, measurement.t) - measurement.p) ** 2
+                    for measurement in data
+                ]
+            )
 
             if loss < best_loss:
                 best_curve = curve

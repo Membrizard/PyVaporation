@@ -89,7 +89,6 @@ class Pervaporation:
         first_component_permeance: typing.Optional[Permeance] = None,
         second_component_permeance: typing.Optional[Permeance] = None,
     ) -> typing.Tuple[float, float]:
-        print('CALCULATE PARTIAL FLUXES: %s' % (second_component_permeance.value))
         """
         Calculates partial fluxes of the components at specified conditions.
         Either permeate temperature or permeate pressure could be stated
@@ -603,12 +602,14 @@ class Pervaporation:
             ),
         )
 
-    # TODO
+
     def non_ideal_diffusion_curve(
         self,
         diffusion_curves: DiffusionCurveSet,
         feed_temperature: float,
-        compositions: typing.List[Composition],
+        initial_feed_composition: Composition,
+        delta_composition: float,
+        number_of_steps: int,
         permeate_temperature: typing.Optional[float] = None,
         permeate_pressure: typing.Optional[float] = None,
         initial_permeances: typing.Optional[typing.Tuple[Permeance, Permeance]] = None,
@@ -625,9 +626,6 @@ class Pervaporation:
             diffusion_curves
         )
 
-        n = len(compositions)
-        compositions.append(compositions[-1])
-
         if len(diffusion_curves.diffusion_curves) == 1:
             pervaporation_function_temperature = diffusion_curves.diffusion_curves[
                 0
@@ -640,7 +638,7 @@ class Pervaporation:
                 include_zero=include_zero,
                 component_index=0,
             )
-            print(pervaporation_function_first)
+
             pervaporation_function_second = find_best_fit(
                 data=measurements_second,
                 n=n_second,
@@ -659,19 +657,20 @@ class Pervaporation:
                     self.mixture.second_component
                 )
 
-                pervaporation_function_first.a[0] = (
-                    pervaporation_function_first.a[0]
-                    + pervaporation_function_first.b[0]
+                pervaporation_function_first = pervaporation_function_first * numpy.exp(
+                    pervaporation_function_first.b[0]
                     / pervaporation_function_temperature
                     + activation_energy_first / (R * pervaporation_function_temperature)
                 )
 
-                pervaporation_function_second.a[0] = (
-                    pervaporation_function_second.a[0]
-                    + pervaporation_function_second.b[0]
-                    / pervaporation_function_temperature
-                    + activation_energy_second
-                    / (R * pervaporation_function_temperature)
+                pervaporation_function_second = (
+                    pervaporation_function_second
+                    * numpy.exp(
+                        pervaporation_function_second.b[0]
+                        / pervaporation_function_temperature
+                        + activation_energy_second
+                        / (R * pervaporation_function_temperature)
+                    )
                 )
 
                 pervaporation_function_first.b[0] = activation_energy_first / R
@@ -695,11 +694,15 @@ class Pervaporation:
 
         if initial_permeances is None:
             first_component_permeance = Permeance(
-                value=pervaporation_function_first(compositions[0].p, feed_temperature)
+                value=pervaporation_function_first(
+                    initial_feed_composition.first, feed_temperature
+                )
             )
 
             second_component_permeance = Permeance(
-                value=pervaporation_function_second(compositions[0].p, feed_temperature)
+                value=pervaporation_function_second(
+                    initial_feed_composition.first, feed_temperature
+                )
             )
 
         else:
@@ -713,10 +716,25 @@ class Pervaporation:
         permeances: typing.List[typing.Tuple[Permeance, Permeance]] = [
             (first_component_permeance, second_component_permeance)
         ]
+        facilitation_rate_first = (
+            first_component_permeance.value
+            / pervaporation_function_first(
+                x=initial_feed_composition.first, t=feed_temperature
+            )
+        )
+        facilitation_rate_second = (
+            second_component_permeance.value
+            / pervaporation_function_second(
+                x=initial_feed_composition.first, t=feed_temperature
+            )
+        )
 
         partial_fluxes: typing.List[typing.Tuple[float, float]] = []
+        compositions: typing.List[Composition] = [
+            initial_feed_composition.to_weight(self.mixture)
+        ]
 
-        for i in range(n):
+        for i in range(number_of_steps):
             partial_fluxes.append(
                 self.calculate_partial_fluxes(
                     feed_temperature=feed_temperature,
@@ -732,24 +750,31 @@ class Pervaporation:
             permeances.append(
                 (
                     Permeance(
-                        value=permeances[i][0].value +
-                        pervaporation_function_first.differential(
-                            x=compositions[i].first, t=feed_temperature, dx=(
-                                -compositions[i + 1].first + compositions[i].first
+                        value=(
+                            pervaporation_function_first(
+                                compositions[i].first, feed_temperature
                             )
+                            * facilitation_rate_first
                         )
                     ),
                     Permeance(
-                        value=permeances[i][1].value +
-                        pervaporation_function_second.differential(
-                            x=compositions[i].first, t=feed_temperature, dx=(
-                                   -compositions[i + 1].first + compositions[i].first
+                        value=(
+                            pervaporation_function_second(
+                                compositions[i].first, feed_temperature
                             )
+                            * facilitation_rate_second
                         )
                     ),
                 )
             )
-        compositions.pop(-1)
+
+            compositions.append(
+                Composition(
+                    p=compositions[i].first + delta_composition,
+                    type=CompositionType.weight,
+                )
+            )
+
         return DiffusionCurve(
             mixture=self.mixture,
             membrane_name=self.membrane.name,
@@ -797,13 +822,17 @@ class Pervaporation:
         :param precision: Precision in obtained permeate composition, by default is 5e-5
         :param initial_permeances: Initial Permeances, should be stated if the Membranes swelling history is significant
         :param n_first: Optional parameter,
-        indicates the order of the polynomial of the composition part of the Permeance function for the first components
+        indicates the order of the polynomial of the composition part of the Permeance function for the
+        first component
         :param m_first: Optional parameter,
-        indicates the order of the polynomial of the temperature part of the Permeance function for the first components
+        indicates the order of the polynomial of the temperature part of the Permeance function for
+        the first component
         :param n_second: Optional parameter,
-        indicates the order of the polynomial of the composition part of the Permeance function for the second components
+        indicates the order of the polynomial of the composition part of the Permeance function for
+        the second component
         :param m_second: Optional parameter,
-        indicates the order of the polynomial of the temperature part of the Permeance function for the second components
+        indicates the order of the polynomial of the temperature part of the Permeance function for
+        the second component
         :param include_zero: if True, points:
          first_component_fraction = 0 first_component_permeance=0 for the first components
          first_component_fraction = 1 second_component_permeance=0 for the second components
@@ -863,19 +892,20 @@ class Pervaporation:
                     self.mixture.second_component
                 )
 
-                pervaporation_function_first.a[0] = (
-                    pervaporation_function_first.a[0]
-                    + pervaporation_function_first.b[0]
+                pervaporation_function_first = pervaporation_function_first * numpy.exp(
+                    pervaporation_function_first.b[0]
                     / pervaporation_function_temperature
                     + activation_energy_first / (R * pervaporation_function_temperature)
                 )
 
-                pervaporation_function_second.a[0] = (
-                    pervaporation_function_second.a[0]
-                    + pervaporation_function_second.b[0]
-                    / pervaporation_function_temperature
-                    + activation_energy_second
-                    / (R * pervaporation_function_temperature)
+                pervaporation_function_second = (
+                    pervaporation_function_second
+                    * numpy.exp(
+                        pervaporation_function_second.b[0]
+                        / pervaporation_function_temperature
+                        + activation_energy_second
+                        / (R * pervaporation_function_temperature)
+                    )
                 )
 
                 pervaporation_function_first.b[0] = activation_energy_first / R
@@ -900,13 +930,13 @@ class Pervaporation:
         if initial_permeances is None:
             first_component_permeance = Permeance(
                 value=pervaporation_function_first(
-                    feed_composition[0].p, conditions.initial_feed_temperature
+                    feed_composition[0].first, conditions.initial_feed_temperature
                 )
             )
 
             second_component_permeance = Permeance(
                 value=pervaporation_function_second(
-                    feed_composition[0].p, conditions.initial_feed_temperature
+                    feed_composition[0].first, conditions.initial_feed_temperature
                 )
             )
 
@@ -921,6 +951,21 @@ class Pervaporation:
         permeances: typing.List[typing.Tuple[Permeance, Permeance]] = [
             (first_component_permeance, second_component_permeance)
         ]
+
+        facilitation_rate_first = (
+            first_component_permeance.value
+            / pervaporation_function_first(
+                x=conditions.initial_feed_composition.first,
+                t=conditions.initial_feed_temperature,
+            )
+        )
+        facilitation_rate_second = (
+            second_component_permeance.value
+            / pervaporation_function_second(
+                x=conditions.initial_feed_composition.first,
+                t=conditions.initial_feed_temperature,
+            )
+        )
 
         evaporation_heat_1 = (
             self.mixture.first_component.get_vaporisation_heat(
@@ -1016,28 +1061,20 @@ class Pervaporation:
             permeances.append(
                 (
                     Permeance(
-                        value=permeances[step][0].value
-                        + pervaporation_function_first.derivative_composition(
-                            feed_composition[step].first,
-                            conditions.initial_feed_temperature,
+                        value=pervaporation_function_first(
+                            x=feed_composition[step].first,
+                            t=conditions.initial_feed_temperature,
                         )
-                        * (
-                            feed_composition[step + 1].first
-                            - feed_composition[step].first
-                        )
+                        * facilitation_rate_first
                     ),
                     Permeance(
-                        value=permeances[step][1].value
-                        + pervaporation_function_second.derivative_composition(
-                            feed_composition[step].first,
-                            conditions.initial_feed_temperature,
+                        value=pervaporation_function_second(
+                            x=feed_composition[step].first,
+                            t=conditions.initial_feed_temperature,
                         )
-                        * (
-                            feed_composition[step + 1].first
-                            - feed_composition[step].first
-                        )
+                        * facilitation_rate_second
                     ),
-                )
+                ),
             )
 
         return ProcessModel(
@@ -1098,13 +1135,17 @@ class Pervaporation:
         :param precision: Precision in obtained permeate composition, by default is 5e-5
         :param initial_permeances: Initial Permeances, should be stated if the Membranes swelling history is significant
         :param n_first: Optional parameter,
-        indicates the order of the polynomial of the composition part of the Permeance function for the first components
+        indicates the order of the polynomial of the composition part of the Permeance function for
+         the first component
         :param m_first: Optional parameter,
-        indicates the order of the polynomial of the temperature part of the Permeance function for the first components
+        indicates the order of the polynomial of the temperature part of the Permeance function for
+         the first component
         :param n_second: Optional parameter,
-        indicates the order of the polynomial of the composition part of the Permeance function for the second components
+        indicates the order of the polynomial of the composition part of the Permeance function for
+         the second component
         :param m_second: Optional parameter,
-        indicates the order of the polynomial of the temperature part of the Permeance function for the second components
+        indicates the order of the polynomial of the temperature part of the Permeance function for
+         the second component
         :param include_zero: if True, points:
          first_component_fraction = 0 first_component_permeance=0 for the first components
          first_component_fraction = 1 second_component_permeance=0 for the second components
@@ -1162,16 +1203,13 @@ class Pervaporation:
                 component_index=1,
             )
 
-            pervaporation_function_first.a[0] = (
-                pervaporation_function_first.a[0]
-                + pervaporation_function_first.b[0] / pervaporation_function_temperature
+            pervaporation_function_first = pervaporation_function_first * numpy.exp(
+                pervaporation_function_first.b[0] / pervaporation_function_temperature
                 + activation_energy_first / (R * pervaporation_function_temperature)
             )
 
-            pervaporation_function_second.a[0] = (
-                pervaporation_function_second.a[0]
-                + pervaporation_function_second.b[0]
-                / pervaporation_function_temperature
+            pervaporation_function_second= pervaporation_function_second * numpy.exp(
+                pervaporation_function_second.b[0] / pervaporation_function_temperature
                 + activation_energy_second / (R * pervaporation_function_temperature)
             )
 
@@ -1218,6 +1256,21 @@ class Pervaporation:
         permeances: typing.List[typing.Tuple[Permeance, Permeance]] = [
             (first_component_permeance, second_component_permeance)
         ]
+
+        facilitation_rate_first = (
+            first_component_permeance.value
+            / pervaporation_function_first(
+                x=conditions.initial_feed_composition.first,
+                t=conditions.initial_feed_temperature,
+            )
+        )
+        facilitation_rate_second = (
+            second_component_permeance.value
+            / pervaporation_function_second(
+                x=conditions.initial_feed_composition.first,
+                t=conditions.initial_feed_temperature,
+            )
+        )
 
         for step in range(len(time)):
 
@@ -1334,37 +1387,19 @@ class Pervaporation:
                 (
                     Permeance(
                         value=pervaporation_function_first(
-                            feed_composition[step].first, feed_temperature[step]
+                            x=feed_composition[step+1].first,
+                            t=feed_temperature[step+1],
                         )
-                        + pervaporation_function_first.derivative_composition(
-                            feed_composition[step].first, feed_temperature[step]
-                        )
-                        * (
-                            feed_composition[step + 1].first
-                            - feed_composition[step].first
-                        )
-                        + pervaporation_function_first.derivative_temperature(
-                            feed_composition[step].first, feed_temperature[step]
-                        )
-                        * (feed_temperature[step + 1] - feed_temperature[step])
+                        * facilitation_rate_first
                     ),
                     Permeance(
                         value=pervaporation_function_second(
-                            feed_composition[step].first, feed_temperature[step]
+                            x=feed_composition[step+1].first,
+                            t=feed_temperature[step+1],
                         )
-                        + pervaporation_function_second.derivative_composition(
-                            feed_composition[step].first, feed_temperature[step]
-                        )
-                        * (
-                            feed_composition[step + 1].first
-                            - feed_composition[step].first
-                        )
-                        + pervaporation_function_second.derivative_temperature(
-                            feed_composition[step].first, feed_temperature[step]
-                        )
-                        * (feed_temperature[step + 1] - feed_temperature[step])
+                        * facilitation_rate_second
                     ),
-                )
+                ),
             )
 
         return ProcessModel(

@@ -65,16 +65,16 @@ def basic_conditions():
     )
 
 
-def test_validate_against_ideal_process_self_cooling(pervaporation, ideal_conditions):
+def test_validate_against_ideal_process_self_cooling(pervaporation, basic_conditions):
     number_of_steps = 200
     delta_hours = 0.125
     ideal_model = pervaporation.ideal_non_isothermal_process(
-        conditions=ideal_conditions,
+        conditions=basic_conditions,
         number_of_steps=number_of_steps,
         delta_hours=delta_hours,
     )
     non_ideal_model = pervaporation.non_ideal_non_isothermal_process(
-        conditions=ideal_conditions,
+        conditions=basic_conditions,
         diffusion_curves=pervaporation.membrane.diffusion_curve_sets[0],
         number_of_steps=number_of_steps,
         delta_hours=delta_hours,
@@ -83,11 +83,11 @@ def test_validate_against_ideal_process_self_cooling(pervaporation, ideal_condit
     for i in range(number_of_steps):
         assert (
             abs(non_ideal_model.partial_fluxes[i][0] - ideal_model.partial_fluxes[i][0])
-            < 8e-3
+            < 9e-3
         )
         assert (
             abs(non_ideal_model.partial_fluxes[i][1] - ideal_model.partial_fluxes[i][1])
-            < 8e-3
+            < 9e-3
         )
         assert (
             abs(
@@ -109,7 +109,7 @@ def test_validate_against_ideal_process_self_cooling(pervaporation, ideal_condit
                 non_ideal_model.feed_evaporation_heat[i]
                 - ideal_model.feed_evaporation_heat[i]
             )
-            < 1
+            < 1.1
         )
         assert (
             non_ideal_model.permeate_condensation_heat[i]
@@ -125,6 +125,6 @@ def test_validate_against_ideal_process_self_cooling(pervaporation, ideal_condit
 
 
 def test_validate_against_ideal_process_temperature_program(
-    pervaporation, ideal_conditions
+    pervaporation, basic_conditions
 ):
     assert 0 == 0

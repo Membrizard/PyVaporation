@@ -45,7 +45,15 @@ diffusion_curve = Pervaporation(
 )
 
 measurements = Measurements.from_diffusion_curve_first(diffusion_curve)
-best_fit = find_best_fit(measurements, include_zero=False)
+best_fit = find_best_fit(measurements)
+x = [diffusion_curve.feed_compositions[i].first for i in range(len(diffusion_curve.feed_compositions))]
+y_ideal = [best_fit(diffusion_curve.feed_compositions[i].first, diffusion_curve.feed_temperature) for i in range(len(x))]
+y_non_ideal = [diffusion_curve.permeances[i][0].value for i in range(len(x))]
+plt.plot(x, y_ideal, x, y_non_ideal)
+plt.legend(["Ideal", "Fitted"])
+plt.show()
+
+
 
 membrane = Membrane(
     ideal_experiments=ideal_experiments,
@@ -58,24 +66,22 @@ conditions = Conditions(
     initial_feed_temperature=333.15,
     initial_feed_amount=12,
     initial_feed_composition=Composition(p=0.94, type=CompositionType.weight),
-    permeate_temperature=298,
 )
 
 pervaporation = Pervaporation(membrane, Mixtures.H2O_EtOH)
 ideal_model = pervaporation.ideal_non_isothermal_process(
-    conditions=conditions, number_of_steps=100, delta_hours=0.125
+    conditions=conditions, number_of_steps=10, delta_hours=0.125
 )
 non_ideal_model = pervaporation.non_ideal_non_isothermal_process(
     conditions=conditions,
     diffusion_curves=membrane.diffusion_curve_sets[0],
-    number_of_steps=100,
+    number_of_steps=10,
     delta_hours=0.125,
-    include_zero=False,
 )
 
 x = ideal_model.time
-y_ideal = [ideal_model.feed_temperature[i] for i in range(len(x))]
-y_non_ideal = [non_ideal_model.feed_temperature[i] for i in range(len(x))]
+y_ideal = [ideal_model.permeances[i][0].value for i in range(len(x))]
+y_non_ideal = [non_ideal_model.permeances[i][0].value for i in range(len(x))]
 plt.plot(x, y_ideal, x, y_non_ideal)
 plt.legend(["Ideal", "Non-Ideal"])
 plt.show()
