@@ -22,7 +22,7 @@ def experimental_50():
         0.4284357542,
         0.4517584206,
         0.4745386994,
-    ][::-1]
+    ]
 
     permeances_50_H2O = [
         2688.778689,
@@ -33,7 +33,7 @@ def experimental_50():
         7823.818024,
         7525.770499,
         7525.770499,
-    ][::-1]
+    ]
     permeances_50_EtOH = [
         23.76315076,
         107.036062,
@@ -43,7 +43,7 @@ def experimental_50():
         215.3525347,
         205.1470494,
         205.1470494,
-    ][::-1]
+    ]
     return DiffusionCurve(
         mixture=Mixtures.H2O_EtOH,
         membrane_name="Pervap 4100",
