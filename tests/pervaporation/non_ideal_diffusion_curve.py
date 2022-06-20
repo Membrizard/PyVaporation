@@ -22,7 +22,7 @@ def experimental_50():
         0.4284357542,
         0.4517584206,
         0.4745386994,
-    ]
+    ][::-1]
 
     permeances_50_H2O = [
         2688.778689,
@@ -33,7 +33,7 @@ def experimental_50():
         7823.818024,
         7525.770499,
         7525.770499,
-    ]
+    ][::-1]
     permeances_50_EtOH = [
         23.76315076,
         107.036062,
@@ -43,7 +43,7 @@ def experimental_50():
         215.3525347,
         205.1470494,
         205.1470494,
-    ]
+    ][::-1]
     return DiffusionCurve(
         mixture=Mixtures.H2O_EtOH,
         membrane_name="Pervap 4100",
@@ -80,7 +80,15 @@ def pervaporation(experimental_50):
 
 
 def test_pervap_4100_50(pervaporation, experimental_50):
-    assert 0 == 0
+    modelled_curve = pervaporation.non_ideal_diffusion_curve(
+        diffusion_curves=pervaporation.membrane.diffusion_curve_sets[0],
+        feed_temperature=368.15,
+        initial_feed_composition=Composition(p=0.4745, type=CompositionType.weight),
+        delta_composition=0.05,
+        number_of_steps=90
+    )
+    for i in range(len(experimental_50.feed_compositions)):
+        assert abs(modelled_curve.permeances[i][0].value-experimental_50.permeances[i][0].value) < 3.5e-2
 
 
 def test_pervap_4100_25(pervaporation):
