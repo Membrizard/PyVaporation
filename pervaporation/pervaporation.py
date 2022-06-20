@@ -619,7 +619,7 @@ class Pervaporation:
         m_second: typing.Optional[int] = None,
         include_zero: bool = False,
     ):
-        '''
+        """
         The Fucntion models Non-Ideal Diffusion curve
         Based on a set of Diffusion curves measured at different temperatures;
         The modelling could be also performed based on a single diffusion curve:
@@ -640,7 +640,7 @@ class Pervaporation:
         :param m_second:
         :param include_zero:
         :return:
-        '''
+        """
 
         measurements_first = Measurements.from_diffusion_curves_first(diffusion_curves)
         measurements_second = Measurements.from_diffusion_curves_second(
@@ -781,7 +781,7 @@ class Pervaporation:
                     Permeance(
                         value=(
                             pervaporation_function_first(
-                                compositions[i+1].first, feed_temperature
+                                compositions[i + 1].first, feed_temperature
                             )
                             * facilitation_rate_first
                         )
@@ -789,13 +789,16 @@ class Pervaporation:
                     Permeance(
                         value=(
                             pervaporation_function_second(
-                                compositions[i+1].first, feed_temperature
+                                compositions[i + 1].first, feed_temperature
                             )
                             * facilitation_rate_second
                         )
                     ),
                 )
             )
+
+        compositions.pop(-1)
+        permeances.pop(-1)
 
         return DiffusionCurve(
             mixture=self.mixture,
@@ -1230,7 +1233,7 @@ class Pervaporation:
                 + activation_energy_first / (R * pervaporation_function_temperature)
             )
 
-            pervaporation_function_second= pervaporation_function_second * numpy.exp(
+            pervaporation_function_second = pervaporation_function_second * numpy.exp(
                 pervaporation_function_second.b[0] / pervaporation_function_temperature
                 + activation_energy_second / (R * pervaporation_function_temperature)
             )
@@ -1409,15 +1412,15 @@ class Pervaporation:
                 (
                     Permeance(
                         value=pervaporation_function_first(
-                            x=feed_composition[step+1].first,
-                            t=feed_temperature[step+1],
+                            x=feed_composition[step + 1].first,
+                            t=feed_temperature[step + 1],
                         )
                         * facilitation_rate_first
                     ),
                     Permeance(
                         value=pervaporation_function_second(
-                            x=feed_composition[step+1].first,
-                            t=feed_temperature[step+1],
+                            x=feed_composition[step + 1].first,
+                            t=feed_temperature[step + 1],
                         )
                         * facilitation_rate_second
                     ),

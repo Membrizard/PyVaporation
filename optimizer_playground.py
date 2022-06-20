@@ -46,13 +46,20 @@ diffusion_curve = Pervaporation(
 
 measurements = Measurements.from_diffusion_curve_first(diffusion_curve)
 best_fit = find_best_fit(measurements)
-x = [diffusion_curve.feed_compositions[i].first for i in range(len(diffusion_curve.feed_compositions))]
-y_ideal = [best_fit(diffusion_curve.feed_compositions[i].first, diffusion_curve.feed_temperature) for i in range(len(x))]
+x = [
+    diffusion_curve.feed_compositions[i].first
+    for i in range(len(diffusion_curve.feed_compositions))
+]
+y_ideal = [
+    best_fit(
+        diffusion_curve.feed_compositions[i].first, diffusion_curve.feed_temperature
+    )
+    for i in range(len(x))
+]
 y_non_ideal = [diffusion_curve.permeances[i][0].value for i in range(len(x))]
 plt.plot(x, y_ideal, x, y_non_ideal)
 plt.legend(["Ideal", "Fitted"])
 plt.show()
-
 
 
 membrane = Membrane(
