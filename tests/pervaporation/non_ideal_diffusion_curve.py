@@ -84,11 +84,20 @@ def test_pervap_4100_50(pervaporation, experimental_50):
         diffusion_curves=pervaporation.membrane.diffusion_curve_sets[0],
         feed_temperature=368.15,
         initial_feed_composition=Composition(p=0.4745, type=CompositionType.weight),
-        delta_composition=0.05,
+        delta_composition=-0.005,
         number_of_steps=90
     )
     for i in range(len(experimental_50.feed_compositions)):
-        assert abs(modelled_curve.permeances[i][0].value-experimental_50.permeances[i][0].value) < 3.5e-2
+        d = 1
+        index = 0
+        for k in range(len(modelled_curve.feed_compositions)):
+            if d > abs(modelled_curve.feed_compositions[k].first-experimental_50.feed_compositions[i].first):
+                d = abs(modelled_curve.feed_compositions[k].first-experimental_50.feed_compositions[i].first)
+                index = k
+
+        assert abs(modelled_curve.permeances[index][0].value-experimental_50.permeances[i][0].value) < 6e-3
+        assert abs(modelled_curve.permeances[index][1].value-experimental_50.permeances[i][1].value) < 4.2e-4
+        assert abs(modelled_curve.partial_fluxes[index][0]-experimental_50.partial_fluxes[i][0]) < 4e-1
 
 
 def test_pervap_4100_25(pervaporation):

@@ -755,7 +755,15 @@ class Pervaporation:
             initial_feed_composition.to_weight(self.mixture)
         ]
 
-        for i in range(number_of_steps):
+        for i in range(number_of_steps+1):
+
+            compositions.append(
+                Composition(
+                    p=compositions[i].first + delta_composition,
+                    type=CompositionType.weight,
+                )
+            )
+
             partial_fluxes.append(
                 self.calculate_partial_fluxes(
                     feed_temperature=feed_temperature,
@@ -773,7 +781,7 @@ class Pervaporation:
                     Permeance(
                         value=(
                             pervaporation_function_first(
-                                compositions[i].first, feed_temperature
+                                compositions[i+1].first, feed_temperature
                             )
                             * facilitation_rate_first
                         )
@@ -781,18 +789,11 @@ class Pervaporation:
                     Permeance(
                         value=(
                             pervaporation_function_second(
-                                compositions[i].first, feed_temperature
+                                compositions[i+1].first, feed_temperature
                             )
                             * facilitation_rate_second
                         )
                     ),
-                )
-            )
-
-            compositions.append(
-                Composition(
-                    p=compositions[i].first + delta_composition,
-                    type=CompositionType.weight,
                 )
             )
 
