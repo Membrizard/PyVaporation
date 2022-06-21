@@ -681,7 +681,7 @@ class Pervaporation:
                 )
 
                 pervaporation_function_first = pervaporation_function_first * numpy.exp(
-                    pervaporation_function_first.b[0]
+                    -pervaporation_function_first.b[0]
                     / pervaporation_function_temperature
                     + activation_energy_first / (R * pervaporation_function_temperature)
                 )
@@ -689,7 +689,7 @@ class Pervaporation:
                 pervaporation_function_second = (
                     pervaporation_function_second
                     * numpy.exp(
-                        pervaporation_function_second.b[0]
+                        -pervaporation_function_second.b[0]
                         / pervaporation_function_temperature
                         + activation_energy_second
                         / (R * pervaporation_function_temperature)
@@ -922,7 +922,7 @@ class Pervaporation:
                 )
 
                 pervaporation_function_first = pervaporation_function_first * numpy.exp(
-                    pervaporation_function_first.b[0]
+                    -pervaporation_function_first.b[0]
                     / pervaporation_function_temperature
                     + activation_energy_first / (R * pervaporation_function_temperature)
                 )
@@ -930,7 +930,7 @@ class Pervaporation:
                 pervaporation_function_second = (
                     pervaporation_function_second
                     * numpy.exp(
-                        pervaporation_function_second.b[0]
+                        -pervaporation_function_second.b[0]
                         / pervaporation_function_temperature
                         + activation_energy_second
                         / (R * pervaporation_function_temperature)
@@ -1235,12 +1235,12 @@ class Pervaporation:
             )
 
             pervaporation_function_first = pervaporation_function_first * numpy.exp(
-                pervaporation_function_first.b[0] / pervaporation_function_temperature
+                -pervaporation_function_first.b[0] / pervaporation_function_temperature
                 + activation_energy_first / (R * pervaporation_function_temperature)
             )
 
             pervaporation_function_second = pervaporation_function_second * numpy.exp(
-                pervaporation_function_second.b[0] / pervaporation_function_temperature
+                -pervaporation_function_second.b[0] / pervaporation_function_temperature
                 + activation_energy_second / (R * pervaporation_function_temperature)
             )
 

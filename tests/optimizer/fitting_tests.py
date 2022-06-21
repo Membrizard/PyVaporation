@@ -73,9 +73,9 @@ def test_fit(romakon_102_diffusion_curve_set):
 
 
 def test_find_best_fit(romakon_102_diffusion_curve_set):
-    # Best fit for H2O
-    # PervaporationFunction(n=1, m=2, alpha=0.04549912188685387, a=array([0.57744257]), b=array([ 463.53220199,   24.18448749, -247.65949047]))
-    # Best fit for Acetic Acid
-    # PervaporationFunction(n=0, m=2, alpha=0.0005275351075504815, a=array([], dtype=float64), b=array([ 10097.8817611 , -15213.08201821,   3999.51281411]))
+    #Best fit for H2O
+    #PervaporationFunction(n=1, m=2, alpha=0.04549912188685387, a=array([0.57744257]), b=array([ 463.53220199,   24.18448749, -247.65949047]))
+    #Best fit for Acetic Acid
+    #PervaporationFunction(n=0, m=2, alpha=0.0005275351075504815, a=array([], dtype=float64), b=array([ 10097.8817611 , -15213.08201821,   3999.51281411]))
 
     assert 0 == 0

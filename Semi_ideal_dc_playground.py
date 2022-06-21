@@ -5,9 +5,92 @@ from pervaporation import Pervaporation
 from diffusion_curve import DiffusionCurveSet, DiffusionCurve
 import matplotlib.pyplot as plt
 import numpy
+from experiments import IdealExperiment, IdealExperiments
+from components import Components
 from optimizer import Measurements, find_best_fit
-from conditions import Conditions
 
+compositions = [0.99, 0.89, 0.72]
+permeances_h2o = [629e-9, 456e-9, 413e-9]
+permeances_acetic_acid = [64.7e-9, 5.3e-9, 3.98e-9]
+
+curve = DiffusionCurve(
+        mixture=Mixtures.H2O_AceticAcid,
+        membrane_name="Romakon-PM102",
+        feed_temperature=343.15,
+        feed_compositions=[
+            Composition(p=c, type=CompositionType.weight) for c in compositions
+        ],
+        permeances=[
+            (
+                Permeance(value=permeances_h2o[i], units=Units.SI),
+                Permeance(value=permeances_acetic_acid[i], units=Units.SI),
+            )
+            for i in range(len(permeances_h2o))
+        ],
+    )
+
+experiment_h2o_50 = IdealExperiment(
+        name="H2O",
+        temperature=323.15,
+        component=Components.H2O,
+        permeance=Permeance(value=416e-9, units=Units.SI),
+    )
+
+experiment_h2o_60 = IdealExperiment(
+        name="H2O",
+        temperature=333.15,
+        component=Components.H2O,
+        permeance=Permeance(value=463e-9, units=Units.SI),
+    )
+
+experiment_h2o_80 = IdealExperiment(
+        name="H2O",
+        temperature=353.15,
+        component=Components.H2O,
+        permeance=Permeance(value=480e-9, units=Units.SI),
+    )
+
+experiment_acetic_acid_50 = IdealExperiment(
+        name="Acetic acid",
+        temperature=323.15,
+        component=Components.AceticAcid,
+        permeance=Permeance(value=3.75e-9, units=Units.SI),
+    )
+
+experiment_acetic_acid_60 = IdealExperiment(
+        name="Acetic acid",
+        temperature=333.15,
+        component=Components.AceticAcid,
+        permeance=Permeance(value=3.09e-9, units=Units.SI),
+    )
+
+experiment_acetic_acid_80 = IdealExperiment(
+        name="Acetic acid",
+        temperature=353.15,
+        component=Components.AceticAcid,
+        permeance=Permeance(value=10.3e-9, units=Units.SI),
+    )
+
+experiments = IdealExperiments(
+        experiments=[
+            experiment_h2o_50,
+            experiment_h2o_60,
+            experiment_h2o_80,
+            experiment_acetic_acid_50,
+            experiment_acetic_acid_60,
+            experiment_acetic_acid_80,
+        ]
+    )
+
+romakon_102 = Membrane(
+        name="Romakon-PM102",
+        ideal_experiments=experiments,
+        diffusion_curve_sets=[
+            DiffusionCurveSet(
+                name_of_the_set="water/acetic acid", diffusion_curves=[curve]
+            )
+        ],
+    )
 
 compositions = [0.99, 0.89, 0.72]
 
@@ -57,7 +140,7 @@ for t in range(len(temperatures)):
     )
 
 curve_set = DiffusionCurveSet(
-    name_of_the_set="water/acetic acid", diffusion_curves=diffusion_curves
+    name_of_the_set="water/acetic acid", diffusion_curves=[curve]
 )
 
 measurements_h2o = Measurements.from_diffusion_curves_first(curve_set)
@@ -112,11 +195,10 @@ fig.suptitle("Best Fit for Acetic Acid Illustration", fontsize=10)
 plt.show()
 
 
-romakon_pm102 = Membrane(name="Romakon_PM102", diffusion_curve_sets=[curve_set])
-pervaporation = Pervaporation(membrane=romakon_pm102, mixture=Mixtures.H2O_AceticAcid)
+pervaporation = Pervaporation(membrane=romakon_102, mixture=Mixtures.H2O_AceticAcid)
 
 modelled_curve = pervaporation.non_ideal_diffusion_curve(
-    diffusion_curve_set=curve_set,
+    diffusion_curve_set=romakon_102.diffusion_curve_sets[0],
     feed_temperature=373.15,
     initial_feed_composition=Composition(p=0.99, type=CompositionType.weight),
     delta_composition=-0.0054,
@@ -181,41 +263,3 @@ ax.set_ylabel("Temperature K")
 ax.set_zlabel("Water Permeance kg / ( m2 * h * kPa ) ")
 fig.suptitle("Modelled Diffusion curve Acetic Acid Illustration", fontsize=10)
 plt.show()
-
-# TODO: Vary these conditions to find a process suitable for the execution )
-projected_experiment_conditions = Conditions(
-    membrane_area=0.0025,
-    initial_feed_temperature=363.15,
-    initial_feed_amount=0.050,
-    initial_feed_composition=Composition(p=0.90, type=CompositionType.weight),
-    permeate_pressure=2,
-)
-
-projected_experiment = pervaporation.non_ideal_isothermal_process(
-    conditions=projected_experiment_conditions,
-    diffusion_curve_set=curve_set,
-    number_of_steps=50,
-    delta_hours=0.08,
-)
-
-composition = [
-    projected_experiment.feed_composition[i].second
-    for i in range(len(projected_experiment.feed_composition))
-]
-composition.pop(-1)
-plt.plot(projected_experiment.time, composition)
-plt.ylabel("Acetic Acid concentration, wt.")
-plt.xlabel("Process time, hours")
-plt.suptitle("Acetic acid in feed over time")
-plt.show()
-
-flux_h2o = [flux[0] for flux in projected_experiment.partial_fluxes]
-flux_acetic_acid = [flux[1] for flux in projected_experiment.partial_fluxes]
-
-plt.plot(projected_experiment.time, flux_h2o)
-plt.plot(projected_experiment.time, flux_acetic_acid)
-plt.ylabel("Flux, kg / (m2 * h)")
-plt.xlabel("Process time, hours")
-plt.suptitle("Partial fluxes over time")
-plt.show()
-

@@ -180,23 +180,23 @@ def romakon_102_single_diffusion_curve():
     )
 
     experiment_acetic_acid_50 = IdealExperiment(
-        name="H2O",
+        name="Acetic acid",
         temperature=323.15,
-        component=Components.H2O,
+        component=Components.AceticAcid,
         permeance=Permeance(value=3.75e-9, units=Units.SI),
     )
 
     experiment_acetic_acid_60 = IdealExperiment(
-        name="H2O",
+        name="Acetic acid",
         temperature=333.15,
-        component=Components.H2O,
+        component=Components.AceticAcid,
         permeance=Permeance(value=3.09e-9, units=Units.SI),
     )
 
     experiment_acetic_acid_80 = IdealExperiment(
-        name="H2O",
+        name="Acetic acid",
         temperature=353.15,
-        component=Components.H2O,
+        component=Components.AceticAcid,
         permeance=Permeance(value=10.3e-9, units=Units.SI),
     )
 
