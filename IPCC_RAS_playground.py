@@ -182,6 +182,7 @@ ax.set_zlabel("Water Permeance kg / ( m2 * h * kPa ) ")
 fig.suptitle("Modelled Diffusion curve Acetic Acid Illustration", fontsize=10)
 plt.show()
 
+# TODO: Vary these conditions to find a process suitable for the execution )
 projected_experiment_conditions = Conditions(
     membrane_area=0.0025,
     initial_feed_temperature=363.15,
@@ -205,4 +206,15 @@ composition.pop(-1)
 plt.plot(projected_experiment.time, composition)
 plt.ylabel("Acetic Acid concentration, wt.")
 plt.xlabel("Process time, hours")
+plt.suptitle("Acetic acid in feed over time")
+plt.show()
+
+flux_h2o = [flux[0] for flux in projected_experiment.partial_fluxes]
+flux_acetic_acid = [flux[1] for flux in projected_experiment.partial_fluxes]
+
+plt.plot(projected_experiment.time, flux_h2o)
+plt.plot(projected_experiment.time, flux_acetic_acid)
+plt.ylabel("Flux, kg / (m2 * h)")
+plt.xlabel("Process time, hours")
+plt.suptitle("Partial fluxes over time")
 plt.show()
