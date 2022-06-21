@@ -75,7 +75,7 @@ def test_validate_against_ideal_process_self_cooling(pervaporation, basic_condit
     )
     non_ideal_model = pervaporation.non_ideal_non_isothermal_process(
         conditions=basic_conditions,
-        diffusion_curves=pervaporation.membrane.diffusion_curve_sets[0],
+        diffusion_curve_set=pervaporation.membrane.diffusion_curve_sets[0],
         number_of_steps=number_of_steps,
         delta_hours=delta_hours,
     )

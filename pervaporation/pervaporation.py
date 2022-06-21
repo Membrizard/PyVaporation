@@ -604,7 +604,7 @@ class Pervaporation:
 
     def non_ideal_diffusion_curve(
         self,
-        diffusion_curves: DiffusionCurveSet,
+        diffusion_curve_set: DiffusionCurveSet,
         feed_temperature: float,
         initial_feed_composition: Composition,
         delta_composition: float,
@@ -625,7 +625,7 @@ class Pervaporation:
         The modelling could be also performed based on a single diffusion curve:
         In that case the apparent activation energy of transport is considered constant
         and is calculated for each component based on the IdealExperiments data provided for the Membrane.
-        :param diffusion_curves:
+        :param diffusion_curve_set:
         :param feed_temperature:
         :param initial_feed_composition:
         :param delta_composition:
@@ -642,13 +642,15 @@ class Pervaporation:
         :return:
         """
 
-        measurements_first = Measurements.from_diffusion_curves_first(diffusion_curves)
+        measurements_first = Measurements.from_diffusion_curves_first(
+            diffusion_curve_set
+        )
         measurements_second = Measurements.from_diffusion_curves_second(
-            diffusion_curves
+            diffusion_curve_set
         )
 
-        if len(diffusion_curves.diffusion_curves) == 1:
-            pervaporation_function_temperature = diffusion_curves.diffusion_curves[
+        if len(diffusion_curve_set.diffusion_curves) == 1:
+            pervaporation_function_temperature = diffusion_curve_set.diffusion_curves[
                 0
             ].feed_temperature
 
@@ -755,7 +757,7 @@ class Pervaporation:
             initial_feed_composition.to_weight(self.mixture)
         ]
 
-        for i in range(number_of_steps+1):
+        for i in range(number_of_steps + 1):
 
             compositions.append(
                 Composition(
@@ -823,7 +825,7 @@ class Pervaporation:
     def non_ideal_isothermal_process(
         self,
         conditions: Conditions,
-        diffusion_curves: DiffusionCurveSet,
+        diffusion_curve_set: DiffusionCurveSet,
         number_of_steps: int,
         delta_hours: float,
         precision: typing.Optional[float] = 5e-5,
@@ -841,7 +843,7 @@ class Pervaporation:
         In that case the apparent activation energy of transport is considered constant
         and is calculated for each component based on the IdealExperiments data provided for the Membrane.
         :param conditions: Initial Conditions of the Process
-        :param diffusion_curves: A set of Diffusion curves picked for the Modelling form the Membrane
+        :param diffusion_curve_set: A set of Diffusion curves picked for the Modelling form the Membrane
         :param number_of_steps: Number of time steps for modelling
         :param delta_hours: Size of each step in hours
         :param precision: Precision in obtained permeate composition, by default is 5e-5
@@ -879,13 +881,15 @@ class Pervaporation:
         permeate_condensation_heat: typing.List[typing.Optional[float]] = []
         feed_mass: typing.List[float] = [conditions.initial_feed_amount]
 
-        measurements_first = Measurements.from_diffusion_curves_first(diffusion_curves)
+        measurements_first = Measurements.from_diffusion_curves_first(
+            diffusion_curve_set
+        )
         measurements_second = Measurements.from_diffusion_curves_second(
-            diffusion_curves
+            diffusion_curve_set
         )
 
-        if len(diffusion_curves.diffusion_curves) == 1:
-            pervaporation_function_temperature = diffusion_curves.diffusion_curves[
+        if len(diffusion_curve_set.diffusion_curves) == 1:
+            pervaporation_function_temperature = diffusion_curve_set.diffusion_curves[
                 0
             ].feed_temperature
 
@@ -1136,7 +1140,7 @@ class Pervaporation:
     def non_ideal_non_isothermal_process(
         self,
         conditions: Conditions,
-        diffusion_curves: DiffusionCurveSet,
+        diffusion_curve_set: DiffusionCurveSet,
         number_of_steps: int,
         delta_hours: float,
         precision: typing.Optional[float] = 5e-5,
@@ -1154,7 +1158,7 @@ class Pervaporation:
         In that case the apparent activation energy of transport is considered constant
         and is calculated for each components based on the IdealExperiments data provided for the Membrane.
         :param conditions: Initial Conditions of the Process, a Temperature program may be added if necessary
-        :param diffusion_curves: A set of Diffusion curves picked for the Modelling from the Membrane
+        :param diffusion_curve_set: A set of Diffusion curves picked for the Modelling from the Membrane
         :param number_of_steps: Number of time steps for modelling
         :param delta_hours: Size of each step in hours
         :param precision: Precision in obtained permeate composition, by default is 5e-5
@@ -1197,13 +1201,15 @@ class Pervaporation:
 
         feed_mass: typing.List[float] = [conditions.initial_feed_amount]
 
-        measurements_first = Measurements.from_diffusion_curves_first(diffusion_curves)
+        measurements_first = Measurements.from_diffusion_curves_first(
+            diffusion_curve_set
+        )
         measurements_second = Measurements.from_diffusion_curves_second(
-            diffusion_curves
+            diffusion_curve_set
         )
 
-        if len(diffusion_curves.diffusion_curves) == 1:
-            pervaporation_function_temperature = diffusion_curves.diffusion_curves[
+        if len(diffusion_curve_set.diffusion_curves) == 1:
+            pervaporation_function_temperature = diffusion_curve_set.diffusion_curves[
                 0
             ].feed_temperature
             activation_energy_first = self.membrane.calculate_activation_energy(
