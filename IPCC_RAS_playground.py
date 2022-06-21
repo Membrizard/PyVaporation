@@ -3,8 +3,6 @@ from mixtures import Mixtures, Composition, CompositionType
 from permeance import Permeance, Units
 from pervaporation import Pervaporation
 from diffusion_curve import DiffusionCurveSet, DiffusionCurve
-from experiments import IdealExperiment, IdealExperiments
-from components import Components
 import matplotlib.pyplot as plt
 import numpy
 from optimizer import Measurements, find_best_fit
