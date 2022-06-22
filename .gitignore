@@ -1,8 +1,6 @@
 .idea
 .pytest_cache
 .ipynb_checkpoints
-IPCC_RAS_playground.py
-SPI_curves.py
 
 __pycache__
 
