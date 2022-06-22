@@ -630,4 +630,76 @@ def test_non_ideal_curve_from_set(romakon_102_diffusion_curve_set):
 
 
 def test_semi_ideal_curve(romakon_102_single_diffusion_curve):
-    assert 0 == 0
+    pervaporation = Pervaporation(membrane=romakon_102_single_diffusion_curve, mixture=Mixtures.H2O_AceticAcid)
+
+    compositions_100 = [0.89, 0.72]
+
+    permeances_100_h2o = [491e-9, 510e-9]
+    permeances_100_acetic_acid = [14.2e-9, 4.9e-9]
+
+    experimental_100 = DiffusionCurve(
+        mixture=Mixtures.H2O_AceticAcid,
+        membrane_name="Romakon-PM102",
+        feed_temperature=373.15,
+        feed_compositions=[
+            Composition(p=composition, type=CompositionType.weight)
+            for composition in compositions_100
+        ],
+        permeances=[
+            (
+                Permeance(value=permeances_100_h2o[i], units=Units.SI),
+                Permeance(value=permeances_100_acetic_acid[i], units=Units.SI),
+            )
+            for i in range(len(compositions_100))
+        ],
+    )
+
+    modelled_curve = pervaporation.non_ideal_diffusion_curve(
+        diffusion_curve_set=romakon_102_single_diffusion_curve.diffusion_curve_sets[0],
+        feed_temperature=373.15,
+        initial_feed_composition=Composition(p=0.99, type=CompositionType.weight),
+        delta_composition=-0.0054,
+        number_of_steps=50,
+    )
+    for i in range(len(experimental_100.feed_compositions)):
+        d = 1
+        index = 0
+        for k in range(len(modelled_curve.feed_compositions)):
+            if d > abs(
+                modelled_curve.feed_compositions[k].first
+                - experimental_100.feed_compositions[i].first
+            ):
+                d = abs(
+                    modelled_curve.feed_compositions[k].first
+                    - experimental_100.feed_compositions[i].first
+                )
+                index = k
+
+        assert (
+            abs(
+                modelled_curve.permeances[index][0].value
+                - experimental_100.permeances[i][0].value
+            )
+            < 6.5e-3
+        )
+        assert (
+            abs(
+                modelled_curve.permeances[index][1].value
+                - experimental_100.permeances[i][1].value
+            )
+            < 2.1e-3
+        )
+        assert (
+            abs(
+                modelled_curve.partial_fluxes[index][0]
+                - experimental_100.partial_fluxes[i][0]
+            )
+            < 6e-1
+        )
+        assert (
+            abs(
+                modelled_curve.partial_fluxes[index][1]
+                - experimental_100.partial_fluxes[i][1]
+            )
+            < 7e-3
+        )

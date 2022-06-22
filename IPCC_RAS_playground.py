@@ -186,7 +186,7 @@ plt.show()
 projected_experiment_conditions = Conditions(
     membrane_area=0.0025,
     initial_feed_temperature=363.15,
-    initial_feed_amount=0.050,
+    initial_feed_amount=0.025,
     initial_feed_composition=Composition(p=0.90, type=CompositionType.weight),
     permeate_pressure=2,
 )
