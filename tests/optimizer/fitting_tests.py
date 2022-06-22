@@ -1,13 +1,8 @@
-# plot SPI-255, Romakon-PM102, Pervap 4100
 from pytest import fixture
-from membrane import Membrane
 from mixtures import Mixtures, Composition, CompositionType
 from permeance import Permeance, Units
-from pervaporation import Pervaporation
-from diffusion_curve import DiffusionCurveSet, DiffusionCurve
-from experiments import IdealExperiment, IdealExperiments
-from components import Components
-from optimizer import Measurements, find_best_fit
+from diffusion_curve import DiffusionCurve
+from optimizer import Measurements, find_best_fit, fit
 import numpy
 
 
@@ -118,7 +113,14 @@ def spi_255_diffusion_curve():
 
 
 def test_fit(romakon_102_diffusion_curve_set):
-    assert 0 == 0
+    measurements_h2o = Measurements.from_diffusion_curves_first(romakon_102_diffusion_curve_set)
+
+    fit_1 = fit(measurements_h2o, n=1, m=0)
+    fit_2 = fit(measurements_h2o, n=0, m=1)
+    x = numpy.arange(0, 1, 0.05)
+
+    for i in range(len(x)):
+        assert abs(fit_1(x[i], 333.15) - fit_2(x[i], 333.15)) < 5e-4
 
 
 def test_find_best_fit(romakon_102_diffusion_curve_set):
