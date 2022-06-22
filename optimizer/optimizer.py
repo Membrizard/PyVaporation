@@ -179,16 +179,17 @@ def find_best_fit(
     m: typing.Optional[int] = None,
 ) -> PervaporationFunction:
 
-    max_power = min(5, round(numpy.power(len(data), 0.5)))
+    max_power_n = min(5, round(numpy.power(len(data), 0.5)))
+    max_power_m = min(5, len(set([measurement.t for measurement in data])))
 
     if n is None:
-        n_tries = list(range(max_power))
+        n_tries = list(range(max_power_n))
     else:
-        n_tries = [n]
+        n_tries = list(range(n+1))
     if m is None:
-        m_tries = list(range(max_power))
+        m_tries = list(range(max_power_m))
     else:
-        m_tries = [m]
+        m_tries = list(range(m+1))
 
     best_curve = None
     best_loss = numpy.inf

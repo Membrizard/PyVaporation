@@ -218,4 +218,3 @@ plt.ylabel("Flux, kg / (m2 * h)")
 plt.xlabel("Process time, hours")
 plt.suptitle("Partial fluxes over time")
 plt.show()
-

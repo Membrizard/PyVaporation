@@ -630,7 +630,9 @@ def test_non_ideal_curve_from_set(romakon_102_diffusion_curve_set):
 
 
 def test_semi_ideal_curve(romakon_102_single_diffusion_curve):
-    pervaporation = Pervaporation(membrane=romakon_102_single_diffusion_curve, mixture=Mixtures.H2O_AceticAcid)
+    pervaporation = Pervaporation(
+        membrane=romakon_102_single_diffusion_curve, mixture=Mixtures.H2O_AceticAcid
+    )
 
     compositions_100 = [0.89, 0.72]
 
