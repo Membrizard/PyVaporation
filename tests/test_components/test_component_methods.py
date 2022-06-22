@@ -21,19 +21,21 @@ heat_capacity_constants = HeatCapacityConstants(
     d=-3.596e-9,
 )
 test_component = Component(
+    name="H2O_antoine",
     molecular_weight=18.02,
     vapour_pressure_constants=vapor_pressure_constants_antoine,
     heat_capacity_constants=heat_capacity_constants,
 )
 
 test_component_2 = Component(
+    name="H2O_frost",
     molecular_weight=18.02,
     vapour_pressure_constants=vapor_pressure_constants_frost,
     heat_capacity_constants=heat_capacity_constants,
 )
 
 
-# Covers Antoine Pressure calculation of the components
+# Covers Antoine Pressure calculation of the test_components
 def test_antoine_pressure():
 
     # Calculated from https://dx.doi.org/10.1115/1.3687121

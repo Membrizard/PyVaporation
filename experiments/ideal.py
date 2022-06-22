@@ -15,7 +15,7 @@ class IdealExperiment:
 
     name: str
     temperature: float
-    component: Component  # TODO: use real components
+    component: Component  # TODO: use real test_components
     permeance: Permeance
     activation_energy: typing.Optional[float] = None
     comment: typing.Optional[str] = None

@@ -61,7 +61,7 @@ def test_conditions_perm_pressure():
 
 
 @fixture
-def test_conditions_perm_pressure_and_comp():
+def test_conditions_perm_pressure_and_temp():
     return Conditions(
         membrane_area=0.04155,
         initial_feed_temperature=333.15,

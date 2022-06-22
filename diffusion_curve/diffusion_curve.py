@@ -33,7 +33,7 @@ class DiffusionCurve:
             """
             Calculation of Partial Fluxes values if they are not specified
             Permeance values are converted to kg/(m2*h*kPa),
-            The permeate temperature and pressure parameters are ignored, components' pressure in permeate
+            The permeate temperature and pressure parameters are ignored, test_components' pressure in permeate
             is considered zero
             :return a list of Partial fluxes for each component tuple(Ji,Jj) at each concentration
             """

@@ -54,7 +54,7 @@ class TemperatureProgram:
 @attr.s(auto_attribs=True)
 class Conditions:
     """
-    A class for specification initial conditions for modelling of the pervaporation processes
+    A class for specification initial conditions for modelling of the test_pervaporation processes
     """
 
     membrane_area: float

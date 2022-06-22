@@ -34,14 +34,14 @@ class Composition:
     @property
     def first(self) -> float:
         """
-        Returns fraction of the first components
+        Returns fraction of the first test_components
         """
         return self.p
 
     @property
     def second(self) -> float:
         """
-        Returns fraction of the second components
+        Returns fraction of the second test_components
         """
         return 1 - self.p
 
@@ -76,14 +76,14 @@ def get_nrtl_partial_pressures(
     temperature: float, mixture: Mixture, composition: Composition
 ) -> typing.Tuple[float, float]:
     """
-    Calculation of partial pressures of both components using NRTL model
+    Calculation of partial pressures of both test_components using NRTL model
     :params
     temperature: temperature in K
     NRTL parameters:
     gij in J/mol (may also be as aij+gij/RT)
-    mixtures: Mixture
+    test_mixtures: Mixture
     composition: specified composition in mol or weight %
-    :return: Partial pressures as a tuple, components wise in kPa
+    :return: Partial pressures as a tuple, test_components wise in kPa
     """
     if composition.type == CompositionType.weight:
         composition = composition.to_molar(mixture=mixture)
