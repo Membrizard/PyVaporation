@@ -113,7 +113,9 @@ def spi_255_diffusion_curve():
 
 
 def test_fit(romakon_102_diffusion_curve_set):
-    measurements_h2o = Measurements.from_diffusion_curves_first(romakon_102_diffusion_curve_set)
+    measurements_h2o = Measurements.from_diffusion_curves_first(
+        romakon_102_diffusion_curve_set
+    )
 
     fit_1 = fit(measurements_h2o, n=1, m=0)
     fit_2 = fit(measurements_h2o, n=0, m=1)
@@ -124,7 +126,9 @@ def test_fit(romakon_102_diffusion_curve_set):
 
 
 def test_find_best_fit(romakon_102_diffusion_curve_set):
-    measurements_h2o = Measurements.from_diffusion_curves_first(romakon_102_diffusion_curve_set)
+    measurements_h2o = Measurements.from_diffusion_curves_first(
+        romakon_102_diffusion_curve_set
+    )
 
     fit_h2o = find_best_fit(measurements_h2o)
 

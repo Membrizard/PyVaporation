@@ -3,62 +3,64 @@ from mixtures import Mixtures, Composition, CompositionType
 from permeance import Permeance, Units
 from pervaporation import Pervaporation
 from diffusion_curve import DiffusionCurveSet, DiffusionCurve
+from conditions import Conditions
 import matplotlib.pyplot as plt
 import numpy
 from experiments import IdealExperiment, IdealExperiments
 from components import Components
 from optimizer import Measurements, find_best_fit
 
-compositions = [1, 0.883, 0.756, 0.658, 0.490, 0.430, 0.401, 0.280, 0.240, 0.044]
+compositions = [0.040, 0.037, 0.030, 0.026, 0.024, 0.021]
 
-flux_h2o_40 = [
-    0.7848,
-    0.3480,
-    0.2566,
-    0.4406,
-    0.3340,
-    0.2773,
-    0.2816,
-    0.2292,
-    0.1066,
-    0.0247,
+flux_h2o = [
+    0.062062,
+    0.062062,
+    0.03988709016,
+    0.03720394737,
+    0.004707604167,
+    0.005613600498,
 ]
 
-flux_etoh_40 = [
-    0,
-    0.0017,
-    0.0013,
-    0.0136,
-    0.0684,
-    0.0568,
-    0.0577,
-    0.0573,
-    0.0457,
-    0.0165,
+flux_etoh = [
+    0.006138,
+    0.006138,
+    0.003944877049,
+    0.00413377193,
+    0.0007663541667,
+    0.0009520141196,
 ]
 
-spi_curve = DiffusionCurve(
+experimental_time = [0, 1.03, 2.02, 2.97, 4.00, 5.02]
+
+curve = DiffusionCurve(
     mixture=Mixtures.H2O_EtOH,
-    membrane_name="SPI 255 dense",
-    feed_temperature=313.15,
-    feed_compositions=[
-        Composition(p=c, type=CompositionType.weight) for c in compositions
-    ],
-    partial_fluxes=[
-        (flux_h2o_40[i], flux_etoh_40[i]) for i in range(len(compositions))
-    ],
+    membrane_name="Romakon-Al2",
+    feed_temperature=319.65,
+    feed_compositions=[Composition(c, CompositionType.weight) for c in compositions],
+    partial_fluxes=[(flux_h2o[i], flux_etoh[i]) for i in range(len(flux_h2o))],
 )
 
-measurements_h2o = Measurements.from_diffusion_curve_first(spi_curve)
-measurements_etoh = Measurements.from_diffusion_curve_second(spi_curve)
+curve_set = DiffusionCurveSet(name_of_the_set=" ", diffusion_curves=[curve])
 
-fit_h2o = find_best_fit(measurements_h2o, n=9)
-fit_etoh = find_best_fit(measurements_etoh)
+romakon_al2 = Membrane(name="Romakon Al2", diffusion_curve_sets=[curve_set])
 
-print(fit_h2o)
+pervaporation = Pervaporation(romakon_al2, Mixtures.H2O_EtOH)
 
-p_h2o = [permeance[0].value for permeance in spi_curve.permeances]
-x_m = numpy.arange(0, 1.05, 0.05)
-plt.plot(compositions, p_h2o)
-plt.plot(x_m, [fit_h2o(x, 313.15) for x in x_m])
+conditions = Conditions(
+    membrane_area=0.0048,
+    initial_feed_composition=Composition(p=0.04, type=CompositionType.weight),
+    initial_feed_amount=0.047,
+    initial_feed_temperature=319.65,
+)
+
+modelled_experiment = pervaporation.non_ideal_isothermal_process(
+    conditions=conditions,
+    diffusion_curve_set=curve_set,
+    number_of_steps=50,
+    delta_hours=0.1,
+)
+c = [c.first for c in modelled_experiment.feed_composition]
+c.pop(-1)
+plt.plot(experimental_time, compositions)
+plt.plot(modelled_experiment.time, c)
 plt.show()
