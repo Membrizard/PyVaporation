@@ -12,42 +12,42 @@ from optimizer import Measurements, find_best_fit
 compositions = [1, 0.883, 0.756, 0.658, 0.490, 0.430, 0.401, 0.280, 0.240, 0.044]
 
 flux_h2o_40 = [
-        0.7848,
-        0.3480,
-        0.2566,
-        0.4406,
-        0.3340,
-        0.2773,
-        0.2816,
-        0.2292,
-        0.1066,
-        0.0247,
-    ]
+    0.7848,
+    0.3480,
+    0.2566,
+    0.4406,
+    0.3340,
+    0.2773,
+    0.2816,
+    0.2292,
+    0.1066,
+    0.0247,
+]
 
 flux_etoh_40 = [
-        0,
-        0.0017,
-        0.0013,
-        0.0136,
-        0.0684,
-        0.0568,
-        0.0577,
-        0.0573,
-        0.0457,
-        0.0165,
-    ]
+    0,
+    0.0017,
+    0.0013,
+    0.0136,
+    0.0684,
+    0.0568,
+    0.0577,
+    0.0573,
+    0.0457,
+    0.0165,
+]
 
 spi_curve = DiffusionCurve(
-        mixture=Mixtures.H2O_EtOH,
-        membrane_name="SPI 255 dense",
-        feed_temperature=313.15,
-        feed_compositions=[
-            Composition(p=c, type=CompositionType.weight) for c in compositions
-        ],
-        partial_fluxes=[
-            (flux_h2o_40[i], flux_etoh_40[i]) for i in range(len(compositions))
-        ],
-    )
+    mixture=Mixtures.H2O_EtOH,
+    membrane_name="SPI 255 dense",
+    feed_temperature=313.15,
+    feed_compositions=[
+        Composition(p=c, type=CompositionType.weight) for c in compositions
+    ],
+    partial_fluxes=[
+        (flux_h2o_40[i], flux_etoh_40[i]) for i in range(len(compositions))
+    ],
+)
 
 measurements_h2o = Measurements.from_diffusion_curve_first(spi_curve)
 measurements_etoh = Measurements.from_diffusion_curve_second(spi_curve)

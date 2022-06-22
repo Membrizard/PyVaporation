@@ -8,6 +8,7 @@ from diffusion_curve import DiffusionCurveSet, DiffusionCurve
 from experiments import IdealExperiment, IdealExperiments
 from components import Components
 from optimizer import Measurements, find_best_fit
+import numpy
 
 
 @fixture
@@ -59,19 +60,23 @@ def romakon_102_diffusion_curve_set():
             )
         )
 
-    return Membrane(
-        name="Romakon-PM102",
-        diffusion_curve_sets=[
-            DiffusionCurveSet(
-                name_of_the_set="water/acetic acid", diffusion_curves=diffusion_curves
-            )
-        ],
-    )
+    return diffusion_curves
 
 
 @fixture
 def spi_255_diffusion_curve():
-    compositions = [0.9999, 0.883, 0.756, 0.658, 0.490, 0.430, 0.401, 0.280, 0.240, 0.044]
+    compositions = [
+        0.9999,
+        0.883,
+        0.756,
+        0.658,
+        0.490,
+        0.430,
+        0.401,
+        0.280,
+        0.240,
+        0.044,
+    ]
 
     flux_h2o_40 = [
         0.7848,
@@ -117,22 +122,52 @@ def test_fit(romakon_102_diffusion_curve_set):
 
 
 def test_find_best_fit(romakon_102_diffusion_curve_set):
-    # Best fit for H2O
-    # PervaporationFunction(n=1, m=2, alpha=0.04549912188685387, a=array([0.57744257]), b=array([ 463.53220199,   24.18448749, -247.65949047]))
-    # Best fit for Acetic Acid
-    # PervaporationFunction(n=0, m=2, alpha=0.0005275351075504815, a=array([], dtype=float64), b=array([ 10097.8817611 , -15213.08201821,   3999.51281411]))
+    measurements_h2o = Measurements.from_diffusion_curves_first(romakon_102_diffusion_curve_set)
 
-    assert 0 == 0
+    fit_h2o = find_best_fit(measurements_h2o)
+
+    validation_b_h2o = [463.5322019863124, 24.18448749164457, -247.6594904722613]
+
+    assert fit_h2o.n == 1
+    assert fit_h2o.m == 2
+    assert fit_h2o.alpha == 0.04549912188685387
+    assert fit_h2o.a[0] == 0.5774425746265356
+    for i in range(len(validation_b_h2o)):
+        assert fit_h2o.b[i] == validation_b_h2o[i]
 
 
 def test_find_best_fit_spi(spi_255_diffusion_curve):
     measurements_h2o = Measurements.from_diffusion_curve_first(spi_255_diffusion_curve)
-    measurements_etoh = Measurements.from_diffusion_curve_second(spi_255_diffusion_curve)
+    measurements_etoh = Measurements.from_diffusion_curve_second(
+        spi_255_diffusion_curve
+    )
 
     fit_h2o = find_best_fit(measurements_h2o, n=9)
     fit_etoh = find_best_fit(measurements_etoh)
 
     for i in range(len(measurements_h2o)):
-        assert abs(fit_h2o(measurements_h2o[i].x, 313.15)-measurements_h2o[i].p) < 1.3e-2
-        assert abs(fit_etoh(measurements_etoh[i].x, 313.15)-measurements_etoh[i].p) < 1.6e-3
+        assert (
+            abs(fit_h2o(measurements_h2o[i].x, 313.15) - measurements_h2o[i].p) < 1.3e-2
+        )
+        assert (
+            abs(fit_etoh(measurements_etoh[i].x, 313.15) - measurements_etoh[i].p)
+            < 1.6e-3
+        )
+    assert fit_h2o.alpha == 0.34982213695528863
 
+    validation_a = [
+        5.363743190543987,
+        -0.7698301270286048,
+        -3.890383383394793,
+        -2.1531077482555547,
+        0.29257926263632544,
+        0.7694100222167437,
+        0.966517366730522,
+        1.0129579184563662,
+        0.9807091886465034,
+    ]
+
+    for i in range(len(fit_h2o.a)):
+        assert fit_h2o.a[i] == validation_a[i]
+
+    assert fit_h2o.b[0] == 1177.8598832639543

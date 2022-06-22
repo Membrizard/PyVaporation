@@ -195,7 +195,7 @@ projected_experiment = pervaporation.non_ideal_isothermal_process(
     conditions=projected_experiment_conditions,
     diffusion_curve_set=curve_set,
     number_of_steps=50,
-    delta_hours=0.08,
+    delta_hours=0.09,
 )
 
 composition = [
