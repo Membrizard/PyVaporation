@@ -6,7 +6,7 @@ By means of the proposed instrument one can easily model a performance of a part
 Or, given that the diffusion curve set of a non-ideal process is measured one can model the non ideal process in isothermal or non-isothermal mode.
 Non isothermal modelling for both type of processes supports self-cooling mode, or temperature program mode.
 
-# The Following mixtures are Currently built in the solution:
+# Following mixtures are Currently built in the solution:
 (Current version supports only binary mixtures)
 
 
@@ -30,3 +30,10 @@ Non isothermal modelling for both type of processes supports self-cooling mode, 
 * The non-ideal modelling is performed only based on the basis of specified diffusion curves (Fluxes/Permeances of each component as a function of first component concentration in feed)
 * Non Ideal modelling supports non-linear dependencies of permeances and activation energies on feed composition 
 * Non-Isothermal processes support pre-defined temperature program (feed temperature as a function of process time may be specified for process modelling)
+
+# Hints for general usage
+* to run automated tests for all the modules: 
+
+   python -m pytest -sv tests/
+
+
