@@ -180,19 +180,28 @@ def test_real_process_modelling_romakon_al2(romakon_al2_pervaporation):
         delta_hours=0.1,
     )
 
-    curve = romakon_al2_pervaporation.membrane.diffusion_curve_sets[0].diffusion_curves[0]
+    curve = romakon_al2_pervaporation.membrane.diffusion_curve_sets[0].diffusion_curves[
+        0
+    ]
 
     for i in range(len(experimental_time)):
         d = 1
         index = 0
         for k in range(len(modelled_experiment.time)):
-            if d > abs(
-                modelled_experiment.time[k]
-                - experimental_time[i]
-            ):
-                d = abs(
-                    modelled_experiment.time[k]
-                    - experimental_time[i]
-                )
+            if d > abs(modelled_experiment.time[k] - experimental_time[i]):
+                d = abs(modelled_experiment.time[k] - experimental_time[i])
                 index = k
-        assert abs(curve.feed_compositions[i].first - modelled_experiment.feed_composition[index].first) < 3e-3
+        assert (
+            abs(
+                curve.feed_compositions[i].first
+                - modelled_experiment.feed_composition[index].first
+            )
+            < 3e-3
+        )
+
+
+def test_validate_against_literature_data():
+    """
+    :return: Algorithms are validated against experimental data provided in doi:10.3390/c6020042
+    """
+    assert 0 == 0

@@ -244,7 +244,7 @@ def test_calculate_permeate_composition_variable_permeate_pressure(
         )
 
 
-def test_calculate_permeate_composition_perm_temp_and_comp(pervaporation_real):
+def test_calculate_permeate_composition_perm_temp_and_press(pervaporation_real):
 
     with pytest.raises(ValueError):
         pervaporation_real.calculate_permeate_composition(
