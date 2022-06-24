@@ -431,6 +431,7 @@ class Pervaporation:
         :param precision: Precision in obtained permeate composition, by default is 5e-5
         :return: A ProcessModel Object
         """
+
         time: typing.List[float] = [
             delta_hours * step for step in range(number_of_steps)
         ]
@@ -866,6 +867,11 @@ class Pervaporation:
          for each temperature are added to the measurements in order to improve obtained fits
         :return: ProcessModel object
         """
+        for curve in diffusion_curve_set.diffusion_curves:
+            for c in curve.feed_compositions:
+                if c.type == CompositionType.molar:
+                    c.to_weight(curve.mixture)
+
         time: typing.List[float] = [
             delta_hours * step for step in range(number_of_steps)
         ]
@@ -1181,6 +1187,11 @@ class Pervaporation:
          for each temperature are added to the measurements in order to improve obtained fits
         :return: ProcessModel object
         """
+        for curve in diffusion_curve_set.diffusion_curves:
+            for c in curve.feed_compositions:
+                if c.type == CompositionType.molar:
+                    c.to_weight(curve.mixture)
+
         time: typing.List[float] = [
             delta_hours * step for step in range(number_of_steps)
         ]

@@ -192,7 +192,7 @@ def test_constants_acetic_acid():
 
 def test_constants_formic_acid():
 
-    """Frost Pressure Constants Calculated from: """
+    """Frost Pressure Constants Calculated from:"""
 
     assert abs(Components.FormicAcid.get_vapor_pressure(313.15) - 4.66022) < 1e-4
     assert abs(Components.FormicAcid.get_vapor_pressure(323) - 7.62946) < 1e-4
