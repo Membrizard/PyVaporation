@@ -1,9 +1,9 @@
 import typing
+from copy import copy
 
 import attr
 import numpy
 from scipy import optimize
-from copy import copy
 
 from diffusion_curve import DiffusionCurve, DiffusionCurveSet
 

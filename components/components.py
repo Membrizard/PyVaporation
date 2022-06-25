@@ -1,5 +1,6 @@
+from utils import HeatCapacityConstants, VaporPressureConstants
+
 from .component import Component
-from utils import VaporPressureConstants, HeatCapacityConstants
 
 
 class Components:

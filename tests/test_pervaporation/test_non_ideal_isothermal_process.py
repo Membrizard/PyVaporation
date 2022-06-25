@@ -2,12 +2,12 @@ from pytest import fixture
 
 from components import Components
 from conditions import Conditions
+from diffusion_curve import DiffusionCurve, DiffusionCurveSet
 from experiments import IdealExperiment, IdealExperiments
 from membrane import Membrane
-from mixtures import Mixtures, Composition, CompositionType
+from mixtures import Composition, CompositionType, Mixtures
 from permeance import Permeance
 from pervaporation import Pervaporation
-from diffusion_curve import DiffusionCurveSet, DiffusionCurve
 
 
 @fixture

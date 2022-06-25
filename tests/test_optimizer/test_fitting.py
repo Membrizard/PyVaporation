@@ -1,9 +1,10 @@
-from pytest import fixture
-from mixtures import Mixtures, Composition, CompositionType
-from permeance import Permeance, Units
-from diffusion_curve import DiffusionCurve
-from optimizer import Measurements, find_best_fit, fit
 import numpy
+from pytest import fixture
+
+from diffusion_curve import DiffusionCurve
+from mixtures import Composition, CompositionType, Mixtures
+from optimizer import Measurements, find_best_fit, fit
+from permeance import Permeance, Units
 
 
 @fixture

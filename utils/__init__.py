@@ -1,10 +1,5 @@
-from .utils import (
-    HeatCapacityConstants,
-    NRTLParameters,
-    R,
-    VaporPressureConstants,
-    VPConstantsType,
-)
+from .utils import (HeatCapacityConstants, NRTLParameters, R,
+                    VaporPressureConstants, VPConstantsType)
 
 __all__ = [
     "VaporPressureConstants",

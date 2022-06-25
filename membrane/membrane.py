@@ -1,9 +1,11 @@
 import typing
+from pathlib import Path
 
 import attr
 import numpy
 
 from components import Component
+from config import Config
 from diffusion_curve import DiffusionCurveSet
 from experiments import IdealExperiments
 from permeance import Permeance, Units
@@ -16,7 +18,31 @@ class Membrane:
     ideal_experiments: typing.Optional[IdealExperiments] = None
     diffusion_curve_sets: typing.Optional[typing.List[DiffusionCurveSet]] = None
 
-    # TODO: non ideal experiments - Diffusion curves
+    @classmethod
+    def load(cls, config: Config) -> "Membrane":
+        if config.ideal_experiments_path.exists():
+            ie = IdealExperiments.from_csv(config.ideal_experiments_path)
+        else:
+            ie = None
+
+        if config.diffusion_curve_sets_path.exists():
+            if len(list(config.diffusion_curve_sets_path.iterdir())) > 0:
+                diffusion_curve_sets = []
+                for file in list(config.diffusion_curve_sets_path.iterdir()):
+                    diffusion_curve_sets.append(DiffusionCurveSet.load(file))
+            else:
+                diffusion_curve_sets = None
+        else:
+            diffusion_curve_sets = None
+
+        if ie is None and diffusion_curve_sets is None:
+            raise FileExistsError("No data found at %s" % config.source_path)
+
+        return cls(
+            name=config.source_path.stem,
+            ideal_experiments=ie,
+            diffusion_curve_sets=diffusion_curve_sets,
+        )
 
     def get_penetrant_data(self, component: Component) -> IdealExperiments:
         """

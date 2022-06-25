@@ -1,0 +1,7 @@
+name,temperature,component,activation_energy,permeance,units,comment
+Romakon PM102,40,H2O,19944,0.055000,kg/(m2*h*kPa),Pervaporation (0-27 wt% H2O/EtOH binary)
+Romakon PM102,50,H2O,19944,0.067127,kg/(m2*h*kPa),Pervaporation (0-27 wt% EtOH/EtOH binary)
+Romakon PM102,61,H2O,19944,0.087270,kg/(m2*h*kPa),Pervaporation (0-27 wt% EtOH/EtOH binary)
+Romakon PM102,40,EtOH,112043,0.000022,kg/(m2*h*kPa),Pervaporation (0-27 wt% EtOH/EtOH binary)
+Romakon PM102,50,EtOH,112043,0.000033,kg/(m2*h*kPa),Pervaporation (0-27 wt% EtOH/EtOH binary)
+Romakon PM102,61,EtOH,112043,0.000277,kg/(m2*h*kPa),Pervaporation (0-27 wt% EtOH/EtOH binary)

@@ -1,9 +1,21 @@
 import typing
+from pathlib import Path
 
 import attr
+import pandas
 
-from components import Component
-from permeance import Permeance
+from components import Component, Components
+from permeance import Permeance, Units
+
+IDEAL_EXPERIMENT_COLUMNS = [
+    "name",
+    "temperature",
+    "component",
+    "activation_energy",
+    "permeance",
+    "units",
+    "comment",
+]
 
 
 @attr.s(auto_attribs=True)
@@ -22,6 +34,23 @@ class IdealExperiment:
 
     # TODO Add check for units and conversion to kg/(m2*h*kPa) using Permeance.convert()
 
+    @classmethod
+    def from_dict(
+        cls, d: typing.Mapping[str, typing.Union[str, float]]
+    ) -> "IdealExperiment":
+        component = getattr(Components, d["component"])
+        permeance = Permeance(value=d["permeance"], units=d["units"]).convert(
+            to_units=Units.kg_m2_h_kPa, component=component
+        )
+        return cls(
+            name=d["name"],
+            temperature=d["temperature"],
+            component=component,
+            permeance=permeance,
+            activation_energy=d["activation_energy"],
+            comment=d["comment"],
+        )
+
 
 @attr.s(auto_attribs=True)
 class IdealExperiments:
@@ -30,12 +59,14 @@ class IdealExperiments:
     def __len__(self):
         return len(self.experiments)
 
-    # @classmethod
-    # def from_csv(cls, path: typing.Union[str, Path]) -> "IdealExperiments":
-    #     frame = pandas.read_csv(path)
-    #
-    #     experiments = []
-    #     for _, row in frame.iterrows():
-    #         experiments.append(IdealExperiment.from_dict(row.to_dict()))
-    #
-    #     return IdealExperiments(experiments=experiments)
+    @classmethod
+    def from_csv(cls, path: typing.Union[str, Path]) -> "IdealExperiments":
+        frame = pandas.read_csv(path)
+        if list(frame.columns) != IDEAL_EXPERIMENT_COLUMNS:
+            raise ValueError("Incorrect columns: %s" % list(frame.columns))
+
+        experiments = []
+        for _, row in frame.iterrows():
+            experiments.append(IdealExperiment.from_dict(row.to_dict()))
+
+        return IdealExperiments(experiments=experiments)

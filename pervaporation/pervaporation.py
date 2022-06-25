@@ -8,11 +8,12 @@ import numpy
 from conditions import Conditions
 from diffusion_curve import DiffusionCurve, DiffusionCurveSet
 from membrane import Membrane
-from mixtures import Composition, CompositionType, Mixture, get_nrtl_partial_pressures
+from mixtures import (Composition, CompositionType, Mixture,
+                      get_nrtl_partial_pressures)
+from optimizer import Measurements, find_best_fit
 from permeance import Permeance, Units
 from process import ProcessModel
 from utils import R
-from optimizer import Measurements, find_best_fit
 
 
 def get_permeate_composition_from_fluxes(

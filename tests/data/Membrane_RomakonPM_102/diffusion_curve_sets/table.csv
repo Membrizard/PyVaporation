@@ -1,0 +1,8 @@
+curve_id,membrane_name,mixture,feed_temperature,permeate_temperature,permeate_pressure,composition,composition_type,partial_flux_1,partial_flux_2,permeance_1,permeance_2,units,comment
+1,Romakon PM102,H2O_EtOH,313.15,,,0.92,weight,0.45280,0.00023,0.01911,0.00002,kg/(m2*h*kPa),Experimental Ideal
+1,Romakon PM102,H2O_EtOH,313.15,,,0.84,weight,0.37915,0.00019,0.01648,0.00001,kg/(m2*h*kPa),Experimental Ideal
+1,Romakon PM102,H2O_EtOH,313.15,,,0.73,weight,0.31210,0.00016,0.01391,0.00001,kg/(m2*h*kPa),Experimental Ideal
+1,Romakon PM102,H2O_EtOH,313.15,,,0.65,weight,0.42855,0.00129,0.01945,0.00005,kg/(m2*h*kPa),Experimental Non-ideal
+1,Romakon PM102,H2O_EtOH,313.15,,,0.54,weight,0.43126,0.00880,0.02006,0.00030,kg/(m2*h*kPa),Experimental Non-ideal
+1,Romakon PM102,H2O_EtOH,313.15,,,0.45,weight,0.48233,0.01237,0.02300,0.00040,kg/(m2*h*kPa),Experimental Non-ideal
+1,Romakon PM102,H2O_EtOH,313.15,,,0.05,weight,0.10118,0.05448,0.01556,0.00104,kg/(m2*h*kPa),Experimental Non-ideal

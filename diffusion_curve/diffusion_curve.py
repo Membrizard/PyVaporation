@@ -3,9 +3,28 @@ from pathlib import Path
 
 import attr
 import numpy
+import pandas
 
-from mixtures import Composition, CompositionType, Mixture, get_nrtl_partial_pressures
+from mixtures import (Composition, CompositionType, Mixture, Mixtures,
+                      get_nrtl_partial_pressures)
 from permeance import Permeance, Units
+
+DC_SET_COLUMNS = [
+    "curve_id",
+    "membrane_name",
+    "mixture",
+    "feed_temperature",
+    "permeate_temperature",
+    "permeate_pressure",
+    "composition",
+    "composition_type",
+    "partial_flux_1",
+    "partial_flux_2",
+    "permeance_1",
+    "permeance_2",
+    "units",
+    "comment",
+]
 
 
 @attr.s(auto_attribs=True)
@@ -289,8 +308,72 @@ class DiffusionCurve:
         ]
 
     @classmethod
-    def from_csv(cls, path: typing.Union[str, Path]) -> "DiffusionCurve":
-        pass
+    def from_frame(cls, data: pandas.DataFrame) -> "DiffusionCurve":
+
+        mixture = getattr(Mixtures, data["mixture"].iloc[0])
+
+        if (
+            data["partial_flux_1"].isna().mean() == 0
+            and data["partial_flux_2"].isna().mean() == 0
+        ):
+            partial_fluxes = []
+            for i in range(len(data)):
+                partial_fluxes.append(
+                    (
+                        data["partial_flux_1"].iloc[i],
+                        data["partial_flux_2"].iloc[i],
+                    )
+                )
+        else:
+            partial_fluxes = None
+
+        if (
+            data["permeance_1"].isna().mean() == 0
+            and data["permeance_2"].isna().mean() == 0
+            and data["units"].isna().mean() == 0
+        ):
+            permeances = []
+            for i in range(len(data)):
+                permeances.append(
+                    (
+                        Permeance(
+                            value=data["permeance_1"].iloc[i],
+                            units=data["units"].iloc[0],
+                        ).convert(
+                            to_units=Units.kg_m2_h_kPa,
+                            component=mixture.first_component,
+                        ),
+                        Permeance(
+                            value=data["permeance_2"].iloc[i],
+                            units=data["units"].iloc[0],
+                        ).convert(
+                            to_units=Units.kg_m2_h_kPa,
+                            component=mixture.second_component,
+                        ),
+                    )
+                )
+        else:
+            permeances = None
+
+        if partial_fluxes is None and permeances is None:
+            raise ValueError("Partial fluxes and permeances are not provided")
+
+        return DiffusionCurve(
+            mixture=mixture,
+            membrane_name=data["membrane_name"].iloc[0],
+            feed_temperature=data["feed_temperature"].iloc[0],
+            feed_compositions=[
+                Composition(
+                    p=data["composition"].iloc[i], type=data["composition_type"].iloc[i]
+                ).to_weight(mixture=mixture)
+                for i in range(len(data))
+            ],
+            partial_fluxes=partial_fluxes,
+            permeate_temperature=data["permeate_temperature"].iloc[0],
+            permeate_pressure=data["permeate_pressure"].iloc[0],
+            permeances=permeances,
+            comments=data["comment"].iloc[0],
+        )
 
 
 @attr.s(auto_attribs=True)
@@ -299,8 +382,26 @@ class DiffusionCurveSet:
     A class for storing and working with multiple diffusion curves related to the same set of experiments.
     """
 
-    name_of_the_set: str
+    name: str
     diffusion_curves: typing.List[DiffusionCurve]
 
     def __getitem__(self, item):
         return self.diffusion_curves[item]
+
+    @classmethod
+    def load(cls, path: Path) -> "DiffusionCurveSet":
+        data = pandas.read_csv(path)
+        name = path.stem
+
+        if list(data.columns) != DC_SET_COLUMNS:
+            raise ValueError("Incorrect data: %s at %s" % (list(data.columns), path))
+
+        raw_diffusion_curves = data.groupby("curve_id")
+        diffusion_curves = []
+        for _, curve in raw_diffusion_curves:
+            diffusion_curves.append(DiffusionCurve.from_frame(curve))
+
+        return cls(
+            name=name,
+            diffusion_curves=diffusion_curves,
+        )

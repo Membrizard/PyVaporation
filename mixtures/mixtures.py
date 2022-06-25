@@ -1,7 +1,7 @@
-from .mixture import Mixture
-
-from utils import NRTLParameters
 from components import Components
+from utils import NRTLParameters
+
+from .mixture import Mixture
 
 
 class Mixtures:

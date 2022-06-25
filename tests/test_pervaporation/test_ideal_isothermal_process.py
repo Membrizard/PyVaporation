@@ -5,7 +5,7 @@ from components import Components
 from conditions import Conditions
 from experiments import IdealExperiment, IdealExperiments
 from membrane import Membrane
-from mixtures import Mixtures, Composition, CompositionType
+from mixtures import Composition, CompositionType, Mixtures
 from permeance import Permeance
 from pervaporation import Pervaporation
 

@@ -1,10 +1,11 @@
-from mixtures import Mixtures, Composition, CompositionType
+import matplotlib.pyplot as plt
+import numpy
+
 from components import Components
 from diffusion_curve import DiffusionCurve, DiffusionCurveSet
 from membrane import Membrane
+from mixtures import Composition, CompositionType, Mixtures
 from optimizer import Measurements, find_best_fit
-import matplotlib.pyplot as plt
-import numpy
 
 compositions_mol_100 = [
     0.0909,
