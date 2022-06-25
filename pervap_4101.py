@@ -2,10 +2,11 @@ from pathlib import Path
 from matplotlib import pyplot as plt
 
 from conditions import Conditions
-from mixtures import Mixtures, Composition, CompositionType
+from mixtures import Mixtures, Composition, CompositionType, get_nrtl_partial_pressures
 from pervaporation import Pervaporation
 from membrane import Membrane
 from config import Config
+from permeance import Permeance
 
 
 config = Config(
@@ -23,17 +24,23 @@ con = Conditions(
     membrane_area=0.017,
     initial_feed_temperature=368.15,
     initial_feed_amount=1.5,
-    initial_feed_composition=Composition(p=0.0946, type=CompositionType.weight)
+    initial_feed_composition=Composition(p=0.1, type=CompositionType.weight),
+    permeate_pressure=0,
 )
 
 model = pv.non_ideal_isothermal_process(
     conditions=con,
     diffusion_curve_set=membrane.diffusion_curve_sets[0],
+    initial_permeances=(
+        Permeance(0.0143),
+        Permeance(0.00000632),
+    ),
     number_of_steps=50,
     delta_hours=0.2,
 )
 
 experiment_time_hours = [
+    0,
     0.5163,
     1.0148,
     1.5133,
@@ -49,6 +56,7 @@ experiment_time_hours = [
 ]
 
 experiment_water_fraction = [
+    0.1,
     0.0946,
     0.0938,
     0.0907,
@@ -63,6 +71,10 @@ experiment_water_fraction = [
     0.0573,
 ]
 
+pressures = get_nrtl_partial_pressures(
+    368.15, Mixtures.H2O_EtOH, Composition(p=0.1, type=CompositionType.weight)
+)
+
 experiment_water_flux = [
     0.4863,
     0.5209,
@@ -76,9 +88,17 @@ experiment_water_flux = [
     0.3370,
     0.2987,
     0.2823,
+    0.2823,
 ]
+print(experiment_water_flux[0] / pressures[0])
+
 
 plt.plot(experiment_time_hours, experiment_water_fraction)
 plt.plot(model.time, [c.first for c in model.feed_composition])
-plt.legend(['experiment', 'model'])
+plt.legend(["experiment", "model"])
+plt.show()
+
+plt.plot(experiment_time_hours, experiment_water_flux)
+plt.plot(model.time, [p[0] for p in model.partial_fluxes])
+plt.legend(["experiment", "model"])
 plt.show()

@@ -1,8 +1,9 @@
-from mixtures import Mixtures, Composition, CompositionType
+from mixtures import Mixtures, Composition, CompositionType, get_nrtl_partial_pressures
 from components import Components
 from diffusion_curve import DiffusionCurve, DiffusionCurveSet
 from membrane import Membrane
 from mixtures import Composition, CompositionType, Mixtures
+from permeance import Permeance
 from optimizer import Measurements, find_best_fit
 from pervaporation import Pervaporation
 from conditions import Conditions
@@ -108,6 +109,7 @@ feed_mass = [1000 / area_steps]
 compositions_in_module = [Composition(p=0.15, type=CompositionType.weight)]
 
 model_areas = numpy.linspace(0, total_area, area_steps + 1)
+modelling_fluxes = []
 
 for i in range(area_steps):
 
@@ -123,14 +125,16 @@ for i in range(area_steps):
         diffusion_curve_set=pervap_2510.diffusion_curve_sets[0],
         number_of_steps=2,
         delta_hours=1 / area_steps,
+        initial_permeances=(Permeance(0.07), Permeance(0.0002)),
         m_first=0,
         m_second=0,
     )
     modelling_temperatures.append(modelled_process.feed_temperature[-1])
     compositions_in_module.append(modelled_process.feed_composition[-1])
     feed_mass.append(modelled_process.feed_mass[-1])
-    print(feed_mass[i] * area_steps)
+    modelling_fluxes.append(modelled_process.partial_fluxes[-1][0])
     print("calculating step: ", i, " out of ", area_steps, " area steps")
+    print(modelled_process.permeances[-1][1].value)
 
 
 module_area_weight_fraction = [1.830, 5.297, 9.718, 14.660, 19.298, 23.763]
@@ -139,12 +143,28 @@ validation_water_wt_fraction = [0.1441, 0.1334, 0.1227, 0.1125, 0.1048, 0.0988]
 module_area_temperature = [1.645, 3.575, 6.776, 10.592, 14.803, 19.978, 27.566]
 validation_temperature = [98.679, 96.710, 94.201, 91.548, 89.061, 86.408, 83.312]
 
+module_area_flux = [0.87, 3.78, 7.46, 12.12, 18.88, 23.71, 28.41]
+validation_flux = [4.1880, 3.4200, 2.7480, 2.1360, 1.6080, 1.3440, 1.1280]
+
+pressure = get_nrtl_partial_pressures(
+    373.15, Mixtures.H2O_iPOH, Composition(p=0.15, type=CompositionType.weight)
+)
+print(validation_flux[0] / pressure[0])
+
 plt.plot(model_areas, [c.first for c in compositions_in_module])
 plt.plot(module_area_weight_fraction, validation_water_wt_fraction, label="literature")
+plt.legend(["model", "experiment"])
 plt.show()
 
 plt.plot(module_area_temperature, [t + 273.15 for t in validation_temperature])
 plt.plot(model_areas, modelling_temperatures)
+plt.legend(["experiment", "model"])
+plt.show()
+
+modelling_fluxes.append(0)
+plt.plot(module_area_flux, validation_flux)
+plt.plot(model_areas, modelling_fluxes)
+plt.legend(["experiment", "model"])
 plt.show()
 
 # measurements_h2o = Measurements.from_diffusion_curves_first(curve_set)

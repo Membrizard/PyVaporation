@@ -196,19 +196,3 @@ class Components:
         ),
     )
 
-    FormicAcid: Component = Component(
-        name="Formic acid",
-        molecular_weight=46.03,
-        vapour_pressure_constants=VaporPressureConstants(
-            a=0,
-            b=0,
-            c=0,
-            type="frost",
-        ),
-        heat_capacity_constants=HeatCapacityConstants(
-            a=-3.80810e2,
-            b=4.42984,
-            c=-1.35759e-2,
-            d=1.38000e-5,
-        ),
-    )

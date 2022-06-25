@@ -189,17 +189,3 @@ def test_constants_acetic_acid():
     assert abs(Components.AceticAcid.get_specific_heat(334.45) - 128.34) < 6e-1
     assert abs(Components.AceticAcid.get_specific_heat(358.55) - 130.80) < 6e-1
 
-
-def test_constants_formic_acid():
-
-    """Frost Pressure Constants Calculated from:"""
-
-    assert abs(Components.FormicAcid.get_vapor_pressure(313.15) - 4.66022) < 1e-4
-    assert abs(Components.FormicAcid.get_vapor_pressure(323) - 7.62946) < 1e-4
-    assert abs(Components.FormicAcid.get_vapor_pressure(333) - 12.0401) < 1e-4
-
-    """ Specific Heat Constants Calculated from https://doi.org/10.1063/1.1750869"""
-
-    assert abs(Components.FormicAcid.get_specific_heat(275.28) - 97.86) < 6e-1
-    assert abs(Components.FormicAcid.get_specific_heat(289.32) - 98.83) < 6e-1
-    assert abs(Components.FormicAcid.get_specific_heat(299.79) - 99.10) < 6e-1
