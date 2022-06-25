@@ -1,0 +1,12 @@
+curve_id,membrane_name,mixture,feed_temperature,permeate_temperature,permeate_pressure,composition,composition_type,partial_flux_1,partial_flux_2,permeance_1,permeance_2,units,Comment
+initial feed 15 wt% water,Pervap 4101,H2O_EtOH,368.15,,,0.0080,weight,0.057,0.010,0.0147,0.00000536,kg/(m2*h*kPa),Experimental Close to Ideal  DOI: 10.22079/JMSR.2018.88186.1198
+initial feed 15 wt% water,Pervap 4101,H2O_EtOH,368.15,,,0.0105,weight,0.070,0.018,0.0154,0.00000556,kg/(m2*h*kPa),Experimental Close to Ideal  DOI: 10.22079/JMSR.2018.88186.1199
+initial feed 15 wt% water,Pervap 4101,H2O_EtOH,368.15,,,0.0193,weight,0.159,0.016,0.0182,0.00000716,kg/(m2*h*kPa),Experimental Close to Ideal  DOI: 10.22079/JMSR.2018.88186.1200
+initial feed 15 wt% water,Pervap 4101,H2O_EtOH,368.15,,,0.0247,weight,0.214,0.018,0.0186,0.00000612,kg/(m2*h*kPa),Experimental Close to Ideal  DOI: 10.22079/JMSR.2018.88186.1201
+initial feed 15 wt% water,Pervap 4101,H2O_EtOH,368.15,,,0.0315,weight,0.280,0.018,0.0207,0.00000645,kg/(m2*h*kPa),Experimental Close to Ideal  DOI: 10.22079/JMSR.2018.88186.1202
+initial feed 15 wt% water,Pervap 4101,H2O_EtOH,368.15,,,0.0585,weight,0.608,0.018,0.0247,0.00000732,kg/(m2*h*kPa),Experimental Close to Ideal  DOI: 10.22079/JMSR.2018.88186.1203
+initial feed 15 wt% water,Pervap 4101,H2O_EtOH,368.15,,,0.0728,weight,0.799,0.027,0.0278,0.00001214,kg/(m2*h*kPa),Experimental Close to Ideal  DOI: 10.22079/JMSR.2018.88186.1204
+initial feed 15 wt% water,Pervap 4101,H2O_EtOH,368.15,,,0.0869,weight,0.970,0.027,0.0296,0.00001242,kg/(m2*h*kPa),Experimental Close to Ideal  DOI: 10.22079/JMSR.2018.88186.1205
+initial feed 15 wt% water,Pervap 4101,H2O_EtOH,368.15,,,0.1000,weight,1.135,0.025,0.0309,0.00001170,kg/(m2*h*kPa),Experimental Close to Ideal  DOI: 10.22079/JMSR.2018.88186.1206
+initial feed 15 wt% water,Pervap 4101,H2O_EtOH,368.15,,,0.1341,weight,1.508,0.033,0.0343,0.00001648,kg/(m2*h*kPa),Experimental Close to Ideal  DOI: 10.22079/JMSR.2018.88186.1207
+initial feed 15 wt% water,Pervap 4101,H2O_EtOH,368.15,,,0.1536,weight,1.697,0.033,0.0359,0.00001710,kg/(m2*h*kPa),Experimental Close to Ideal  DOI: 10.22079/JMSR.2018.88186.1208

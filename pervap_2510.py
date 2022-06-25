@@ -16,8 +16,16 @@ compositions_mol_100 = [
     0.2604,
     0.3164,
 ]
-pervap_2510_mol_flux_water_100 = [29.7928, 46.5392, 95.3431, 128.3574, 188.1660]
-pervap_2510_mol_flux_ipoh_100 = [0.4597, 0.6290, 0.8226, 1.0060, 1.3831]
+pervap_2510_mol_flux_water_100 = [29.7928,
+                                  46.5392,
+                                  95.3431,
+                                  128.3574,
+                                  188.1660]
+pervap_2510_mol_flux_ipoh_100 = [0.4597,
+                                 0.6290,
+                                 0.8226,
+                                 1.0060,
+                                 1.3831]
 
 compositions_mol_90 = [
     0.1251,
@@ -26,20 +34,58 @@ compositions_mol_90 = [
     0.2939,
     0.3438,
 ]
-pervap_2510_mol_flux_water_90 = [30.2713, 46.5392, 76.4435, 106.8263, 134.5775]
-pervap_2510_mol_flux_ipoh_90 = [0.25, 0.3266, 0.5443, 0.7238, 0.9516]
+pervap_2510_mol_flux_water_90 = [30.2713,
+                                 46.5392,
+                                 76.4435,
+                                 106.8263,
+                                 134.5775]
+pervap_2510_mol_flux_ipoh_90 = [0.25,
+                                0.3266,
+                                0.5443,
+                                0.7238,
+                                0.9516]
 
-compositions_mol_80 = [0.201, 0.2461, 0.3007, 0.3305, 0.3643]
-pervap_2510_mol_flux_water_80 = [36.49139, 57.5440, 68.0703, 81.9459, 103.4770]
-pervap_2510_mol_flux_ipoh_80 = [0.1734, 0.2823, 0.3468, 0.3790, 0.4516]
+compositions_mol_80 = [0.201,
+                       0.2461,
+                       0.3007,
+                       0.3305,
+                       0.3643]
+pervap_2510_mol_flux_water_80 = [36.49139,
+                                 57.5440,
+                                 68.0703,
+                                 81.9459,
+                                 103.4770]
+pervap_2510_mol_flux_ipoh_80 = [0.1734,
+                                0.2823,
+                                0.3468,
+                                0.3790,
+                                0.4516]
 
-compositions_mol_70 = [0.2604, 0.2966, 0.3383, 0.3506]
-pervap_2510_mol_flux_water_70 = [34.5775, 42.7115, 48.6923, 80.5105]
-pervap_2510_mol_flux_ipoh_70 = [0.0968, 0.1169, 0.1976, 0.1814]
+compositions_mol_70 = [0.2604,
+                       0.2966,
+                       0.3383,
+                       0.3506]
+pervap_2510_mol_flux_water_70 = [34.5775,
+                                 42.7115,
+                                 48.6923,
+                                 80.5105]
+pervap_2510_mol_flux_ipoh_70 = [0.0968,
+                                0.1169,
+                                0.1976,
+                                0.1814]
 
-compositions_mol_60 = [0.2932, 0.3349, 0.3414, 0.3691]
-pervap_2510_mol_flux_water_60 = [29.3143, 32.6636, 36.9699, 47.0177]
-pervap_2510_mol_flux_ipoh_60 = [0.0524, 0.0685, 0.0847, 0.0726]
+compositions_mol_60 = [0.2932,
+                       0.3349,
+                       0.3414,
+                       0.3691]
+pervap_2510_mol_flux_water_60 = [29.3143,
+                                 32.6636,
+                                 36.9699,
+                                 47.0177]
+pervap_2510_mol_flux_ipoh_60 = [0.0524,
+                                0.0685,
+                                0.0847,
+                                0.0726]
 
 all_compositions = [
     compositions_mol_60,
@@ -89,7 +135,7 @@ for i in range(len(temperatures)):
     )
 
 curve_set = DiffusionCurveSet(
-    name_of_the_set="water - isopropanol 5-30 mol% ", diffusion_curves=curves
+    name="water - isopropanol 5-30 mol% ", diffusion_curves=curves
 )
 
 pervap_2510 = Membrane(

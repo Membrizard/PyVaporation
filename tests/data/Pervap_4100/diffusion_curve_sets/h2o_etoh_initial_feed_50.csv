@@ -1,0 +1,9 @@
+curve_id,membrane_name,mixture,feed_temperature,permeate_temperature,permeate_pressure,composition,composition_type,partial_flux_1,partial_flux_2,permeance_1,permeance_2,units,Comment
+initial feed 50 wt% water,Pervap 4100,H2O_EtOH,368.15,,,0.0240858057,weight,,,2688.778689,23.76315076,GPU,Experimental Non Ideal  DOI: 10.22079/JMSR.2018.88186.1198
+initial feed 50 wt% water,Pervap 4100,H2O_EtOH,368.15,,,0.2326338341,weight,,,5623.966085,107.036062,GPU,Experimental Non Ideal  DOI: 10.22079/JMSR.2018.88186.1199
+initial feed 50 wt% water,Pervap 4100,H2O_EtOH,368.15,,,0.2532445626,weight,,,5790.19941,120.2633877,GPU,Experimental Non Ideal  DOI: 10.22079/JMSR.2018.88186.1200
+initial feed 50 wt% water,Pervap 4100,H2O_EtOH,368.15,,,0.2754824538,weight,,,6078.245449,132.5265399,GPU,Experimental Non Ideal  DOI: 10.22079/JMSR.2018.88186.1201
+initial feed 50 wt% water,Pervap 4100,H2O_EtOH,368.15,,,0.4110793513,weight,,,7525.770499,207.1487026,GPU,Experimental Non Ideal  DOI: 10.22079/JMSR.2018.88186.1202
+initial feed 50 wt% water,Pervap 4100,H2O_EtOH,368.15,,,0.4284357542,weight,,,7823.818024,215.3525347,GPU,Experimental Non Ideal  DOI: 10.22079/JMSR.2018.88186.1203
+initial feed 50 wt% water,Pervap 4100,H2O_EtOH,368.15,,,0.4517584206,weight,,,7525.770499,205.1470494,GPU,Experimental Non Ideal  DOI: 10.22079/JMSR.2018.88186.1204
+initial feed 50 wt% water,Pervap 4100,H2O_EtOH,368.15,,,0.4745386994,weight,,,7525.770499,205.1470494,GPU,Experimental Non Ideal  DOI: 10.22079/JMSR.2018.88186.1205

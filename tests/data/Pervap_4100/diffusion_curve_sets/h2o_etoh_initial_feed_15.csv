@@ -1,0 +1,12 @@
+curve_id,membrane_name,mixture,feed_temperature,permeate_temperature,permeate_pressure,composition,composition_type,partial_flux_1,partial_flux_2,permeance_1,permeance_2,units,Comment
+initial feed 15 wt% water,Pervap 4100,H2O_EtOH,368.15,,,0.0080,weight,0.082,0.0402,0.02295,0.00001685,kg/(m2*h*kPa),Experimental Non Ideal  DOI: 10.22079/JMSR.2018.88186.1198
+initial feed 15 wt% water,Pervap 4100,H2O_EtOH,368.15,,,0.0105,weight,0.102,0.0421,0.02130,0.00001541,kg/(m2*h*kPa),Experimental Non Ideal  DOI: 10.22079/JMSR.2018.88186.1199
+initial feed 15 wt% water,Pervap 4100,H2O_EtOH,368.15,,,0.0193,weight,0.250,0.0572,0.02663,0.00002202,kg/(m2*h*kPa),Experimental Non Ideal  DOI: 10.22079/JMSR.2018.88186.1200
+initial feed 15 wt% water,Pervap 4100,H2O_EtOH,368.15,,,0.0247,weight,0.333,0.0572,0.02764,0.00002286,kg/(m2*h*kPa),Experimental Non Ideal  DOI: 10.22079/JMSR.2018.88186.1201
+initial feed 15 wt% water,Pervap 4100,H2O_EtOH,368.15,,,0.0315,weight,0.233,0.0496,0.02977,0.00002170,kg/(m2*h*kPa),Experimental Non Ideal  DOI: 10.22079/JMSR.2018.88186.1202
+initial feed 15 wt% water,Pervap 4100,H2O_EtOH,368.15,,,0.0585,weight,0.880,0.0930,0.03722,0.00004239,kg/(m2*h*kPa),Experimental Non Ideal  DOI: 10.22079/JMSR.2018.88186.1203
+initial feed 15 wt% water,Pervap 4100,H2O_EtOH,368.15,,,0.0728,weight,1.155,0.0987,0.04161,0.00004775,kg/(m2*h*kPa),Experimental Non Ideal  DOI: 10.22079/JMSR.2018.88186.1204
+initial feed 15 wt% water,Pervap 4100,H2O_EtOH,368.15,,,0.0869,weight,1.440,0.1157,0.04550,0.00005624,kg/(m2*h*kPa),Experimental Non Ideal  DOI: 10.22079/JMSR.2018.88186.1205
+initial feed 15 wt% water,Pervap 4100,H2O_EtOH,368.15,,,0.1000,weight,1.655,0.1213,0.04758,0.00006104,kg/(m2*h*kPa),Experimental Non Ideal  DOI: 10.22079/JMSR.2018.88186.1206
+initial feed 15 wt% water,Pervap 4100,H2O_EtOH,368.15,,,0.1341,weight,2.289,0.1855,0.05440,0.00010353,kg/(m2*h*kPa),Experimental Non Ideal  DOI: 10.22079/JMSR.2018.88186.1207
+initial feed 15 wt% water,Pervap 4100,H2O_EtOH,368.15,,,0.1536,weight,2.614,0.1760,0.05860,0.00009610,kg/(m2*h*kPa),Experimental Non Ideal  DOI: 10.22079/JMSR.2018.88186.1208
