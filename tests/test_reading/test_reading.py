@@ -11,8 +11,7 @@ from membrane import Membrane
 @pytest.fixture
 def config() -> Config:
     return Config(
-        source_path=Path("tests/data/Membrane_RomakonPM_102"),
-        results_path=Path("tests/data/Membrane_RomakonPM_102"),
+        source_path=Path("tests/data/Membrane_RomakonPM_102")
     )
 
 

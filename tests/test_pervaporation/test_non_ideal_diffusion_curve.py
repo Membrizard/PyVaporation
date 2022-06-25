@@ -68,7 +68,7 @@ def pervaporation(experimental_50):
             name=experimental_50.membrane_name,
             diffusion_curve_sets=[
                 DiffusionCurveSet(
-                    name_of_the_set="Various Initial Feed",
+                    name="Various Initial Feed",
                     diffusion_curves=[experimental_50],
                 )
             ],
@@ -130,7 +130,7 @@ def romakon_102_diffusion_curve_set():
         name="Romakon-PM102",
         diffusion_curve_sets=[
             DiffusionCurveSet(
-                name_of_the_set="water/acetic acid", diffusion_curves=diffusion_curves
+                name="water/acetic acid", diffusion_curves=diffusion_curves
             )
         ],
     )
@@ -217,7 +217,7 @@ def romakon_102_single_diffusion_curve():
         ideal_experiments=experiments,
         diffusion_curve_sets=[
             DiffusionCurveSet(
-                name_of_the_set="water/acetic acid", diffusion_curves=[curve]
+                name="water/acetic acid", diffusion_curves=[curve]
             )
         ],
     )
