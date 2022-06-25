@@ -1,11 +1,13 @@
-import matplotlib.pyplot as plt
-import numpy
-
+from mixtures import Mixtures, Composition, CompositionType
 from components import Components
 from diffusion_curve import DiffusionCurve, DiffusionCurveSet
 from membrane import Membrane
 from mixtures import Composition, CompositionType, Mixtures
 from optimizer import Measurements, find_best_fit
+from pervaporation import Pervaporation
+from conditions import Conditions
+import matplotlib.pyplot as plt
+import numpy
 
 compositions_mol_100 = [
     0.0909,
@@ -95,49 +97,101 @@ pervap_2510 = Membrane(
     diffusion_curve_sets=[curve_set],
 )
 
-measurements_h2o = Measurements.from_diffusion_curves_first(curve_set)
-measurements_ipoh = Measurements.from_diffusion_curves_second(curve_set)
+pervaporation = Pervaporation(membrane=pervap_2510, mixture=Mixtures.H2O_iPOH)
+
+total_area = 30
+area_steps = 20
+d_area = total_area / area_steps
+
+modelling_temperatures = [373.15]
+feed_mass = [1000/area_steps]
+compositions_in_module = [Composition(p=0.15, type=CompositionType.weight)]
+
+model_areas = numpy.linspace(0, total_area, area_steps+1)
+
+for i in range(area_steps):
+
+    iterative_conditions = Conditions(
+        membrane_area=d_area,
+        initial_feed_temperature=modelling_temperatures[i],
+        initial_feed_amount=feed_mass[i],
+        initial_feed_composition=compositions_in_module[i],
+    )
+
+    modelled_process = pervaporation.non_ideal_non_isothermal_process(
+        conditions=iterative_conditions,
+        diffusion_curve_set=pervap_2510.diffusion_curve_sets[0],
+        number_of_steps=2,
+        delta_hours=1 / area_steps,
+        m_first=0,
+        m_second=0,
+    )
+    modelling_temperatures.append(modelled_process.feed_temperature[-1])
+    compositions_in_module.append(modelled_process.feed_composition[-1])
+    feed_mass.append(modelled_process.feed_mass[-1])
+    print(feed_mass[i]*area_steps)
+    print('calculating step: ', i, ' out of ', area_steps, ' area steps')
 
 
-fit_h2o = find_best_fit(measurements_h2o)
-fit_ipoh = find_best_fit(measurements_ipoh)
+module_area_weight_fraction = [1.830, 5.297, 9.718, 14.660, 19.298, 23.763]
+validation_water_wt_fraction = [0.1441, 0.1334, 0.1227, 0.1125, 0.1048, 0.0988]
 
-fig = plt.figure()
-ax = fig.add_subplot(projection="3d")
+module_area_temperature = [1.645, 3.575, 6.776, 10.592, 14.803, 19.978, 27.566]
+validation_temperature = [98.679, 96.710, 94.201, 91.548, 89.061, 86.408, 83.312]
 
-x = [m.x for m in measurements_h2o]
-t = [m.t for m in measurements_h2o]
-p = [m.p for m in measurements_h2o]
-ax.scatter(x, t, p, marker="o")
-
-x_v = numpy.linspace(0, 0.4, num=50)
-t_v = numpy.linspace(323.15, 383.15, num=50)
-x_fit, t_fit = numpy.meshgrid(x_v, t_v)
-p_fit = numpy.array([fit_h2o(x_fit[i], t_fit[i]) for i in range(len(x_fit))])
-ax.plot_surface(x_fit, t_fit, p_fit, alpha=0.2)
-
-ax.set_xlabel("Water wt.p.")
-ax.set_ylabel("Temperature K")
-ax.set_zlabel("Water Permeance kg / ( m2 * h * kPa ) ")
-fig.suptitle("Best Fit for water Illustration", fontsize=10)
+plt.plot(model_areas, [c.first for c in compositions_in_module])
+plt.plot(module_area_weight_fraction, validation_water_wt_fraction, label='literature')
 plt.show()
 
-fig = plt.figure()
-ax = fig.add_subplot(projection="3d")
-
-x = [m.x for m in measurements_ipoh]
-t = [m.t for m in measurements_ipoh]
-p = [m.p for m in measurements_ipoh]
-ax.scatter(x, t, p, marker="o")
-
-x_v = numpy.linspace(0, 0.4, num=50)
-t_v = numpy.linspace(323.15, 383.15, num=50)
-x_fit, t_fit = numpy.meshgrid(x_v, t_v)
-p_fit = numpy.array([fit_ipoh(x_fit[i], t_fit[i]) for i in range(len(x_fit))])
-ax.plot_surface(x_fit, t_fit, p_fit, alpha=0.2)
-
-ax.set_xlabel("Water wt.p.")
-ax.set_ylabel("Temperature K")
-ax.set_zlabel("iPOH Permeance kg / ( m2 * h * kPa ) ")
-fig.suptitle("Best Fit for isopropanol Illustration", fontsize=10)
+plt.plot(module_area_temperature, [t+273.15 for t in validation_temperature])
+plt.plot(model_areas, modelling_temperatures)
 plt.show()
+
+# measurements_h2o = Measurements.from_diffusion_curves_first(curve_set)
+# measurements_ipoh = Measurements.from_diffusion_curves_second(curve_set)
+#
+# fit_h2o = find_best_fit(measurements_h2o)
+# fit_ipoh = find_best_fit(measurements_ipoh)
+#
+# print(fit_h2o)
+# print(fit_ipoh)
+#
+# fig = plt.figure()
+# ax = fig.add_subplot(projection="3d")
+#
+# x = [m.x for m in measurements_h2o]
+# t = [m.t for m in measurements_h2o]
+# p = [m.p for m in measurements_h2o]
+# ax.scatter(x, t, p, marker="o")
+#
+# x_v = numpy.linspace(0, 0.4, num=50)
+# t_v = numpy.linspace(323.15, 383.15, num=50)
+# x_fit, t_fit = numpy.meshgrid(x_v, t_v)
+# p_fit = numpy.array([fit_h2o(x_fit[i], t_fit[i]) for i in range(len(x_fit))])
+# ax.plot_surface(x_fit, t_fit, p_fit, alpha=0.2)
+#
+# ax.set_xlabel("Water wt.p.")
+# ax.set_ylabel("Temperature K")
+# ax.set_zlabel("Water Permeance kg / ( m2 * h * kPa ) ")
+# fig.suptitle("Best Fit for water Illustration", fontsize=10)
+# plt.show()
+#
+# fig = plt.figure()
+# ax = fig.add_subplot(projection="3d")
+#
+# x = [m.x for m in measurements_ipoh]
+# t = [m.t for m in measurements_ipoh]
+# p = [m.p for m in measurements_ipoh]
+# ax.scatter(x, t, p, marker="o")
+#
+# x_v = numpy.linspace(0, 0.4, num=50)
+# t_v = numpy.linspace(323.15, 383.15, num=50)
+# x_fit, t_fit = numpy.meshgrid(x_v, t_v)
+# p_fit = numpy.array([fit_ipoh(x_fit[i], t_fit[i]) for i in range(len(x_fit))])
+# ax.plot_surface(x_fit, t_fit, p_fit, alpha=0.2)
+#
+# ax.set_xlabel("Water wt.p.")
+# ax.set_ylabel("Temperature K")
+# ax.set_zlabel("iPOH Permeance kg / ( m2 * h * kPa ) ")
+# fig.suptitle("Best Fit for isopropanol Illustration", fontsize=10)
+# plt.show()
