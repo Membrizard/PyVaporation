@@ -12,7 +12,7 @@ def _str_to_path(value: str) -> Path:
 @attr.s(auto_attribs=True)
 class Config:
     source_path: Path = attr.ib(converter=_str_to_path)
-    results_path: Path = attr.ib(converter=_str_to_path)
+    # results_path: Path = attr.ib(converter=_str_to_path)
 
     def __attrs_post_init__(self):
         self.ideal_experiments_path = self.source_path / "ideal_experiments.csv"

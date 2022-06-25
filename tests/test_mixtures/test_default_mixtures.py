@@ -1,7 +1,6 @@
 import numpy
 
-from mixtures import (Composition, CompositionType, Mixtures,
-                      get_nrtl_partial_pressures)
+from mixtures import Composition, CompositionType, Mixtures, get_nrtl_partial_pressures
 
 
 def test_constants_h2o_meoh():

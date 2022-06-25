@@ -16,16 +16,8 @@ compositions_mol_100 = [
     0.2604,
     0.3164,
 ]
-pervap_2510_mol_flux_water_100 = [29.7928,
-                                  46.5392,
-                                  95.3431,
-                                  128.3574,
-                                  188.1660]
-pervap_2510_mol_flux_ipoh_100 = [0.4597,
-                                 0.6290,
-                                 0.8226,
-                                 1.0060,
-                                 1.3831]
+pervap_2510_mol_flux_water_100 = [29.7928, 46.5392, 95.3431, 128.3574, 188.1660]
+pervap_2510_mol_flux_ipoh_100 = [0.4597, 0.6290, 0.8226, 1.0060, 1.3831]
 
 compositions_mol_90 = [
     0.1251,
@@ -34,58 +26,20 @@ compositions_mol_90 = [
     0.2939,
     0.3438,
 ]
-pervap_2510_mol_flux_water_90 = [30.2713,
-                                 46.5392,
-                                 76.4435,
-                                 106.8263,
-                                 134.5775]
-pervap_2510_mol_flux_ipoh_90 = [0.25,
-                                0.3266,
-                                0.5443,
-                                0.7238,
-                                0.9516]
+pervap_2510_mol_flux_water_90 = [30.2713, 46.5392, 76.4435, 106.8263, 134.5775]
+pervap_2510_mol_flux_ipoh_90 = [0.25, 0.3266, 0.5443, 0.7238, 0.9516]
 
-compositions_mol_80 = [0.201,
-                       0.2461,
-                       0.3007,
-                       0.3305,
-                       0.3643]
-pervap_2510_mol_flux_water_80 = [36.49139,
-                                 57.5440,
-                                 68.0703,
-                                 81.9459,
-                                 103.4770]
-pervap_2510_mol_flux_ipoh_80 = [0.1734,
-                                0.2823,
-                                0.3468,
-                                0.3790,
-                                0.4516]
+compositions_mol_80 = [0.201, 0.2461, 0.3007, 0.3305, 0.3643]
+pervap_2510_mol_flux_water_80 = [36.49139, 57.5440, 68.0703, 81.9459, 103.4770]
+pervap_2510_mol_flux_ipoh_80 = [0.1734, 0.2823, 0.3468, 0.3790, 0.4516]
 
-compositions_mol_70 = [0.2604,
-                       0.2966,
-                       0.3383,
-                       0.3506]
-pervap_2510_mol_flux_water_70 = [34.5775,
-                                 42.7115,
-                                 48.6923,
-                                 80.5105]
-pervap_2510_mol_flux_ipoh_70 = [0.0968,
-                                0.1169,
-                                0.1976,
-                                0.1814]
+compositions_mol_70 = [0.2604, 0.2966, 0.3383, 0.3506]
+pervap_2510_mol_flux_water_70 = [34.5775, 42.7115, 48.6923, 80.5105]
+pervap_2510_mol_flux_ipoh_70 = [0.0968, 0.1169, 0.1976, 0.1814]
 
-compositions_mol_60 = [0.2932,
-                       0.3349,
-                       0.3414,
-                       0.3691]
-pervap_2510_mol_flux_water_60 = [29.3143,
-                                 32.6636,
-                                 36.9699,
-                                 47.0177]
-pervap_2510_mol_flux_ipoh_60 = [0.0524,
-                                0.0685,
-                                0.0847,
-                                0.0726]
+compositions_mol_60 = [0.2932, 0.3349, 0.3414, 0.3691]
+pervap_2510_mol_flux_water_60 = [29.3143, 32.6636, 36.9699, 47.0177]
+pervap_2510_mol_flux_ipoh_60 = [0.0524, 0.0685, 0.0847, 0.0726]
 
 all_compositions = [
     compositions_mol_60,
@@ -150,10 +104,10 @@ area_steps = 20
 d_area = total_area / area_steps
 
 modelling_temperatures = [373.15]
-feed_mass = [1000/area_steps]
+feed_mass = [1000 / area_steps]
 compositions_in_module = [Composition(p=0.15, type=CompositionType.weight)]
 
-model_areas = numpy.linspace(0, total_area, area_steps+1)
+model_areas = numpy.linspace(0, total_area, area_steps + 1)
 
 for i in range(area_steps):
 
@@ -175,8 +129,8 @@ for i in range(area_steps):
     modelling_temperatures.append(modelled_process.feed_temperature[-1])
     compositions_in_module.append(modelled_process.feed_composition[-1])
     feed_mass.append(modelled_process.feed_mass[-1])
-    print(feed_mass[i]*area_steps)
-    print('calculating step: ', i, ' out of ', area_steps, ' area steps')
+    print(feed_mass[i] * area_steps)
+    print("calculating step: ", i, " out of ", area_steps, " area steps")
 
 
 module_area_weight_fraction = [1.830, 5.297, 9.718, 14.660, 19.298, 23.763]
@@ -186,10 +140,10 @@ module_area_temperature = [1.645, 3.575, 6.776, 10.592, 14.803, 19.978, 27.566]
 validation_temperature = [98.679, 96.710, 94.201, 91.548, 89.061, 86.408, 83.312]
 
 plt.plot(model_areas, [c.first for c in compositions_in_module])
-plt.plot(module_area_weight_fraction, validation_water_wt_fraction, label='literature')
+plt.plot(module_area_weight_fraction, validation_water_wt_fraction, label="literature")
 plt.show()
 
-plt.plot(module_area_temperature, [t+273.15 for t in validation_temperature])
+plt.plot(module_area_temperature, [t + 273.15 for t in validation_temperature])
 plt.plot(model_areas, modelling_temperatures)
 plt.show()
 
