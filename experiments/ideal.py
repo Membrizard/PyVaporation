@@ -27,12 +27,10 @@ class IdealExperiment:
 
     name: str
     temperature: float
-    component: Component  # TODO: use real test_components
+    component: Component
     permeance: Permeance
     activation_energy: typing.Optional[float] = None
     comment: typing.Optional[str] = None
-
-    # TODO Add check for units and conversion to kg/(m2*h*kPa) using Permeance.convert()
 
     @classmethod
     def from_dict(
