@@ -6,7 +6,7 @@ def plot_graph(
     x_label: str,
     y_label: str,
     points: {str: typing.Tuple[typing.List[float], typing.List[float], bool]},
-    title: typing.Optional[str] = ''
+    title: typing.Optional[str] = "",
 ):
     """
     Plots a 2D the graph in a pre-defined manner

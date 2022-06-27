@@ -120,8 +120,7 @@ class ProcessModel:
         feed = self.feed_compositions
         permeate = self.permeate_composition
         return [
-            ((1 - feed[i].second) / feed[i].second)
-            / ((1 - permeate[i].second) / permeate[i].second)
+            (permeate[i].first / permeate[i].second) / (feed[i].first / feed[i].second)
             for i in range(len(feed))
         ]
 

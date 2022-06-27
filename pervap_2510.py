@@ -163,7 +163,3 @@ fit_h2o.plot()
 fit_h2o.plot(measurements_h2o)
 fit_h2o.plot(temperature=368.15)
 fit_h2o.plot(measurements_h2o, 356.15)
-
-
-
-

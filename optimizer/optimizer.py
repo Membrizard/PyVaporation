@@ -129,7 +129,7 @@ class PervaporationFunction:
             x_min = min(x)
             t_max = max(t)
             t_min = min(t)
-            if temperature is not None and not(temperature in set(t)):
+            if temperature is not None and not (temperature in set(t)):
                 raise ValueError(f"No experimental points at {temperature} K available")
             points["Experiment"] = (x, p, False)
             if len(set(t)) == 1:
@@ -151,7 +151,7 @@ class PervaporationFunction:
                 x_label="First component fraction in feed",
                 y_label="Permeance",
                 points=points,
-                title=f"Temperature {temperature} K"
+                title=f"Temperature {temperature} K",
             )
             return
 

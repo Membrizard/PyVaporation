@@ -201,8 +201,8 @@ class Pervaporation:
             permeate_temperature,
             permeate_pressure,
         )
-        return (composition.second / (1 - composition.second)) / (
-            perm_comp.second / (1 - perm_comp.second)
+        return (composition.second / composition.first) / (
+            perm_comp.second / perm_comp.first
         )
 
     def ideal_diffusion_curve(
