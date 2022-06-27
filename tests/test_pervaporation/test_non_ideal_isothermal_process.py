@@ -229,7 +229,7 @@ def test_validate_against_literature_data_pervap_4101():
         conditions=con,
         diffusion_curve_set=membrane.diffusion_curve_sets[0],
         initial_permeances=(
-            Permeance(0.0143),
+            Permeance(0.0153),
             Permeance(0.00000632),
         ),
         number_of_steps=50,
@@ -297,7 +297,7 @@ def test_validate_against_literature_data_pervap_4101():
                     experiment_water_fraction[i]
                     - model.feed_composition[index].first
                 )
-                < 4e-3
+                < 2e-3
         )
 
         assert (

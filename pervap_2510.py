@@ -112,7 +112,7 @@ modelled_process = pervaporation.non_ideal_non_isothermal_process(
         diffusion_curve_set=pervap_2510.diffusion_curve_sets[0],
         number_of_steps=10,
         delta_hours=0.1,
-        initial_permeances=(Permeance(0.056), Permeance(0.00014)),
+        initial_permeances=(Permeance(0.0559), Permeance(0.00014)),
     )
 
 module_area_weight_fraction = [1.830, 5.297, 9.718, 14.660, 19.298, 23.763]
