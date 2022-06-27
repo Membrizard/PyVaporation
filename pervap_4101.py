@@ -48,9 +48,12 @@ model = pv.non_ideal_isothermal_process(
     delta_hours=0.2,
 )
 model.plot(y=model.feed_compositions, y_label="Concentration")
-model.plot(y=model.feed_temperature, y_label="Concentration")
-model.plot(y=model.permeate_composition, y_label="Concentration")
-model.plot(y=model.feed_mass, y_label="Concentration")
+model.plot(y=model.feed_temperature, y_label="Temperature")
+model.plot(y=model.permeate_composition, y_label="Permeate")
+model.plot(y=model.feed_mass, y_label="Feed mass")
+model.plot(y=model.partial_fluxes, y_label="Fluxes")
+model.plot(y=model.permeances, y_label="Feed mass")
+model.plot(y=model.feed_evaporation_heat, y_label="Heat")
 #
 # experiment_time_hours = [
 #     0,

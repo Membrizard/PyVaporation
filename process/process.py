@@ -91,6 +91,7 @@ class ProcessModel:
             points = {f"{y_label}": (x, y, curve)}
 
         elif isinstance(y[0], Composition):
+
             points = {
                 f"{y[0].type} fraction of {self.mixture.first_component.name}": (
                     x,
