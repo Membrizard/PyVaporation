@@ -98,103 +98,72 @@ pervap_2510 = Membrane(
     diffusion_curve_sets=[curve_set],
 )
 
-pervaporation = Pervaporation(membrane=pervap_2510, mixture=Mixtures.H2O_iPOH)
-
-conditions = Conditions(
-    membrane_area=30,
-    initial_feed_temperature=373.15,
-    initial_feed_amount=1000,
-    initial_feed_composition=Composition(p=0.15, type=CompositionType.weight),
-)
-
-modelled_process = pervaporation.non_ideal_non_isothermal_process(
-    conditions=conditions,
-    diffusion_curve_set=pervap_2510.diffusion_curve_sets[0],
-    number_of_steps=10,
-    delta_hours=0.1,
-    initial_permeances=(Permeance(0.0559), Permeance(0.00014)),
-)
-
-module_area_weight_fraction = [1.830, 5.297, 9.718, 14.660, 19.298, 23.763]
-validation_water_wt_fraction = [0.1441, 0.1334, 0.1227, 0.1125, 0.1048, 0.0988]
-
-module_area_temperature = [1.645, 3.575, 6.776, 10.592, 14.803, 19.978, 27.566]
-validation_temperature = [98.679, 96.710, 94.201, 91.548, 89.061, 86.408, 83.312]
-
-module_area_flux = [0.87, 3.78, 7.46, 12.12, 18.88, 23.71, 28.41]
-validation_flux = [4.1880, 3.4200, 2.7480, 2.1360, 1.6080, 1.3440, 1.1280]
-
-pressure = get_nrtl_partial_pressures(
-    373.15, Mixtures.H2O_iPOH, Composition(p=0.15, type=CompositionType.weight)
-)
-print(validation_flux[0] / pressure[0])
-
-plt.plot(
-    [c * 30 for c in modelled_process.time],
-    [c.first for c in modelled_process.feed_compositions],
-)
-plt.plot(module_area_weight_fraction, validation_water_wt_fraction, label="literature")
-plt.legend(["model", "experiment"])
-plt.show()
-
-plt.plot(module_area_temperature, [t + 273.15 for t in validation_temperature])
-plt.plot([c * 30 for c in modelled_process.time], modelled_process.feed_temperature)
-plt.legend(["experiment", "model"])
-plt.show()
-
-plt.plot(module_area_flux, validation_flux)
-plt.plot(
-    [c * 30 for c in modelled_process.time],
-    [fluxes[0] for fluxes in modelled_process.partial_fluxes],
-)
-plt.legend(["experiment", "model"])
-plt.show()
+# pervaporation = Pervaporation(membrane=pervap_2510, mixture=Mixtures.H2O_iPOH)
+#
+# conditions = Conditions(
+#     membrane_area=30,
+#     initial_feed_temperature=373.15,
+#     initial_feed_amount=1000,
+#     initial_feed_composition=Composition(p=0.15, type=CompositionType.weight),
+# )
+#
+# modelled_process = pervaporation.non_ideal_non_isothermal_process(
+#     conditions=conditions,
+#     diffusion_curve_set=pervap_2510.diffusion_curve_sets[0],
+#     number_of_steps=10,
+#     delta_hours=0.1,
+#     initial_permeances=(Permeance(0.0559), Permeance(0.00014)),
+# )
+#
+# module_area_weight_fraction = [1.830, 5.297, 9.718, 14.660, 19.298, 23.763]
+# validation_water_wt_fraction = [0.1441, 0.1334, 0.1227, 0.1125, 0.1048, 0.0988]
+#
+# module_area_temperature = [1.645, 3.575, 6.776, 10.592, 14.803, 19.978, 27.566]
+# validation_temperature = [98.679, 96.710, 94.201, 91.548, 89.061, 86.408, 83.312]
+#
+# module_area_flux = [0.87, 3.78, 7.46, 12.12, 18.88, 23.71, 28.41]
+# validation_flux = [4.1880, 3.4200, 2.7480, 2.1360, 1.6080, 1.3440, 1.1280]
+#
+# pressure = get_nrtl_partial_pressures(
+#     373.15, Mixtures.H2O_iPOH, Composition(p=0.15, type=CompositionType.weight)
+# )
+# print(validation_flux[0] / pressure[0])
+#
+# plt.plot(
+#     [c * 30 for c in modelled_process.time],
+#     [c.first for c in modelled_process.feed_compositions],
+# )
+# plt.plot(module_area_weight_fraction, validation_water_wt_fraction, label="literature")
+# plt.legend(["model", "experiment"])
+# plt.show()
+#
+# plt.plot(module_area_temperature, [t + 273.15 for t in validation_temperature])
+# plt.plot([c * 30 for c in modelled_process.time], modelled_process.feed_temperature)
+# plt.legend(["experiment", "model"])
+# plt.show()
+#
+# plt.plot(module_area_flux, validation_flux)
+# plt.plot(
+#     [c * 30 for c in modelled_process.time],
+#     [fluxes[0] for fluxes in modelled_process.partial_fluxes],
+# )
+# plt.legend(["experiment", "model"])
+# plt.show()
 
 measurements_h2o = Measurements.from_diffusion_curves_first(curve_set)
 measurements_ipoh = Measurements.from_diffusion_curves_second(curve_set)
 
-fit_h2o = find_best_fit(measurements_h2o)
+fit_h2o = find_best_fit(measurements_h2o, n=1, m=1)
 fit_ipoh = find_best_fit(measurements_ipoh)
 
 print(fit_h2o)
 print(fit_ipoh)
 
-fig = plt.figure()
-ax = fig.add_subplot(projection="3d")
+fit_h2o.plot()
+fit_h2o.plot(measurements_h2o)
+fit_h2o.plot(temperature=368.15)
+fit_h2o.plot(measurements_h2o, 356.15)
 
-x = [m.x for m in measurements_h2o]
-t = [m.t for m in measurements_h2o]
-p = [m.p for m in measurements_h2o]
-ax.scatter(x, t, p, marker="o")
 
-x_v = numpy.linspace(0, 0.4, num=50)
-t_v = numpy.linspace(323.15, 383.15, num=50)
-x_fit, t_fit = numpy.meshgrid(x_v, t_v)
-p_fit = numpy.array([fit_h2o(x_fit[i], t_fit[i]) for i in range(len(x_fit))])
-ax.plot_surface(x_fit, t_fit, p_fit, alpha=0.2)
 
-ax.set_xlabel("Water wt.p.")
-ax.set_ylabel("Temperature K")
-ax.set_zlabel("Water Permeance kg / ( m2 * h * kPa ) ")
-fig.suptitle("Best Fit for water Illustration", fontsize=10)
-plt.show()
 
-fig = plt.figure()
-ax = fig.add_subplot(projection="3d")
-
-x = [m.x for m in measurements_ipoh]
-t = [m.t for m in measurements_ipoh]
-p = [m.p for m in measurements_ipoh]
-ax.scatter(x, t, p, marker="o")
-
-x_v = numpy.linspace(0, 0.4, num=50)
-t_v = numpy.linspace(323.15, 383.15, num=50)
-x_fit, t_fit = numpy.meshgrid(x_v, t_v)
-p_fit = numpy.array([fit_ipoh(x_fit[i], t_fit[i]) for i in range(len(x_fit))])
-ax.plot_surface(x_fit, t_fit, p_fit, alpha=0.2)
-
-ax.set_xlabel("Water wt.p.")
-ax.set_ylabel("Temperature K")
-ax.set_zlabel("iPOH Permeance kg / ( m2 * h * kPa ) ")
-fig.suptitle("Best Fit for isopropanol Illustration", fontsize=10)
-plt.show()

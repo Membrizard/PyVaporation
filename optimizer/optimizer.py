@@ -112,59 +112,66 @@ class PervaporationFunction:
             a=self.a,
             b=self.b,
         )
-#TODO : refactor!!!
+
     def plot(
         self,
         experimental_data: typing.Optional[Measurements] = None,
-        temperature_range: typing.Optional[typing.Set[float]] = None,
+        temperature: typing.Optional[float] = None,
     ):
-        fig = plt.figure()
-        ax = fig.add_subplot(projection="3d")
         points = {}
+        x, t, p = 0, 0, 0
 
         if experimental_data is not None:
-
             x = [m.x for m in experimental_data]
             t = [m.t for m in experimental_data]
             p = [m.p for m in experimental_data]
-            ax.scatter(x, t, p, marker="o")
-            max_x = max(x)
-            min_x = min(x)
-            max_t = max(t)
-            min_t = min(t)
-            points["experimental"] = (x, p, False)
-        else:
-            max_x = 1
-            min_x = 0
-            if temperature_range is not None:
-                max_t = max(temperature_range)
-                min_t = min(temperature_range)
+            x_max = max(x)
+            x_min = min(x)
+            t_max = max(t)
+            t_min = min(t)
+            if temperature is not None and not(temperature in set(t)):
+                raise ValueError(f"No experimental points at {temperature} K available")
+            points["Experiment"] = (x, p, False)
+            if len(set(t)) == 1:
+                temperature = set(t).pop()
 
-        x_v = numpy.linspace(min_x, max_x, num=50)
-        if len(temperature_range) > 1:
-            t_v = numpy.linspace((min_t - 10), (max_t + 10), num=50)
         else:
-            t_v = temperature_range
-        x_fit, t_fit = numpy.meshgrid(x_v, t_v)
-        p_fit = numpy.array([self(x_fit[i], t_fit[i]) for i in range(len(x_fit))])
-        points["fit"] = (x_v, p_fit)
+            x_max = 1
+            x_min = 0
+            t_max = 373.15
+            t_min = 293.15
 
-        if len(set(t_v)) == 1:
+        x_v = numpy.linspace(x_min, x_max, num=50)
+
+        if temperature is not None:
+            p_fit = [self(x_v[i], temperature) for i in range(len(x_v))]
+            points["Fit"] = (x_v, p_fit, True)
+            print(points)
             plot_graph(
-                x_label="First component fraction, %",
+                x_label="First component fraction in feed",
                 y_label="Permeance",
                 points=points,
+                title=f"Temperature {temperature} K"
             )
+            return
 
-        else:
-            p_fit = numpy.array([self(x_fit[i], t_fit[i]) for i in range(len(x_fit))])
-            ax.plot_surface(x_fit, t_fit, p_fit, alpha=0.2)
+        fig = plt.figure()
+        ax = fig.add_subplot(projection="3d")
 
-            ax.set_xlabel(f"First component fraction, %")
-            ax.set_ylabel(f"Temperature K")
-            ax.set_zlabel(f"Permeance")
-            fig.suptitle(f"Fit Illustration", fontsize=10)
-            plt.show()
+        if experimental_data is not None:
+            ax.scatter(x, t, p, marker="o")
+
+        t_v = numpy.linspace((t_min - 10), (t_max + 10), num=50)
+        x_fit, t_fit = numpy.meshgrid(x_v, t_v)
+        p_fit = numpy.array([self(x_fit[i], t_fit[i]) for i in range(len(x_fit))])
+        ax.plot_surface(x_fit, t_fit, p_fit, alpha=0.2)
+
+        ax.set_xlabel("First component fraction")
+        ax.set_ylabel("Temperature K")
+        ax.set_zlabel("Permeance")
+        fig.suptitle("Fit Illustration", fontsize=10)
+        plt.show()
+
         return
 
 

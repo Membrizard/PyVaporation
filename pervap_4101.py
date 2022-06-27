@@ -7,6 +7,7 @@ from pervaporation import Pervaporation
 from membrane import Membrane
 from config import Config
 from permeance import Permeance
+from optimizer import Measurements, find_best_fit
 
 
 config = Config(
@@ -15,7 +16,7 @@ config = Config(
 
 membrane = Membrane.load(config)
 
-# curve = membrane.diffusion_curve_sets[0].diffusion_curves[0]
+curve = membrane.diffusion_curve_sets[0].diffusion_curves[0]
 # curve.plot(y=curve.partial_fluxes, y_label="Fluxes")
 # curve.plot(y=curve.permeances, y_label="Permeance", curve=False)
 # curve.plot(y=curve.get_psi, y_label="PSI", curve=False)
@@ -47,13 +48,9 @@ model = pv.non_ideal_isothermal_process(
     number_of_steps=50,
     delta_hours=0.2,
 )
-model.plot(y=model.feed_compositions, y_label="Concentration")
-model.plot(y=model.feed_temperature, y_label="Temperature")
-model.plot(y=model.permeate_composition, y_label="Permeate")
-model.plot(y=model.feed_mass, y_label="Feed mass")
-model.plot(y=model.partial_fluxes, y_label="Fluxes")
-model.plot(y=model.permeances, y_label="Feed mass")
-model.plot(y=model.feed_evaporation_heat, y_label="Heat")
+measurements = Measurements.from_diffusion_curve_first(curve=curve)
+fit = find_best_fit(measurements)
+fit.plot(measurements)
 #
 # experiment_time_hours = [
 #     0,
