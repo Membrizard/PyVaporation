@@ -139,7 +139,6 @@ class PervaporationFunction:
             if temperature_range is not None:
                 max_t = max(temperature_range)
                 min_t = min(temperature_range)
-            else
 
         x_v = numpy.linspace(min_x, max_x, num=50)
         if len(temperature_range) > 1:
