@@ -49,27 +49,37 @@ class ProcessModel:
 
     def plot(self, y: typing.List, y_label: str = "", curve: bool = 1):
         """
-        Draws basic plot of a specified parameter versus first component fraction in the feed
+        Draws basic plot of a specified parameter versus process time
         :param y: parameter
         :param y_label: Name of the axis
         :param curve: if True draws - connects points with a line, if False - draws raw points
         :return: plots a graph
         """
 
-        x = [c.first for c in self.feed_compositions]
+        x = self.time
         if type(y[0]) == tuple:
             first = []
             second = []
-            for m in y:
-                first.append(m[0])
-                second.append(m[1])
+            if isinstance(y[0][0], Permeance):
+                for m in y:
+                    first.append(m[0].value)
+                    second.append(m[1].value)
+            elif type(y[0][0]) == float or type(y[0][0]) == numpy.float64:
+                for m in y:
+                    first.append(m[0])
+                    second.append(m[1])
+            else:
+                raise ValueError(f"Unexpected data type {type(y[0][0])}")
+
+            scaling_factor = numpy.floor(numpy.log10((max(first)))) - numpy.floor(numpy.log10((max(second))))
+            second = [c*(10**scaling_factor) for c in second]
             points = {
                 f"First Component - {self.mixture.first_component.name}": (
                     x,
                     first,
                     curve,
                 ),
-                f"Second Component - {self.mixture.second_component.name}": (
+                f"Second Component - {self.mixture.second_component.name}, multiplied by {int(10**scaling_factor):.0e} ": (
                     x,
                     second,
                     curve,

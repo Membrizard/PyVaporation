@@ -15,38 +15,42 @@ config = Config(
 
 membrane = Membrane.load(config)
 
-curve = membrane.diffusion_curve_sets[0].diffusion_curves[0]
-curve.plot(y=curve.partial_fluxes, y_label="Fluxes")
-curve.plot(y=curve.permeances, y_label="Permeance", curve=False)
-curve.plot(y=curve.get_psi, y_label="PSI", curve=False)
-curve.plot(y=curve.get_separation_factor, y_label="SF")
-curve.plot(y=curve.get_selectivity, y_label="Selectivity")
-curve.plot(y=curve.permeate_composition, y_label="permeate")
+# curve = membrane.diffusion_curve_sets[0].diffusion_curves[0]
+# curve.plot(y=curve.partial_fluxes, y_label="Fluxes")
+# curve.plot(y=curve.permeances, y_label="Permeance", curve=False)
+# curve.plot(y=curve.get_psi, y_label="PSI", curve=False)
+# curve.plot(y=curve.get_separation_factor, y_label="SF")
+# curve.plot(y=curve.get_selectivity, y_label="Selectivity")
+# curve.plot(y=curve.permeate_composition, y_label="permeate")
 
 
-# pv = Pervaporation(
-#     membrane=membrane,
-#     mixture=Mixtures.H2O_EtOH,
-# )
-#
-# con = Conditions(
-#     membrane_area=0.017,
-#     initial_feed_temperature=368.15,
-#     initial_feed_amount=1.5,
-#     initial_feed_composition=Composition(p=0.1, type=CompositionType.weight),
-#     permeate_pressure=0,
-# )
-#
-# model = pv.non_ideal_isothermal_process(
-#     conditions=con,
-#     diffusion_curve_set=membrane.diffusion_curve_sets[0],
-#     initial_permeances=(
-#         Permeance(0.0153),
-#         Permeance(0.00000632),
-#     ),
-#     number_of_steps=50,
-#     delta_hours=0.2,
-# )
+pv = Pervaporation(
+    membrane=membrane,
+    mixture=Mixtures.H2O_EtOH,
+)
+
+con = Conditions(
+    membrane_area=0.017,
+    initial_feed_temperature=368.15,
+    initial_feed_amount=1.5,
+    initial_feed_composition=Composition(p=0.1, type=CompositionType.weight),
+    permeate_pressure=0,
+)
+
+model = pv.non_ideal_isothermal_process(
+    conditions=con,
+    diffusion_curve_set=membrane.diffusion_curve_sets[0],
+    initial_permeances=(
+        Permeance(0.0153),
+        Permeance(0.00000632),
+    ),
+    number_of_steps=50,
+    delta_hours=0.2,
+)
+model.plot(y=model.feed_compositions, y_label="Concentration")
+model.plot(y=model.feed_temperature, y_label="Concentration")
+model.plot(y=model.permeate_composition, y_label="Concentration")
+model.plot(y=model.feed_mass, y_label="Concentration")
 #
 # experiment_time_hours = [
 #     0,
