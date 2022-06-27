@@ -13,6 +13,7 @@ from mixtures import (
     get_nrtl_partial_pressures,
 )
 from permeance import Permeance, Units
+from plotting import plot_graph
 
 DC_SET_COLUMNS = [
     "curve_id",
@@ -202,6 +203,51 @@ class DiffusionCurve:
     def __len__(self):
         return len(self.feed_compositions)
 
+    def plot(self, y: typing.List, y_label: str = "", curve: bool = 1):
+
+        x = [c.first for c in self.feed_compositions]
+        if type(y[0]) == tuple:
+            first = []
+            second = []
+            for m in y:
+                first.append(m[0])
+                second.append(m[1])
+            points = {
+                f"First Component - {self.mixture.first_component.name}": (
+                    x,
+                    first,
+                    curve,
+                ),
+                f"Second Component - {self.mixture.second_component.name}": (
+                    x,
+                    second,
+                    curve,
+                ),
+            }
+
+        elif type(y[0]) == float or type(y[0]) == numpy.float64:
+
+            points = {f"{y_label}": (x, y, curve)}
+
+        elif isinstance(y[0], Composition):
+            points = {
+                f"{y[0].type} fraction of {self.mixture.first_component.name}": (
+                    x,
+                    [c.first for c in y],
+                    curve,
+                )
+            }
+        else:
+            raise ValueError(f"Unexpected data type {type(y[0])}")
+
+        plot_graph(
+            x_label=f"{self.mixture.first_component.name}, {self.feed_compositions[0].type} %",
+            y_label=y_label,
+            points=points,
+        )
+
+        return
+
     @property
     def permeate_composition(self) -> typing.List[Composition]:
         """
@@ -225,8 +271,8 @@ class DiffusionCurve:
         permeate_composition = self.permeate_composition
         feed_composition = self.feed_compositions
         return [
-            ((1 - feed_composition[i].second) / feed_composition[i].p)
-            / ((1 - permeate_composition[i].second) / permeate_composition[i].p)
+            (permeate_composition[i].first / permeate_composition[i].second)
+            / (feed_composition[i].first / feed_composition[i].second)
             for i in range(len(self.feed_compositions))
         ]
 

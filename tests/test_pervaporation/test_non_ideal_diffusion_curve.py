@@ -216,9 +216,7 @@ def romakon_102_single_diffusion_curve():
         name="Romakon-PM102",
         ideal_experiments=experiments,
         diffusion_curve_sets=[
-            DiffusionCurveSet(
-                name="water/acetic acid", diffusion_curves=[curve]
-            )
+            DiffusionCurveSet(name="water/acetic acid", diffusion_curves=[curve])
         ],
     )
 

@@ -101,19 +101,19 @@ pervap_2510 = Membrane(
 pervaporation = Pervaporation(membrane=pervap_2510, mixture=Mixtures.H2O_iPOH)
 
 conditions = Conditions(
-        membrane_area=30,
-        initial_feed_temperature=373.15,
-        initial_feed_amount=1000,
-        initial_feed_composition=Composition(p=0.15, type=CompositionType.weight),
-    )
+    membrane_area=30,
+    initial_feed_temperature=373.15,
+    initial_feed_amount=1000,
+    initial_feed_composition=Composition(p=0.15, type=CompositionType.weight),
+)
 
 modelled_process = pervaporation.non_ideal_non_isothermal_process(
-        conditions=conditions,
-        diffusion_curve_set=pervap_2510.diffusion_curve_sets[0],
-        number_of_steps=10,
-        delta_hours=0.1,
-        initial_permeances=(Permeance(0.0559), Permeance(0.00014)),
-    )
+    conditions=conditions,
+    diffusion_curve_set=pervap_2510.diffusion_curve_sets[0],
+    number_of_steps=10,
+    delta_hours=0.1,
+    initial_permeances=(Permeance(0.0559), Permeance(0.00014)),
+)
 
 module_area_weight_fraction = [1.830, 5.297, 9.718, 14.660, 19.298, 23.763]
 validation_water_wt_fraction = [0.1441, 0.1334, 0.1227, 0.1125, 0.1048, 0.0988]
@@ -129,18 +129,24 @@ pressure = get_nrtl_partial_pressures(
 )
 print(validation_flux[0] / pressure[0])
 
-plt.plot([c*30 for c in modelled_process.time], [c.first for c in modelled_process.feed_composition])
+plt.plot(
+    [c * 30 for c in modelled_process.time],
+    [c.first for c in modelled_process.feed_composition],
+)
 plt.plot(module_area_weight_fraction, validation_water_wt_fraction, label="literature")
 plt.legend(["model", "experiment"])
 plt.show()
 
 plt.plot(module_area_temperature, [t + 273.15 for t in validation_temperature])
-plt.plot([c*30 for c in modelled_process.time], modelled_process.feed_temperature)
+plt.plot([c * 30 for c in modelled_process.time], modelled_process.feed_temperature)
 plt.legend(["experiment", "model"])
 plt.show()
 
 plt.plot(module_area_flux, validation_flux)
-plt.plot([c*30 for c in modelled_process.time], [fluxes[0] for fluxes in modelled_process.partial_fluxes])
+plt.plot(
+    [c * 30 for c in modelled_process.time],
+    [fluxes[0] for fluxes in modelled_process.partial_fluxes],
+)
 plt.legend(["experiment", "model"])
 plt.show()
 

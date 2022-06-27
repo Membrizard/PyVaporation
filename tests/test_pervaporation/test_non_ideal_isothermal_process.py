@@ -293,17 +293,8 @@ def test_validate_against_literature_data_pervap_4101():
                 index = k
 
         assert (
-                abs(
-                    experiment_water_fraction[i]
-                    - model.feed_composition[index].first
-                )
-                < 2e-3
+            abs(experiment_water_fraction[i] - model.feed_composition[index].first)
+            < 2e-3
         )
 
-        assert (
-                abs(
-                    experiment_water_flux[i]
-                    - model.partial_fluxes[index][0]
-                )
-                < 1.1e-1
-        )
+        assert abs(experiment_water_flux[i] - model.partial_fluxes[index][0]) < 1.1e-1

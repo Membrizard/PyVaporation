@@ -188,4 +188,3 @@ def test_constants_acetic_acid():
     assert abs(Components.AceticAcid.get_specific_heat(292.6) - 122.61) < 6e-1
     assert abs(Components.AceticAcid.get_specific_heat(334.45) - 128.34) < 6e-1
     assert abs(Components.AceticAcid.get_specific_heat(358.55) - 130.80) < 6e-1
-
