@@ -117,8 +117,8 @@ def test_validate_against_ideal_process_self_cooling(pervaporation, basic_condit
         )
         assert (
             abs(
-                non_ideal_model.feed_composition[i].first
-                - ideal_model.feed_composition[i].first
+                non_ideal_model.feed_compositions[i].first
+                - ideal_model.feed_compositions[i].first
             )
             < 1e-2
         )
@@ -183,8 +183,8 @@ def test_validate_against_ideal_process_temperature_program(pervaporation):
         )
         assert (
             abs(
-                non_ideal_model.feed_composition[i].first
-                - ideal_model.feed_composition[i].first
+                non_ideal_model.feed_compositions[i].first
+                - ideal_model.feed_compositions[i].first
             )
             < 1e-2
         )

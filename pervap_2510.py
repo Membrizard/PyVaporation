@@ -131,7 +131,7 @@ print(validation_flux[0] / pressure[0])
 
 plt.plot(
     [c * 30 for c in modelled_process.time],
-    [c.first for c in modelled_process.feed_composition],
+    [c.first for c in modelled_process.feed_compositions],
 )
 plt.plot(module_area_weight_fraction, validation_water_wt_fraction, label="literature")
 plt.legend(["model", "experiment"])

@@ -8,6 +8,7 @@ from conditions import Conditions
 from mixtures import Composition, Mixture, get_nrtl_partial_pressures
 from optimizer import PervaporationFunction
 from permeance import Permeance
+from plotting import plot_graph
 
 
 @attr.s(auto_attribs=True)
@@ -15,7 +16,7 @@ class ProcessModel:
     mixture: Mixture
     membrane_name: str
     feed_temperature: typing.List[float]
-    feed_composition: typing.List[Composition]
+    feed_compositions: typing.List[Composition]
     permeate_composition: typing.List[Composition]
     permeate_temperature: typing.List[float]
     permeate_pressure: typing.List[float]
@@ -46,12 +47,64 @@ class ProcessModel:
                     )
                 )
 
+    def plot(self, y: typing.List, y_label: str = "", curve: bool = 1):
+        """
+        Draws basic plot of a specified parameter versus first component fraction in the feed
+        :param y: parameter
+        :param y_label: Name of the axis
+        :param curve: if True draws - connects points with a line, if False - draws raw points
+        :return: plots a graph
+        """
+
+        x = [c.first for c in self.feed_compositions]
+        if type(y[0]) == tuple:
+            first = []
+            second = []
+            for m in y:
+                first.append(m[0])
+                second.append(m[1])
+            points = {
+                f"First Component - {self.mixture.first_component.name}": (
+                    x,
+                    first,
+                    curve,
+                ),
+                f"Second Component - {self.mixture.second_component.name}": (
+                    x,
+                    second,
+                    curve,
+                ),
+            }
+
+        elif type(y[0]) == float or type(y[0]) == numpy.float64:
+
+            points = {f"{y_label}": (x, y, curve)}
+
+        elif isinstance(y[0], Composition):
+            points = {
+                f"{y[0].type} fraction of {self.mixture.first_component.name}": (
+                    x,
+                    [c.first for c in y],
+                    curve,
+                )
+            }
+        else:
+            raise ValueError(f"Unexpected data type {type(y[0])}")
+
+        plot_graph(
+            x_label=f"{self.mixture.first_component.name}, {self.feed_compositions[0].type} %",
+            y_label=y_label,
+            points=points,
+        )
+
+        return
+
     @property
     def get_separation_factor(self) -> typing.List[float]:
         """
         :return: List of separation Factors
         """
-        feed = self.feed_composition
+        feed = self.feed_compositions
         permeate = self.permeate_composition
         return [
             ((1 - feed[i].second) / feed[i].second)

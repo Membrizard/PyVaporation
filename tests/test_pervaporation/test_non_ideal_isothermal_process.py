@@ -158,8 +158,8 @@ def test_validate_against_ideal_process(ideal_pervaporation, ideal_conditions):
         )
         assert (
             abs(
-                non_ideal_model.feed_composition[i].first
-                - ideal_model.feed_composition[i].first
+                non_ideal_model.feed_compositions[i].first
+                - ideal_model.feed_compositions[i].first
             )
             < 1e-2
         )
@@ -196,7 +196,7 @@ def test_real_process_modelling_romakon_al2(romakon_al2_pervaporation):
         assert (
             abs(
                 curve.feed_compositions[i].first
-                - modelled_experiment.feed_composition[index].first
+                - modelled_experiment.feed_compositions[index].first
             )
             < 3e-3
         )
@@ -293,7 +293,7 @@ def test_validate_against_literature_data_pervap_4101():
                 index = k
 
         assert (
-            abs(experiment_water_fraction[i] - model.feed_composition[index].first)
+            abs(experiment_water_fraction[i] - model.feed_compositions[index].first)
             < 2e-3
         )
 

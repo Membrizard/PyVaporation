@@ -16,9 +16,8 @@ config = Config(
 membrane = Membrane.load(config)
 
 curve = membrane.diffusion_curve_sets[0].diffusion_curves[0]
-print(isinstance(curve.permeate_composition[0], Composition))
 curve.plot(y=curve.partial_fluxes, y_label="Fluxes")
-curve.plot(y=curve.partial_fluxes, y_label="Permeance", curve=False)
+curve.plot(y=curve.permeances, y_label="Permeance", curve=False)
 curve.plot(y=curve.get_psi, y_label="PSI", curve=False)
 curve.plot(y=curve.get_separation_factor, y_label="SF")
 curve.plot(y=curve.get_selectivity, y_label="Selectivity")
