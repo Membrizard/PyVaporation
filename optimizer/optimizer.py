@@ -1,11 +1,13 @@
 import typing
 from copy import copy
+import matplotlib.pyplot as plt
 
 import attr
 import numpy
 from scipy import optimize
 
 from diffusion_curve import DiffusionCurve, DiffusionCurveSet
+from plotting import plot_graph
 
 
 @attr.s(auto_attribs=True)
@@ -110,6 +112,61 @@ class PervaporationFunction:
             a=self.a,
             b=self.b,
         )
+#TODO : refactor!!!
+    def plot(
+        self,
+        experimental_data: typing.Optional[Measurements] = None,
+        temperature_range: typing.Optional[typing.Set[float]] = None,
+    ):
+        fig = plt.figure()
+        ax = fig.add_subplot(projection="3d")
+        points = {}
+
+        if experimental_data is not None:
+
+            x = [m.x for m in experimental_data]
+            t = [m.t for m in experimental_data]
+            p = [m.p for m in experimental_data]
+            ax.scatter(x, t, p, marker="o")
+            max_x = max(x)
+            min_x = min(x)
+            max_t = max(t)
+            min_t = min(t)
+            points["experimental"] = (x, p, False)
+        else:
+            max_x = 1
+            min_x = 0
+            if temperature_range is not None:
+                max_t = max(temperature_range)
+                min_t = min(temperature_range)
+            else
+
+        x_v = numpy.linspace(min_x, max_x, num=50)
+        if len(temperature_range) > 1:
+            t_v = numpy.linspace((min_t - 10), (max_t + 10), num=50)
+        else:
+            t_v = temperature_range
+        x_fit, t_fit = numpy.meshgrid(x_v, t_v)
+        p_fit = numpy.array([self(x_fit[i], t_fit[i]) for i in range(len(x_fit))])
+        points["fit"] = (x_v, p_fit)
+
+        if len(set(t_v)) == 1:
+            plot_graph(
+                x_label="First component fraction, %",
+                y_label="Permeance",
+                points=points,
+            )
+
+        else:
+            p_fit = numpy.array([self(x_fit[i], t_fit[i]) for i in range(len(x_fit))])
+            ax.plot_surface(x_fit, t_fit, p_fit, alpha=0.2)
+
+            ax.set_xlabel(f"First component fraction, %")
+            ax.set_ylabel(f"Temperature K")
+            ax.set_zlabel(f"Permeance")
+            fig.suptitle(f"Fit Illustration", fontsize=10)
+            plt.show()
+        return
 
 
 def _suggest_n_m(

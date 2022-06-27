@@ -208,7 +208,7 @@ class DiffusionCurve:
         Draws basic plot of a specified parameter versus first component fraction in the feed
         :param y: parameter
         :param y_label: Name of the axis
-        :param curve: if True draws - connects points with a line, if False - draws raw points
+        :param curve: if True - connects points with a line, if False - draws raw points
         :return: plots a graph
         """
 
@@ -227,8 +227,10 @@ class DiffusionCurve:
             else:
                 raise ValueError(f"Unexpected data type {type(y[0][0])}")
 
-            scaling_factor = numpy.floor(numpy.log10((max(first)))) - numpy.floor(numpy.log10((max(second))))
-            second = [c*(10**scaling_factor) for c in second]
+            scaling_factor = numpy.floor(numpy.log10((max(first)))) - numpy.floor(
+                numpy.log10((max(second)))
+            )
+            second = [c * (10**scaling_factor) for c in second]
             points = {
                 f"First Component - {self.mixture.first_component.name}": (
                     x,
