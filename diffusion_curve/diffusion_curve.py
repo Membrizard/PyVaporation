@@ -42,12 +42,10 @@ class DiffusionCurve:
     mixture: Mixture
     membrane_name: str
     feed_temperature: float
-    # TODO When loaded from csv need to assure compositions conversion to weight
     feed_compositions: typing.List[Composition]
     partial_fluxes: typing.Optional[typing.List[typing.Tuple[float, float]]] = None
     permeate_temperature: typing.Optional[float] = None
     permeate_pressure: typing.Optional[float] = None
-    # TODO when loaded from csv need to assure permeances conversion to kg/(m2*h*kPa)
     permeances: typing.Optional[typing.List[typing.Tuple[Permeance, Permeance]]] = None
     comments: typing.Optional[str] = None
 
