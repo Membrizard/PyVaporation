@@ -132,6 +132,16 @@ class PervaporationFunction:
             t_min = min(t)
             if temperature is not None and not (temperature in set(t)):
                 raise ValueError(f"No experimental points at {temperature} K available")
+            if temperature is not None:
+                x_selected = []
+                p_selected = []
+                for i in range(len(t)):
+                    if t[i] == temperature:
+                        x_selected.append(x[i])
+                        p_selected.append(p[i])
+                x = x_selected
+                p = p_selected
+
             points["Experiment"] = (x, p, False)
             if len(set(t)) == 1:
                 temperature = set(t).pop()
