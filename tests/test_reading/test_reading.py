@@ -23,5 +23,9 @@ def test_read_diffusion_curves_set(config: Config):
     assert 0 == 0
 
 
-def test_membrane_load(config: Config):
-    membrane = Membrane.load(config)
+def test_membrane_load(config):
+    config_1 = Config(source_path=Path("tests/default_membranes/Pervap_4101"))
+    config_2 = Config(source_path=Path("tests/default_membranes/Pervap_2510"))
+    Membrane.load(config_1)
+    Membrane.load(config_2)
+    Membrane.load(config)
