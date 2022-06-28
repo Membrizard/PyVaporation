@@ -625,7 +625,7 @@ class Pervaporation:
         Based on a set of Diffusion curves measured at different temperatures;
         The modelling could be also performed based on a single diffusion curve:
         In that case the apparent activation energy of transport is considered constant
-        and is calculated for each component based on the IdealExperiments data provided for the Membrane.
+        and is calculated for each component based on the IdealExperiments default_membranes provided for the Membrane.
         :param diffusion_curve_set:
         :param feed_temperature:
         :param initial_feed_composition:
@@ -842,7 +842,7 @@ class Pervaporation:
         Based on a set of Diffusion curves measured at different temperatures;
         The modelling could be also performed based on a single diffusion curve:
         In that case the apparent activation energy of transport is considered constant
-        and is calculated for each component based on the IdealExperiments data provided for the Membrane.
+        and is calculated for each component based on the IdealExperiments default_membranes provided for the Membrane.
         :param conditions: Initial Conditions of the Process
         :param diffusion_curve_set: A set of Diffusion curves picked for the Modelling form the Membrane
         :param number_of_steps: Number of time steps for modelling
@@ -1166,7 +1166,7 @@ class Pervaporation:
         Based on a set of Diffusion curves measured at different temperatures;
         The modelling could be also performed based on a single diffusion curve:
         In that case the apparent activation energy of transport is considered constant
-        and is calculated for each test_components based on the IdealExperiments data provided for the Membrane.
+        and is calculated for each test_components based on the IdealExperiments default_membranes provided for the Membrane.
         :param conditions: Initial Conditions of the Process, a Temperature program may be added if necessary
         :param diffusion_curve_set: A set of Diffusion curves picked for the Modelling from the Membrane
         :param number_of_steps: Number of time steps for modelling

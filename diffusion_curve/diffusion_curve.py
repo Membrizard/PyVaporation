@@ -225,7 +225,7 @@ class DiffusionCurve:
                     first.append(m[0])
                     second.append(m[1])
             else:
-                raise ValueError(f"Unexpected data type {type(y[0][0])}")
+                raise ValueError(f"Unexpected default_membranes type {type(y[0][0])}")
 
             scaling_factor = numpy.floor(numpy.log10((max(first)))) - numpy.floor(
                 numpy.log10((max(second)))
@@ -257,7 +257,7 @@ class DiffusionCurve:
                 )
             }
         else:
-            raise ValueError(f"Unexpected data type {type(y[0])}")
+            raise ValueError(f"Unexpected default_membranes type {type(y[0])}")
 
         plot_graph(
             x_label=f"{self.mixture.first_component.name}, {self.feed_compositions[0].type} %",
@@ -471,7 +471,7 @@ class DiffusionCurveSet:
         name = path.stem
 
         if list(data.columns) != DC_SET_COLUMNS:
-            raise ValueError("Incorrect data: %s at %s" % (list(data.columns), path))
+            raise ValueError("Incorrect default_membranes: %s at %s" % (list(data.columns), path))
 
         raw_diffusion_curves = data.groupby("curve_id")
         diffusion_curves = []

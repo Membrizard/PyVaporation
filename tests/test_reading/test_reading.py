@@ -10,7 +10,7 @@ from membrane import Membrane
 
 @pytest.fixture
 def config() -> Config:
-    return Config(source_path=Path("tests/data/Membrane_RomakonPM_102"))
+    return Config(source_path=Path("tests/default_membranes/Membrane_RomakonPM_102"))
 
 
 def test_read_ideal_experiment(config: Config):

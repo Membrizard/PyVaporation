@@ -5,7 +5,7 @@ from mixtures import Composition, CompositionType, Mixtures, get_nrtl_partial_pr
 
 def test_constants_h2o_meoh():
     """
-    Experimental data for validation is taken from https://doi.org/10.1021/je00019a033
+    Experimental default_membranes for validation is taken from https://doi.org/10.1021/je00019a033
     NRTL Constants are taken from https://doi.org/10.1002/9781118477304.app2
     """
 
@@ -57,7 +57,7 @@ def test_constants_h2o_meoh():
 
 def test_constants_h2o_etoh():
     """
-    Experimental data for validation is taken from https://doi.org/10.1021/je00019a033
+    Experimental default_membranes for validation is taken from https://doi.org/10.1021/je00019a033
     NRTL Constants are taken from Identification of Best Model for Equilibrium Data of Ethanol-Water Mixture
     Bilel Hadrich and Nabil Kechaou
     June 2010, Volume 4, No.6 (Serial No.31)Journal of Chemistry and Chemical Engineering, ISSN 1934-7375, USA
@@ -110,7 +110,7 @@ def test_constants_h2o_etoh():
 
 def test_constants_h2o_ipoh():
     """
-    Experimental data for validation is taken from http://www.ddbst.com/en/EED/VLE/VLE%202-Propanol%3BWater.php
+    Experimental default_membranes for validation is taken from http://www.ddbst.com/en/EED/VLE/VLE%202-Propanol%3BWater.php
     Brunjes A.S.; Bogart M.J.P.: The Binary Systems Ethanol-n-Butanol, Acetone-Water
     and Isopropanol-Water. Ind.Eng.Chem. 35 (1943) 255-260
     NRTL Constants are taken from https://doi.org/10.1021/je960108n
@@ -165,7 +165,7 @@ def test_constants_h2o_ipoh():
 
 def test_constants_h2o_acetic_acid():
     """
-    Experimental data for validation is taken from
+    Experimental default_membranes for validation is taken from
     http://dx.doi.org/10.1016/j.fluid.2011.03.006
     NRTL constants are taken from
     https://doi.org/10.1155/2012/641251
@@ -221,7 +221,7 @@ def test_constants_h2o_acetic_acid():
 
 def test_constants_etoh_etbe():
     """
-    Experimental data for validation and NRTL constants are taken from
+    Experimental default_membranes for validation and NRTL constants are taken from
     Isothermal vapor-liquid equilibria for binary and ternary systems containing ethyl tert-butyl ether,
     ethanol, benzene, and toluene at 313.15 K
     Oh, JH; Park, SJ
@@ -275,7 +275,7 @@ def test_constants_etoh_etbe():
 
 def test_constants_meoh_toluene():
     """
-    Experimental data for validation is taken from https://doi.org/10.1016/0021-9614(88)90185-1
+    Experimental default_membranes for validation is taken from https://doi.org/10.1016/0021-9614(88)90185-1
     NRTL constants are taken from https://doi.org/10.1016/j.fluid.2019.112412
     """
 
@@ -327,7 +327,7 @@ def test_constants_meoh_toluene():
 
 def test_constants_meoh_mtbe():
     """
-    Experimental data for validation and NRTL Parameters are taken from
+    Experimental default_membranes for validation and NRTL Parameters are taken from
     https://doi.org/10.1002/1521-4125(20020709)25:7<729::AID-CEAT729>3.0.CO;2-B
     """
 
@@ -380,7 +380,7 @@ def test_constants_meoh_mtbe():
 
 def test_constants_meoh_dmc():
     """
-    Experimental data for validation and NRTL Parameters are taken from https://doi.org/10.1016/j.fluid.2011.08.007
+    Experimental default_membranes for validation and NRTL Parameters are taken from https://doi.org/10.1016/j.fluid.2011.08.007
     """
 
     test_mixture = Mixtures.MeOH_DMC

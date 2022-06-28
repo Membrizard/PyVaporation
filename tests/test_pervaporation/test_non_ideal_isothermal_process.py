@@ -204,10 +204,10 @@ def test_real_process_modelling_romakon_al2(romakon_al2_pervaporation):
 
 def test_validate_against_literature_data_pervap_4101():
     """
-    :return: Algorithms are validated against experimental data provided in doi:10.3390/membranes8010004
+    :return: Algorithms are validated against experimental default_membranes provided in doi:10.3390/membranes8010004
     """
     config = Config(
-        source_path=Path("tests/data/Pervap_4101"),
+        source_path=Path("tests/default_membranes/Pervap_4101"),
     )
 
     membrane = Membrane.load(config)

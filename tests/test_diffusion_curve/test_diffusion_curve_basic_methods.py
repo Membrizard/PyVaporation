@@ -9,11 +9,10 @@ from permeance import Permeance
 @fixture
 def diffusion_curve():
     config = Config(
-        source_path=Path("tests/data/Pervap_2510"),
+        source_path=Path("tests/default_membranes/Pervap_2510"),
     )
 
     membrane = Membrane.load(config)
-    print(membrane.diffusion_curve_sets[0][0].get_selectivity)
     return membrane.diffusion_curve_sets[0][0]
 
 

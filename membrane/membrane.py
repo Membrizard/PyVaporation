@@ -36,7 +36,7 @@ class Membrane:
             diffusion_curve_sets = None
 
         if ie is None and diffusion_curve_sets is None:
-            raise FileExistsError("No data found at %s" % config.source_path)
+            raise FileExistsError("No default_membranes found at %s" % config.source_path)
 
         return cls(
             name=config.source_path.stem,

@@ -22,7 +22,7 @@ class Config:
             self.ideal_experiments_path.exists()
             or self.diffusion_curve_sets_path.exists()
         ):
-            raise FileExistsError("Missing experiment data at %s" % self.source_path)
+            raise FileExistsError("Missing experiment default_membranes at %s" % self.source_path)
 
     @classmethod
     def load(cls, path: typing.Union[str, Path]) -> "Config":
