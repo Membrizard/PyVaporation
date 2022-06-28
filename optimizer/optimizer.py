@@ -148,10 +148,10 @@ class PervaporationFunction:
 
         else:
             if concentration is None:
-                    x_max = 1
-                    x_min = 0
-                    t_max = 373.15
-                    t_min = 293.15
+                x_max = 1
+                x_min = 0
+                t_max = 373.15
+                t_min = 293.15
             else:
                 if max(concentration) > 1 or min(concentration) < 0:
                     raise ValueError("Concentration must be in [0,1] range")
@@ -174,14 +174,16 @@ class PervaporationFunction:
             )
             return
 
-        plot_surface(condition=experimental_data is not None,
-                     function=self,
-                     x=x,
-                     t=t,
-                     p=p,
-                     t_min=t_min,
-                     t_max=t_max,
-                     x_v=x_v)
+        plot_surface(
+            condition=experimental_data is not None,
+            function=self,
+            x=x,
+            t=t,
+            p=p,
+            t_min=t_min,
+            t_max=t_max,
+            x_v=x_v,
+        )
 
         return
 

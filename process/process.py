@@ -133,7 +133,7 @@ class ProcessModel:
         total_flux = [
             sum(self.partial_fluxes[i]) for i in range(len(self.partial_fluxes))
         ]
-        return [numpy.multiply(total_flux, numpy.substract(separation_factor, 1))]
+        return [numpy.multiply(total_flux, numpy.subtract(separation_factor, 1))]
 
     @property
     def get_selectivity(self) -> typing.List[float]:

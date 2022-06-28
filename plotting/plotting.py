@@ -38,14 +38,16 @@ def plot_graph(
     plt.show()
 
 
-def plot_surface(condition: bool,
-                 function: typing.Callable,
-                 x: typing.List[float],
-                 t: typing.List[float],
-                 p: typing.List[float],
-                 t_min: float,
-                 t_max: float,
-                 x_v: numpy.array):
+def plot_surface(
+    condition: bool,
+    function: typing.Callable,
+    x: typing.List[float],
+    t: typing.List[float],
+    p: typing.List[float],
+    t_min: float,
+    t_max: float,
+    x_v: numpy.array,
+):
 
     fig = plt.figure()
     ax = fig.add_subplot(projection="3d")
@@ -63,4 +65,3 @@ def plot_surface(condition: bool,
     ax.set_zlabel("Permeance")
     fig.suptitle("Fit Illustration", fontsize=10)
     plt.show()
-    return

@@ -188,10 +188,3 @@ def test_validate_against_ideal_process_temperature_program(pervaporation):
             )
             < 1e-2
         )
-
-
-def test_validate_against_experimental_data():
-    """
-    :return: Algorithms are validated against experimental data provided in doi.org/10.1016/j.memsci.2020.118717
-    """
-    assert 0 == 0
