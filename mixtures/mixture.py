@@ -21,6 +21,7 @@ class CompositionType:
 
 @attr.s(auto_attribs=True)
 class Mixture:
+    name: str
     first_component: Component
     second_component: Component
     nrtl_params: NRTLParameters

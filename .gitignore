@@ -4,4 +4,6 @@
 
 __pycache__
 
+tests/temp
+
 *.ipynb

@@ -148,3 +148,24 @@ class ProcessModel:
     @classmethod
     def from_csv(cls, path: typing.Union[str, Path]) -> "ProcessModel":
         pass
+
+    def to_csv(self, path: typing.Union[str, Path]) -> None:
+        # output = pandas.DataFrame({
+        #     'composition': [c.p for c in self.feed_compositions],
+        #     'composition_type': [c.type for c in self.feed_compositions],
+        #     'partial_flux_1': [f[0] for f in self.partial_fluxes],
+        #     'partial_flux_2': [f[1] for f in self.partial_fluxes],
+        #     'permeance_1': [p[0].value for p in self.permeances],
+        #     'permeance_2': [p[1].value for p in self.permeances],
+        #     'units': [p[0].units for p in self.permeances],
+        # })
+        # output['curve_id'] = ''
+        # output['membrane_name'] = self.membrane_name
+        # output['mixture'] = self.mixture.name
+        # output['feed_temperature'] = self.feed_temperature
+        # output['permeate_temperature'] = self.permeate_temperature
+        # output['permeate_pressure'] = self.permeate_pressure
+        # output['comment'] = self.comments
+        #
+        # output.to_csv(path, index=False)
+        pass

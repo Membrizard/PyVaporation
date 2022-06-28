@@ -6,6 +6,7 @@ from .mixture import Mixture
 
 class Mixtures:
     H2O_MeOH: Mixture = Mixture(
+        name='H2O_MeOH',
         first_component=Components.H2O,
         second_component=Components.MeOH,
         nrtl_params=NRTLParameters(
@@ -19,6 +20,7 @@ class Mixtures:
     )
 
     H2O_EtOH: Mixture = Mixture(
+        name='H2O_EtOH',
         first_component=Components.H2O,
         second_component=Components.EtOH,
         nrtl_params=NRTLParameters(
@@ -29,6 +31,7 @@ class Mixtures:
     )
 
     H2O_iPOH: Mixture = Mixture(
+        name='H2O_iPOH',
         first_component=Components.H2O,
         second_component=Components.iPOH,
         nrtl_params=NRTLParameters(
@@ -39,6 +42,7 @@ class Mixtures:
     )
 
     H2O_AceticAcid: Mixture = Mixture(
+        name='H2O_AceticAcid',
         first_component=Components.H2O,
         second_component=Components.AceticAcid,
         nrtl_params=NRTLParameters(
@@ -49,6 +53,7 @@ class Mixtures:
     )
 
     EtOH_ETBE: Mixture = Mixture(
+        name='EtOH_ETBE',
         first_component=Components.EtOH,
         second_component=Components.ETBE,
         nrtl_params=NRTLParameters(
@@ -59,6 +64,7 @@ class Mixtures:
     )
 
     MeOH_Toluene: Mixture = Mixture(
+        name='MeOH_Toluene',
         first_component=Components.MeOH,
         second_component=Components.Toluene,
         nrtl_params=NRTLParameters(
@@ -69,6 +75,7 @@ class Mixtures:
     )
 
     MeOH_MTBE: Mixture = Mixture(
+        name='MeOH_MTBE',
         first_component=Components.MeOH,
         second_component=Components.MTBE,
         nrtl_params=NRTLParameters(
@@ -79,6 +86,7 @@ class Mixtures:
     )
 
     MeOH_DMC: Mixture = Mixture(
+        name='MeOH_DMC',
         first_component=Components.MeOH,
         second_component=Components.DMC,
         nrtl_params=NRTLParameters(

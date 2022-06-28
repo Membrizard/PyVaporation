@@ -1,10 +1,11 @@
 import typing
 from copy import copy
-import matplotlib.pyplot as plt
 
 import attr
+import joblib
 import numpy
 from scipy import optimize
+from pathlib import Path
 
 from diffusion_curve import DiffusionCurve, DiffusionCurveSet
 from plotting import plot_graph, plot_surface
@@ -92,8 +93,8 @@ class PervaporationFunction:
             n=n,
             m=m,
             alpha=array[0],
-            a=array[1 : n + 1],
-            b=array[n + 1 :],
+            a=array[1: n + 1],
+            b=array[n + 1:],
         )
 
     def __call__(self, x: float, t: float) -> float:
@@ -112,6 +113,15 @@ class PervaporationFunction:
             a=self.a,
             b=self.b,
         )
+
+    @classmethod
+    def load(cls, path: typing.Union[str, Path]) -> 'PervaporationFunction':
+        if type(path) is not Path:
+            path = Path(path)
+        return joblib.load(path)
+
+    def save(self, path: typing.Union[str, float]) -> None:
+        joblib.dump(self, path)
 
     def plot(
         self,
