@@ -1,4 +1,4 @@
-curve_id,membrane_name,mixture,feed_temperature,permeate_temperature,permeate_pressure,composition,composition_type,partial_flux_1,partial_flux_2,permeance_1,permeance_2,units,Comment
+curve_id,membrane_name,mixture,feed_temperature,permeate_temperature,permeate_pressure,composition,composition_type,partial_flux_1,partial_flux_2,permeance_1,permeance_2,units,comment
 100,Pervap 2510,H2O_iPOH,373.15,,,0.0909,molar,0.536,0.0212,,,,Experimental from https://doi.org/10.1016/j.memsci.2020.118718
 100,Pervap 2510,H2O_iPOH,373.15,,,0.1354,molar,0.838,0.0290,,,,Experimental from https://doi.org/10.1016/j.memsci.2020.118718
 100,Pervap 2510,H2O_iPOH,373.15,,,0.2081,molar,1.716,0.0379,,,,Experimental from https://doi.org/10.1016/j.memsci.2020.118719

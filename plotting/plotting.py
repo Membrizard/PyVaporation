@@ -1,5 +1,6 @@
 import matplotlib.pyplot as plt
 import typing
+import numpy
 
 
 def plot_graph(
@@ -15,6 +16,7 @@ def plot_graph(
     :param points:
     if bool is true - line is plotted;
     else - scattered points are plotted;
+    :param title: Title of the plot
     :return: shows the plot.
     """
 
@@ -34,3 +36,31 @@ def plot_graph(
     plt.ylabel(y_label)
     plt.suptitle(title)
     plt.show()
+
+
+def plot_surface(condition: bool,
+                 function: typing.Callable,
+                 x: typing.List[float],
+                 t: typing.List[float],
+                 p: typing.List[float],
+                 t_min: float,
+                 t_max: float,
+                 x_v: numpy.array):
+
+    fig = plt.figure()
+    ax = fig.add_subplot(projection="3d")
+
+    if condition:
+        ax.scatter(x, t, p, marker="o")
+
+    t_v = numpy.linspace((t_min - 10), (t_max + 10), num=50)
+    x_fit, t_fit = numpy.meshgrid(x_v, t_v)
+    p_fit = numpy.array([function(x_fit[i], t_fit[i]) for i in range(len(x_fit))])
+    ax.plot_surface(x_fit, t_fit, p_fit, alpha=0.2)
+
+    ax.set_xlabel("First component fraction")
+    ax.set_ylabel("Temperature K")
+    ax.set_zlabel("Permeance")
+    fig.suptitle("Fit Illustration", fontsize=10)
+    plt.show()
+    return

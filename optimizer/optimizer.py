@@ -7,7 +7,7 @@ import numpy
 from scipy import optimize
 
 from diffusion_curve import DiffusionCurve, DiffusionCurveSet
-from plotting import plot_graph
+from plotting import plot_graph, plot_surface
 
 
 @attr.s(auto_attribs=True)
@@ -117,6 +117,7 @@ class PervaporationFunction:
         self,
         experimental_data: typing.Optional[Measurements] = None,
         temperature: typing.Optional[float] = None,
+        concentration: typing.Tuple[float, float] = None,
     ):
         points = {}
         x, t, p = 0, 0, 0
@@ -136,10 +137,18 @@ class PervaporationFunction:
                 temperature = set(t).pop()
 
         else:
-            x_max = 1
-            x_min = 0
-            t_max = 373.15
-            t_min = 293.15
+            if concentration is None:
+                    x_max = 1
+                    x_min = 0
+                    t_max = 373.15
+                    t_min = 293.15
+            else:
+                if max(concentration) > 1 or min(concentration) < 0:
+                    raise ValueError("Concentration must be in [0,1] range")
+                x_max = max(concentration)
+                x_min = min(concentration)
+                t_max = 373.15
+                t_min = 293.15
 
         x_v = numpy.linspace(x_min, x_max, num=50)
 
@@ -155,22 +164,14 @@ class PervaporationFunction:
             )
             return
 
-        fig = plt.figure()
-        ax = fig.add_subplot(projection="3d")
-
-        if experimental_data is not None:
-            ax.scatter(x, t, p, marker="o")
-
-        t_v = numpy.linspace((t_min - 10), (t_max + 10), num=50)
-        x_fit, t_fit = numpy.meshgrid(x_v, t_v)
-        p_fit = numpy.array([self(x_fit[i], t_fit[i]) for i in range(len(x_fit))])
-        ax.plot_surface(x_fit, t_fit, p_fit, alpha=0.2)
-
-        ax.set_xlabel("First component fraction")
-        ax.set_ylabel("Temperature K")
-        ax.set_zlabel("Permeance")
-        fig.suptitle("Fit Illustration", fontsize=10)
-        plt.show()
+        plot_surface(condition=experimental_data is not None,
+                     function=self,
+                     x=x,
+                     t=t,
+                     p=p,
+                     t_min=t_min,
+                     t_max=t_max,
+                     x_v=x_v)
 
         return
 

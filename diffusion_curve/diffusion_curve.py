@@ -426,6 +426,15 @@ class DiffusionCurve:
         if partial_fluxes is None and permeances is None:
             raise ValueError("Partial fluxes and permeances are not provided")
 
+        if numpy.isnan(data["permeate_temperature"].iloc[0]):
+            permeate_temperature = None
+        else:
+            permeate_temperature = data["permeate_temperature"].iloc[0]
+        if numpy.isnan(data["permeate_pressure"].iloc[0]):
+            permeate_pressure = None
+        else:
+            permeate_pressure = data["permeate_pressure"].iloc[0]
+
         return DiffusionCurve(
             mixture=mixture,
             membrane_name=data["membrane_name"].iloc[0],
@@ -437,8 +446,8 @@ class DiffusionCurve:
                 for i in range(len(data))
             ],
             partial_fluxes=partial_fluxes,
-            permeate_temperature=data["permeate_temperature"].iloc[0],
-            permeate_pressure=data["permeate_pressure"].iloc[0],
+            permeate_temperature=permeate_temperature,
+            permeate_pressure=permeate_pressure,
             permeances=permeances,
             comments=data["comment"].iloc[0],
         )
