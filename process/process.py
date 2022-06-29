@@ -176,25 +176,6 @@ class ProcessModel:
 
     def save(self, path: typing.Union[str, Path] = results_path) -> None:
 
-        # mixture: Mixture
-        # membrane_name: str +
-        # feed_temperature: typing.List[float] +
-        # feed_compositions: typing.List[Composition] ++
-        # permeate_composition: typing.List[Composition] ++
-        # permeate_temperature: typing.List[float] +
-        # permeate_pressure: typing.List[float] +
-        # feed_mass: typing.List[float] +
-        # partial_fluxes: typing.List[typing.Tuple[float, float]] ++
-        # permeances: typing.List[typing.Tuple[Permeance, Permeance]] +++
-        # time: typing.List[float] +
-        # feed_evaporation_heat: typing.List[float] +
-        # permeate_condensation_heat: typing.List[typing.Optional[float]] +
-        # initial_conditions: Conditions
-        # permeance_fits: typing.Optional[
-        #     typing.Tuple[PervaporationFunction, PervaporationFunction]
-        # ] = None
-        # comments: typing.Optional[str] = None
-
         process_dir = (
             path
             / f"ProcessModel_ID_{randrange(1,100)}_{datetime.now().minute}{datetime.now().second}"
