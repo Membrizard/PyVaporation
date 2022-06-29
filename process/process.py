@@ -232,9 +232,19 @@ class ProcessModel:
 
         output = output[PROCESS_MODEL_COLUMNS]
 
-        output.to_csv(process_dir, index=False)
+        output.save(process_dir, index=False)
 
-        self.permeance_fits[0].save((process_dir / f"PervaporationFunction_{self.mixture.first_component.name}.pv"))
-        self.permeance_fits[1].save((process_dir / f"PervaporationFunction_{self.mixture.second_component.name}.pv"))
+        self.permeance_fits[0].save(
+            (
+                process_dir
+                / f"PervaporationFunction_{self.mixture.first_component.name}.pv"
+            )
+        )
+        self.permeance_fits[1].save(
+            (
+                process_dir
+                / f"PervaporationFunction_{self.mixture.second_component.name}.pv"
+            )
+        )
         joblib.dump(self.initial_conditions, (process_dir / "Initial_Conditions"))
-        pass
+
