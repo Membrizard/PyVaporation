@@ -17,13 +17,15 @@ PROCESS_MODEL_COLUMNS = [
     "membrane_name",
     "mixture",
     "time",
+    "feed_mass",
     "feed_temperature",
     "permeate_temperature",
     "permeate_pressure",
     "composition",
     "composition_type",
     "permeate_composition",
-    "permeate_composition_type" "partial_flux_1",
+    "permeate_composition_type",
+    "partial_flux_1",
     "partial_flux_2",
     "permeance_1",
     "permeance_2",
@@ -54,22 +56,7 @@ class ProcessModel:
         typing.Tuple[PervaporationFunction, PervaporationFunction]
     ] = None
     comments: typing.Optional[str] = None
-    results_path: typing.Optional[Path] = None
-
-    def __attrs_post_init__(self):
-
-        for i in range(len(self.time)):
-            if (
-                self.permeate_pressure[i] is None
-                and self.permeate_temperature[i] is not None
-            ):
-                self.permeate_pressure[i] = sum(
-                    get_nrtl_partial_pressures(
-                        self.permeate_temperature[i],
-                        self.mixture,
-                        self.permeate_composition[i],
-                    )
-                )
+    membrane_path: typing.Optional[Path] = None
 
     @staticmethod
     def _generate_process_path(membrane_path: typing.Union[str, Path]) -> Path:
@@ -79,7 +66,7 @@ class ProcessModel:
         results_path = membrane_path / "results"
         results_path.mkdir(parents=True, exist_ok=True)
 
-        process_path = results_path / ("process_" + str(hash(datetime.now())))
+        process_path = results_path / ("process_" + str(hash(datetime.now()))[0:4])
         process_path.mkdir(parents=True, exist_ok=False)
 
         return process_path
@@ -240,10 +227,10 @@ class ProcessModel:
             if (pv_1 is not None and pv_0 is not None)
             else None,
             comments=process_frame["comment"],
-            results_path=None,
+            membrane_path=None,
         )
 
-    def save(self, membrane_path: typing.Union[str, Path]) -> None:
+    def save(self, membrane_path: typing.Union[str, Path] = membrane_path) -> None:
         if type(membrane_path) is not Path:
             membrane_path = Path(membrane_path)
 
@@ -280,7 +267,7 @@ class ProcessModel:
         process_frame["mixture"] = self.mixture.name
         process_frame["comment"] = self.comments
         process_frame = process_frame[PROCESS_MODEL_COLUMNS]
-        process_frame.save(process_path / "process_model.csv", index=False)
+        process_frame.to_csv(process_path / "process_model.csv", index=False)
 
         self.permeance_fits[0].save(
             (

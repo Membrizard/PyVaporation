@@ -413,6 +413,7 @@ class Pervaporation:
                 + datetime.now().strftime("%m/%d/%Y, %H:%M")
                 + " Ideal Proces Model"
             ),
+            membrane_path=self.membrane.path,
         )
 
     def ideal_non_isothermal_process(
@@ -602,6 +603,7 @@ class Pervaporation:
                 + str(datetime.now())
                 + " Ideal Proces Model"
             ),
+            membrane_path=self.membrane.path,
         )
 
     def non_ideal_diffusion_curve(
@@ -1146,6 +1148,7 @@ class Pervaporation:
                 + datetime.now().strftime("%m/%d/%Y, %H:%M")
                 + " Non-Ideal Proces Model"
             ),
+            membrane_path=self.membrane.path,
         )
 
     def non_ideal_non_isothermal_process(
@@ -1483,4 +1486,5 @@ class Pervaporation:
                 + str(datetime.now())
                 + " Non-Ideal Proces Model"
             ),
+            membrane_path=self.membrane.path,
         )

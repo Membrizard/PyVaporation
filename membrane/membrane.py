@@ -17,7 +17,7 @@ class Membrane:
     ideal_experiments: typing.Optional[IdealExperiments] = None
     diffusion_curve_sets: typing.Optional[typing.List[DiffusionCurveSet]] = None
 
-    results_path: typing.Optional[Path] = None
+    path: typing.Optional[Path] = None
 
     @classmethod
     def load(cls, path: typing.Union[str, Path]) -> "Membrane":
@@ -49,7 +49,7 @@ class Membrane:
             name=path.stem,
             ideal_experiments=ie,
             diffusion_curve_sets=diffusion_curve_sets,
-            results_path=results_path,
+            path=path,
         )
 
     def get_penetrant_data(self, component: Component) -> IdealExperiments:
