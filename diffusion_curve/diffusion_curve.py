@@ -452,7 +452,7 @@ class DiffusionCurve:
             comments=data["comment"].iloc[0],
         )
 
-    def to_csv(self, path: typing.Union[str, Path]) -> None:
+    def save(self, path: typing.Union[str, Path]) -> None:
         output = pandas.DataFrame(
             {
                 "composition": [c.p for c in self.feed_compositions],
