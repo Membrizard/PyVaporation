@@ -1,10 +1,9 @@
 import numpy
-
 from pytest import fixture
 
 from diffusion_curve import DiffusionCurve
 from mixtures import Composition, CompositionType, Mixtures
-from optimizer import Measurements, find_best_fit, PervaporationFunction
+from optimizer import Measurements, PervaporationFunction, find_best_fit
 
 
 @fixture

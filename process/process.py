@@ -1,17 +1,16 @@
 import typing
+from datetime import datetime
 from pathlib import Path
 
 import attr
+import joblib
 import numpy
 import pandas
-import joblib
 
-from random import randrange
-from datetime import datetime
 from conditions import Conditions
-from mixtures import Composition, Mixture, get_nrtl_partial_pressures
+from mixtures import Composition, Mixture, Mixtures, get_nrtl_partial_pressures
 from optimizer import PervaporationFunction
-from permeance import Permeance
+from permeance import Permeance, Units
 from plotting import plot_graph
 
 PROCESS_MODEL_COLUMNS = [
@@ -71,6 +70,232 @@ class ProcessModel:
                         self.permeate_composition[i],
                     )
                 )
+
+    @staticmethod
+    def _generate_process_path(membrane_path: typing.Union[str, Path]) -> Path:
+        if type(membrane_path) is not Path:
+            membrane_path = Path(membrane_path)
+
+        results_path = membrane_path / "results"
+        results_path.mkdir(parents=True, exist_ok=True)
+
+        process_path = results_path / ("process_" + str(hash(datetime.now())))
+        process_path.mkdir(parents=True, exist_ok=False)
+
+        return process_path
+
+    @property
+    def get_separation_factor(self) -> typing.List[float]:
+        """
+        :return: List of separation Factors
+        """
+        feed = self.feed_compositions
+        permeate = self.permeate_composition
+        return [
+            (permeate[i].first / permeate[i].second) / (feed[i].first / feed[i].second)
+            for i in range(len(feed))
+        ]
+
+    @property
+    def get_psi(self) -> typing.List[float]:
+        """
+        :return: List of Pervaporation Separation Index (PSI) values
+        """
+        separation_factor = self.get_separation_factor
+        total_flux = [
+            sum(self.partial_fluxes[i]) for i in range(len(self.partial_fluxes))
+        ]
+        return [numpy.multiply(total_flux, numpy.subtract(separation_factor, 1))]
+
+    @property
+    def get_selectivity(self) -> typing.List[float]:
+        """
+        :return: List of Calculated selectivities
+        """
+        permeance = self.permeances
+        return [
+            permeance[i][0].value / permeance[i][1].value for i in range(len(permeance))
+        ]
+
+    @classmethod
+    def load(cls, process_path: typing.Union[str, Path]) -> "ProcessModel":
+        if type(process_path) is not Path:
+            process_path = Path(process_path)
+
+        process_frame = pandas.read_csv(process_path / "process_model.csv")
+
+        pv_0_filenames = list(
+            filter(
+                lambda x: x.stem.startswith("pervaporation_function_0"),
+                process_path.iterdir(),
+            )
+        )
+        pv_1_filenames = list(
+            filter(
+                lambda x: x.stem.startswith("pervaporation_function_1"),
+                process_path.iterdir(),
+            )
+        )
+        if len(pv_0_filenames) != 1:
+            raise FileExistsError(
+                "Distinct first pervaporation function file is not found in %s"
+                % process_path
+            )
+        if len(pv_1_filenames) != 1:
+            raise FileExistsError(
+                "Distinct second pervaporation function file is not found in %s"
+                % process_path
+            )
+
+        pv_0 = PervaporationFunction.load(pv_0_filenames[0])
+        pv_1 = PervaporationFunction.load(pv_1_filenames[0])
+
+        if (process_path / "initial_conditions.ic").exists():
+            initial_conditions = joblib.load(process_path / "initial_conditions.ic")
+        else:
+            initial_conditions = None
+
+        mixture = getattr(Mixtures, process_frame["mixture"].iloc[0])
+
+        if pandas.isna(process_frame["permeate_temperature"].iloc[0]):
+            permeate_temperature = None
+        else:
+            permeate_temperature = process_frame["permeate_temperature"].iloc[0]
+        if pandas.isna(process_frame["permeate_pressure"].iloc[0]):
+            permeate_pressure = None
+        else:
+            permeate_pressure = process_frame["permeate_pressure"].iloc[0]
+
+        if (
+            process_frame["partial_flux_1"].isna().mean() == 0
+            and process_frame["partial_flux_2"].isna().mean() == 0
+        ):
+            partial_fluxes = []
+            for i in range(len(process_frame)):
+                partial_fluxes.append(
+                    (
+                        process_frame["partial_flux_1"].iloc[i],
+                        process_frame["partial_flux_2"].iloc[i],
+                    )
+                )
+        else:
+            partial_fluxes = None
+
+        if (
+            process_frame["permeance_1"].isna().mean() == 0
+            and process_frame["permeance_2"].isna().mean() == 0
+            and process_frame["units"].isna().mean() == 0
+        ):
+            permeances = []
+            for i in range(len(process_frame)):
+                permeances.append(
+                    (
+                        Permeance(
+                            value=process_frame["permeance_1"].iloc[i],
+                            units=process_frame["units"].iloc[0],
+                        ).convert(
+                            to_units=Units.kg_m2_h_kPa,
+                            component=mixture.first_component,
+                        ),
+                        Permeance(
+                            value=process_frame["permeance_2"].iloc[i],
+                            units=process_frame["units"].iloc[0],
+                        ).convert(
+                            to_units=Units.kg_m2_h_kPa,
+                            component=mixture.second_component,
+                        ),
+                    )
+                )
+        else:
+            permeances = None
+
+        return cls(
+            mixture=mixture,
+            membrane_name=process_frame["membrane_name"].iloc[0],
+            feed_temperature=process_frame["feed_temperature"],
+            feed_compositions=[
+                Composition(
+                    p=process_frame["composition"].iloc[i],
+                    type=process_frame["composition_type"].iloc[i],
+                ).to_weight(mixture=mixture)
+                for i in range(len(process_frame))
+            ],
+            permeate_composition=[
+                Composition(
+                    p=process_frame["permeate_composition"].iloc[i],
+                    type=process_frame["permeate_composition_type"].iloc[i],
+                ).to_weight(mixture=mixture)
+                for i in range(len(process_frame))
+            ],
+            permeate_temperature=permeate_temperature,
+            permeate_pressure=permeate_pressure,
+            feed_mass=process_frame["feed_mass"],
+            partial_fluxes=partial_fluxes,
+            permeances=permeances,
+            time=process_frame["time"],
+            feed_evaporation_heat=process_frame["feed_evaporation_heat"],
+            permeate_condensation_heat=process_frame["permeate_condensation_heat"],
+            initial_conditions=initial_conditions,
+            permeance_fits=(pv_0, pv_1)
+            if (pv_1 is not None and pv_0 is not None)
+            else None,
+            comments=process_frame["comment"],
+            results_path=None,
+        )
+
+    def save(self, membrane_path: typing.Union[str, Path]) -> None:
+        if type(membrane_path) is not Path:
+            membrane_path = Path(membrane_path)
+
+        results_path = membrane_path / "results"
+        results_path.mkdir(parents=True, exist_ok=True)
+
+        process_path = self._generate_process_path(membrane_path)
+
+        process_frame = pandas.DataFrame(
+            {
+                "feed_temperature": [t for t in self.feed_temperature],
+                "time": [t for t in self.time],
+                "composition": [c.first for c in self.feed_compositions],
+                "composition_type": [c.type for c in self.feed_compositions],
+                "permeate_composition": [c.first for c in self.permeate_composition],
+                "permeate_composition_type": [
+                    c.type for c in self.permeate_composition
+                ],
+                "permeate_temperature": [p_t for p_t in self.permeate_temperature],
+                "permeate_pressure": [p_p for p_p in self.permeate_pressure],
+                "feed_mass": [m for m in self.feed_mass],
+                "partial_flux_1": [f[0] for f in self.partial_fluxes],
+                "partial_flux_2": [f[1] for f in self.partial_fluxes],
+                "permeance_1": [p[0].value for p in self.permeances],
+                "permeance_2": [p[1].value for p in self.permeances],
+                "units": [p[0].units for p in self.permeances],
+                "feed_evaporation_heat": [h for h in self.feed_evaporation_heat],
+                "permeate_condensation_heat": [
+                    c_h for c_h in self.permeate_condensation_heat
+                ],
+            }
+        )
+        process_frame["membrane_name"] = self.membrane_name
+        process_frame["mixture"] = self.mixture.name
+        process_frame["comment"] = self.comments
+        process_frame = process_frame[PROCESS_MODEL_COLUMNS]
+        process_frame.save(process_path / "process_model.csv", index=False)
+
+        self.permeance_fits[0].save(
+            (
+                process_path
+                / f"pervaporation_function_0_{self.mixture.first_component.name}.pv"
+            )
+        )
+        self.permeance_fits[1].save(
+            (
+                process_path
+                / f"pervaporation_function_1_{self.mixture.second_component.name}.pv"
+            )
+        )
+
+        joblib.dump(self.initial_conditions, (process_path / "initial_conditions.ic"))
 
     def plot(self, y: typing.List, y_label: str = "", curve: bool = 1):
         """
@@ -134,98 +359,3 @@ class ProcessModel:
             y_label=y_label,
             points=points,
         )
-
-        return
-
-    @property
-    def get_separation_factor(self) -> typing.List[float]:
-        """
-        :return: List of separation Factors
-        """
-        feed = self.feed_compositions
-        permeate = self.permeate_composition
-        return [
-            (permeate[i].first / permeate[i].second) / (feed[i].first / feed[i].second)
-            for i in range(len(feed))
-        ]
-
-    @property
-    def get_psi(self) -> typing.List[float]:
-        """
-        :return: List of Pervaporation Separation Index (PSI) values
-        """
-        separation_factor = self.get_separation_factor
-        total_flux = [
-            sum(self.partial_fluxes[i]) for i in range(len(self.partial_fluxes))
-        ]
-        return [numpy.multiply(total_flux, numpy.subtract(separation_factor, 1))]
-
-    @property
-    def get_selectivity(self) -> typing.List[float]:
-        """
-        :return: List of Calculated selectivities
-        """
-        permeance = self.permeances
-        return [
-            permeance[i][0].value / permeance[i][1].value for i in range(len(permeance))
-        ]
-
-    @classmethod
-    def from_csv(cls, path: typing.Union[str, Path]) -> "ProcessModel":
-        pass
-
-    def save(self, path: typing.Union[str, Path] = results_path) -> None:
-
-        process_dir = (
-            path
-            / f"ProcessModel_ID_{randrange(1,100)}_{datetime.now().minute}{datetime.now().second}"
-        )
-
-        process_dir.mkdir(parents=True, exist_ok=False)
-
-        output = pandas.DataFrame(
-            {
-                "feed_temperature": [t for t in self.feed_temperature],
-                "time": [t for t in self.time],
-                "composition": [c.first for c in self.feed_compositions],
-                "composition_type": [c.type for c in self.feed_compositions],
-                "permeate_composition": [c.first for c in self.permeate_composition],
-                "permeate_composition_type": [
-                    c.type for c in self.permeate_composition
-                ],
-                "permeate_temperature": [p_t for p_t in self.permeate_temperature],
-                "permeate_pressure": [p_p for p_p in self.permeate_pressure],
-                "feed_mass": [m for m in self.feed_mass],
-                "partial_flux_1": [f[0] for f in self.partial_fluxes],
-                "partial_flux_2": [f[1] for f in self.partial_fluxes],
-                "permeance_1": [p[0].value for p in self.permeances],
-                "permeance_2": [p[1].value for p in self.permeances],
-                "units": [p[0].units for p in self.permeances],
-                "feed_evaporation_heat": [h for h in self.feed_evaporation_heat],
-                "permeate condensation_heat": [
-                    c_h for c_h in self.permeate_condensation_heat
-                ],
-            }
-        )
-        output["membrane_name"] = self.membrane_name
-        output["mixture"] = self.mixture.name
-        output["comment"] = self.comments
-
-        output = output[PROCESS_MODEL_COLUMNS]
-
-        output.save(process_dir, index=False)
-
-        self.permeance_fits[0].save(
-            (
-                process_dir
-                / f"PervaporationFunction_{self.mixture.first_component.name}.pv"
-            )
-        )
-        self.permeance_fits[1].save(
-            (
-                process_dir
-                / f"PervaporationFunction_{self.mixture.second_component.name}.pv"
-            )
-        )
-        joblib.dump(self.initial_conditions, (process_dir / "Initial_Conditions"))
-

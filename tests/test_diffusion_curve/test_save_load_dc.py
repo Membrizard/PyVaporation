@@ -1,5 +1,6 @@
-from pytest import fixture
 from pathlib import Path
+
+from pytest import fixture
 
 from components import Components
 from diffusion_curve import DiffusionCurve, DiffusionCurveSet

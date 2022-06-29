@@ -1,10 +1,8 @@
 import typing
+from pathlib import Path
 
 import attr
 import numpy
-import os
-
-from pathlib import Path
 
 from components import Component
 from diffusion_curve import DiffusionCurveSet
@@ -22,9 +20,7 @@ class Membrane:
     results_path: typing.Optional[Path] = None
 
     @classmethod
-    def load(
-        cls, path: typing.Union[str, Path], create_results_dir: bool = True
-    ) -> "Membrane":
+    def load(cls, path: typing.Union[str, Path]) -> "Membrane":
         if type(path) is not Path:
             path = Path(path)
 
@@ -46,13 +42,8 @@ class Membrane:
         if ie is None and diffusion_curve_sets is None:
             raise FileExistsError("No default_membranes found at %s" % path)
 
-        if create_results_dir:
-            if not ((path / "results").exists()):
-                (path / "results").mkdir(parents=True, exist_ok=False)
-
-            results_path = path / "results"
-        else:
-            results_path = None
+        results_path = path / "results"
+        results_path.mkdir(parents=True, exist_ok=True)
 
         return cls(
             name=path.stem,

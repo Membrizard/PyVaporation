@@ -1,3 +1,5 @@
+from pathlib import Path
+
 from pytest import fixture
 
 from conditions import Conditions
@@ -5,7 +7,6 @@ from membrane import Membrane
 from mixtures import Composition, CompositionType, Mixtures
 from permeance import Permeance
 from pervaporation import Pervaporation
-from pathlib import Path
 
 
 def test_save_load_process():

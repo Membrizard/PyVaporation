@@ -1,5 +1,7 @@
-from pytest import fixture
 from pathlib import Path
+
+from pytest import fixture
+
 from membrane import Membrane
 from mixtures import Composition
 from permeance import Permeance

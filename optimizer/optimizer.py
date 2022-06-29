@@ -1,11 +1,11 @@
 import typing
 from copy import copy
+from pathlib import Path
 
 import attr
 import joblib
 import numpy
 from scipy import optimize
-from pathlib import Path
 
 from diffusion_curve import DiffusionCurve, DiffusionCurveSet
 from plotting import plot_graph, plot_surface
@@ -120,7 +120,7 @@ class PervaporationFunction:
             path = Path(path)
         return joblib.load(path)
 
-    def save(self, path: typing.Union[str, float]) -> None:
+    def save(self, path: typing.Union[str, Path]) -> None:
         joblib.dump(self, path)
 
     def plot(

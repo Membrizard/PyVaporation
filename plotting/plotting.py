@@ -1,5 +1,6 @@
-import matplotlib.pyplot as plt
 import typing
+
+import matplotlib.pyplot as plt
 import numpy
 
 

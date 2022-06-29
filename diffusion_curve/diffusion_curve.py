@@ -5,13 +5,8 @@ import attr
 import numpy
 import pandas
 
-from mixtures import (
-    Composition,
-    CompositionType,
-    Mixture,
-    Mixtures,
-    get_nrtl_partial_pressures,
-)
+from mixtures import (Composition, CompositionType, Mixture, Mixtures,
+                      get_nrtl_partial_pressures)
 from permeance import Permeance, Units
 from plotting import plot_graph
 
@@ -426,11 +421,11 @@ class DiffusionCurve:
         if partial_fluxes is None and permeances is None:
             raise ValueError("Partial fluxes and permeances are not provided")
 
-        if numpy.isnan(data["permeate_temperature"].iloc[0]):
+        if pandas.isna(data["permeate_temperature"].iloc[0]):
             permeate_temperature = None
         else:
             permeate_temperature = data["permeate_temperature"].iloc[0]
-        if numpy.isnan(data["permeate_pressure"].iloc[0]):
+        if pandas.isna(data["permeate_pressure"].iloc[0]):
             permeate_pressure = None
         else:
             permeate_pressure = data["permeate_pressure"].iloc[0]
