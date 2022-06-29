@@ -131,9 +131,9 @@ def test_semi_ideal_curve(romakon_102_single_diffusion_curve):
     )
 
     modelled_curve.to_csv("tests/temp/test_diffusion_curve.csv")
-    modelled_curve = DiffusionCurveSet.load(Path("tests/temp/test_diffusion_curve.csv")).diffusion_curves[
-        0
-    ]
+    modelled_curve = DiffusionCurveSet.load(
+        Path("tests/temp/test_diffusion_curve.csv")
+    ).diffusion_curves[0]
 
     for i in range(len(experimental_100.feed_compositions)):
         d = 1
