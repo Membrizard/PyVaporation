@@ -47,7 +47,7 @@ class Membrane:
             raise FileExistsError("No default_membranes found at %s" % path)
 
         if create_results_dir:
-            if not (os.path.isdir((path / "results"))):
+            if not ((path / "results").exists()):
                 (path / "results").mkdir(parents=True, exist_ok=False)
 
             results_path = path / "results"
