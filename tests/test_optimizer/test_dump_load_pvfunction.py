@@ -1,9 +1,12 @@
+import shutil
+
 import numpy
 from pytest import fixture
 
 from diffusion_curve import DiffusionCurve
 from mixtures import Composition, CompositionType, Mixtures
 from optimizer import Measurements, PervaporationFunction, find_best_fit
+from pathlib import Path
 
 
 @fixture
@@ -60,13 +63,18 @@ def spi_255_diffusion_curve():
     )
 
 
-def test_find_best_fit_spi(spi_255_diffusion_curve):
+def test_save_load_pervaporation_function(spi_255_diffusion_curve):
     measurements_h2o = Measurements.from_diffusion_curve_first(spi_255_diffusion_curve)
 
     fit_h2o = find_best_fit(measurements_h2o, n=9)
 
+    temp_path = Path("tests/temp")
+    temp_path.mkdir(parents=True, exist_ok=True)
+
     fit_h2o.save("tests/temp/test_pervaporation_function.pv")
     _fit_h2o = PervaporationFunction.load("tests/temp/test_pervaporation_function.pv")
+
+    shutil.rmtree(temp_path)
 
     assert (numpy.array(fit_h2o.a) == numpy.array(_fit_h2o.a)).mean() == 1
     assert (numpy.array(fit_h2o.b) == numpy.array(_fit_h2o.b)).mean() == 1

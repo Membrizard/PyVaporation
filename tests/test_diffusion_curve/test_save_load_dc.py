@@ -1,3 +1,4 @@
+import shutil
 from pathlib import Path
 
 from pytest import fixture
@@ -131,10 +132,15 @@ def test_semi_ideal_curve(romakon_102_single_diffusion_curve):
         number_of_steps=50,
     )
 
+    temp_path = Path("tests/temp")
+    temp_path.mkdir(parents=True, exist_ok=True)
+
     modelled_curve.save("tests/temp/test_diffusion_curve.csv")
     modelled_curve = DiffusionCurveSet.load(
         Path("tests/temp/test_diffusion_curve.csv")
     ).diffusion_curves[0]
+
+    shutil.rmtree(temp_path)
 
     for i in range(len(experimental_100.feed_compositions)):
         d = 1
