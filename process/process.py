@@ -174,7 +174,7 @@ class ProcessModel:
     def from_csv(cls, path: typing.Union[str, Path]) -> "ProcessModel":
         pass
 
-    def to_csv(self, path: typing.Union[str, Path] = results_path) -> None:
+    def save(self, path: typing.Union[str, Path] = results_path) -> None:
 
         # mixture: Mixture
         # membrane_name: str +

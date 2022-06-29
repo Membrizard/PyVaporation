@@ -10,9 +10,6 @@ from pathlib import Path
 
 @fixture
 def test_process():
-    """
-    :return: Algorithms are validated against experimental default_membranes provided in doi:10.3390/membranes8010004
-    """
 
     membrane = Membrane.load(Path("tests/default_membranes/Pervap_4101"))
 
