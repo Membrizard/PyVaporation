@@ -93,8 +93,8 @@ class PervaporationFunction:
             n=n,
             m=m,
             alpha=array[0],
-            a=array[1: n + 1],
-            b=array[n + 1:],
+            a=array[1 : n + 1],
+            b=array[n + 1 :],
         )
 
     def __call__(self, x: float, t: float) -> float:
@@ -115,7 +115,7 @@ class PervaporationFunction:
         )
 
     @classmethod
-    def load(cls, path: typing.Union[str, Path]) -> 'PervaporationFunction':
+    def load(cls, path: typing.Union[str, Path]) -> "PervaporationFunction":
         if type(path) is not Path:
             path = Path(path)
         return joblib.load(path)

@@ -1,5 +1,4 @@
 from pytest import fixture
-from config import Config
 from pathlib import Path
 from membrane import Membrane
 from mixtures import Composition
@@ -8,11 +7,8 @@ from permeance import Permeance
 
 @fixture
 def diffusion_curve():
-    config = Config(
-        source_path=Path("tests/default_membranes/Pervap_2510"),
-    )
 
-    membrane = Membrane.load(config)
+    membrane = Membrane.load(Path("tests/default_membranes/Pervap_2510"))
     return membrane.diffusion_curve_sets[0][0]
 
 

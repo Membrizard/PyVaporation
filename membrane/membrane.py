@@ -2,6 +2,7 @@ import typing
 
 import attr
 import numpy
+import os
 
 from pathlib import Path
 
@@ -21,7 +22,9 @@ class Membrane:
     results_path: typing.Optional[Path] = None
 
     @classmethod
-    def load(cls, path: typing.Union[str, Path], create_results_dir: bool = True) -> "Membrane":
+    def load(
+        cls, path: typing.Union[str, Path], create_results_dir: bool = True
+    ) -> "Membrane":
         if type(path) is not Path:
             path = Path(path)
 
@@ -30,10 +33,10 @@ class Membrane:
         else:
             ie = None
 
-        if (path / 'diffusion_curve_sets').exists():
-            if len(list((path / 'diffusion_curve_sets').iterdir())) > 0:
+        if (path / "diffusion_curve_sets").exists():
+            if len(list((path / "diffusion_curve_sets").iterdir())) > 0:
                 diffusion_curve_sets = []
-                for file in list((path / 'diffusion_curve_sets').iterdir()):
+                for file in list((path / "diffusion_curve_sets").iterdir()):
                     diffusion_curve_sets.append(DiffusionCurveSet.load(file))
             else:
                 diffusion_curve_sets = None
@@ -44,11 +47,10 @@ class Membrane:
             raise FileExistsError("No default_membranes found at %s" % path)
 
         if create_results_dir:
-            try:
-                (path / 'results').mkdir(parents=True, exist_ok=False)
-            except FileExistsError:
-                raise FileExistsError('Results directory already exists at %s' % (path / 'results'))
-            results_path = path / 'results'
+            if not (os.path.isdir((path / "results"))):
+                (path / "results").mkdir(parents=True, exist_ok=False)
+
+            results_path = path / "results"
         else:
             results_path = None
 

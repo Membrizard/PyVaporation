@@ -52,6 +52,7 @@ nrtl_params = NRTLParameters(
 )
 
 test_mixture = Mixture(
+    name="H2O_EtOH",
     first_component=test_component_1,
     second_component=test_component_2,
     nrtl_params=nrtl_params,

@@ -130,16 +130,18 @@ def test_semi_ideal_curve(romakon_102_single_diffusion_curve):
         number_of_steps=50,
     )
 
-    modelled_curve.to_csv('tests/temp/dc.csv')
-    modelled_curve = DiffusionCurveSet.load(Path('tests/temp/dc.csv')).diffusion_curves[0]
+    modelled_curve.to_csv("tests/temp/test_diffusion_curve.csv")
+    modelled_curve = DiffusionCurveSet.load(Path("tests/temp/test_diffusion_curve.csv")).diffusion_curves[
+        0
+    ]
 
     for i in range(len(experimental_100.feed_compositions)):
         d = 1
         index = 0
         for k in range(len(modelled_curve.feed_compositions)):
             if d > abs(
-                    modelled_curve.feed_compositions[k].first
-                    - experimental_100.feed_compositions[i].first
+                modelled_curve.feed_compositions[k].first
+                - experimental_100.feed_compositions[i].first
             ):
                 d = abs(
                     modelled_curve.feed_compositions[k].first
@@ -148,30 +150,30 @@ def test_semi_ideal_curve(romakon_102_single_diffusion_curve):
                 index = k
 
         assert (
-                abs(
-                    modelled_curve.permeances[index][0].value
-                    - experimental_100.permeances[i][0].value
-                )
-                < 6.5e-3
+            abs(
+                modelled_curve.permeances[index][0].value
+                - experimental_100.permeances[i][0].value
+            )
+            < 6.5e-3
         )
         assert (
-                abs(
-                    modelled_curve.permeances[index][1].value
-                    - experimental_100.permeances[i][1].value
-                )
-                < 2.1e-3
+            abs(
+                modelled_curve.permeances[index][1].value
+                - experimental_100.permeances[i][1].value
+            )
+            < 2.1e-3
         )
         assert (
-                abs(
-                    modelled_curve.partial_fluxes[index][0]
-                    - experimental_100.partial_fluxes[i][0]
-                )
-                < 6e-1
+            abs(
+                modelled_curve.partial_fluxes[index][0]
+                - experimental_100.partial_fluxes[i][0]
+            )
+            < 6e-1
         )
         assert (
-                abs(
-                    modelled_curve.partial_fluxes[index][1]
-                    - experimental_100.partial_fluxes[i][1]
-                )
-                < 7e-3
+            abs(
+                modelled_curve.partial_fluxes[index][1]
+                - experimental_100.partial_fluxes[i][1]
+            )
+            < 7e-3
         )

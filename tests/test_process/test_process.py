@@ -5,7 +5,6 @@ from membrane import Membrane
 from mixtures import Composition, CompositionType, Mixtures
 from permeance import Permeance
 from pervaporation import Pervaporation
-from config import Config
 from pathlib import Path
 
 
@@ -14,11 +13,8 @@ def test_process():
     """
     :return: Algorithms are validated against experimental default_membranes provided in doi:10.3390/membranes8010004
     """
-    config = Config(
-        source_path=Path("tests/default_membranes/Pervap_4101"),
-    )
 
-    membrane = Membrane.load(config)
+    membrane = Membrane.load(Path("tests/default_membranes/Pervap_4101"))
 
     pv = Pervaporation(
         membrane=membrane,

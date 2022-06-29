@@ -66,8 +66,8 @@ def test_find_best_fit_spi(spi_255_diffusion_curve):
 
     fit_h2o = find_best_fit(measurements_h2o, n=9)
 
-    fit_h2o.save('tests/temp/c1.cur')
-    _fit_h2o = PervaporationFunction.load('tests/temp/c1.cur')
+    fit_h2o.save("tests/temp/test_pervaporation_function.pv")
+    _fit_h2o = PervaporationFunction.load("tests/temp/test_pervaporation_function.pv")
 
     assert (numpy.array(fit_h2o.a) == numpy.array(_fit_h2o.a)).mean() == 1
     assert (numpy.array(fit_h2o.b) == numpy.array(_fit_h2o.b)).mean() == 1
