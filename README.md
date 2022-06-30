@@ -1,10 +1,10 @@
 # PyVaporation
 
 This solution is designed specifically to assist Researchers in the field of Pervaporation membranes development.
-By means of the proposed instrument one can easily model a performance of a particular membrane with known permeance (Pi - GPU, SI, kg/(m2 * h * kPa)) and apparent energy of transport activiation (Ea - J/mol) values for each component of a considered binary mixture, if the transport is considered Ideal (Permeances are not dependant on the mixture composition)
+By means of the proposed instrument one can easily model a performance of a particular membrane with known permeance (Pi - GPU, SI, kg/(m2 * h * kPa)) and apparent energy of transport activiation (Ea - J/mol) values for each component of a considered binary mixture, if the transport is considered Ideal (Permeances are not dependent on the mixture composition)
 
-Or, given that the diffusion curve set of a non-ideal process is measured one can model the non ideal process in isothermal or non-isothermal mode.
-Non isothermal modelling for both type of processes supports self-cooling mode, or temperature program mode.
+Or, given that the diffusion curve set of a non-ideal process is measured one can model the non-ideal process in isothermal or non-isothermal (adiabatic) mode.
+Non-isothermal modelling for both type of processes supports self-cooling mode, or temperature program mode.
 
 # Following mixtures are Currently built in the solution:
 (Current version supports only binary mixtures)
