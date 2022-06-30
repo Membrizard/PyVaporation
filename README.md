@@ -31,6 +31,8 @@ Non-isothermal modelling for both type of processes supports self-cooling mode, 
 * Non Ideal modelling supports non-linear dependencies of permeances and activation energies on feed composition 
 * Non-Isothermal processes support pre-defined temperature program (feed temperature as a function of process time may be specified for process modelling)
 
+# Code examples
+
 # Hints for general usage
 * to run automated tests for all the modules: 
 
