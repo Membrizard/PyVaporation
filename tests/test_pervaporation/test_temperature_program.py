@@ -189,5 +189,5 @@ def test_ln_temperature_program(pervaporation, test_conditions_ln):
     ]
 
     for i in range(len(validation_temperatures)):
-        assert abs((validation_temperatures[i]) - model.feed_temperature[i]) == 0
-        assert abs(validation_permeances[i] - model.permeances[i][0].value) < 1e-6
+        assert abs((validation_temperatures[i]) - model.feed_temperature[i]) < 1e-7
+        assert abs(validation_permeances[i] - model.permeances[i][0].value) < 1e-7
