@@ -94,7 +94,7 @@ def test_get_separation_factor(test_process):
         6462.940100926677,
     ]
 
-    for i in range(test_process.get_separation_factor):
+    for i in range(len(test_process.get_separation_factor)):
         assert abs(test_process.get_separation_factor[i] - validation_separation_factor[i]) < 1e-3
 
 
