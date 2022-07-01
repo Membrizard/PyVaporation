@@ -160,7 +160,7 @@ def test_find_best_fit_spi(spi_255_diffusion_curve):
             abs(fit_etoh(measurements_etoh[i].x, 313.15) - measurements_etoh[i].p)
             < 1.6e-3
         )
-    assert fit_h2o.alpha == 0.34982213695528863
+    assert abs(fit_h2o.alpha - 0.34982213695528863) < 1e-3
 
     validation_a = [
         5.363743190543987,
@@ -175,6 +175,6 @@ def test_find_best_fit_spi(spi_255_diffusion_curve):
     ]
 
     for i in range(len(fit_h2o.a)):
-        assert fit_h2o.a[i] == validation_a[i]
+        assert abs(fit_h2o.a[i] - validation_a[i]) < 1e-3
 
-    assert fit_h2o.b[0] == 1177.8598832639543
+    assert abs(fit_h2o.b[0] - 1177.8598832639543) < 1e-3

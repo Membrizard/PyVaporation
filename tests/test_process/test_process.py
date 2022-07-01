@@ -41,7 +41,7 @@ def test_process():
 
 def test_get_separation_factor(test_process):
 
-    assert test_process.get_separation_factor == [
+    validation_separation_factor = [
         5263.699517263321,
         5278.0243192337875,
         5309.558777004775,
@@ -93,6 +93,9 @@ def test_get_separation_factor(test_process):
         6444.759311995396,
         6462.940100926677,
     ]
+
+    for i in range(test_process.get_separation_factor):
+        assert abs(test_process.get_separation_factor[i] - validation_separation_factor[i]) < 1e-3
 
 
 def test_get_psi(test_process):
@@ -151,11 +154,11 @@ def test_get_psi(test_process):
 
     test_data = test_process.get_psi
     for i in range(len(validation_data)):
-        assert validation_data[i], 1 == test_data[i]
+        assert abs(validation_data[i] - test_data[i]) < 1e-3
 
 
 def test_get_selectivity(test_process):
-    assert test_process.get_selectivity == [
+    validation_selectivity = [
         2420.8860759493673,
         2420.8860759493673,
         2428.781842974585,
@@ -207,3 +210,5 @@ def test_get_selectivity(test_process):
         2683.4177987296193,
         2687.0097654049187,
     ]
+    for i in range(len(test_process.get_selectivity)):
+        assert (test_process.get_selectivity[i]-validation_selectivity[i]) < 1e-3

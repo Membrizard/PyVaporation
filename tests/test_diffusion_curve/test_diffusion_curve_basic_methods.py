@@ -24,12 +24,16 @@ def test_permeate_composition(diffusion_curve):
 
 
 def test_get_separation_factor(diffusion_curve):
-    assert diffusion_curve.get_separation_factor == [
+    validation_separation_factor = [
         2122.5414841475217,
         1298.2177925790918,
         1069.644713092987,
         1607.6269420984008,
     ]
+
+    for i in range(len(diffusion_curve.get_separation_factor)):
+        assert abs(diffusion_curve.get_separation_factor[i]-validation_separation_factor[i]) < 1e-2
+
 
 
 def test_get_psi(diffusion_curve):
@@ -61,8 +65,8 @@ def test_get_permeances(diffusion_curve):
     ]
 
     for i in range(len(diffusion_curve.get_permeances)):
-        assert abs(diffusion_curve.get_permeances[i][0].value - validation_permeances[i][0].value) < 1e-7
-        assert abs(diffusion_curve.get_permeances[i][1].value - validation_permeances[i][1].value) < 1e-7
+        assert abs(diffusion_curve.get_permeances[i][0].value - validation_permeances[i][0].value) < 1e-6
+        assert abs(diffusion_curve.get_permeances[i][1].value - validation_permeances[i][1].value) < 1e-6
 
 
 def test_get_selectivity(diffusion_curve):
@@ -74,4 +78,4 @@ def test_get_selectivity(diffusion_curve):
     ]
 
     for i in range(len(diffusion_curve.get_selectivity)):
-        assert (diffusion_curve.get_selectivity[i] - validation_selectivity[i]) < 1e-7
+        assert (diffusion_curve.get_selectivity[i] - validation_selectivity[i]) < 1e-2
