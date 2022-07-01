@@ -137,10 +137,10 @@ def test_find_best_fit(romakon_102_diffusion_curve_set):
 
     assert fit_h2o.n == 1
     assert fit_h2o.m == 2
-    assert fit_h2o.alpha == 0.04549912188685387
-    assert fit_h2o.a[0] == 0.5774425746265356
+    assert round(fit_h2o.alpha, 4) == round(0.04549912188685387, 4)
+    assert round(fit_h2o.a[0], 4) == round(0.5774425746265356, 4)
     for i in range(len(validation_b_h2o)):
-        assert fit_h2o.b[i] == validation_b_h2o[i]
+        assert abs(fit_h2o.b[i] - validation_b_h2o[i]) < 1e-5
 
 
 def test_find_best_fit_spi(spi_255_diffusion_curve):
