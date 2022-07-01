@@ -40,7 +40,8 @@ def test_get_psi(diffusion_curve):
 
 
 def test_get_permeances(diffusion_curve):
-    assert diffusion_curve.get_permeances == [
+
+    validation_permeances = [
         (
             Permeance(value=0.038884957564070496, units="kg/(m2*h*kPa)"),
             Permeance(value=6.839607107275804e-05, units="kg/(m2*h*kPa)"),
@@ -58,6 +59,11 @@ def test_get_permeances(diffusion_curve):
             Permeance(value=0.00010910826951395723, units="kg/(m2*h*kPa)"),
         ),
     ]
+
+    for i in range(len(diffusion_curve.get_permeances)):
+        assert abs(diffusion_curve.get_permeances[i][0].value - validation_permeances[i][0].value) < 1e-7
+        assert abs(diffusion_curve.get_permeances[i][1].value - validation_permeances[i][1].value) < 1e-7
+
 
 
 def test_get_selectivity(diffusion_curve):
