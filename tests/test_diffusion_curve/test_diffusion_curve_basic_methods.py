@@ -65,11 +65,13 @@ def test_get_permeances(diffusion_curve):
         assert abs(diffusion_curve.get_permeances[i][1].value - validation_permeances[i][1].value) < 1e-7
 
 
-
 def test_get_selectivity(diffusion_curve):
-    assert diffusion_curve.get_selectivity == [
+    validation_selectivity = [
         1896.138951240108,
         1260.60395417634,
         1052.8561604828328,
         1679.8366537203292,
     ]
+
+    for i in range(len(diffusion_curve.get_selectivity)):
+        assert (diffusion_curve.get_selectivity[i] - validation_selectivity[i]) < 1e-7
