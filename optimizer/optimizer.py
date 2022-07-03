@@ -195,8 +195,6 @@ class PervaporationFunction:
         )
 
 
-
-
 def _suggest_n_m(
     data: Measurements, n: typing.Optional[int] = None, m: typing.Optional[int] = None
 ) -> typing.Tuple[int, int]:
