@@ -3,6 +3,7 @@
 .ipynb_checkpoints
 .coverage
 .mypy_cache
+.article_figures.py
 
 __pycache__
 
