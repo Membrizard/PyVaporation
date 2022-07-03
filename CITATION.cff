@@ -1,0 +1,13 @@
+cff-version: 1.0
+message: "If you use this software, please cite it as below."
+authors:
+- family-names: "Sapegin"
+  given-names: "Denis"
+  orcid: "https://orcid.org/0000-0002-1446-6288"
+- family-names: "Checkmachev"
+  given-names: "Aleksei"
+title: "PyVaporation"
+version:
+doi:
+date-released:
+url: "https://github.com/Membrizard/PyVaporation"

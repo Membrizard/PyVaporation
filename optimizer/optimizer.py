@@ -175,7 +175,6 @@ class PervaporationFunction:
         if temperature is not None:
             p_fit = [self(x_v[i], temperature) for i in range(len(x_v))]
             points["Fit"] = (x_v, p_fit, True)
-            print(points)
             plot_graph(
                 x_label="First component fraction in feed",
                 y_label="Permeance",
@@ -194,8 +193,6 @@ class PervaporationFunction:
             t_max=t_max,
             x_v=x_v,
         )
-
-        return
 
 
 def _suggest_n_m(

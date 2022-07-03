@@ -260,8 +260,6 @@ class DiffusionCurve:
             points=points,
         )
 
-        return
-
     @property
     def permeate_composition(self) -> typing.List[Composition]:
         """
