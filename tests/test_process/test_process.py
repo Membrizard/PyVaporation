@@ -95,7 +95,10 @@ def test_get_separation_factor(test_process):
     ]
 
     for i in range(len(test_process.get_separation_factor)):
-        assert abs(test_process.get_separation_factor[i] - validation_separation_factor[i]) < 1e-3
+        assert (
+            abs(test_process.get_separation_factor[i] - validation_separation_factor[i])
+            < 1e-3
+        )
 
 
 def test_get_psi(test_process):
@@ -211,4 +214,4 @@ def test_get_selectivity(test_process):
         2687.0097654049187,
     ]
     for i in range(len(test_process.get_selectivity)):
-        assert (test_process.get_selectivity[i]-validation_selectivity[i]) < 1e-3
+        assert (test_process.get_selectivity[i] - validation_selectivity[i]) < 1e-3
