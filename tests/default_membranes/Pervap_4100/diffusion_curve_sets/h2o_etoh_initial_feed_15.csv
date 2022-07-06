@@ -1,4 +1,4 @@
-curve_id,membrane_name,mixture,feed_temperature,permeate_temperature,permeate_pressure,composition,composition_type,partial_flux_1,partial_flux_2,permeance_1,permeance_2,units,Comment
+curve_id,membrane_name,mixture,feed_temperature,permeate_temperature,permeate_pressure,composition,composition_type,partial_flux_1,partial_flux_2,permeance_1,permeance_2,units,comment
 initial feed 15 wt% water,Pervap 4100,H2O_EtOH,368.15,,,0.0080,weight,0.082,0.0402,0.02295,0.00001685,kg/(m2*h*kPa),Experimental Non Ideal  DOI: 10.22079/JMSR.2018.88186.1198
 initial feed 15 wt% water,Pervap 4100,H2O_EtOH,368.15,,,0.0105,weight,0.102,0.0421,0.02130,0.00001541,kg/(m2*h*kPa),Experimental Non Ideal  DOI: 10.22079/JMSR.2018.88186.1199
 initial feed 15 wt% water,Pervap 4100,H2O_EtOH,368.15,,,0.0193,weight,0.250,0.0572,0.02663,0.00002202,kg/(m2*h*kPa),Experimental Non Ideal  DOI: 10.22079/JMSR.2018.88186.1200

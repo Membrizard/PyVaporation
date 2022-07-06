@@ -8,8 +8,7 @@ import numpy
 from conditions import Conditions
 from diffusion_curve import DiffusionCurve, DiffusionCurveSet
 from membrane import Membrane
-from mixtures import (Composition, CompositionType, Mixture,
-                      get_nrtl_partial_pressures)
+from mixtures import Composition, CompositionType, Mixture, get_nrtl_partial_pressures
 from optimizer import Measurements, find_best_fit
 from permeance import Permeance, Units
 from process import ProcessModel
@@ -404,14 +403,8 @@ class Pervaporation:
             permeate_condensation_heat=permeate_condensation_heat,
             initial_conditions=conditions,
             comments=(
-                str(self.membrane.name)
-                + " "
-                + str(self.mixture.first_component.name)
-                + " / "
-                + str(self.mixture.second_component.name)
-                + " "
-                + datetime.now().strftime("%m/%d/%Y, %H:%M")
-                + " Ideal Proces Model"
+                f"{self.membrane.name} {self.mixture.first_component.name} / {self.mixture.second_component.name}"
+                f"Ideal Process Model" + datetime.now().strftime("%m/%d/%Y, %H:%M")
             ),
             membrane_path=self.membrane.path,
         )
@@ -594,14 +587,8 @@ class Pervaporation:
             permeate_condensation_heat=permeate_condensation_heat,
             initial_conditions=conditions,
             comments=(
-                str(self.membrane.name)
-                + " "
-                + str(self.mixture.first_component.name)
-                + " / "
-                + str(self.mixture.second_component.name)
-                + " "
-                + str(datetime.now())
-                + " Ideal Proces Model"
+                f"{self.membrane.name} {self.mixture.first_component.name} / {self.mixture.second_component.name}"
+                f"Ideal Process Model" + datetime.now().strftime("%m/%d/%Y, %H:%M")
             ),
             membrane_path=self.membrane.path,
         )
@@ -816,12 +803,8 @@ class Pervaporation:
             partial_fluxes=partial_fluxes,
             permeances=permeances,
             comments=(
-                str(self.membrane.name)
-                + " "
-                + str(self.mixture.first_component.name)
-                + " / "
-                + str(self.mixture.second_component.name)
-                + " "
+                f"{self.membrane.name} {self.mixture.first_component.name} "
+                f"/ {self.mixture.second_component.name}"
                 + datetime.now().strftime("%m/%d/%Y, %H:%M")
             ),
         )
@@ -1139,16 +1122,9 @@ class Pervaporation:
                 pervaporation_function_second,
             ),
             comments=(
-                str(self.membrane.name)
-                + " "
-                + str(self.mixture.first_component.name)
-                + " / "
-                + str(self.mixture.second_component.name)
-                + " "
-                + datetime.now().strftime("%m/%d/%Y, %H:%M")
-                + " Non-Ideal Proces Model"
+                f"{self.membrane.name} {self.mixture.first_component.name} / {self.mixture.second_component.name}"
+                f"Non-ideal Process Model" + datetime.now().strftime("%m/%d/%Y, %H:%M")
             ),
-            membrane_path=self.membrane.path,
         )
 
     def non_ideal_non_isothermal_process(
@@ -1477,14 +1453,8 @@ class Pervaporation:
                 pervaporation_function_second,
             ),
             comments=(
-                str(self.membrane.name)
-                + " "
-                + str(self.mixture.first_component.name)
-                + " / "
-                + str(self.mixture.second_component.name)
-                + " "
-                + str(datetime.now())
-                + " Non-Ideal Proces Model"
+                f"{self.membrane.name} {self.mixture.first_component.name} / {self.mixture.second_component.name}"
+                f"Non-ideal Process Model" + datetime.now().strftime("%m/%d/%Y, %H:%M")
             ),
             membrane_path=self.membrane.path,
         )

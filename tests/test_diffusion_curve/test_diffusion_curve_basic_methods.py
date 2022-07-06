@@ -32,8 +32,13 @@ def test_get_separation_factor(diffusion_curve):
     ]
 
     for i in range(len(diffusion_curve.get_separation_factor)):
-        assert abs(diffusion_curve.get_separation_factor[i]-validation_separation_factor[i]) < 1e-2
-
+        assert (
+            abs(
+                diffusion_curve.get_separation_factor[i]
+                - validation_separation_factor[i]
+            )
+            < 1e-2
+        )
 
 
 def test_get_psi(diffusion_curve):
@@ -65,8 +70,20 @@ def test_get_permeances(diffusion_curve):
     ]
 
     for i in range(len(diffusion_curve.get_permeances)):
-        assert abs(diffusion_curve.get_permeances[i][0].value - validation_permeances[i][0].value) < 1e-6
-        assert abs(diffusion_curve.get_permeances[i][1].value - validation_permeances[i][1].value) < 1e-6
+        assert (
+            abs(
+                diffusion_curve.get_permeances[i][0].value
+                - validation_permeances[i][0].value
+            )
+            < 1e-6
+        )
+        assert (
+            abs(
+                diffusion_curve.get_permeances[i][1].value
+                - validation_permeances[i][1].value
+            )
+            < 1e-6
+        )
 
 
 def test_get_selectivity(diffusion_curve):

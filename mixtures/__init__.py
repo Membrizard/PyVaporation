@@ -1,5 +1,4 @@
-from .mixture import (Composition, CompositionType, Mixture,
-                      get_nrtl_partial_pressures)
+from .mixture import Composition, CompositionType, Mixture, get_nrtl_partial_pressures
 from .mixtures import Mixtures
 
 __all__ = [
