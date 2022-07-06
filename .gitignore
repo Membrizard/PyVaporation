@@ -3,10 +3,12 @@
 .ipynb_checkpoints
 .coverage
 .mypy_cache
-article_figures.py
+.DS_Store
 
 __pycache__
 
 tests/temp
+
+article_figures.py
 
 *.ipynb
