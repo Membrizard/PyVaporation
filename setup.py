@@ -1,7 +1,6 @@
 from distutils.core import setup
 
-
-with open('requirements.txt', 'r') as handle:
+with open("requirements.txt", "r") as handle:
     required = handle.read().splitlines()
 
 setup(

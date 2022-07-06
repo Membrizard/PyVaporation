@@ -1,4 +1,5 @@
 import shutil
+from pathlib import Path
 
 import numpy
 from pytest import fixture
@@ -6,7 +7,6 @@ from pytest import fixture
 from diffusion_curve import DiffusionCurve
 from mixtures import Composition, CompositionType, Mixtures
 from optimizer import Measurements, PervaporationFunction, find_best_fit
-from pathlib import Path
 
 
 @fixture

@@ -37,6 +37,8 @@ def test_save_load_process():
         delta_hours=0.2,
     )
 
+    process.membrane_path = Path("tests/default_membranes/Pervap_4101")
+
     process.save(process.membrane_path)
     results_path = process.membrane_path / "results"
     process_path = list(

@@ -1,17 +1,16 @@
-import matplotlib
 import warnings
 from pathlib import Path
 
+import matplotlib
 import pytest
 from pytest import fixture
 
+from conditions import Conditions
 from membrane import Membrane
+from mixtures import Composition, CompositionType, Mixtures
+from optimizer import Measurements, fit
 from permeance import Permeance
 from pervaporation import Pervaporation
-from mixtures import Mixtures, Composition, CompositionType
-from conditions import Conditions
-
-from optimizer import Measurements, fit
 
 
 @fixture
