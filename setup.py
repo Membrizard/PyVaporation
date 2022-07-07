@@ -1,8 +1,5 @@
 from distutils.core import setup
 
-with open("requirements.txt", "r") as handle:
-    required = handle.read().splitlines()
-
 setup(
     name="pyvaporation",
     packages=["pyvaporation"],
@@ -19,7 +16,12 @@ setup(
         "chemistry",
         "modelling",
     ],
-    install_requires=required,
+    install_requires=[
+        'joblib>=1.1.0',
+        'matplotlib>=3.5.2',
+        'pandas>=1.4.2',
+        'scipy>=1.8.0',
+    ],
     classifiers=[
         "Development Status :: 3 - Alpha",
         "Intended Audience :: Developers",
