@@ -35,7 +35,7 @@ Non-isothermal modelling for both type of processes supports self-cooling mode, 
 
 to install:
 
- -pip install pyvaporation
+ pip install pyvaporation
 
 # Code examples
 
