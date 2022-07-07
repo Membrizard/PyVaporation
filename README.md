@@ -34,12 +34,15 @@ Non-isothermal modelling for both type of processes supports self-cooling mode, 
 # Installation
 
 to install:
+
  -pip install pyvaporation
 
 # Code examples
 
 # Hints for general usage
-* to run automated tests for all the modules: 
+
+* Pre-configured default membranes are located in ./tests/default_membranes
+* To run automated tests for all the modules: 
 
    python -m pytest -sv tests/
 
