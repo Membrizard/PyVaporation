@@ -2,9 +2,9 @@ from pathlib import Path
 
 from pytest import fixture
 
-from membrane import Membrane
-from mixtures import Composition
-from permeance import Permeance
+from pyvaporation.membrane import Membrane
+from pyvaporation.mixtures import Composition
+from pyvaporation.permeance import Permeance
 
 
 @fixture

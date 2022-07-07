@@ -7,11 +7,11 @@ import joblib
 import numpy
 import pandas
 
-from conditions import Conditions
-from mixtures import Composition, Mixture, Mixtures, get_nrtl_partial_pressures
-from optimizer import PervaporationFunction
-from permeance import Permeance, Units
-from plotting import plot_graph
+from pyvaporation.conditions import Conditions
+from pyvaporation.mixtures import Composition, Mixture, Mixtures
+from pyvaporation.optimizer import PervaporationFunction
+from pyvaporation.permeance import Permeance, Units
+from pyvaporation.plotting import plot_graph
 
 PROCESS_MODEL_COLUMNS = [
     "membrane_name",

@@ -1,5 +1,5 @@
-from components import Components
-from utils import NRTLParameters
+from pyvaporation.components import Components
+from pyvaporation.utils import NRTLParameters
 
 from .mixture import Mixture
 

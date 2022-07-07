@@ -1,12 +1,12 @@
 from pytest import fixture
 
-from components import Components
-from diffusion_curve import DiffusionCurve, DiffusionCurveSet
-from experiments import IdealExperiment, IdealExperiments
-from membrane import Membrane
-from mixtures import Composition, CompositionType, Mixtures
-from permeance import Permeance, Units
-from pervaporation import Pervaporation
+from pyvaporation.components import Components
+from pyvaporation.diffusion_curve import DiffusionCurve, DiffusionCurveSet
+from pyvaporation.experiments import IdealExperiment, IdealExperiments
+from pyvaporation.membrane import Membrane
+from pyvaporation.mixtures import Composition, CompositionType, Mixtures
+from pyvaporation.permeance import Permeance, Units
+from pyvaporation.pervaporation import Pervaporation
 
 
 @fixture

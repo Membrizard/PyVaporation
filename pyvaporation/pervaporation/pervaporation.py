@@ -5,15 +5,15 @@ from datetime import datetime
 import attr
 import numpy
 
-from conditions import Conditions
-from diffusion_curve import DiffusionCurve, DiffusionCurveSet
-from membrane import Membrane
-from mixtures import (Composition, CompositionType, Mixture,
-                      get_nrtl_partial_pressures)
-from optimizer import Measurements, find_best_fit
-from permeance import Permeance, Units
-from process import ProcessModel
-from utils import R
+from pyvaporation.conditions import Conditions
+from pyvaporation.diffusion_curve import DiffusionCurve, DiffusionCurveSet
+from pyvaporation.membrane import Membrane
+from pyvaporation.mixtures import (Composition, CompositionType, Mixture,
+                                   get_nrtl_partial_pressures)
+from pyvaporation.optimizer import Measurements, find_best_fit
+from pyvaporation.permeance import Permeance, Units
+from pyvaporation.process import ProcessModel
+from pyvaporation.utils import R
 
 
 def get_permeate_composition_from_fluxes(

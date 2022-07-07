@@ -3,7 +3,7 @@ import typing
 import attr
 import numpy
 
-from mixtures import Composition
+from pyvaporation.mixtures import Composition
 
 
 class CalculationType:

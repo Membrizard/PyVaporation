@@ -1,10 +1,10 @@
 import pytest
 from pytest import fixture
 
-from components import Components
-from experiments import IdealExperiment, IdealExperiments
-from membrane import Membrane
-from permeance import Permeance
+from pyvaporation.components import Components
+from pyvaporation.experiments import IdealExperiment, IdealExperiments
+from pyvaporation.membrane import Membrane
+from pyvaporation.permeance import Permeance
 
 
 @fixture

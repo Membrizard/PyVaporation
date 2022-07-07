@@ -1,4 +1,4 @@
-from utils import HeatCapacityConstants, VaporPressureConstants
+from pyvaporation.utils import HeatCapacityConstants, VaporPressureConstants
 
 from .component import Component
 
