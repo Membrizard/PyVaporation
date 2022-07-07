@@ -388,6 +388,9 @@ class Pervaporation:
                 )
             )
 
+        feed_composition.pop(-1)
+        feed_mass.pop(-1)
+
         return ProcessModel(
             mixture=self.mixture,
             membrane_name=self.membrane.name,
