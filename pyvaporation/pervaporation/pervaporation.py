@@ -575,6 +575,10 @@ class Pervaporation:
                     conditions.temperature_program.program(time[step] + delta_hours)
                 )
 
+        feed_mass.pop(-1)
+        feed_composition.pop(-1)
+        feed_temperature.pop(-1)
+
         return ProcessModel(
             mixture=self.mixture,
             membrane_name=self.membrane.name,
