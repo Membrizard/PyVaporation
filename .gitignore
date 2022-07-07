@@ -4,6 +4,7 @@
 .coverage
 .mypy_cache
 article_figures.py
+article_code_examples.py
 
 __pycache__
 
