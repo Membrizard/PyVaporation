@@ -8,7 +8,7 @@ from pyvaporation.components import Component
 from pyvaporation.diffusion_curve import DiffusionCurveSet
 from pyvaporation.experiments import IdealExperiments
 from pyvaporation.permeance import Permeance, Units
-from utils import R
+from pyvaporation.utils import R
 
 
 @attr.s(auto_attribs=True)

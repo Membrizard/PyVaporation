@@ -13,7 +13,7 @@ from pyvaporation.mixtures import (Composition, CompositionType, Mixture,
 from pyvaporation.optimizer import Measurements, find_best_fit
 from pyvaporation.permeance import Permeance, Units
 from pyvaporation.process import ProcessModel
-from utils import R
+from pyvaporation.utils import R
 
 
 def get_permeate_composition_from_fluxes(

@@ -4,7 +4,7 @@ import attr
 import numpy
 
 from pyvaporation.components import Component
-from utils import NRTLParameters, R
+from pyvaporation.utils import NRTLParameters, R
 
 
 def _is_in_0_to_1_range(
