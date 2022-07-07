@@ -1,12 +1,12 @@
 import shutil
 from pathlib import Path
 
-from conditions import Conditions
-from membrane import Membrane
-from mixtures import Composition, CompositionType, Mixtures
-from permeance import Permeance
-from pervaporation import Pervaporation
-from process import ProcessModel
+from pyvaporation.conditions import Conditions
+from pyvaporation.membrane import Membrane
+from pyvaporation.mixtures import Composition, CompositionType, Mixtures
+from pyvaporation.permeance import Permeance
+from pyvaporation.pervaporation import Pervaporation
+from pyvaporation.process import ProcessModel
 
 
 def test_save_load_process():

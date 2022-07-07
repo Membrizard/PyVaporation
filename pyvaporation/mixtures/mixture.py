@@ -3,7 +3,7 @@ import typing
 import attr
 import numpy
 
-from components import Component
+from pyvaporation.components import Component
 from utils import NRTLParameters, R
 
 

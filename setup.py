@@ -5,7 +5,7 @@ with open("requirements.txt", "r") as handle:
 
 setup(
     name="PyVaporation",
-    packages=["PyVaporation"],
+    packages=["pyvaporation"],
     version="0.1.0",
     license="Apache license 2.0",
     description="Set of tools for modelling membrane pervaporations",

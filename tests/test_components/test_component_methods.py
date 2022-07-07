@@ -1,4 +1,4 @@
-from components import Component
+from pyvaporation.components import Component
 from utils import HeatCapacityConstants, VaporPressureConstants
 
 vapor_pressure_constants_antoine = VaporPressureConstants(

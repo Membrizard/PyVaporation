@@ -4,10 +4,10 @@ from pathlib import Path
 import attr
 import numpy
 
-from components import Component
-from diffusion_curve import DiffusionCurveSet
-from experiments import IdealExperiments
-from permeance import Permeance, Units
+from pyvaporation.components import Component
+from pyvaporation.diffusion_curve import DiffusionCurveSet
+from pyvaporation.experiments import IdealExperiments
+from pyvaporation.permeance import Permeance, Units
 from utils import R
 
 

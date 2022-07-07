@@ -1,10 +1,10 @@
 import numpy
 from pytest import fixture
 
-from diffusion_curve import DiffusionCurve
-from mixtures import Composition, CompositionType, Mixtures
-from optimizer import Measurements, find_best_fit, fit
-from permeance import Permeance, Units
+from pyvaporation.diffusion_curve import DiffusionCurve
+from pyvaporation.mixtures import Composition, CompositionType, Mixtures
+from pyvaporation.optimizer import Measurements, find_best_fit, fit
+from pyvaporation.permeance import Permeance, Units
 
 
 @fixture
