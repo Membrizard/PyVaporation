@@ -12,7 +12,7 @@ setup(
     author="Denis Sapegin, Aleksei Chekmachev",
     author_email="a.checkmachev@gmail.com",
     url="https://github.com/Membrizard/PyVaporation",
-    download_url="https://github.com/Membrizard/PyVaporation/archive/refs/tags/v0.1.0.tar.gz",
+    download_url="https://github.com/Membrizard/PyVaporation/archive/refs/tags/v0.1.3.tar.gz",
     keywords=[
         "pervaporation",
         "membrane",
