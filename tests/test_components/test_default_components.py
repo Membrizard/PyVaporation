@@ -1,4 +1,4 @@
-from components import Components
+from pyvaporation.components import Components
 
 
 def test_constants_h2o():

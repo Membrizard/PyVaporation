@@ -1,7 +1,7 @@
-from components import Component
-from mixtures import (Composition, CompositionType, Mixture,
-                      get_nrtl_partial_pressures)
-from utils import HeatCapacityConstants, NRTLParameters, VaporPressureConstants
+from pyvaporation.components import Component
+from pyvaporation.mixtures import (Composition, CompositionType, Mixture,
+                                   get_nrtl_partial_pressures)
+from pyvaporation.utils import HeatCapacityConstants, NRTLParameters, VaporPressureConstants
 
 antoine_constants = VaporPressureConstants(
     a=7.20389,

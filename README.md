@@ -31,10 +31,18 @@ Non-isothermal modelling for both type of processes supports self-cooling mode, 
 * Non Ideal modelling supports non-linear dependencies of permeances and activation energies on feed composition 
 * Non-Isothermal processes support pre-defined temperature program (feed temperature as a function of process time may be specified for process modelling)
 
+# Installation
+
+To install:
+
+pip install pyvaporation
+
 # Code examples
 
 # Hints for general usage
-* to run automated tests for all the modules: 
+
+* Pre-configured default membranes are located in ./tests/default_membranes
+* To run automated tests for all the modules: 
 
    python -m pytest -sv tests/
 

@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from membrane import Membrane
+from pyvaporation.membrane import Membrane
 
 
 def test_read_ideal_experiment():

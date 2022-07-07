@@ -3,8 +3,8 @@ import typing
 import attr
 import numpy
 
-from components import Component
-from utils import NRTLParameters, R
+from pyvaporation.components import Component
+from pyvaporation.utils import NRTLParameters, R
 
 
 def _is_in_0_to_1_range(

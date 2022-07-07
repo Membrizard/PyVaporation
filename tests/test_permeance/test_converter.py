@@ -1,7 +1,7 @@
 from pytest import fixture
 
-from components import Components
-from permeance import Permeance, Units
+from pyvaporation.components import Components
+from pyvaporation.permeance import Permeance, Units
 
 
 @fixture

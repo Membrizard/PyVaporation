@@ -1,13 +1,13 @@
 import pytest
 from pytest import fixture
 
-from components import Components
-from conditions import Conditions
-from experiments import IdealExperiment, IdealExperiments
-from membrane import Membrane
-from mixtures import Composition, CompositionType, Mixtures
-from permeance import Permeance
-from pervaporation import Pervaporation
+from pyvaporation.components import Components
+from pyvaporation.conditions import Conditions
+from pyvaporation.experiments import IdealExperiment, IdealExperiments
+from pyvaporation.membrane import Membrane
+from pyvaporation.mixtures import Composition, CompositionType, Mixtures
+from pyvaporation.permeance import Permeance
+from pyvaporation.pervaporation import Pervaporation
 
 
 @fixture
