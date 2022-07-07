@@ -4,7 +4,7 @@ with open("requirements.txt", "r") as handle:
     required = handle.read().splitlines()
 
 setup(
-    name="PyVaporation",
+    name="pyvaporation",
     packages=["pyvaporation"],
     version="0.1.0",
     license="Apache license 2.0",
