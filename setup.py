@@ -10,7 +10,7 @@ setup(
     author_email="a.checkmachev@gmail.com",
     url="https://github.com/Membrizard/PyVaporation",
     download_url="https://github.com/Membrizard/PyVaporation/archive/refs/tags/v0.1.8.tar.gz",
-    long_description_content_type='text/markdown',
+    long_description_content_type="text/markdown",
     keywords=[
         "pervaporation",
         "membrane",
@@ -18,10 +18,10 @@ setup(
         "modelling",
     ],
     install_requires=[
-        'joblib>=1.1.0',
-        'matplotlib>=3.5.2',
-        'pandas>=1.4.2',
-        'scipy>=1.8.0',
+        "joblib>=1.1.0",
+        "matplotlib>=3.5.2",
+        "pandas>=1.4.2",
+        "scipy>=1.8.0",
     ],
     classifiers=[
         "Development Status :: 3 - Alpha",

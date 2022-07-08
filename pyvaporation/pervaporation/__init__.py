@@ -1,3 +1,3 @@
-from .pervaporation import DiffusionCurve, Pervaporation, ProcessModel
+from .pervaporation import Pervaporation
 
-__all__ = ["Pervaporation", "DiffusionCurve", "ProcessModel"]
+__all__ = ["Pervaporation"]
