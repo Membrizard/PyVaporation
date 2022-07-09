@@ -342,7 +342,7 @@ class ProcessModel:
             raise ValueError(f"Unexpected data type {type(y[0])}")
 
         plot_graph(
-            x_label=f"{self.mixture.first_component.name}, {self.feed_compositions[0].type} %",
+            x_label=f"Process time, hours",
             y_label=y_label,
             points=points,
         )
