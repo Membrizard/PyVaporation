@@ -12,3 +12,4 @@ tests/temp
 
 *.ipynb
 .DS_Store
+.tests/default_membranes/RomakonPM_102/diffusion_curve_sets/DS_Store
