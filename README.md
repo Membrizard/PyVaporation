@@ -39,7 +39,9 @@ python 3.6 or higher
 
 To install:
 
->pip install pyvaporation<
+'''
+pip install pyvaporation
+'''
 
 # Code examples
 
