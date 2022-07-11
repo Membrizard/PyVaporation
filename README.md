@@ -38,10 +38,9 @@ Rquirements:
 python 3.6 or higher
 
 To install:
-
-'''
+```
 pip install pyvaporation
-'''
+```
 
 # Code examples
 
