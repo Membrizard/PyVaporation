@@ -8,6 +8,7 @@ from pyvaporation.membrane import Membrane
 from pyvaporation.mixtures import Composition, CompositionType, Mixtures
 from pyvaporation.permeance import Permeance
 from pyvaporation.pervaporation import Pervaporation
+from pathlib import Path
 
 
 @fixture
@@ -188,3 +189,51 @@ def test_validate_against_ideal_process_temperature_program(pervaporation):
             )
             < 1e-2
         )
+
+def test_validate_against_experimental_data():
+    """
+    Data for validation is taken from: https://doi.org/10.1007/bf02705302.
+    """
+    membrane = Membrane.load(Path("tests/default_membranes/Chang_et_al_1998"))
+
+    pv = Pervaporation(
+        membrane=membrane,
+        mixture=Mixtures.H2O_EtOH,
+    )
+
+    model_temp = []
+    model_area = []
+    model_fraction = [0.062]
+    for i in range(4):
+        conditions = Conditions(
+            membrane_area=1,
+            initial_feed_temperature=368.475,
+            initial_feed_amount=12.106,
+            initial_feed_composition=Composition(p=model_fraction[i], type=CompositionType.weight),
+            permeate_pressure=1.3,
+        )
+
+        model = pv.non_ideal_non_isothermal_process(
+            conditions=conditions,
+            diffusion_curve_set=membrane.diffusion_curve_sets[0],
+            number_of_steps=11,
+            delta_hours=0.1,
+        )
+
+        model_temp.append(model.feed_temperature[-1]-273.15)
+        model_area.append(i)
+        model_fraction.append(model.feed_compositions[-1].first)
+
+    exp_ret_temp = [75.59665724, 78.66904264, 84.62947032, 92.67912007]
+
+    exp_fraction = [0.06162740899,
+                    0.04331905782,
+                    0.02886509636,
+                    0.01794432548,
+                    0.01141327623]
+
+    for i in range(len(exp_ret_temp)):
+        assert abs(exp_ret_temp[i]-model_temp[i]) < 5.5
+
+    for i in range(len(exp_fraction)):
+        assert abs(exp_fraction[i] - model_fraction[i]) < 1e-2
