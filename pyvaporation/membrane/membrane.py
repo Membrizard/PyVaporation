@@ -33,7 +33,11 @@ class Membrane:
             if len(list((path / "diffusion_curve_sets").iterdir())) > 0:
                 diffusion_curve_sets = []
                 for file in list((path / "diffusion_curve_sets").iterdir()):
+                    if file.stem == '.DS_store':
+                        continue
                     diffusion_curve_sets.append(DiffusionCurveSet.load(file))
+                if len(diffusion_curve_sets) == 0:
+                    diffusion_curve_sets = None
             else:
                 diffusion_curve_sets = None
         else:
