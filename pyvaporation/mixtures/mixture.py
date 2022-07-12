@@ -9,7 +9,7 @@ from pyvaporation.utils import NRTLParameters, R
 
 def _is_in_0_to_1_range(
     instance: typing.Any, attribute, value: float
-) -> None:  # TODO: typing
+) -> None:
     if not 0 <= value <= 1:
         raise ValueError("Give %s value is not in [0, 1] range" % value)
 
@@ -29,6 +29,7 @@ class Mixture:
 
 @attr.s(auto_attribs=True)
 class Composition:
+    # TODO: docstring
     p: float = attr.ib(validator=_is_in_0_to_1_range)
     type: str
 

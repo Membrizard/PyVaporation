@@ -6,6 +6,7 @@ import numpy
 from pyvaporation.mixtures import Composition
 
 
+# TODO: Enum or not Enum?
 class CalculationType:
     polynomial: str = "polynomial"
     exponential: str = "exponential"
@@ -18,11 +19,13 @@ class TemperatureProgram:
     type: str = CalculationType.polynomial
 
     def polynomial(self, x: float) -> float:
+        # TODO: docstring
         return sum(
             [self.coefficients[i] * x**i for i in range(len(self.coefficients))]
         )
 
     def exponential(self, x: float) -> float:
+        # TODO: docstring
         return self.coefficients[0] * numpy.exp(
             sum(
                 [
@@ -33,6 +36,7 @@ class TemperatureProgram:
         )
 
     def logarithmic(self, x: float) -> float:
+        # TODO: docstring
         return self.coefficients[0] * numpy.log(
             sum(
                 [

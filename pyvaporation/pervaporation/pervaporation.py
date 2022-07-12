@@ -123,8 +123,8 @@ class Pervaporation:
             get_nrtl_partial_pressures(feed_temperature, self.mixture, composition),
         )
         permeate_composition = get_permeate_composition_from_fluxes(initial_fluxes)
-        d = 1
 
+        d = 1
         while d >= precision:
             try:
                 permeate_composition_new = get_permeate_composition_from_fluxes(
@@ -149,7 +149,6 @@ class Pervaporation:
             else:
                 permeate_composition = permeate_composition_new
 
-            # TODO: max iter and logs!!!
         return self.get_partial_fluxes_from_permeate_composition(
             first_component_permeance=first_component_permeance,
             second_component_permeance=second_component_permeance,

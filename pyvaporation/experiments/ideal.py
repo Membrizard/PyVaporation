@@ -36,6 +36,7 @@ class IdealExperiment:
     def from_dict(
         cls, d: typing.Mapping[str, typing.Union[str, float]]
     ) -> "IdealExperiment":
+        # TODO: docstring
         component = getattr(Components, d["component"])
         permeance = Permeance(value=d["permeance"], units=d["units"]).convert(
             to_units=Units.kg_m2_h_kPa, component=component
@@ -52,6 +53,7 @@ class IdealExperiment:
 
 @attr.s(auto_attribs=True)
 class IdealExperiments:
+    # TODO: docstring
     experiments: typing.List[IdealExperiment]
 
     def __len__(self):
@@ -59,6 +61,7 @@ class IdealExperiments:
 
     @classmethod
     def from_csv(cls, path: typing.Union[str, Path]) -> "IdealExperiments":
+        # TODO: docstring
         frame = pandas.read_csv(path)
         if list(frame.columns) != IDEAL_EXPERIMENT_COLUMNS:
             raise ValueError("Incorrect columns: %s" % list(frame.columns))

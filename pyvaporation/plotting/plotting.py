@@ -49,7 +49,7 @@ def plot_surface(
     t_max: float,
     x_v: numpy.array,
 ):
-
+    # TODO: docstring
     fig = plt.figure()
     ax = fig.add_subplot(projection="3d")
 

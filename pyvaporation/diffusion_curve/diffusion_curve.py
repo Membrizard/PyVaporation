@@ -307,6 +307,7 @@ class DiffusionCurve:
 
     @property
     def get_permeances(self) -> typing.List[typing.Tuple[Permeance, Permeance]]:
+        # TODO: docstring
         if self.permeances is not None:
             return self.permeances
         else:
@@ -375,7 +376,7 @@ class DiffusionCurve:
 
     @classmethod
     def from_frame(cls, data: pandas.DataFrame) -> "DiffusionCurve":
-
+        # TODO: docstring
         mixture = getattr(Mixtures, data["mixture"].iloc[0])
 
         if (
@@ -451,6 +452,7 @@ class DiffusionCurve:
         )
 
     def save(self, path: typing.Union[str, Path]) -> None:
+        # TODO: docstring
         output = pandas.DataFrame(
             {
                 "composition": [c.p for c in self.feed_compositions],

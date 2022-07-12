@@ -106,6 +106,7 @@ class ProcessModel:
 
     @classmethod
     def load(cls, process_path: typing.Union[str, Path]) -> "ProcessModel":
+        # TODO: docstring
         if type(process_path) is not Path:
             process_path = Path(process_path)
 
@@ -231,6 +232,7 @@ class ProcessModel:
         )
 
     def save(self, membrane_path: typing.Union[str, Path] = membrane_path) -> None:
+        # TODO: docstring
         if type(membrane_path) is not Path:
             membrane_path = Path(membrane_path)
 

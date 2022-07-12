@@ -13,6 +13,7 @@ from pyvaporation.utils import R
 
 @attr.s(auto_attribs=True)
 class Membrane:
+    # TODO: docstring
     name: str
     ideal_experiments: typing.Optional[IdealExperiments] = None
     diffusion_curve_sets: typing.Optional[typing.List[DiffusionCurveSet]] = None
@@ -21,6 +22,7 @@ class Membrane:
 
     @classmethod
     def load(cls, path: typing.Union[str, Path]) -> "Membrane":
+        # TODO: docstring
         if type(path) is not Path:
             path = Path(path)
 

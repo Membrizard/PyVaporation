@@ -13,6 +13,7 @@ from pyvaporation.plotting import plot_graph, plot_surface
 
 @attr.s(auto_attribs=True)
 class Measurement:
+    # TODO: docstring
     x: float
     t: float
     p: float
@@ -20,6 +21,7 @@ class Measurement:
 
 @attr.s(auto_attribs=True)
 class Measurements:
+    # TODO: docstring
     data: typing.List[Measurement]
 
     def __len__(self) -> int:
@@ -33,6 +35,7 @@ class Measurements:
 
     @classmethod
     def from_diffusion_curve_first(cls, curve: DiffusionCurve) -> "Measurements":
+        # TODO: docstring
         return Measurements(
             data=[
                 Measurement(
@@ -49,6 +52,7 @@ class Measurements:
 
     @classmethod
     def from_diffusion_curve_second(cls, curve: DiffusionCurve) -> "Measurements":
+        # TODO: docstring
         return Measurements(
             data=[
                 Measurement(
@@ -62,6 +66,7 @@ class Measurements:
 
     @classmethod
     def from_diffusion_curves_first(cls, curves: DiffusionCurveSet) -> "Measurements":
+        # TODO: docstring
         output = Measurements(data=[])
         for curve in curves:
             output += cls.from_diffusion_curve_first(curve)
@@ -69,6 +74,7 @@ class Measurements:
 
     @classmethod
     def from_diffusion_curves_second(cls, curves: DiffusionCurveSet) -> "Measurements":
+        # TODO: docstring
         output = Measurements(data=[])
         for curve in curves:
             output += cls.from_diffusion_curve_second(curve)
@@ -77,6 +83,7 @@ class Measurements:
 
 @attr.s(auto_attribs=True)
 class PervaporationFunction:
+    # TODO: docstring
     n: int
     m: int
 
@@ -88,6 +95,7 @@ class PervaporationFunction:
     def from_array(
         cls, array: typing.Union[typing.List[float], numpy.ndarray], n: int, m: int
     ) -> "PervaporationFunction":
+        # TODO: docstring
         assert len(array) == 2 + n + m
         return cls(
             n=n,
@@ -116,11 +124,13 @@ class PervaporationFunction:
 
     @classmethod
     def load(cls, path: typing.Union[str, Path]) -> "PervaporationFunction":
+        # TODO: docstring
         if type(path) is not Path:
             path = Path(path)
         return joblib.load(path)
 
     def save(self, path: typing.Union[str, Path]) -> None:
+        # TODO: docstring
         joblib.dump(self, path)
 
     def plot(
@@ -129,6 +139,7 @@ class PervaporationFunction:
         temperature: typing.Optional[float] = None,
         concentration: typing.Tuple[float, float] = None,
     ):
+        # TODO: docstring
         points = {}
         x, t, p = 0, 0, 0
 
@@ -228,6 +239,7 @@ def fit(
     include_zero: bool = False,
     component_index: int = 0,
 ) -> PervaporationFunction:
+    # TODO: docstring
 
     _n, _m = _suggest_n_m(data, n, m)
     if component_index not in {0, 1}:
@@ -261,7 +273,7 @@ def find_best_fit(
     n: typing.Optional[int] = None,
     m: typing.Optional[int] = None,
 ) -> PervaporationFunction:
-
+    # TODO: docstring
     max_power_n = min(5, round(numpy.power(len(data), 0.5)))
     max_power_m = min(5, max(1, len(set([measurement.t for measurement in data])) - 1))
 

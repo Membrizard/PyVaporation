@@ -13,6 +13,7 @@ class Units:
 
 @attr.s(auto_attribs=True)
 class Permeance:
+    # TODO: docstring
     value: float = attr.ib(converter=lambda x: x if x >= 0 else 0)
     units: str = Units.kg_m2_h_kPa
 
