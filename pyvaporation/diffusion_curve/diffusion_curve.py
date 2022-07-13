@@ -237,7 +237,8 @@ class DiffusionCurve:
                     first,
                     curve,
                 ),
-                f"Second Component - {self.mixture.second_component.name}, multiplied by {int(10**scaling_factor):.0e} ": (
+                f"Second Component - {self.mixture.second_component.name}, "
+                f"multiplied by {int(10**scaling_factor):.0e} ": (
                     x,
                     second,
                     curve,
@@ -307,7 +308,10 @@ class DiffusionCurve:
 
     @property
     def get_permeances(self) -> typing.List[typing.Tuple[Permeance, Permeance]]:
-        # TODO: docstring
+        """
+        Calculates permenace of both components based on the partial flux values, mixture, feed  and permeate parameters
+        :return: Permeances of each component at each feed concentration as [(P1,P2),...]
+        """
         if self.permeances is not None:
             return self.permeances
         else:
@@ -452,7 +456,11 @@ class DiffusionCurve:
         )
 
     def save(self, path: typing.Union[str, Path]) -> None:
-        # TODO: docstring
+        """
+        Saves the curve to a specified path in the form of a .csv file
+        :param path: path to the directory
+        :return: None, the object is saved in a specified directory
+        """
         output = pandas.DataFrame(
             {
                 "composition": [c.p for c in self.feed_compositions],

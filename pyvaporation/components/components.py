@@ -4,6 +4,11 @@ from .component import Component
 
 
 class Components:
+    """
+    A class with pre-defined components with constants validated against literature data
+    For details see ./tests/test_components/test_default_components.py
+    """
+
     H2O: Component = Component(
         name="H2O",
         molecular_weight=18.02,

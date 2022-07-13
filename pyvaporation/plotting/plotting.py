@@ -49,6 +49,18 @@ def plot_surface(
     t_max: float,
     x_v: numpy.array,
 ):
+    """
+    Plots a 3D surface in a pre-defined manner
+    :param condition: indicates if experimental points should be scattered
+    :param function: Function to be plotted
+    :param x: list of experimental values
+    :param t: list of experimental values
+    :param p: list of experimental values
+    :param t_min: minimal value of t parameter to be displayed
+    :param t_max: maximal value of t parameter to be displayed
+    :param x_v: list of x values to be used for plotting
+    :return: plots a 3D graph with or without scattered points
+    """
     # TODO: docstring
     fig = plt.figure()
     ax = fig.add_subplot(projection="3d")

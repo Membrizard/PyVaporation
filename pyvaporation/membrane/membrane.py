@@ -13,7 +13,10 @@ from pyvaporation.utils import R
 
 @attr.s(auto_attribs=True)
 class Membrane:
-    # TODO: docstring
+    """
+    Class to represent a membrane
+    """
+
     name: str
     ideal_experiments: typing.Optional[IdealExperiments] = None
     diffusion_curve_sets: typing.Optional[typing.List[DiffusionCurveSet]] = None
@@ -22,7 +25,11 @@ class Membrane:
 
     @classmethod
     def load(cls, path: typing.Union[str, Path]) -> "Membrane":
-        # TODO: docstring
+        """
+        Creates a Membrane object from a directory of a unified type
+        :param path: path to the directory, containing infromation on IdealExperiments and DiffusionCutveSets
+        :return: a Membrane object
+        """
         if type(path) is not Path:
             path = Path(path)
 
@@ -35,7 +42,7 @@ class Membrane:
             if len(list((path / "diffusion_curve_sets").iterdir())) > 0:
                 diffusion_curve_sets = []
                 for file in list((path / "diffusion_curve_sets").iterdir()):
-                    if file.stem == '.DS_store':
+                    if file.stem == ".DS_store":
                         continue
                     diffusion_curve_sets.append(DiffusionCurveSet.load(file))
                 if len(diffusion_curve_sets) == 0:
@@ -146,7 +153,7 @@ class Membrane:
             component_experiments.experiments[index].activation_energy is None
             and component_experiments.experiments[index].temperature != temperature
         ):
-            # TODO: add logs
+
             activation_energy = self.calculate_activation_energy(component)
             return Permeance(
                 value=given_permeance.value

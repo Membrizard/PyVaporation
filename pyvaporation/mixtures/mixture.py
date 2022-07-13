@@ -7,20 +7,26 @@ from pyvaporation.components import Component
 from pyvaporation.utils import NRTLParameters, R
 
 
-def _is_in_0_to_1_range(
-    instance: typing.Any, attribute, value: float
-) -> None:
+def _is_in_0_to_1_range(instance: typing.Any, attribute, value: float) -> None:
     if not 0 <= value <= 1:
         raise ValueError("Give %s value is not in [0, 1] range" % value)
 
 
 class CompositionType:
+    """
+    A class to describe type of the composition
+    """
+
     molar: str = "molar"
     weight: str = "weight"
 
 
 @attr.s(auto_attribs=True)
 class Mixture:
+    """
+    A class to represent mixtures
+    """
+
     name: str
     first_component: Component
     second_component: Component
@@ -29,7 +35,10 @@ class Mixture:
 
 @attr.s(auto_attribs=True)
 class Composition:
-    # TODO: docstring
+    """
+    A class to represent composition of the mixtures
+    """
+
     p: float = attr.ib(validator=_is_in_0_to_1_range)
     type: str
 

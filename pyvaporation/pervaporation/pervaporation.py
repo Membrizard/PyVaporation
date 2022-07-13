@@ -627,21 +627,22 @@ class Pervaporation:
         The modelling could be also performed based on a single diffusion curve:
         In that case the apparent activation energy of transport is considered constant
         and is calculated for each component based on the IdealExperiments default_membranes provided for the Membrane.
-        :param diffusion_curve_set:
-        :param feed_temperature:
-        :param initial_feed_composition:
-        :param delta_composition:
-        :param number_of_steps:
-        :param permeate_temperature:
-        :param permeate_pressure:
-        :param initial_permeances:
-        :param precision:
-        :param n_first:
-        :param n_second:
-        :param m_first:
-        :param m_second:
-        :param include_zero:
-        :return:
+        :param diffusion_curve_set: DiffusionCurveSet used as a basis for fitting of the PervaporationFunctions
+        :param feed_temperature: temperature of the feed mixture
+        :param initial_feed_composition: initial composition of the feed
+        :param delta_composition: a composition step size
+        :param number_of_steps: number of modelling steps
+        :param permeate_temperature: temperature of permeate
+        :param permeate_pressure: pressure of permeate
+        :param initial_permeances: initial permeances of components, for calculation of an FR parameter using
+        data from DiffusionCurveSet object
+        :param precision: precision of permeate composition calculation
+        :param n_first: n parameter of the PervaporationFunction of the first component
+        :param n_second: n parameter of the PervaporationFunction of the second component
+        :param m_first: m parameter of the PervaporationFunction of the first component
+        :param m_second: m parameter of the PervaporationFunction of the second component
+        :param include_zero: bool parameter to force default points while fitting the PervaporationFunction
+        :return: non-ideal diffusion curve
         """
 
         measurements_first = Measurements.from_diffusion_curves_first(
@@ -1157,7 +1158,8 @@ class Pervaporation:
         Based on a set of Diffusion curves measured at different temperatures;
         The modelling could be also performed based on a single diffusion curve:
         In that case the apparent activation energy of transport is considered constant
-        and is calculated for each test_components based on the IdealExperiments default_membranes provided for the Membrane.
+        and is calculated for each test_components based on the IdealExperiments default_membranes provided for the
+        Membrane.
         :param conditions: Initial Conditions of the Process, a Temperature program may be added if necessary
         :param diffusion_curve_set: A set of Diffusion curves picked for the Modelling from the Membrane
         :param number_of_steps: Number of time steps for modelling

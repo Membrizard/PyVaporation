@@ -19,13 +19,21 @@ class TemperatureProgram:
     type: str = CalculationType.polynomial
 
     def polynomial(self, x: float) -> float:
-        # TODO: docstring
+        """
+        Calculates temperature using polynomial approximation
+        :param x: parameter used for calculation of temperature
+        :return: Temperature value calculated using polynomial relation defined with .coefficients
+        """
         return sum(
             [self.coefficients[i] * x**i for i in range(len(self.coefficients))]
         )
 
     def exponential(self, x: float) -> float:
-        # TODO: docstring
+        """
+        Calculates temperature using exponential approximation
+        :param x: parameter used for calculation of temperature
+        :return: Temperature value calculated using exponential-polynomial relation defined with .coefficients
+        """
         return self.coefficients[0] * numpy.exp(
             sum(
                 [
@@ -36,7 +44,11 @@ class TemperatureProgram:
         )
 
     def logarithmic(self, x: float) -> float:
-        # TODO: docstring
+        """
+        Calculates temperature using logarithmic approximation
+        :param x: parameter used for calculation of temperature
+        :return: Temperature value calculated using logarithmic-polynomial relation defined with .coefficients
+        """
         return self.coefficients[0] * numpy.log(
             sum(
                 [

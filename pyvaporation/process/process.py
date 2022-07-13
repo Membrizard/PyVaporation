@@ -38,6 +38,10 @@ PROCESS_MODEL_COLUMNS = [
 
 @attr.s(auto_attribs=True)
 class ProcessModel:
+    """
+    Clas for description, working with and storage of process models
+    """
+
     mixture: Mixture
     membrane_name: str
     feed_temperature: typing.List[float]
@@ -60,6 +64,10 @@ class ProcessModel:
 
     @staticmethod
     def _generate_process_path(membrane_path: typing.Union[str, Path]) -> Path:
+        """
+        :param membrane_path: path to an associated membrane
+        :return: generates a path to save a process model
+        """
         if type(membrane_path) is not Path:
             membrane_path = Path(membrane_path)
 
@@ -106,7 +114,11 @@ class ProcessModel:
 
     @classmethod
     def load(cls, process_path: typing.Union[str, Path]) -> "ProcessModel":
-        # TODO: docstring
+        """
+        Creates a ProcessModel object from the data in a specified directory
+        :param process_path: path to the process folder of a unified format
+        :return: ProcessModel object
+        """
         if type(process_path) is not Path:
             process_path = Path(process_path)
 
@@ -232,7 +244,11 @@ class ProcessModel:
         )
 
     def save(self, membrane_path: typing.Union[str, Path] = membrane_path) -> None:
-        # TODO: docstring
+        """
+        Saves a ProcessModel object to a specified directory of a unified format
+        :param membrane_path: path to the associated membrane
+        :return: saves the object
+        """
         if type(membrane_path) is not Path:
             membrane_path = Path(membrane_path)
 
@@ -320,7 +336,8 @@ class ProcessModel:
                     first,
                     curve,
                 ),
-                f"Second Component - {self.mixture.second_component.name}, multiplied by {int(10**scaling_factor):.0e} ": (
+                f"Second Component - {self.mixture.second_component.name}, "
+                f"multiplied by {int(10**scaling_factor):.0e} ": (
                     x,
                     second,
                     curve,

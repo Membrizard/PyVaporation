@@ -5,6 +5,11 @@ from .mixture import Mixture
 
 
 class Mixtures:
+    """
+    A class with pre-defined mixtures with constants validated against literature data
+    For details see ./tests/test_mixtures/test_default_mixtures.py
+    """
+
     H2O_MeOH: Mixture = Mixture(
         name="H2O_MeOH",
         first_component=Components.H2O,

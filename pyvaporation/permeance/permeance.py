@@ -6,6 +6,10 @@ from pyvaporation.components import Component
 
 
 class Units:
+    """
+    Class to represent Permeance units
+    """
+
     GPU: str = "GPU"
     SI: str = "SI"
     kg_m2_h_kPa: str = "kg/(m2*h*kPa)"
@@ -13,7 +17,10 @@ class Units:
 
 @attr.s(auto_attribs=True)
 class Permeance:
-    # TODO: docstring
+    """
+    Class to represent Permeance values
+    """
+
     value: float = attr.ib(converter=lambda x: x if x >= 0 else 0)
     units: str = Units.kg_m2_h_kPa
 
