@@ -2,7 +2,7 @@ import typing
 
 import attr
 
-from pyvaporation.components import Component
+from ..components import Component
 
 
 class Units:

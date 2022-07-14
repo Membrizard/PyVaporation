@@ -5,10 +5,10 @@ import attr
 import numpy
 import pandas
 
-from pyvaporation.mixtures import (Composition, CompositionType, Mixture,
-                                   Mixtures, get_nrtl_partial_pressures)
-from pyvaporation.permeance import Permeance, Units
-from pyvaporation.plotting import plot_graph
+from ..mixtures import (Composition, CompositionType, Mixture, Mixtures,
+                        get_nrtl_partial_pressures)
+from ..permeance import Permeance, Units
+from ..plotting import plot_graph
 
 DC_SET_COLUMNS = [
     "curve_id",

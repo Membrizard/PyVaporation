@@ -3,8 +3,8 @@ import typing
 import attr
 import numpy
 
-from pyvaporation.components import Component
-from pyvaporation.utils import NRTLParameters, R
+from ..components import Component
+from ..utils import NRTLParameters, R
 
 
 def _is_in_0_to_1_range(instance: typing.Any, attribute, value: float) -> None:

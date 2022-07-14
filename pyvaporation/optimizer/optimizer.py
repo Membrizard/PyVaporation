@@ -7,8 +7,8 @@ import joblib
 import numpy
 from scipy import optimize
 
-from pyvaporation.diffusion_curve import DiffusionCurve, DiffusionCurveSet
-from pyvaporation.plotting import plot_graph, plot_surface
+from ..diffusion_curve import DiffusionCurve, DiffusionCurveSet
+from ..plotting import plot_graph, plot_surface
 
 
 @attr.s(auto_attribs=True)

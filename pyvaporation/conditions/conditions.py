@@ -3,7 +3,7 @@ import typing
 import attr
 import numpy
 
-from pyvaporation.mixtures import Composition
+from ..mixtures import Composition
 
 
 # TODO: Enum or not Enum?

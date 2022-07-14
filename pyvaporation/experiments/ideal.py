@@ -4,8 +4,8 @@ from pathlib import Path
 import attr
 import pandas
 
-from pyvaporation.components import Component, Components
-from pyvaporation.permeance import Permeance, Units
+from ..components import Component, Components
+from ..permeance import Permeance, Units
 
 IDEAL_EXPERIMENT_COLUMNS = [
     "name",
