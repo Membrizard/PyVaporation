@@ -13,7 +13,13 @@ from pyvaporation.plotting import plot_graph, plot_surface
 
 @attr.s(auto_attribs=True)
 class Measurement:
-    # TODO: docstring
+    """
+    Parameters:
+    x (float): concentration
+    t (float): temperature in K
+    p (float): Permeance value
+    """
+
     x: float
     t: float
     p: float
@@ -21,7 +27,10 @@ class Measurement:
 
 @attr.s(auto_attribs=True)
 class Measurements:
-    # TODO: docstring
+    """
+    List of Measurement objects
+    """
+
     data: typing.List[Measurement]
 
     def __len__(self) -> int:
@@ -35,7 +44,10 @@ class Measurements:
 
     @classmethod
     def from_diffusion_curve_first(cls, curve: DiffusionCurve) -> "Measurements":
-        # TODO: docstring
+        """
+        :param curve: Diffusion curve
+        :return: Measurements for the first component
+        """
         return Measurements(
             data=[
                 Measurement(
@@ -52,7 +64,10 @@ class Measurements:
 
     @classmethod
     def from_diffusion_curve_second(cls, curve: DiffusionCurve) -> "Measurements":
-        # TODO: docstring
+        """
+        :param curve: Diffusion curve
+        :return: Measurements for the second component
+        """
         return Measurements(
             data=[
                 Measurement(
@@ -66,7 +81,10 @@ class Measurements:
 
     @classmethod
     def from_diffusion_curves_first(cls, curves: DiffusionCurveSet) -> "Measurements":
-        # TODO: docstring
+        """
+        :param curves: Diffusion curves
+        :return: Measurements for the first component from multiple diffusion curves
+        """
         output = Measurements(data=[])
         for curve in curves:
             output += cls.from_diffusion_curve_first(curve)
@@ -74,7 +92,10 @@ class Measurements:
 
     @classmethod
     def from_diffusion_curves_second(cls, curves: DiffusionCurveSet) -> "Measurements":
-        # TODO: docstring
+        """
+        :param curves: Diffusion curves
+        :return: Measurements for the second component from multiple diffusion curves
+        """
         output = Measurements(data=[])
         for curve in curves:
             output += cls.from_diffusion_curve_second(curve)
@@ -83,7 +104,14 @@ class Measurements:
 
 @attr.s(auto_attribs=True)
 class PervaporationFunction:
-    # TODO: docstring
+    """
+    :param n: max power of temperature independent components in equation
+    :param m: max power of temperature dependent components in equation
+    :param alpha: multiplication coefficient
+    :param a: list of coefficients for temperature independent components
+    :param b: list of coefficients for temperature dependent components
+    """
+
     n: int
     m: int
 
@@ -95,7 +123,13 @@ class PervaporationFunction:
     def from_array(
         cls, array: typing.Union[typing.List[float], numpy.ndarray], n: int, m: int
     ) -> "PervaporationFunction":
-        # TODO: docstring
+        """
+
+        :param array: list of coefficients
+        :param n: max power of temperature independent components in equation
+        :param m: max power of temperature dependent components in equation
+        :return: PervaporationFunction
+        """
         assert len(array) == 2 + n + m
         return cls(
             n=n,
@@ -124,13 +158,18 @@ class PervaporationFunction:
 
     @classmethod
     def load(cls, path: typing.Union[str, Path]) -> "PervaporationFunction":
-        # TODO: docstring
+        """
+        :param path: path to binary file with PervaporationFunction
+        :return: PervaporationFunction
+        """
         if type(path) is not Path:
             path = Path(path)
         return joblib.load(path)
 
     def save(self, path: typing.Union[str, Path]) -> None:
-        # TODO: docstring
+        """
+        :param path: path where to save binary file with PervaporationFunction
+        """
         joblib.dump(self, path)
 
     def plot(
@@ -139,7 +178,6 @@ class PervaporationFunction:
         temperature: typing.Optional[float] = None,
         concentration: typing.Tuple[float, float] = None,
     ):
-        # TODO: docstring
         points = {}
         x, t, p = 0, 0, 0
 
@@ -239,8 +277,15 @@ def fit(
     include_zero: bool = False,
     component_index: int = 0,
 ) -> PervaporationFunction:
-    # TODO: docstring
-
+    """
+    Fit PervaporationFunction to given data with pre-defined parameters
+    :param data: List of Measurements
+    :param n: max power of temperature independent components in equation
+    :param m: max power of temperature dependent components in equation
+    :param include_zero: include zero-datapoint or not
+    :param component_index: index of component to fit
+    :return: PervaporationFunction
+    """
     _n, _m = _suggest_n_m(data, n, m)
     if component_index not in {0, 1}:
         raise ValueError("Index should be either 0 or 1")
@@ -273,7 +318,15 @@ def find_best_fit(
     n: typing.Optional[int] = None,
     m: typing.Optional[int] = None,
 ) -> PervaporationFunction:
-    # TODO: docstring
+    """
+    Finds best fit of PervaporationFunction to given data
+    :param data: List of Measurements
+    :param include_zero: include zero-datapoint or not
+    :param component_index: index of component to fit
+    :param n: max power of temperature independent components in equation
+    :param m: max power of temperature dependent components in equation
+    :return: PervaporationFunction
+    """
     max_power_n = min(5, round(numpy.power(len(data), 0.5)))
     max_power_m = min(5, max(1, len(set([measurement.t for measurement in data])) - 1))
 

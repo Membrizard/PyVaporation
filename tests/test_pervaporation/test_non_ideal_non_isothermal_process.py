@@ -1,3 +1,5 @@
+from pathlib import Path
+
 from pytest import fixture
 
 from pyvaporation.components import Components
@@ -8,7 +10,6 @@ from pyvaporation.membrane import Membrane
 from pyvaporation.mixtures import Composition, CompositionType, Mixtures
 from pyvaporation.permeance import Permeance
 from pyvaporation.pervaporation import Pervaporation
-from pathlib import Path
 
 
 @fixture

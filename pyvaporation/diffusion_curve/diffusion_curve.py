@@ -5,13 +5,8 @@ import attr
 import numpy
 import pandas
 
-from pyvaporation.mixtures import (
-    Composition,
-    CompositionType,
-    Mixture,
-    Mixtures,
-    get_nrtl_partial_pressures,
-)
+from pyvaporation.mixtures import (Composition, CompositionType, Mixture,
+                                   Mixtures, get_nrtl_partial_pressures)
 from pyvaporation.permeance import Permeance, Units
 from pyvaporation.plotting import plot_graph
 

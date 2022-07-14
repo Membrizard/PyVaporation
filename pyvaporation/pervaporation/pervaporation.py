@@ -8,12 +8,8 @@ import numpy
 from pyvaporation.conditions import Conditions
 from pyvaporation.diffusion_curve import DiffusionCurve, DiffusionCurveSet
 from pyvaporation.membrane import Membrane
-from pyvaporation.mixtures import (
-    Composition,
-    CompositionType,
-    Mixture,
-    get_nrtl_partial_pressures,
-)
+from pyvaporation.mixtures import (Composition, CompositionType, Mixture,
+                                   get_nrtl_partial_pressures)
 from pyvaporation.optimizer import Measurements, find_best_fit
 from pyvaporation.permeance import Permeance, Units
 from pyvaporation.process import ProcessModel

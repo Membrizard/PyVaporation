@@ -1,11 +1,7 @@
 import numpy
 
-from pyvaporation.mixtures import (
-    Composition,
-    CompositionType,
-    Mixtures,
-    get_nrtl_partial_pressures,
-)
+from pyvaporation.mixtures import (Composition, CompositionType, Mixtures,
+                                   get_nrtl_partial_pressures)
 
 
 def test_constants_h2o_meoh():

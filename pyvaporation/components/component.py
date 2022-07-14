@@ -1,12 +1,8 @@
 import attr
 import numpy
 
-from pyvaporation.utils import (
-    HeatCapacityConstants,
-    R,
-    VaporPressureConstants,
-    VPConstantsType,
-)
+from pyvaporation.utils import (HeatCapacityConstants, R,
+                                VaporPressureConstants, VPConstantsType)
 
 
 @attr.s(auto_attribs=True)
