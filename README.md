@@ -1,6 +1,4 @@
 # PyVaporation
-[![CI](https://img.shields.io/github/Membrizard/PyVaporation/actions/workflows/python-package.yml?style=for-the-badge&label=actions&logo=github&logoColor=white)](https://github.com/Membrizard/PyVaporation/actions/workflows/python-package.yml)
-[![PyPI](https://img.shields.io/pypi/v/pyvaporation.svg?style=for-the-badge)](https://pypi.org/project/pyvaporation/)
 
 This solution is designed specifically to assist Researchers in the field of Pervaporation membranes development.
 By means of the proposed instrument one can easily model a performance of a particular membrane with known permeance (Pi - GPU, SI, kg/(m2 * h * kPa)) and apparent energy of transport activiation (Ea - J/mol) values for each component of a considered binary mixture, if the transport is considered Ideal (Permeances are not dependent on the mixture composition)
