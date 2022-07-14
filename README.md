@@ -1,5 +1,5 @@
 # PyVaporation
-[![CI](https://img.shields.io/github/workflow/status/Membrizard/PyVaporation/main?style=for-the-badge&label=actions&logo=github&logoColor=white)](https://github.com/Membrizard/PyVaporation/actions)
+[![CI](https://img.shields.io/github/Membrizard/PyVaporation/actions/workflows/python-package.yml?style=for-the-badge&label=actions&logo=github&logoColor=white)](https://github.com/Membrizard/PyVaporation/actions/workflows/python-package.yml)
 [![PyPI](https://img.shields.io/pypi/v/pyvaporation.svg?style=for-the-badge)](https://pypi.org/project/pyvaporation/)
 
 This solution is designed specifically to assist Researchers in the field of Pervaporation membranes development.
