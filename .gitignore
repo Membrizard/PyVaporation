@@ -3,12 +3,16 @@
 .ipynb_checkpoints
 .coverage
 .mypy_cache
+**/.egg-info
+.egg-info
+pyvaporation.egg-info
 article_figures.py
 article_code_examples.py
 
 __pycache__
 
 tests/temp
+dist/
 
 *.ipynb
 .DS_Store

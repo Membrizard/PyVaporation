@@ -3,13 +3,14 @@ from distutils.core import setup
 setup(
     name="pyvaporation",
     packages=["pyvaporation"],
-    version="0.2.0",
+    version="1.1.0",
     license="Apache license 2.0",
     description="Set of tools for modelling pervaporation processes",
     author="Denis Sapegin, Aleksei Chekmachev",
     author_email="a.checkmachev@gmail.com",
     url="https://github.com/Membrizard/PyVaporation",
-    download_url="https://github.com/Membrizard/PyVaporation/archive/refs/tags/v0.2.0.tar.gz",
+    download_url="https://github.com/Membrizard/PyVaporation/archive/refs/tags/v1.1.0.tar.gz",
+    long_description=open('README.md', 'r').read(),
     long_description_content_type="text/markdown",
     keywords=[
         "pervaporation",
