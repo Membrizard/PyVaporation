@@ -1,8 +1,8 @@
-from distutils.core import setup
+from setuptools import setup, find_packages
 
 setup(
     name="pyvaporation",
-    packages=["pyvaporation"],
+    packages=find_packages(),
     version="1.1.2",
     license="Apache license 2.0",
     description="Set of tools for modelling pervaporation processes",
