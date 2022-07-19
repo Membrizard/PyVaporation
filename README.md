@@ -45,7 +45,7 @@ pip install pyvaporation
 
 # Code examples
 You can run `code-examples.ipynb` from `github.com/Membrizard/PyVaporation/code-examples.ipynb` 
-in order to check library functionality.
+in order to check the package functionality.
 
 # Hints for general usage
 
