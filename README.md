@@ -23,11 +23,11 @@ Non-isothermal modelling for both type of processes supports self-cooling mode, 
 
 # Assumptions and applicability
 
-* The activity coefficients of the binary mixture are calculated by means of NRTL model;
+* The activity coefficients of the binary mixture are calculated by means of NRTL model
 * Saturated vapour pressure could be assessed using Antoine or Frost equations
-* Vaporisation/Condensation heat  values are calculated using Clapeyron-Clausius equation
+* Vaporisation/Condensation heat values are calculated using Clapeyron-Clausius equation
 * Specific heat capcities are calculated using polynomial approximation
-* The ideal modelling process is applicable only for the modelling of processes, where permeance values does not depend significantly on mixture composition
+* The ideal modelling process is applicable only for the processes, where permeance values does not depend significantly on mixture composition
 * The non-ideal modelling is performed only based on the basis of specified diffusion curves (Fluxes/Permeances of each component as a function of first component concentration in feed)
 * Non Ideal modelling supports non-linear dependencies of permeances and activation energies on feed composition 
 * Non-Isothermal processes support pre-defined temperature program (feed temperature as a function of process time may be specified for process modelling)
