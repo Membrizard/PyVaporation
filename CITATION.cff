@@ -7,7 +7,7 @@ authors:
 - family-names: "Checkmachev"
   given-names: "Aleksei"
 title: "PyVaporation"
-version:
-doi:
-date-released:
+version: 1.1.4
+doi: "https://doi.org/10.3390/membranes12080784"
+date-released: 15.08.2022
 url: "https://github.com/Membrizard/PyVaporation"
