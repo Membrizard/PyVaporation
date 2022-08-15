@@ -2,11 +2,10 @@ cff-version: 1.1.4
 message: "If you use this software, please cite it as below."
 authors:
 - family-names: "Sapegin"
-  given-names: "Denis"
-  name-particle: "Andzheevich"
+  given-names: "Denis", "Andzheevich"
   orcid: "https://orcid.org/0000-0002-1446-6288"
 - family-names: "Chekmachev"
-  given-names: "Aleksei"
+  given-names: "Aleksei", "Viktorovich"
   name-particle: "Viktorovich"
 title: "PyVaporation"
 version: 1.1.4
@@ -16,12 +15,10 @@ preferred-citation:
   type: article
   authors:
   - family-names: "Sapegin"
-    given-names: "Denis"
-    name-particle: "Andzheevich"
+    given-names: "Denis", "Andzheevich"
     orcid: "https://orcid.org/0000-0002-1446-6288"
   - family-names: "Chekmachev"
-    given-names: "Aleksei"
-    name-particle: "Viktorovich"
+    given-names: "Aleksei", "Viktorovich"
   doi: "10.3390/membranes12080784"
   journal: "Membranes"
   month: 9
