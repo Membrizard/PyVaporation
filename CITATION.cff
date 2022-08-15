@@ -1,0 +1,32 @@
+cff-version: 1.1.4
+message: "If you use this software, please cite it as below."
+authors:
+- family-names: "Sapegin"
+  given-names: "Denis"
+  name-particle: "Andzheevich"
+  orcid: "https://orcid.org/0000-0002-1446-6288"
+- family-names: "Chekmachev"
+  given-names: "Aleksei"
+  name-particle: "Viktorovich"
+title: "PyVaporation"
+version: 1.1.4
+date-released: 2022-07-18
+url: "https://github.com/Membrizard/PyVaporation"
+preferred-citation:
+  type: article
+  authors:
+  - family-names: "Sapegin"
+    given-names: "Denis"
+    name-particle: "Andzheevich"
+    orcid: "https://orcid.org/0000-0002-1446-6288"
+  - family-names: "Chekmachev"
+    given-names: "Aleksei"
+    name-particle: "Viktorovich"
+  doi: "10.3390/membranes12080784"
+  journal: "Membranes"
+  month: 9
+  article-number: 784
+  title: "PyVaporation: A Python Package for Studying and Modelling Pervaporation Processes"
+  issue: 8
+  volume: 12
+  year: 2022
