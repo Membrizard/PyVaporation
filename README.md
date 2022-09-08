@@ -7,6 +7,9 @@ By means of the proposed instrument one can easily model a performance of a part
 Or, given that the diffusion curve set of a non-ideal process is measured one can model the non-ideal process in isothermal or non-isothermal (adiabatic) mode.
 Non-isothermal modelling for both type of processes supports self-cooling mode, or temperature program mode.
 
+The comprehensive review of the theoretical background, applicability and code-examples may be found in the sources indicated in 
+CITATION.cff
+
 # Following mixtures are Currently built in the solution:
 (Current version supports only binary mixtures)
 
