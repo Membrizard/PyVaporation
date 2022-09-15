@@ -39,7 +39,7 @@ PROCESS_MODEL_COLUMNS = [
 @attr.s(auto_attribs=True)
 class ProcessModel:
     """
-    Clas for description, working with and storage of process models
+    Class for description, working with and storage of process models
     """
 
     mixture: Mixture
