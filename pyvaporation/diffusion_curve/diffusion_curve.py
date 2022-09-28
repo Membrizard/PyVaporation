@@ -299,7 +299,7 @@ class DiffusionCurve:
             sum(self.partial_fluxes[i]) for i in range(len(self.feed_compositions))
         ]
         separation_factor = self.get_separation_factor
-        return numpy.multiply(total_flux, numpy.subtract(separation_factor, 1))
+        return list(numpy.multiply(total_flux, numpy.subtract(separation_factor, 1)))
 
     @property
     def get_permeances(self) -> typing.List[typing.Tuple[Permeance, Permeance]]:
