@@ -176,6 +176,10 @@ class PervaporationFunction:
     # TODO Create save to and load from json objects tests
     @classmethod
     def safe_load(cls, path: typing.Union[str, Path]) -> "PervaporationFunction":
+        """
+        :param path: Path to a json object
+        :return: PervaporationFunction from a json file
+        """
         with open(path, 'r') as openfile:
             # Reading from json file
             json_object = json.load(openfile)
@@ -188,6 +192,10 @@ class PervaporationFunction:
         )
 
     def safe_save(self, path: typing.Union[str, Path]):
+        """
+        :param path: Path to a json object
+        :return: Saves a PervaporationFunction to a json file
+        """
         json_dict = {
             "n": self.n,
             "m": self.m,
