@@ -4,6 +4,7 @@ from pathlib import Path
 
 import attr
 import joblib
+import json
 import numpy
 from scipy import optimize
 
@@ -171,6 +172,31 @@ class PervaporationFunction:
         :param path: path where to save binary file with PervaporationFunction
         """
         joblib.dump(self, path)
+
+    # TODO Create save to and load from json objects tests
+    @classmethod
+    def safe_load(cls, path: typing.Union[str, Path]) -> "PervaporationFunction":
+        with open(path, 'r') as openfile:
+            # Reading from json file
+            json_object = json.load(openfile)
+        return PervaporationFunction(
+            n=json_object["n"],
+            m=json_object["m"],
+            alpha=json_object["alpha"],
+            a=json_object["a"],
+            b=json_object["b"],
+        )
+
+    def safe_save(self, path: typing.Union[str, Path]):
+        json_dict = {
+            "n": self.n,
+            "m": self.m,
+            "alpha": self.alpha,
+            "a": self.a,
+            "b": self.b,
+        }
+        with open(path, "w") as outfile:
+            json.dump(json_dict, outfile)
 
     def plot(
         self,
