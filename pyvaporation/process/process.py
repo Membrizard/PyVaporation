@@ -112,6 +112,8 @@ class ProcessModel:
             permeance[i][0].value / permeance[i][1].value for i in range(len(permeance))
         ]
 
+    # TODO Create safe_save  and save_load methods to save to and load from json objects
+
     @classmethod
     def load(cls, process_path: typing.Union[str, Path]) -> "ProcessModel":
         """

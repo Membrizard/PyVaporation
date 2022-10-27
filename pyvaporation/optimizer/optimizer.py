@@ -173,7 +173,6 @@ class PervaporationFunction:
         """
         joblib.dump(self, path)
 
-    # TODO Create save to and load from json objects tests
     @classmethod
     def safe_load(cls, path: typing.Union[str, Path]) -> "PervaporationFunction":
         """
