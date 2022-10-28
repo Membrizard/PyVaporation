@@ -115,10 +115,11 @@ class ProcessModel:
     # TODO Create safe_save  and save_load methods to save to and load from json objects
 
     @classmethod
-    def load(cls, process_path: typing.Union[str, Path]) -> "ProcessModel":
+    def load(cls, process_path: typing.Union[str, Path], is_safe: typing.Optional[bool] = False) -> "ProcessModel":
         """
         Creates a ProcessModel object from the data in a specified directory
         :param process_path: path to the process folder of a unified format
+        :param is_safe: if True loads pv_func and initial condition objects from jsons
         :return: ProcessModel object
         """
         if type(process_path) is not Path:
@@ -149,11 +150,18 @@ class ProcessModel:
                 % process_path
             )
 
-        pv_0 = PervaporationFunction.load(pv_0_filenames[0])
-        pv_1 = PervaporationFunction.load(pv_1_filenames[0])
+        if is_safe:
+            pv_0 = PervaporationFunction.safe_load(pv_0_filenames[0])
+            pv_1 = PervaporationFunction.safe_load(pv_1_filenames[0])
+        else:
+            pv_0 = PervaporationFunction.load(pv_0_filenames[0])
+            pv_1 = PervaporationFunction.load(pv_1_filenames[0])
 
         if (process_path / "initial_conditions.ic").exists():
-            initial_conditions = joblib.load(process_path / "initial_conditions.ic")
+            if is_safe:
+                initial_conditions = Conditions.safe_load(process_path / "initial_conditions.ic")
+            else:
+                initial_conditions = joblib.load(process_path / "initial_conditions.ic")
         else:
             initial_conditions = None
 
@@ -245,10 +253,11 @@ class ProcessModel:
             membrane_path=None,
         )
 
-    def save(self, membrane_path: typing.Union[str, Path] = membrane_path) -> None:
+    def save(self, membrane_path: typing.Union[str, Path] = membrane_path, is_safe: typing.Optional[bool] = False) -> None:
         """
         Saves a ProcessModel object to a specified directory of a unified format
         :param membrane_path: path to the associated membrane
+        :param is_safe: if True saves pv_func and initial condition objects to jsons
         :return: saves the object
         """
         if type(membrane_path) is not Path:
@@ -289,20 +298,38 @@ class ProcessModel:
         process_frame = process_frame[PROCESS_MODEL_COLUMNS]
         process_frame.to_csv(process_path / "process_model.csv", index=False)
 
-        self.permeance_fits[0].save(
-            (
-                process_path
-                / f"pervaporation_function_0_{self.mixture.first_component.name}.pv"
+        if is_safe:
+            self.permeance_fits[0].safe_save(
+                (
+                        process_path
+                        / f"pervaporation_function_0_{self.mixture.first_component.name}.pv"
+                )
             )
-        )
-        self.permeance_fits[1].save(
-            (
-                process_path
-                / f"pervaporation_function_1_{self.mixture.second_component.name}.pv"
-            )
-        )
 
-        joblib.dump(self.initial_conditions, (process_path / "initial_conditions.ic"))
+            self.permeance_fits[1].safe_save(
+                (
+                        process_path
+                        / f"pervaporation_function_1_{self.mixture.second_component.name}.pv"
+                )
+            )
+
+            self.initial_conditions.safe_save(process_path / "initial_conditions.ic")
+        else:
+
+            self.permeance_fits[0].save(
+                (
+                    process_path
+                    / f"pervaporation_function_0_{self.mixture.first_component.name}.pv"
+                )
+            )
+            self.permeance_fits[1].save(
+                (
+                    process_path
+                    / f"pervaporation_function_1_{self.mixture.second_component.name}.pv"
+                )
+            )
+
+            joblib.dump(self.initial_conditions, (process_path / "initial_conditions.ic"))
 
     def plot(self, y: typing.List, y_label: str = "", curve: bool = 1):
         """

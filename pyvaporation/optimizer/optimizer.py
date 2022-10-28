@@ -199,8 +199,8 @@ class PervaporationFunction:
             "n": self.n,
             "m": self.m,
             "alpha": self.alpha,
-            "a": self.a,
-            "b": self.b,
+            "a": list(self.a),
+            "b": list(self.b),
         }
         with open(path, "w") as outfile:
             json.dump(json_dict, outfile)
