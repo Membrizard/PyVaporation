@@ -39,9 +39,9 @@ def test_save_load_process():
 
     process.membrane_path = Path("tests/default_membranes/Pervap_4101")
 
-    safe_list = [True, False]
+    truth_list = [True, False]
 
-    for is_safe in safe_list:
+    for is_safe in truth_list:
         process.save(process.membrane_path, is_safe)
         results_path = process.membrane_path / "results"
         process_path = list(
