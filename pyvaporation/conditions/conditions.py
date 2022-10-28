@@ -1,7 +1,9 @@
 import typing
+import json
 
 import attr
 import numpy
+from pathlib import Path
 
 from ..mixtures import Composition
 
@@ -80,3 +82,40 @@ class Conditions:
     permeate_temperature: typing.Optional[float] = None
     permeate_pressure: typing.Optional[float] = None
     temperature_program: typing.Optional[TemperatureProgram] = None
+
+    @classmethod
+    def safe_load(cls, path: typing.Union[str, Path]) -> "Conditions":
+        """
+        :param path: Path to a json object
+        :return: Returns a Conditions object (Temperature program is ignored) from a json file
+        """
+        with open(path, 'r') as openfile:
+            # Reading from json file
+            json_object = json.load(openfile)
+        return Conditions(
+            membrane_area=json_object["membrane_area"],
+            initial_feed_temperature=json_object["initial_feed_temperature"],
+            initial_feed_amount=json_object["initial_feed_amount"],
+            initial_feed_composition=Composition(
+                p=json_object["initial_feed_composition_value"],
+                type=json_object["initial_feed_composition_type"]),
+            permeate_temperature=json_object["permeate_temperature"],
+            permeate_pressure=json_object["permeate_pressure"]
+        )
+
+    def safe_save(self, path: typing.Union[str, Path]):
+        """
+        :param path: Path to a json object
+        :return: Saves a Conditions object (Temperature program is ignored) to a json file
+        """
+        json_dict = {
+            "membrane_area": self.membrane_area,
+            "initial_feed_temperature": self.initial_feed_temperature,
+            "initial_feed_amount": self.initial_feed_amount,
+            "initial_feed_composition_value": self.initial_feed_composition.p,
+            "initial_feed_composition_type": self.initial_feed_composition.type,
+            "permeate_temperature": self.permeate_temperature,
+            "permeate_pressure": self.permeate_pressure,
+        }
+        with open(path, "w") as outfile:
+            json.dump(json_dict, outfile)

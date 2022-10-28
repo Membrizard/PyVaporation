@@ -39,23 +39,26 @@ def test_save_load_process():
 
     process.membrane_path = Path("tests/default_membranes/Pervap_4101")
 
-    process.save(process.membrane_path)
-    results_path = process.membrane_path / "results"
-    process_path = list(
-        filter(
-            lambda x: x.stem.startswith("process"),
-            results_path.iterdir(),
-        )
-    )[0]
-    loaded = ProcessModel.load(process_path=process_path)
-    shutil.rmtree(process_path)
+    safe_list = [True, False]
 
-    for i in range(len(loaded.time)):
-        assert round(loaded.time[i], 2) == round(process.time[i], 2)
-        assert round(loaded.partial_fluxes[i][0], 4) == round(
-            process.partial_fluxes[i][0], 4
-        )
-        assert round(loaded.partial_fluxes[i][0], 4) == round(
-            process.partial_fluxes[i][0], 4
-        )
-        assert round(loaded.feed_mass[i], 4) == round(process.feed_mass[i], 4)
+    for is_safe in safe_list:
+        process.save(process.membrane_path, is_safe)
+        results_path = process.membrane_path / "results"
+        process_path = list(
+            filter(
+                lambda x: x.stem.startswith("process"),
+                results_path.iterdir(),
+            )
+        )[0]
+        loaded = ProcessModel.load(process_path=process_path, is_safe=is_safe)
+        shutil.rmtree(process_path)
+
+        for i in range(len(loaded.time)):
+            assert round(loaded.time[i], 2) == round(process.time[i], 2)
+            assert round(loaded.partial_fluxes[i][0], 4) == round(
+                process.partial_fluxes[i][0], 4
+            )
+            assert round(loaded.partial_fluxes[i][0], 4) == round(
+                process.partial_fluxes[i][0], 4
+            )
+            assert round(loaded.feed_mass[i], 4) == round(process.feed_mass[i], 4)
