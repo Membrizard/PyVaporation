@@ -10,7 +10,7 @@ Non-isothermal modelling for both type of processes supports self-cooling mode, 
 The comprehensive review of the theoretical background, applicability and code-examples may be found in the sources indicated in 
 CITATION.cff
 
-For simplification of the package usage we have built the [Pervaporation Modelling App](https:\\pervaporation-modelling.com) 
+For simplification of the package usage we have built the [Pervaporation Modelling App](https://pervaporation-modelling.com) 
 
 The app allows performing basic calculations available in the package using a User-friendly web-based UI.
 
