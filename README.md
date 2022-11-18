@@ -10,6 +10,10 @@ Non-isothermal modelling for both type of processes supports self-cooling mode, 
 The comprehensive review of the theoretical background, applicability and code-examples may be found in the sources indicated in 
 CITATION.cff
 
+For simplification of the package usage we have built the [Pervaporation Modelling App](https:\\pervaporation-modelling.com) 
+
+The app allows performing basic calculations available in the package using a User-friendly web-based UI.
+
 # Following mixtures are Currently built in the solution:
 (Current version supports only binary mixtures)
 
@@ -30,7 +34,7 @@ CITATION.cff
 * Saturated vapour pressure could be assessed using Antoine or Frost equations
 * Vaporisation/Condensation heat values are calculated using Clapeyron-Clausius equation
 * Specific heat capcities are calculated using polynomial approximation
-* The ideal modelling process is applicable only for the processes, where permeance values does not depend significantly on mixture composition
+* The ideal modelling process is applicable only for the processes, where permeance values do not depend significantly on mixture composition
 * The non-ideal modelling is performed only based on the basis of specified diffusion curves (Fluxes/Permeances of each component as a function of first component concentration in feed)
 * Non Ideal modelling supports non-linear dependencies of permeances and activation energies on feed composition 
 * Non-Isothermal processes support pre-defined temperature program (feed temperature as a function of process time may be specified for process modelling)
