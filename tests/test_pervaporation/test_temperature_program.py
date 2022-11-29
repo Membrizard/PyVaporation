@@ -2,8 +2,7 @@ import numpy
 from pytest import fixture
 
 from pyvaporation.components import Components
-from pyvaporation.conditions import (CalculationType, Conditions,
-                                     TemperatureProgram)
+from pyvaporation.conditions import CalculationType, Conditions, TemperatureProgram
 from pyvaporation.experiments import IdealExperiment, IdealExperiments
 from pyvaporation.membrane import Membrane
 from pyvaporation.mixtures import Composition, CompositionType, Mixtures

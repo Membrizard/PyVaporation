@@ -115,7 +115,11 @@ class ProcessModel:
     # TODO Create safe_save  and save_load methods to save to and load from json objects
 
     @classmethod
-    def load(cls, process_path: typing.Union[str, Path], is_safe: typing.Optional[bool] = False) -> "ProcessModel":
+    def load(
+        cls,
+        process_path: typing.Union[str, Path],
+        is_safe: typing.Optional[bool] = False,
+    ) -> "ProcessModel":
         """
         Creates a ProcessModel object from the data in a specified directory
         :param process_path: path to the process folder of a unified format
@@ -159,7 +163,9 @@ class ProcessModel:
 
         if (process_path / "initial_conditions.ic").exists():
             if is_safe:
-                initial_conditions = Conditions.safe_load(process_path / "initial_conditions.ic")
+                initial_conditions = Conditions.safe_load(
+                    process_path / "initial_conditions.ic"
+                )
             else:
                 initial_conditions = joblib.load(process_path / "initial_conditions.ic")
         else:
@@ -253,7 +259,11 @@ class ProcessModel:
             membrane_path=None,
         )
 
-    def save(self, membrane_path: typing.Union[str, Path] = membrane_path, is_safe: typing.Optional[bool] = False) -> None:
+    def save(
+        self,
+        membrane_path: typing.Union[str, Path] = membrane_path,
+        is_safe: typing.Optional[bool] = False,
+    ) -> None:
         """
         Saves a ProcessModel object to a specified directory of a unified format
         :param membrane_path: path to the associated membrane
@@ -298,18 +308,22 @@ class ProcessModel:
         process_frame = process_frame[PROCESS_MODEL_COLUMNS]
         process_frame.to_csv(process_path / "process_model.csv", index=False)
 
+        if self.permeance_fits is None:
+            self.permeance_fits = (PervaporationFunction(n=0, m=0, alpha=self.permeances[0][0].value, a=[0], b=[0]),
+                                   PervaporationFunction(n=0, m=0, alpha=self.permeances[0][1].value, a=[0], b=[0]),)
+
         if is_safe:
             self.permeance_fits[0].safe_save(
                 (
-                        process_path
-                        / f"pervaporation_function_0_{self.mixture.first_component.name}.pv"
+                    process_path
+                    / f"pervaporation_function_0_{self.mixture.first_component.name}.pv"
                 )
             )
 
             self.permeance_fits[1].safe_save(
                 (
-                        process_path
-                        / f"pervaporation_function_1_{self.mixture.second_component.name}.pv"
+                    process_path
+                    / f"pervaporation_function_1_{self.mixture.second_component.name}.pv"
                 )
             )
 
@@ -329,7 +343,9 @@ class ProcessModel:
                 )
             )
 
-            joblib.dump(self.initial_conditions, (process_path / "initial_conditions.ic"))
+            joblib.dump(
+                self.initial_conditions, (process_path / "initial_conditions.ic")
+            )
 
     def plot(self, y: typing.List, y_label: str = "", curve: bool = 1):
         """

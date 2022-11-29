@@ -89,7 +89,7 @@ class Conditions:
         :param path: Path to a json object
         :return: Returns a Conditions object (Temperature program is ignored) from a json file
         """
-        with open(path, 'r') as openfile:
+        with open(path, "r") as openfile:
             # Reading from json file
             json_object = json.load(openfile)
         return Conditions(
@@ -98,9 +98,10 @@ class Conditions:
             initial_feed_amount=json_object["initial_feed_amount"],
             initial_feed_composition=Composition(
                 p=json_object["initial_feed_composition_value"],
-                type=json_object["initial_feed_composition_type"]),
+                type=json_object["initial_feed_composition_type"],
+            ),
             permeate_temperature=json_object["permeate_temperature"],
-            permeate_pressure=json_object["permeate_pressure"]
+            permeate_pressure=json_object["permeate_pressure"],
         )
 
     def safe_save(self, path: typing.Union[str, Path]):

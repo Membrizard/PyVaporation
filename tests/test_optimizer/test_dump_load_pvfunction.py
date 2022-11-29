@@ -6,8 +6,7 @@ from pytest import fixture
 
 from pyvaporation.diffusion_curve import DiffusionCurve
 from pyvaporation.mixtures import Composition, CompositionType, Mixtures
-from pyvaporation.optimizer import (Measurements, PervaporationFunction,
-                                    find_best_fit)
+from pyvaporation.optimizer import Measurements, PervaporationFunction, find_best_fit
 
 
 @fixture

@@ -3,14 +3,24 @@ from .conditions import CalculationType, Conditions, TemperatureProgram
 from .diffusion_curve import DiffusionCurve, DiffusionCurveSet
 from .experiments import IdealExperiment, IdealExperiments
 from .membrane import Membrane
-from .mixtures import (Composition, CompositionType, Mixture, Mixtures,
-                       get_nrtl_partial_pressures)
+from .mixtures import (
+    Composition,
+    CompositionType,
+    Mixture,
+    Mixtures,
+    get_nrtl_partial_pressures,
+)
 from .optimizer import Measurements, PervaporationFunction, find_best_fit, fit
 from .permeance import Permeance, Units
 from .pervaporation import Pervaporation
 from .process import ProcessModel
-from .utils import (HeatCapacityConstants, NRTLParameters, R,
-                    VaporPressureConstants, VPConstantsType)
+from .utils import (
+    HeatCapacityConstants,
+    NRTLParameters,
+    R,
+    VaporPressureConstants,
+    VPConstantsType,
+)
 
 __all__ = [
     "VaporPressureConstants",

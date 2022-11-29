@@ -179,7 +179,7 @@ class PervaporationFunction:
         :param path: Path to a json object
         :return: PervaporationFunction from a json file
         """
-        with open(path, 'r') as openfile:
+        with open(path, "r") as openfile:
             # Reading from json file
             json_object = json.load(openfile)
         return PervaporationFunction(

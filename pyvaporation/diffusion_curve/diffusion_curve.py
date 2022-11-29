@@ -5,8 +5,13 @@ import attr
 import numpy
 import pandas
 
-from ..mixtures import (Composition, CompositionType, Mixture, Mixtures,
-                        get_nrtl_partial_pressures)
+from ..mixtures import (
+    Composition,
+    CompositionType,
+    Mixture,
+    Mixtures,
+    get_nrtl_partial_pressures,
+)
 from ..permeance import Permeance, Units
 from ..plotting import plot_graph
 
