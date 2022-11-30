@@ -14,7 +14,7 @@ Non-isothermal modelling for both type of processes supports self-cooling mode, 
 The comprehensive review of the theoretical background, applicability and code-examples may be found [here](https://doi.org/10.3390/membranes12080784)
 
 
-# Following mixtures are Currently built in the solution:
+# Following mixtures are Currently built into the solution:
 (Current version supports only binary mixtures)
 
 
