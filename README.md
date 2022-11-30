@@ -1,20 +1,20 @@
 # PyVaporation
 ![CI](https://github.com/Membrizard/PyVaporation/actions/workflows/python-package.yml/badge.svg)
 
+For simplification of the package usage we have built the [Pervaporation Modelling App](https://pervaporation-modelling.com) 
+
+The app allows performing basic calculations available in the package using a User-friendly web-based UI.
+
 This solution is designed specifically to assist Researchers in the field of Pervaporation membranes development.
 By means of the proposed instrument one can easily model a performance of a particular membrane with known permeance (Pi - GPU, SI, kg/(m2 * h * kPa)) and apparent energy of transport activiation (Ea - J/mol) values for each component of a considered binary mixture, if the transport is considered Ideal (Permeances are not dependent on the mixture composition)
 
 Or, given that the diffusion curve set of a non-ideal process is measured one can model the non-ideal process in isothermal or non-isothermal (adiabatic) mode.
 Non-isothermal modelling for both type of processes supports self-cooling mode, or temperature program mode.
 
-The comprehensive review of the theoretical background, applicability and code-examples may be found in the sources indicated in 
-CITATION.cff
+The comprehensive review of the theoretical background, applicability and code-examples may be found [here](https://doi.org/10.3390/membranes12080784)
 
-For simplification of the package usage we have built the [Pervaporation Modelling App](https://pervaporation-modelling.com) 
 
-The app allows performing basic calculations available in the package using a User-friendly web-based UI.
-
-# Following mixtures are Currently built in the solution:
+# Following mixtures are Currently built into the solution:
 (Current version supports only binary mixtures)
 
 
