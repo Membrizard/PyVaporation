@@ -1,4 +1,5 @@
-# PyVaporation
+<img src="logo_icon.svg" style="width: 480px;">
+
 ![CI](https://github.com/Membrizard/PyVaporation/actions/workflows/python-package.yml/badge.svg)
 
 For simplification of the package usage we have built the [Pervaporation Modelling App](https://pervaporation-modelling.com) 
