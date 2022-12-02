@@ -39,9 +39,9 @@ class Composition:
 
     def __attrs_post_init__(self):
         if self.p < 0:
-            self.p = 0
+            self.p = 1e-10
         if self.p > 1:
-            self.p = 1
+            self.p = 1-1e-10
 
     @property
     def first(self) -> float:
