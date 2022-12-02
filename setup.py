@@ -3,7 +3,7 @@ from setuptools import find_packages, setup
 setup(
     name="pyvaporation",
     packages=find_packages(),
-    version="1.1.8",
+    version="1.1.9",
     license="Apache license 2.0",
     description="Set of tools for modelling pervaporation processes",
     author="Denis Sapegin, Aleksei Chekmachev",
@@ -17,6 +17,8 @@ setup(
         "membrane",
         "chemistry",
         "modelling",
+        "chemical-engineering",
+        "scientific"
     ],
     install_requires=[
         "joblib==1.1.0",
