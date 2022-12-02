@@ -174,3 +174,8 @@ def test_get_nrtl_partial_pressures_from_weight_composition():
             )
             < 1e-3
         )
+
+
+def test_invalid_compositions():
+    assert Composition(p=-1, type="weight") == Composition(p=0, type="weight")
+    assert Composition(p=2, type="weight") == Composition(p=1, type="weight")

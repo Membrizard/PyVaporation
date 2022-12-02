@@ -3,11 +3,11 @@ from setuptools import find_packages, setup
 setup(
     name="pyvaporation",
     packages=find_packages(),
-    version="1.1.5",
+    version="1.1.6",
     license="Apache license 2.0",
     description="Set of tools for modelling pervaporation processes",
     author="Denis Sapegin, Aleksei Chekmachev",
-    author_email="a.checkmachev@gmail.com",
+    author_email="dasapegin@sr-systems.ru",
     url="https://github.com/Membrizard/PyVaporation",
     download_url="https://github.com/Membrizard/PyVaporation/archive/refs/tags/v1.1.5.tar.gz",
     long_description=open("README.md", "r").read(),

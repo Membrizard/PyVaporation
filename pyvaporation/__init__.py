@@ -52,3 +52,5 @@ __all__ = [
     "Component",
     "Components",
 ]
+
+__version__ = "1.1.6"
