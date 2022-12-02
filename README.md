@@ -1,4 +1,4 @@
-<img src="https://github.com/Membrizard/PyVaporation/blob/main/logo_icon.svg" style="width: 480px;">
+<img src="https://raw.githubusercontent.com/Membrizard/PyVaporation/main/logo_icon.svg" style="width: 480px;">
 
 ![CI](https://github.com/Membrizard/PyVaporation/actions/workflows/python-package.yml/badge.svg)
 
