@@ -7,6 +7,11 @@ from ..components import Component
 from ..utils import NRTLParameters, R
 
 
+def _is_in_0_to_1_range(instance: typing.Any, attribute, value: float) -> None:
+    if not 0 <= value <= 1:
+        raise ValueError("Give %s value is not in [0, 1] range" % value)
+
+
 class CompositionType:
     """
     A class to describe type of the composition
