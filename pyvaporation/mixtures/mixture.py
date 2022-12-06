@@ -34,14 +34,8 @@ class Composition:
     A class to represent composition of the mixtures
     """
 
-    p: float
+    p: float = attr.ib(validator=_is_in_0_to_1_range)
     type: str
-
-    def __attrs_post_init__(self):
-        if self.p < 0:
-            self.p = 1e-10
-        if self.p > 1:
-            self.p = 1-1e-10
 
     @property
     def first(self) -> float:
