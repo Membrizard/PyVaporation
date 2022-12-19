@@ -10,7 +10,7 @@ from ..mixtures import (
     CompositionType,
     Mixture,
     Mixtures,
-    get_nrtl_partial_pressures,
+    get_partial_pressures,
 )
 from ..permeance import Permeance, Units
 from ..plotting import plot_graph
@@ -61,7 +61,7 @@ class DiffusionCurve:
             :return a list of Partial fluxes for each component tuple(Ji,Jj) at each concentration
             """
             feed_partial_pressures = [
-                get_nrtl_partial_pressures(
+                get_partial_pressures(
                     self.feed_temperature, self.mixture, composition
                 )
                 for composition in self.feed_compositions
@@ -98,7 +98,7 @@ class DiffusionCurve:
             """
             permeate_compositions = self.permeate_composition
             feed_partial_pressures = [
-                get_nrtl_partial_pressures(
+                get_partial_pressures(
                     self.feed_temperature, self.mixture, composition
                 )
                 for composition in self.feed_compositions
@@ -121,7 +121,7 @@ class DiffusionCurve:
                 self.permeate_temperature is not None and self.permeate_pressure is None
             ):
                 permeate_partial_pressures = [
-                    get_nrtl_partial_pressures(
+                    get_partial_pressures(
                         self.permeate_temperature, self.mixture, composition
                     )
                     for composition in permeate_compositions
@@ -317,7 +317,7 @@ class DiffusionCurve:
         else:
             permeate_compositions = self.permeate_composition
             feed_partial_pressures = [
-                get_nrtl_partial_pressures(
+                get_partial_pressures(
                     self.feed_temperature, self.mixture, composition
                 )
                 for composition in self.feed_compositions
@@ -338,7 +338,7 @@ class DiffusionCurve:
                 ]
             else:
                 permeate_partial_pressures = [
-                    get_nrtl_partial_pressures(
+                    get_partial_pressures(
                         self.permeate_temperature, self.mixture, composition
                     )
                     for composition in permeate_compositions

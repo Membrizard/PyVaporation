@@ -8,7 +8,7 @@ from .mixtures import (
     CompositionType,
     Mixture,
     Mixtures,
-    get_nrtl_partial_pressures,
+    get_partial_pressures,
 )
 from .optimizer import Measurements, PervaporationFunction, find_best_fit, fit
 from .permeance import Permeance, Units
@@ -40,7 +40,7 @@ __all__ = [
     "CompositionType",
     "Mixture",
     "Mixtures",
-    "get_nrtl_partial_pressures",
+    "get_partial_pressures",
     "Membrane",
     "IdealExperiment",
     "IdealExperiments",

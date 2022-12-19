@@ -4,7 +4,7 @@ from pyvaporation.mixtures import (
     Composition,
     CompositionType,
     Mixtures,
-    get_nrtl_partial_pressures,
+    get_partial_pressures,
 )
 
 
@@ -29,7 +29,7 @@ def test_constants_h2o_meoh():
         (3.976056, 43.357944),
     ]
     tested_partial_pressures = [
-        get_nrtl_partial_pressures(
+        get_partial_pressures(
             temperature=323.15,
             mixture=test_mixture,
             composition=validation_compositions[i],
@@ -82,7 +82,7 @@ def test_constants_h2o_etoh():
         (2.7611485, 26.7698515),
     ]
     tested_partial_pressures = [
-        get_nrtl_partial_pressures(
+        get_partial_pressures(
             temperature=323.15,
             mixture=test_mixture,
             composition=validation_compositions[i],
@@ -137,7 +137,7 @@ def test_constants_h2o_ipoh():
         (10.021537, 91.308463),
     ]
     tested_partial_pressures = [
-        get_nrtl_partial_pressures(
+        get_partial_pressures(
             temperature=validation_temperature_list[i],
             mixture=test_mixture,
             composition=validation_compositions[i],
@@ -194,7 +194,7 @@ def test_constants_h2o_acetic_acid():
     validation_temperatures = [374.98, 376.6, 379.42, 385.85]
 
     tested_partial_pressures = [
-        get_nrtl_partial_pressures(
+        get_partial_pressures(
             temperature=validation_temperatures[i],
             mixture=test_mixture,
             composition=validation_compositions[i],
@@ -248,7 +248,7 @@ def test_constants_etoh_etbe():
         (1.128097, 31.381903),
     ]
     tested_partial_pressures = [
-        get_nrtl_partial_pressures(
+        get_partial_pressures(
             temperature=313.15,
             mixture=test_mixture,
             composition=validation_compositions[i],
@@ -300,7 +300,7 @@ def test_constants_meoh_toluene():
     ]
 
     tested_partial_pressures = [
-        get_nrtl_partial_pressures(
+        get_partial_pressures(
             temperature=318,
             mixture=test_mixture,
             composition=validation_compositions[i],
@@ -354,7 +354,7 @@ def test_constants_meoh_mtbe():
     validation_temperatures = [328.6, 323.71, 322.71, 323.88]
 
     tested_partial_pressures = [
-        get_nrtl_partial_pressures(
+        get_partial_pressures(
             temperature=validation_temperatures[i],
             mixture=test_mixture,
             composition=validation_compositions[i],
@@ -406,7 +406,7 @@ def test_constants_meoh_dmc():
     validation_temperatures = [338.57, 330.24, 326.43, 326.52]
 
     tested_partial_pressures = [
-        get_nrtl_partial_pressures(
+        get_partial_pressures(
             temperature=validation_temperatures[i],
             mixture=test_mixture,
             composition=validation_compositions[i],

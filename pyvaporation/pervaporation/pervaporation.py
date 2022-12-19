@@ -8,7 +8,7 @@ import numpy
 from ..conditions import Conditions
 from ..diffusion_curve import DiffusionCurve, DiffusionCurveSet
 from ..membrane import Membrane
-from ..mixtures import Composition, CompositionType, Mixture, get_nrtl_partial_pressures
+from ..mixtures import Composition, CompositionType, Mixture, get_partial_pressures
 from ..optimizer import Measurements, find_best_fit
 from ..permeance import Permeance, Units
 from ..process import ProcessModel
@@ -51,14 +51,14 @@ class Pervaporation:
         :param permeate_pressure - permeate pressure, kPa , if not specified permeate pressure is considered 0 kPa
         """
 
-        feed_nrtl_partial_pressures = get_nrtl_partial_pressures(
+        feed_nrtl_partial_pressures = get_partial_pressures(
             feed_temperature, self.mixture, feed_composition
         )
         if permeate_temperature is None and permeate_pressure is None:
             permeate_nrtl_partial_pressures = (0, 0)
 
         elif permeate_temperature is not None and permeate_pressure is None:
-            permeate_nrtl_partial_pressures = get_nrtl_partial_pressures(
+            permeate_nrtl_partial_pressures = get_partial_pressures(
                 permeate_temperature, self.mixture, permeate_composition
             )
         elif permeate_pressure is not None and permeate_temperature is None:
@@ -115,7 +115,7 @@ class Pervaporation:
 
         initial_fluxes: typing.Tuple[float, float] = numpy.multiply(
             (first_component_permeance.value, second_component_permeance.value),
-            get_nrtl_partial_pressures(feed_temperature, self.mixture, composition),
+            get_partial_pressures(feed_temperature, self.mixture, composition),
         )
         permeate_composition = get_permeate_composition_from_fluxes(initial_fluxes)
 

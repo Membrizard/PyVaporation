@@ -34,6 +34,17 @@ class NRTLParameters:
 
 
 @attr.s(auto_attribs=True)
+class UNIQUACParameters:
+    r: float
+    q_geometric: float
+    q_interaction: typing.Optional[float]
+
+    def __attrs_post_init__(self):
+        if self.q_interaction is None:
+            self.q_interaction = self.q_geometric
+
+
+@attr.s(auto_attribs=True)
 class HeatCapacityConstants:
     a: float = attr.ib(converter=lambda value: float(value))  # type: ignore
     b: float = attr.ib(converter=lambda value: float(value))  # type: ignore

@@ -83,7 +83,7 @@ class Composition:
             return Composition(p=p, type=CompositionType.weight)
 
 
-def get_nrtl_partial_pressures(
+def get_partial_pressures(
     temperature: float, mixture: Mixture, composition: Composition
 ) -> typing.Tuple[float, float]:
     """

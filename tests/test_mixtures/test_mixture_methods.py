@@ -3,7 +3,7 @@ from pyvaporation.mixtures import (
     Composition,
     CompositionType,
     Mixture,
-    get_nrtl_partial_pressures,
+    get_partial_pressures,
 )
 from pyvaporation.utils import (
     HeatCapacityConstants,
@@ -106,7 +106,7 @@ def test_composition_to_weight():
 
 def test_get_nrtl_partial_pressures_from_molar_composition():
     tested_partial_pressures = [
-        get_nrtl_partial_pressures(313, test_mixture, test_composition_list_molar[i])
+        get_partial_pressures(313, test_mixture, test_composition_list_molar[i])
         for i in range(11)
     ]
     validation_partial_pressures_molar = [
@@ -142,7 +142,7 @@ def test_get_nrtl_partial_pressures_from_molar_composition():
 
 def test_get_nrtl_partial_pressures_from_weight_composition():
     tested_partial_pressures = [
-        get_nrtl_partial_pressures(313, test_mixture, test_composition_list_weight[i])
+        get_partial_pressures(313, test_mixture, test_composition_list_weight[i])
         for i in range(11)
     ]
     validation_partial_pressures_weight = [
