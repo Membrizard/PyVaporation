@@ -167,6 +167,11 @@ def get_partial_pressures(
         )
     elif calculation_type == ActivityCoefficientModel.UNIQUAC:
         # The implementation is based on https://doi.org/10.1021/i260068a028
+        if composition.first == 0:
+            composition = Composition(p=0.00001, type="molar")
+        if composition.second == 0:
+            composition = Composition(p=0.99999, type="molar")
+
         phi_sum = (
             composition.first * mixture.first_component.uniquac_constants.r
             + composition.second * mixture.second_component.uniquac_constants.r
@@ -190,7 +195,7 @@ def get_partial_pressures(
             / theta_sum_geometric
         )
         theta_2_geometric = (
-            composition.first
+            composition.second
             * mixture.second_component.uniquac_constants.q_geometric
             / theta_sum_geometric
         )
@@ -207,7 +212,7 @@ def get_partial_pressures(
             / theta_sum_interaction
         )
         theta_2_interaction = (
-            composition.first
+            composition.second
             * mixture.second_component.uniquac_constants.q_interaction
             / theta_sum_interaction
         )

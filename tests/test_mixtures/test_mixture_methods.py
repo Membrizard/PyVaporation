@@ -9,6 +9,8 @@ from pyvaporation.utils import (
     HeatCapacityConstants,
     NRTLParameters,
     VaporPressureConstants,
+    UNIQUACConstants,
+    UNIQUACParameters,
 )
 
 antoine_constants = VaporPressureConstants(
@@ -22,11 +24,19 @@ heat_capacity_constants = HeatCapacityConstants(
     c=1.055e-5,
     d=-3.596e-9,
 )
+
+uniquac_constants = UNIQUACConstants(
+    r=0.9200,
+    q_geometric=1.4,
+    q_interaction=1.00,
+)
+
 test_component_1 = Component(
     name="h2o",
     molecular_weight=18.02,
     vapour_pressure_constants=antoine_constants,
     heat_capacity_constants=heat_capacity_constants,
+    uniquac_constants=uniquac_constants,
 )
 
 antoine_constants = VaporPressureConstants(
@@ -40,11 +50,19 @@ heat_capacity_constants = HeatCapacityConstants(
     c=0.001889017424,
     d=0,
 )
+
+uniquac_constants = UNIQUACConstants(
+    r=2.10547,
+    q_geometric=1.9720,
+    q_interaction=0.92,
+)
+
 test_component_2 = Component(
     name="etoh",
     molecular_weight=46.07,
     vapour_pressure_constants=antoine_constants,
     heat_capacity_constants=heat_capacity_constants,
+    uniquac_constants=uniquac_constants,
 )
 
 test_composition_list_molar = [
@@ -60,11 +78,19 @@ nrtl_params = NRTLParameters(
     alpha12=0.3,
 )
 
+uniquac_params = UNIQUACParameters(
+    alpha_12=-2.49,
+    alpha_21=2.01,
+    beta_12=757,
+    beta_21=-729,
+)
+
 test_mixture = Mixture(
     name="H2O_EtOH",
     first_component=test_component_1,
     second_component=test_component_2,
     nrtl_params=nrtl_params,
+    uniquac_params=uniquac_params,
 )
 
 
@@ -143,6 +169,86 @@ def test_get_nrtl_partial_pressures_from_molar_composition():
 def test_get_nrtl_partial_pressures_from_weight_composition():
     tested_partial_pressures = [
         get_partial_pressures(313, test_mixture, test_composition_list_weight[i])
+        for i in range(11)
+    ]
+    validation_partial_pressures_weight = [
+        (0, 17.77081),
+        (3.32577, 14.18329),
+        (4.96675, 11.97329),
+        (5.76758, 10.58423),
+        (6.16626, 9.67241),
+        (6.38535, 8.99896),
+        (6.53822, 8.35759),
+        (6.68342, 7.51991),
+        (6.85186, 6.18204),
+        (7.06050, 3.89984),
+        (7.31934, 0),
+    ]
+    for i in range(11):
+        assert (
+            abs(
+                validation_partial_pressures_weight[i][0]
+                - tested_partial_pressures[i][0]
+            )
+            < 1e-3
+        )
+    for i in range(11):
+        assert (
+            abs(
+                validation_partial_pressures_weight[i][1]
+                - tested_partial_pressures[i][1]
+            )
+            < 1e-3
+        )
+
+
+def test_get_uniquac_partial_pressures_from_molar_composition():
+    tested_partial_pressures = [
+        get_partial_pressures(temperature=313,
+                              mixture=test_mixture,
+                              composition=test_composition_list_molar[i],
+                              calculation_type="UNIQUAC")
+        for i in range(11)
+    ]
+
+    print(tested_partial_pressures)
+    validation_partial_pressures_weight = [
+        (0, 17.77081),
+        (3.32577, 14.18329),
+        (4.96675, 11.97329),
+        (5.76758, 10.58423),
+        (6.16626, 9.67241),
+        (6.38535, 8.99896),
+        (6.53822, 8.35759),
+        (6.68342, 7.51991),
+        (6.85186, 6.18204),
+        (7.06050, 3.89984),
+        (7.31934, 0),
+    ]
+    for i in range(11):
+        assert (
+            abs(
+                validation_partial_pressures_weight[i][0]
+                - tested_partial_pressures[i][0]
+            )
+            < 1
+        )
+    for i in range(11):
+        assert (
+            abs(
+                validation_partial_pressures_weight[i][1]
+                - tested_partial_pressures[i][1]
+            )
+            < 1
+        )
+
+
+def test_get_uniquac_partial_pressures_from_weight_composition():
+    tested_partial_pressures = [
+        get_partial_pressures(temperature=313,
+                              mixture=test_mixture,
+                              composition=test_composition_list_weight[i],
+                              calculation_type="UNIQUAC")
         for i in range(11)
     ]
     validation_partial_pressures_weight = [
