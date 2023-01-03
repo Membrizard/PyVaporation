@@ -3,7 +3,13 @@ import typing
 import attr
 import numpy
 
-from ..utils import HeatCapacityConstants, R, VaporPressureConstants, VPConstantsType, UNIQUACParameters
+from ..utils import (
+    HeatCapacityConstants,
+    R,
+    VaporPressureConstants,
+    VPConstantsType,
+    UNIQUACConstants,
+)
 
 
 @attr.s(auto_attribs=True)
@@ -12,7 +18,7 @@ class Component:
     molecular_weight: float = attr.ib(converter=lambda value: float(value))
     vapour_pressure_constants: VaporPressureConstants
     heat_capacity_constants: HeatCapacityConstants
-    uniquac_parameters: typing.Optional[UNIQUACParameters] = None
+    uniquac_constants: typing.Optional[UNIQUACConstants] = None
 
     def get_vapor_pressure(self, temperature: float) -> float:
         """

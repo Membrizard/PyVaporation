@@ -34,7 +34,7 @@ class NRTLParameters:
 
 
 @attr.s(auto_attribs=True)
-class UNIQUACParameters:
+class UNIQUACConstants:
     r: float
     q_geometric: float
     q_interaction: typing.Optional[float]
@@ -42,6 +42,15 @@ class UNIQUACParameters:
     def __attrs_post_init__(self):
         if self.q_interaction is None:
             self.q_interaction = self.q_geometric
+
+
+@attr.s(auto_attribs=True)
+class UNIQUACParameters:
+    alpha_12: float
+    alpha_21: float
+    beta_12: float
+    beta_21: float
+    z: int = 10
 
 
 @attr.s(auto_attribs=True)

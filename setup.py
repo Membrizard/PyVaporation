@@ -18,7 +18,7 @@ setup(
         "chemistry",
         "modelling",
         "chemical-engineering",
-        "scientific"
+        "scientific",
     ],
     install_requires=[
         "joblib==1.1.0",

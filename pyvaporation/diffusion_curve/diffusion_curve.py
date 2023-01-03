@@ -61,9 +61,7 @@ class DiffusionCurve:
             :return a list of Partial fluxes for each component tuple(Ji,Jj) at each concentration
             """
             feed_partial_pressures = [
-                get_partial_pressures(
-                    self.feed_temperature, self.mixture, composition
-                )
+                get_partial_pressures(self.feed_temperature, self.mixture, composition)
                 for composition in self.feed_compositions
             ]
 
@@ -98,9 +96,7 @@ class DiffusionCurve:
             """
             permeate_compositions = self.permeate_composition
             feed_partial_pressures = [
-                get_partial_pressures(
-                    self.feed_temperature, self.mixture, composition
-                )
+                get_partial_pressures(self.feed_temperature, self.mixture, composition)
                 for composition in self.feed_compositions
             ]
             if self.permeate_temperature is None and self.permeate_pressure is None:
@@ -317,9 +313,7 @@ class DiffusionCurve:
         else:
             permeate_compositions = self.permeate_composition
             feed_partial_pressures = [
-                get_partial_pressures(
-                    self.feed_temperature, self.mixture, composition
-                )
+                get_partial_pressures(self.feed_temperature, self.mixture, composition)
                 for composition in self.feed_compositions
             ]
             if self.permeate_temperature is None:
