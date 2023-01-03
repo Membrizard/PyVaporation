@@ -203,6 +203,7 @@ def test_get_nrtl_partial_pressures_from_weight_composition():
 
 
 def test_get_uniquac_partial_pressures_from_molar_composition():
+    # TODO: add validation partial pressures for UNIQUAC
     tested_partial_pressures = [
         get_partial_pressures(temperature=313,
                               mixture=test_mixture,
@@ -244,6 +245,7 @@ def test_get_uniquac_partial_pressures_from_molar_composition():
 
 
 def test_get_uniquac_partial_pressures_from_weight_composition():
+    # TODO: add validation partial pressures for UNIQUAC
     tested_partial_pressures = [
         get_partial_pressures(temperature=313,
                               mixture=test_mixture,
