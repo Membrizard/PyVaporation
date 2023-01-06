@@ -1,5 +1,5 @@
 from ..components import Components
-from ..utils import NRTLParameters
+from ..utils import NRTLParameters, UNIQUACParameters
 from .mixture import Mixture
 
 
@@ -32,6 +32,13 @@ class Mixtures:
             g21=-633,
             alpha12=0.3,
         ),
+        uniquac_params=UNIQUACParameters(
+            alpha_12=-2.49,
+            alpha_21=2.01,
+            beta_12=757,
+            beta_21=-729,
+            z=17,
+        )
     )
 
     H2O_iPOH: Mixture = Mixture(

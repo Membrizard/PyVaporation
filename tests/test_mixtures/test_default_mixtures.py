@@ -60,7 +60,7 @@ def test_constants_h2o_meoh():
     assert numpy.sqrt(rmsd_2 / 4) < 0.033
 
 
-def test_constants_h2o_etoh():
+def test_nrtl_constants_h2o_etoh():
     """
     Experimental default_membranes for validation is taken from https://doi.org/10.1021/je00019a033
     NRTL Constants are taken from Identification of Best Model for Equilibrium Data of Ethanol-Water Mixture
@@ -111,6 +111,62 @@ def test_constants_h2o_etoh():
         )
     assert numpy.sqrt(rmsd_1 / 4) < 0.03
     assert numpy.sqrt(rmsd_2 / 4) < 0.03
+
+
+def test_uniquac_constants_h2o_etoh():
+    """
+    Experimental default_membranes for validation is taken from https://doi.org/10.1021/je00019a033
+    NRTL Constants are taken from Identification of Best Model for Equilibrium Data of Ethanol-Water Mixture
+    Bilel Hadrich and Nabil Kechaou
+    June 2010, Volume 4, No.6 (Serial No.31)Journal of Chemistry and Chemical Engineering, ISSN 1934-7375, USA
+    """
+    test_mixture = Mixtures.H2O_EtOH
+    validation_compositions = [
+        Composition(p=0.82440, type=CompositionType.molar),
+        Composition(p=0.62270, type=CompositionType.molar),
+        Composition(p=0.40308, type=CompositionType.molar),
+        Composition(p=0.09690, type=CompositionType.molar),
+    ]
+
+    validation_pressures = [
+        (10.9512364, 12.7117636),
+        (9.9939294, 16.4870706),
+        (8.5117929, 19.5892071),
+        (2.7611485, 26.7698515),
+    ]
+    tested_partial_pressures = [
+        get_partial_pressures(
+            temperature=323.15,
+            mixture=test_mixture,
+            composition=validation_compositions[i],
+            calculation_type="UNIQUAC"
+        )
+        for i in range(4)
+    ]
+
+    print(tested_partial_pressures)
+
+    rmsd_1 = 0
+    rmsd_2 = 0
+
+    for i in range(4):
+        rmsd_1 = (
+            tested_partial_pressures[i][0] - validation_pressures[i][0]
+        ) ** 2 / validation_pressures[i][0] ** 2 + rmsd_1
+
+        rmsd_2 = (
+            tested_partial_pressures[i][1] - validation_pressures[i][1]
+        ) ** 2 / validation_pressures[i][1] ** 2 + rmsd_2
+        assert (
+            abs(tested_partial_pressures[i][0] - validation_pressures[i][0])
+            < validation_pressures[i][0] * 0.025
+        )
+        assert (
+            abs(tested_partial_pressures[i][1] - validation_pressures[i][1])
+            < validation_pressures[i][1] * 0.025
+        )
+    assert numpy.sqrt(rmsd_1 / 4) < 0.02
+    assert numpy.sqrt(rmsd_2 / 4) < 0.02
 
 
 def test_constants_h2o_ipoh():

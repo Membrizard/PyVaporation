@@ -203,7 +203,7 @@ def get_partial_pressures(
         theta_sum_interaction = (
             composition.first * mixture.first_component.uniquac_constants.q_interaction
             + composition.second
-            * mixture.second_component.uniquac_constants.q_geometric
+            * mixture.second_component.uniquac_constants.q_interaction
         )
 
         theta_1_interaction = (

@@ -1,4 +1,4 @@
-from pyvaporation.utils import HeatCapacityConstants, VaporPressureConstants
+from pyvaporation.utils import HeatCapacityConstants, VaporPressureConstants, UNIQUACConstants
 
 from .component import Component
 
@@ -23,6 +23,11 @@ class Components:
             c=1.055e-5,
             d=-3.596e-9,
         ),
+        uniquac_constants=UNIQUACConstants(
+            r=0.9200,
+            q_geometric=1.4,
+            q_interaction=1.00,
+        )
     )
 
     MeOH: Component = Component(
@@ -55,6 +60,11 @@ class Components:
             c=0.001889017424,
             d=0,
         ),
+        uniquac_constants=UNIQUACConstants(
+            r=2.10547,
+            q_geometric=1.9720,
+            q_interaction=0.92,
+        )
     )
 
     iPOH: Component = Component(

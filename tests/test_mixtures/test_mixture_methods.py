@@ -83,6 +83,7 @@ uniquac_params = UNIQUACParameters(
     alpha_21=2.01,
     beta_12=757,
     beta_21=-729,
+    z=17,
 )
 
 test_mixture = Mixture(
