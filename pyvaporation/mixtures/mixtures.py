@@ -39,12 +39,19 @@ class Mixtures:
             g21=-633,
             alpha12=0.3,
         ),
+        # uniquac_params=UNIQUACParameters(
+        #     alpha_12=-2.49,
+        #     alpha_21=2.01,
+        #     beta_12=757,
+        #     beta_21=-729,
+        #     z=17,
+        # )
         uniquac_params=UNIQUACParameters(
-            alpha_12=-2.49,
-            alpha_21=2.01,
-            beta_12=757,
-            beta_21=-729,
-            z=17,
+            alpha_12=133.55812,
+            alpha_21=68.6155,
+            beta_12=-27177.745,
+            beta_21=33259.85,
+            z=10,
         )
     )
 
