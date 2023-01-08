@@ -21,6 +21,13 @@ class Mixtures:
             a12=2.7321,
             a21=-0.693,
         ),
+        uniquac_params=UNIQUACParameters(
+            alpha_12=-4.4877215,
+            alpha_21=9.5764526,
+            beta_12=169.1472146,
+            beta_21=-362.5609803,
+            z=10,
+        )
     )
 
     H2O_EtOH: Mixture = Mixture(
@@ -50,6 +57,13 @@ class Mixtures:
             g21=106.99,
             alpha12=0.3,
         ),
+        uniquac_params=UNIQUACParameters(
+            alpha_12=158.5,
+            alpha_21=251.9,
+            beta_12=0,
+            beta_21=0,
+            z=11,
+        )
     )
 
     H2O_AceticAcid: Mixture = Mixture(
@@ -61,6 +75,13 @@ class Mixtures:
             g21=715.43,
             alpha12=0.25,
         ),
+        uniquac_params=UNIQUACParameters(
+            alpha_12=-203.973,
+            alpha_21=-139.183,
+            beta_12=0,
+            beta_21=0,
+            z=20,
+        )
     )
 
     EtOH_ETBE: Mixture = Mixture(
@@ -82,6 +103,13 @@ class Mixtures:
             g12=3857.3,
             g21=4290.3,
             alpha12=0.4370,
+        ),
+        uniquac_params=UNIQUACParameters(
+            alpha_12=13.252,
+            alpha_21=-106.210,
+            beta_12=368.586,
+            beta_21=-57.820,
+            z=10,
         ),
     )
 

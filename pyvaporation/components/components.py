@@ -44,6 +44,11 @@ class Components:
             c=1.84499e-4,
             d=9.44251e-7,
         ),
+        uniquac_constants=UNIQUACConstants(
+            r=1.43,
+            q_geometric=1.40,
+            q_interaction=0.96,
+        )
     )
 
     EtOH: Component = Component(
@@ -81,6 +86,11 @@ class Components:
             c=-4.56017218e-3,
             d=1.01887619e-5,
         ),
+        uniquac_constants=UNIQUACConstants(
+            r=2.7790,
+            q_geometric=2.5078,
+            q_interaction=0.89,
+        )
     )
 
     MTBE: Component = Component(
@@ -113,6 +123,10 @@ class Components:
             c=-3.015e-3,
             d=3.637e-6,
         ),
+        uniquac_constants=UNIQUACConstants(
+            r=4.7422,
+            q_geometric=4.172,
+        )
     )
 
     DME: Component = Component(
@@ -193,6 +207,10 @@ class Components:
             c=2.96136e-3,
             d=-2.86617e-6,
         ),
+        uniquac_constants=UNIQUACConstants(
+            r=3.9229,
+            q_geometric=2.9680,
+        )
     )
 
     AceticAcid: Component = Component(
@@ -209,4 +227,8 @@ class Components:
             c=-1.099113e-1,
             d=1.1060630e-4,
         ),
+        uniquac_constants=UNIQUACConstants(
+            r=2.195,
+            q_geometric=2.072,
+        )
     )

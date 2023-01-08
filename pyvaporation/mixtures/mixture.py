@@ -30,7 +30,7 @@ class Mixture:
     name: str
     first_component: Component
     second_component: Component
-    # components: typing.List[Component]
+    #components: typing.Optional[typing.List[Component]] = None
     nrtl_params: typing.Optional[NRTLParameters] = None
     uniquac_params: typing.Optional[UNIQUACParameters] = None
 
@@ -114,10 +114,40 @@ def get_partial_pressures(
     composition: specified composition in mol or weight %
     :return: Partial pressures as a tuple, test_components wise in kPa
     """
+    activity_coefficients = calculate_activity_coefficients(temperature=temperature,
+                                                            mixture=mixture,
+                                                            composition=composition,
+                                                            calculation_type=calculation_type)
+    return (
+        mixture.first_component.get_vapor_pressure(temperature)
+        * activity_coefficients[0]
+        * composition.first,
+        mixture.second_component.get_vapor_pressure(temperature)
+        * activity_coefficients[1]
+        * composition.second,
+    )
+
+
+def calculate_activity_coefficients(
+    temperature: float,
+    mixture: Mixture,
+    composition: Composition,
+    calculation_type: str = ActivityCoefficientModel.NRTL,
+) -> typing.Tuple[float, float]:
+    """
+       Calculation of activity coefficients of both test_components
+       :params
+       temperature: temperature in K
+       mixture: a mixture for which the calculation should be conducted
+       composition: specified composition in mol or weight %
+       :return: activity coefficients as a tuple
+       """
     if composition.type == CompositionType.weight:
         composition = composition.to_molar(mixture=mixture)
 
     if calculation_type == ActivityCoefficientModel.NRTL:
+        if mixture.nrtl_params is None:
+            raise ValueError("NRTL Parameters must be specified for this type of calculation")
 
         tau = numpy.array(
             [
@@ -132,7 +162,7 @@ def get_partial_pressures(
 
         g_exp = numpy.exp(numpy.multiply(-tau, alphas))
 
-        activity_coefficients = [
+        activity_coefficients = (
             numpy.exp(
                 (composition.second**2)
                 * (
@@ -155,22 +185,21 @@ def get_partial_pressures(
                     / (composition.first + composition.second * g_exp[1]) ** 2
                 )
             ),
-        ]
-
-        return (
-            mixture.first_component.get_vapor_pressure(temperature)
-            * activity_coefficients[0]
-            * composition.first,
-            mixture.second_component.get_vapor_pressure(temperature)
-            * activity_coefficients[1]
-            * composition.second,
         )
+
+        return activity_coefficients
+
     elif calculation_type == ActivityCoefficientModel.UNIQUAC:
         # The implementation is based on https://doi.org/10.1021/i260068a028
         if composition.first == 0:
             composition = Composition(p=0.00001, type="molar")
         if composition.second == 0:
             composition = Composition(p=0.99999, type="molar")
+
+        if mixture.uniquac_params is None:
+            raise ValueError("UNIQUAC Parameters must be specified for this type of calculation")
+        if mixture.first_component.uniquac_constants is None or mixture.second_component.uniquac_constants is None:
+            raise ValueError("UNIQUAC Constants for all Components must be specified for this type of calculation")
 
         phi_sum = (
             composition.first * mixture.first_component.uniquac_constants.r
@@ -271,13 +300,4 @@ def get_partial_pressures(
                - tau_12 / (theta_1_interaction + theta_2_interaction * tau_12))
         )
 
-        activity_coefficients = gamma_1, gamma_2
-
-        return (
-            mixture.first_component.get_vapor_pressure(temperature)
-            * activity_coefficients[0]
-            * composition.first,
-            mixture.second_component.get_vapor_pressure(temperature)
-            * activity_coefficients[1]
-            * composition.second,
-        )
+        return gamma_1, gamma_2

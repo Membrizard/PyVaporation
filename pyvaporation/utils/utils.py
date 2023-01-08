@@ -1,5 +1,5 @@
 import typing
-
+import numpy
 import attr
 
 R = 8.314462
@@ -37,7 +37,7 @@ class NRTLParameters:
 class UNIQUACConstants:
     r: float
     q_geometric: float
-    q_interaction: typing.Optional[float]
+    q_interaction: typing.Optional[float] = None
 
     def __attrs_post_init__(self):
         if self.q_interaction is None:
@@ -51,6 +51,19 @@ class UNIQUACParameters:
     beta_12: float
     beta_21: float
     z: int = 10
+
+    @classmethod
+    def from_array(
+            cls, array: typing.Union[typing.List[float], numpy.ndarray]
+    ) -> "UNIQUACParameters":
+        assert len(array) == 5
+        return cls(
+            alpha_12=array[0],
+            alpha_21=array[1],
+            beta_12=array[2],
+            beta_21=array[3],
+            z=int(array[4]),
+        )
 
 
 @attr.s(auto_attribs=True)
