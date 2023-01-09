@@ -1,0 +1,12 @@
+first_component,second_component,composition,composition_type,first_component_pressure,second_component_pressure,temperature,reference
+MeOH,Toluene,0.025,molar,13.50124,9.77676,318.15,https://doi.org/10.1016/0021-9614(88)90185-1
+MeOH,Toluene,0.082,molar,25.080328,9.370672,318.15,https://doi.org/10.1016/0021-9614(88)90185-1
+MeOH,Toluene,0.183,molar,31.176927,9.260073,318.15,https://doi.org/10.1016/0021-9614(88)90185-1
+MeOH,Toluene,0.251,molar,33.22977,8.83323,318.15,https://doi.org/10.1016/0021-9614(88)90185-1
+MeOH,Toluene,0.394,molar,34.839285,8.983715,318.15,https://doi.org/10.1016/0021-9614(88)90185-1
+MeOH,Toluene,0.498,molar,35.795292,8.560708,318.15,https://doi.org/10.1016/0021-9614(88)90185-1
+MeOH,Toluene,0.558,molar,36.531204,8.624796,318.15,https://doi.org/10.1016/0021-9614(88)90185-1
+MeOH,Toluene,0.625,molar,36.740733,8.562267,318.15,https://doi.org/10.1016/0021-9614(88)90185-1
+MeOH,Toluene,0.764,molar,38.214708,7.661292,318.15,https://doi.org/10.1016/0021-9614(88)90185-1
+MeOH,Toluene,0.867,molar,40.364052,6.191948,318.15,https://doi.org/10.1016/0021-9614(88)90185-1
+MeOH,Toluene,0.96,molar,42.545305,2.957695,318.15,https://doi.org/10.1016/0021-9614(88)90185-1

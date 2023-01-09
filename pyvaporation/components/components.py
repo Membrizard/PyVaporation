@@ -89,7 +89,7 @@ class Components:
         uniquac_constants=UNIQUACConstants(
             r=2.7790,
             q_geometric=2.5078,
-            q_interaction=0.89,
+
         )
     )
 
@@ -210,6 +210,7 @@ class Components:
         uniquac_constants=UNIQUACConstants(
             r=3.9229,
             q_geometric=2.9680,
+            q_interaction=2.968**0.2,
         )
     )
 

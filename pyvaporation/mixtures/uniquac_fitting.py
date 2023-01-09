@@ -20,6 +20,17 @@ VLE_COLUMNS = [
     'temperature',
     'reference']
 
+FITTING_ALGS = [
+        "Nelder-Mead",
+        "Powell",
+        "CG",
+        "BFGS",
+        "L-BFGS-B",
+        "TNC",
+        "COBYLA",
+        "SLSQP",
+        "trust-constr"]
+
 
 @attr.s(auto_attribs=True)
 class VLEPoint:
@@ -93,29 +104,42 @@ class VLEPoints:
         return VLEPoints(components=self.components, data=self.data + other.data)
 
 
-def fit(
+def fit_vle(
     data: VLEPoints,
+    method: typing.Optional[str] = None,
 ) -> UNIQUACParameters:
     """
     Get the UNIQUAC parameters to fit the VLE of a given mixture
     """
-    _data = copy(data)
-    result = optimize.minimize(
-        lambda params: objective(data=_data,
-                                 components=data.components,
-                                 params=params),
-        x0=numpy.array([0, 0, 0, 0, 10]),
-        method="Nelder-Mead",
-    )
-    return UNIQUACParameters.from_array(result.x)
+    if method is None:
+        algs = FITTING_ALGS
+    else:
+        algs = [method]
+
+    best_fit = []
+    error = 1000
+    for alg in algs:
+        result = optimize.minimize(
+            lambda params: objective(data=data,
+                                     params=params),
+            x0=numpy.array([0, 0, 0, 0, 10]),
+            method=alg,
+        )
+
+        current_error = objective(data=data, params=result.x)
+        if current_error < error:
+            best_fit = result.x
+            error = current_error
+
+    return UNIQUACParameters.from_array(best_fit)
 
 
-def objective(data: VLEPoints, components: typing.List[Component], params: typing.List[float]) -> float:
+def objective(data: VLEPoints, params: typing.List[float]) -> float:
     error = 0
     mixture = Mixture(
                       name="",
-                      first_component=components[0],
-                      second_component=components[1],
+                      first_component=data.components[0],
+                      second_component=data.components[1],
                       uniquac_params=UNIQUACParameters.from_array(params),
     )
     for point in data:

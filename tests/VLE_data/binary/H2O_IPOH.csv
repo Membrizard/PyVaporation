@@ -1,0 +1,59 @@
+first_component,second_component,composition,composition_type,first_component_pressure,second_component_pressure,temperature,reference
+H2O,iPOH,0.9984,molar,97.641588,3.688412,372.02,"http://www.ddbst.com/en/EED/VLE/VLE%202-Propanol%3BWater.php Brunjes A.S.; Bogart M.J.P.: The Binary Systems Ethanol-n-Butanol, Acetone-Water and Isopropanol-Water. Ind.Eng.Chem. 35 (1943) 255-260"
+H2O,iPOH,0.9917,molar,86.404091,14.925909,368.45,"http://www.ddbst.com/en/EED/VLE/VLE%202-Propanol%3BWater.php Brunjes A.S.; Bogart M.J.P.: The Binary Systems Ethanol-n-Butanol, Acetone-Water and Isopropanol-Water. Ind.Eng.Chem. 35 (1943) 255-260"
+H2O,iPOH,0.9864,molar,78.591548,22.738452,366.34,"http://www.ddbst.com/en/EED/VLE/VLE%202-Propanol%3BWater.php Brunjes A.S.; Bogart M.J.P.: The Binary Systems Ethanol-n-Butanol, Acetone-Water and Isopropanol-Water. Ind.Eng.Chem. 35 (1943) 255-260"
+H2O,iPOH,0.9796,molar,77.943036,23.386964,363.95,"http://www.ddbst.com/en/EED/VLE/VLE%202-Propanol%3BWater.php Brunjes A.S.; Bogart M.J.P.: The Binary Systems Ethanol-n-Butanol, Acetone-Water and Isopropanol-Water. Ind.Eng.Chem. 35 (1943) 255-260"
+H2O,iPOH,0.9746,molar,66.887933,34.442067,362.19,"http://www.ddbst.com/en/EED/VLE/VLE%202-Propanol%3BWater.php Brunjes A.S.; Bogart M.J.P.: The Binary Systems Ethanol-n-Butanol, Acetone-Water and Isopropanol-Water. Ind.Eng.Chem. 35 (1943) 255-260"
+H2O,iPOH,0.9512,molar,54.11022,47.21978,356.95,"http://www.ddbst.com/en/EED/VLE/VLE%202-Propanol%3BWater.php Brunjes A.S.; Bogart M.J.P.: The Binary Systems Ethanol-n-Butanol, Acetone-Water and Isopropanol-Water. Ind.Eng.Chem. 35 (1943) 255-260"
+H2O,iPOH,0.9157,molar,50.421808,50.908192,355.78,"http://www.ddbst.com/en/EED/VLE/VLE%202-Propanol%3BWater.php Brunjes A.S.; Bogart M.J.P.: The Binary Systems Ethanol-n-Butanol, Acetone-Water and Isopropanol-Water. Ind.Eng.Chem. 35 (1943) 255-260"
+H2O,iPOH,0.8768,molar,46.834726,54.495274,354.56,"http://www.ddbst.com/en/EED/VLE/VLE%202-Propanol%3BWater.php Brunjes A.S.; Bogart M.J.P.: The Binary Systems Ethanol-n-Butanol, Acetone-Water and Isopropanol-Water. Ind.Eng.Chem. 35 (1943) 255-260"
+H2O,iPOH,0.8371,molar,47.645366,53.684634,354.54,"http://www.ddbst.com/en/EED/VLE/VLE%202-Propanol%3BWater.php Brunjes A.S.; Bogart M.J.P.: The Binary Systems Ethanol-n-Butanol, Acetone-Water and Isopropanol-Water. Ind.Eng.Chem. 35 (1943) 255-260"
+H2O,iPOH,0.8014,molar,46.165948,55.164052,354.34,"http://www.ddbst.com/en/EED/VLE/VLE%202-Propanol%3BWater.php Brunjes A.S.; Bogart M.J.P.: The Binary Systems Ethanol-n-Butanol, Acetone-Water and Isopropanol-Water. Ind.Eng.Chem. 35 (1943) 255-260"
+H2O,iPOH,0.7613,molar,45.000653,56.329347,354.26,"http://www.ddbst.com/en/EED/VLE/VLE%202-Propanol%3BWater.php Brunjes A.S.; Bogart M.J.P.: The Binary Systems Ethanol-n-Butanol, Acetone-Water and Isopropanol-Water. Ind.Eng.Chem. 35 (1943) 255-260"
+H2O,iPOH,0.6686,molar,44.038018,57.291982,353.92,"http://www.ddbst.com/en/EED/VLE/VLE%202-Propanol%3BWater.php Brunjes A.S.; Bogart M.J.P.: The Binary Systems Ethanol-n-Butanol, Acetone-Water and Isopropanol-Water. Ind.Eng.Chem. 35 (1943) 255-260"
+H2O,iPOH,0.5403,molar,41.150113,60.179887,353.59,"http://www.ddbst.com/en/EED/VLE/VLE%202-Propanol%3BWater.php Brunjes A.S.; Bogart M.J.P.: The Binary Systems Ethanol-n-Butanol, Acetone-Water and Isopropanol-Water. Ind.Eng.Chem. 35 (1943) 255-260"
+H2O,iPOH,0.4162,molar,36.904386,64.425614,353.29,"http://www.ddbst.com/en/EED/VLE/VLE%202-Propanol%3BWater.php Brunjes A.S.; Bogart M.J.P.: The Binary Systems Ethanol-n-Butanol, Acetone-Water and Isopropanol-Water. Ind.Eng.Chem. 35 (1943) 255-260"
+H2O,iPOH,0.3504,molar,33.854353,67.475647,353.19,"http://www.ddbst.com/en/EED/VLE/VLE%202-Propanol%3BWater.php Brunjes A.S.; Bogart M.J.P.: The Binary Systems Ethanol-n-Butanol, Acetone-Water and Isopropanol-Water. Ind.Eng.Chem. 35 (1943) 255-260"
+H2O,iPOH,0.3187,molar,32.293871,69.036129,353.31,"http://www.ddbst.com/en/EED/VLE/VLE%202-Propanol%3BWater.php Brunjes A.S.; Bogart M.J.P.: The Binary Systems Ethanol-n-Butanol, Acetone-Water and Isopropanol-Water. Ind.Eng.Chem. 35 (1943) 255-260"
+H2O,iPOH,0.3162,molar,31.959482,69.370518,353.2,"http://www.ddbst.com/en/EED/VLE/VLE%202-Propanol%3BWater.php Brunjes A.S.; Bogart M.J.P.: The Binary Systems Ethanol-n-Butanol, Acetone-Water and Isopropanol-Water. Ind.Eng.Chem. 35 (1943) 255-260"
+H2O,iPOH,0.3143,molar,32.182408,69.147592,353.19,"http://www.ddbst.com/en/EED/VLE/VLE%202-Propanol%3BWater.php Brunjes A.S.; Bogart M.J.P.: The Binary Systems Ethanol-n-Butanol, Acetone-Water and Isopropanol-Water. Ind.Eng.Chem. 35 (1943) 255-260"
+H2O,iPOH,0.3095,molar,31.625093,69.704907,353.18,"http://www.ddbst.com/en/EED/VLE/VLE%202-Propanol%3BWater.php Brunjes A.S.; Bogart M.J.P.: The Binary Systems Ethanol-n-Butanol, Acetone-Water and Isopropanol-Water. Ind.Eng.Chem. 35 (1943) 255-260"
+H2O,iPOH,0.3029,molar,31.098177,70.231823,353.2,"http://www.ddbst.com/en/EED/VLE/VLE%202-Propanol%3BWater.php Brunjes A.S.; Bogart M.J.P.: The Binary Systems Ethanol-n-Butanol, Acetone-Water and Isopropanol-Water. Ind.Eng.Chem. 35 (1943) 255-260"
+H2O,iPOH,0.2667,molar,28.960114,72.369886,353.22,"http://www.ddbst.com/en/EED/VLE/VLE%202-Propanol%3BWater.php Brunjes A.S.; Bogart M.J.P.: The Binary Systems Ethanol-n-Butanol, Acetone-Water and Isopropanol-Water. Ind.Eng.Chem. 35 (1943) 255-260"
+H2O,iPOH,0.2298,molar,26.335667,74.994333,353.29,"http://www.ddbst.com/en/EED/VLE/VLE%202-Propanol%3BWater.php Brunjes A.S.; Bogart M.J.P.: The Binary Systems Ethanol-n-Butanol, Acetone-Water and Isopropanol-Water. Ind.Eng.Chem. 35 (1943) 255-260"
+H2O,iPOH,0.19,molar,23.326166,78.003834,353.45,"http://www.ddbst.com/en/EED/VLE/VLE%202-Propanol%3BWater.php Brunjes A.S.; Bogart M.J.P.: The Binary Systems Ethanol-n-Butanol, Acetone-Water and Isopropanol-Water. Ind.Eng.Chem. 35 (1943) 255-260"
+H2O,iPOH,0.148,molar,18.989242,82.340758,353.66,"http://www.ddbst.com/en/EED/VLE/VLE%202-Propanol%3BWater.php Brunjes A.S.; Bogart M.J.P.: The Binary Systems Ethanol-n-Butanol, Acetone-Water and Isopropanol-Water. Ind.Eng.Chem. 35 (1943) 255-260"
+H2O,iPOH,0.1128,molar,15.1995,86.1305,353.9,"http://www.ddbst.com/en/EED/VLE/VLE%202-Propanol%3BWater.php Brunjes A.S.; Bogart M.J.P.: The Binary Systems Ethanol-n-Butanol, Acetone-Water and Isopropanol-Water. Ind.Eng.Chem. 35 (1943) 255-260"
+H2O,iPOH,0.0847,molar,12.149467,89.180533,354.16,"http://www.ddbst.com/en/EED/VLE/VLE%202-Propanol%3BWater.php Brunjes A.S.; Bogart M.J.P.: The Binary Systems Ethanol-n-Butanol, Acetone-Water and Isopropanol-Water. Ind.Eng.Chem. 35 (1943) 255-260"
+H2O,iPOH,0.0681,molar,10.021537,91.308463,354.36,"http://www.ddbst.com/en/EED/VLE/VLE%202-Propanol%3BWater.php Brunjes A.S.; Bogart M.J.P.: The Binary Systems Ethanol-n-Butanol, Acetone-Water and Isopropanol-Water. Ind.Eng.Chem. 35 (1943) 255-260"
+H2O,iPOH,0.998,molar,97.68212,3.64788,372.05,http://www.ddbst.com/en/EED/VLE/VLE%202-Propanol%3BWater.php Dunlop J.G.: Vapor-Liquid Equilibrium Data. Master's Thesis (1948)
+H2O,iPOH,0.992,molar,86.43449,14.89551,368.45,http://www.ddbst.com/en/EED/VLE/VLE%202-Propanol%3BWater.php Dunlop J.G.: Vapor-Liquid Equilibrium Data. Master's Thesis (1948)
+H2O,iPOH,0.986,molar,78.63208,22.69792,366.35,http://www.ddbst.com/en/EED/VLE/VLE%202-Propanol%3BWater.php Dunlop J.G.: Vapor-Liquid Equilibrium Data. Master's Thesis (1948)
+H2O,iPOH,0.98,molar,77.92277,23.40723,363.95,http://www.ddbst.com/en/EED/VLE/VLE%202-Propanol%3BWater.php Dunlop J.G.: Vapor-Liquid Equilibrium Data. Master's Thesis (1948)
+H2O,iPOH,0.975,molar,66.8778,34.4522,362.15,http://www.ddbst.com/en/EED/VLE/VLE%202-Propanol%3BWater.php Dunlop J.G.: Vapor-Liquid Equilibrium Data. Master's Thesis (1948)
+H2O,iPOH,0.951,molar,54.11022,47.21978,356.95,http://www.ddbst.com/en/EED/VLE/VLE%202-Propanol%3BWater.php Dunlop J.G.: Vapor-Liquid Equilibrium Data. Master's Thesis (1948)
+H2O,iPOH,0.916,molar,50.46234,50.86766,355.75,http://www.ddbst.com/en/EED/VLE/VLE%202-Propanol%3BWater.php Dunlop J.G.: Vapor-Liquid Equilibrium Data. Master's Thesis (1948)
+H2O,iPOH,0.877,molar,46.81446,54.51554,354.55,http://www.ddbst.com/en/EED/VLE/VLE%202-Propanol%3BWater.php Dunlop J.G.: Vapor-Liquid Equilibrium Data. Master's Thesis (1948)
+H2O,iPOH,0.837,molar,47.6251,53.7049,354.55,http://www.ddbst.com/en/EED/VLE/VLE%202-Propanol%3BWater.php Dunlop J.G.: Vapor-Liquid Equilibrium Data. Master's Thesis (1948)
+H2O,iPOH,0.801,molar,46.20648,55.12352,354.35,http://www.ddbst.com/en/EED/VLE/VLE%202-Propanol%3BWater.php Dunlop J.G.: Vapor-Liquid Equilibrium Data. Master's Thesis (1948)
+H2O,iPOH,0.761,molar,44.99052,56.33948,354.25,http://www.ddbst.com/en/EED/VLE/VLE%202-Propanol%3BWater.php Dunlop J.G.: Vapor-Liquid Equilibrium Data. Master's Thesis (1948)
+H2O,iPOH,0.669,molar,44.07855,57.25145,353.95,http://www.ddbst.com/en/EED/VLE/VLE%202-Propanol%3BWater.php Dunlop J.G.: Vapor-Liquid Equilibrium Data. Master's Thesis (1948)
+H2O,iPOH,0.54,molar,41.13998,60.19002,353.55,http://www.ddbst.com/en/EED/VLE/VLE%202-Propanol%3BWater.php Dunlop J.G.: Vapor-Liquid Equilibrium Data. Master's Thesis (1948)
+H2O,iPOH,0.416,molar,36.88412,64.44588,353.25,http://www.ddbst.com/en/EED/VLE/VLE%202-Propanol%3BWater.php Dunlop J.G.: Vapor-Liquid Equilibrium Data. Master's Thesis (1948)
+H2O,iPOH,0.35,molar,33.84422,67.48578,353.15,http://www.ddbst.com/en/EED/VLE/VLE%202-Propanol%3BWater.php Dunlop J.G.: Vapor-Liquid Equilibrium Data. Master's Thesis (1948)
+H2O,iPOH,0.319,molar,32.32427,69.00573,353.35,http://www.ddbst.com/en/EED/VLE/VLE%202-Propanol%3BWater.php Dunlop J.G.: Vapor-Liquid Equilibrium Data. Master's Thesis (1948)
+H2O,iPOH,0.316,molar,31.91895,69.41105,353.25,http://www.ddbst.com/en/EED/VLE/VLE%202-Propanol%3BWater.php Dunlop J.G.: Vapor-Liquid Equilibrium Data. Master's Thesis (1948)
+H2O,iPOH,0.314,molar,32.22294,69.10706,353.15,http://www.ddbst.com/en/EED/VLE/VLE%202-Propanol%3BWater.php Dunlop J.G.: Vapor-Liquid Equilibrium Data. Master's Thesis (1948)
+H2O,iPOH,0.309,molar,31.61496,69.71504,353.15,http://www.ddbst.com/en/EED/VLE/VLE%202-Propanol%3BWater.php Dunlop J.G.: Vapor-Liquid Equilibrium Data. Master's Thesis (1948)
+H2O,iPOH,0.303,molar,31.10831,70.22169,353.25,http://www.ddbst.com/en/EED/VLE/VLE%202-Propanol%3BWater.php Dunlop J.G.: Vapor-Liquid Equilibrium Data. Master's Thesis (1948)
+H2O,iPOH,0.267,molar,28.98038,72.34962,353.25,http://www.ddbst.com/en/EED/VLE/VLE%202-Propanol%3BWater.php Dunlop J.G.: Vapor-Liquid Equilibrium Data. Master's Thesis (1948)
+H2O,iPOH,0.23,molar,26.3458,74.9842,353.25,http://www.ddbst.com/en/EED/VLE/VLE%202-Propanol%3BWater.php Dunlop J.G.: Vapor-Liquid Equilibrium Data. Master's Thesis (1948)
+H2O,iPOH,0.19,molar,23.3059,78.0241,353.45,http://www.ddbst.com/en/EED/VLE/VLE%202-Propanol%3BWater.php Dunlop J.G.: Vapor-Liquid Equilibrium Data. Master's Thesis (1948)
+H2O,iPOH,0.148,molar,18.94871,82.38129,353.65,http://www.ddbst.com/en/EED/VLE/VLE%202-Propanol%3BWater.php Dunlop J.G.: Vapor-Liquid Equilibrium Data. Master's Thesis (1948)
+H2O,iPOH,0.113,molar,15.1995,86.1305,353.95,http://www.ddbst.com/en/EED/VLE/VLE%202-Propanol%3BWater.php Dunlop J.G.: Vapor-Liquid Equilibrium Data. Master's Thesis (1948)
+H2O,iPOH,0.085,molar,12.1596,89.1704,354.15,http://www.ddbst.com/en/EED/VLE/VLE%202-Propanol%3BWater.php Dunlop J.G.: Vapor-Liquid Equilibrium Data. Master's Thesis (1948)
+H2O,iPOH,0.068,molar,10.03167,91.29833,354.35,http://www.ddbst.com/en/EED/VLE/VLE%202-Propanol%3BWater.php Dunlop J.G.: Vapor-Liquid Equilibrium Data. Master's Thesis (1948)
+H2O,iPOH,0.9796,molar,77.943036,23.386964,363.95,https://doi.org/10.1021/je960108n
+H2O,iPOH,0.7613,molar,45.000653,56.329347,354.26,https://doi.org/10.1021/je960108n
+H2O,iPOH,0.3029,molar,31.098177,70.231823,353.2,https://doi.org/10.1021/je960108n
+H2O,iPOH,0.0681,molar,10.021537,91.308463,354.36,https://doi.org/10.1021/je960108n

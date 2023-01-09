@@ -22,10 +22,10 @@ class Mixtures:
             a21=-0.693,
         ),
         uniquac_params=UNIQUACParameters(
-            alpha_12=-4.4877215,
-            alpha_21=9.5764526,
-            beta_12=169.1472146,
-            beta_21=-362.5609803,
+            alpha_12=-1.5236194657557556,
+            alpha_21=2.4511555703523626,
+            beta_12=-0.009196570921123198,
+            beta_21=0.041136887744315336,
             z=10,
         )
     )
@@ -39,19 +39,13 @@ class Mixtures:
             g21=-633,
             alpha12=0.3,
         ),
-        # uniquac_params=UNIQUACParameters(
-        #     alpha_12=-2.49,
-        #     alpha_21=2.01,
-        #     beta_12=757,
-        #     beta_21=-729,
-        #     z=17,
-        # )
+
         uniquac_params=UNIQUACParameters(
-            alpha_12=133.55812,
-            alpha_21=68.6155,
-            beta_12=-27177.745,
-            beta_21=33259.85,
-            z=10,
+            alpha_12=21.127561704493143,
+            alpha_21=100.10268878024358,
+            beta_12=-0.9175664931087569,
+            beta_21=2.4619377106475753,
+            z=13,
         )
     )
 
@@ -65,11 +59,11 @@ class Mixtures:
             alpha12=0.3,
         ),
         uniquac_params=UNIQUACParameters(
-            alpha_12=158.5,
-            alpha_21=251.9,
-            beta_12=0,
-            beta_21=0,
-            z=11,
+            alpha_12=104.55510898284338,
+            alpha_21=8.60861483037599,
+            beta_12=-6.7637165811854265,
+            beta_21=1.8578246644616325,
+            z=16,
         )
     )
 
@@ -83,11 +77,11 @@ class Mixtures:
             alpha12=0.25,
         ),
         uniquac_params=UNIQUACParameters(
-            alpha_12=-203.973,
-            alpha_21=-139.183,
-            beta_12=0,
-            beta_21=0,
-            z=20,
+            alpha_12=-11.138624089082999,
+            alpha_21=3.9488095210545184,
+            beta_12=1.9362990236330024,
+            beta_21=1.7234361729360623,
+            z=6,
         )
     )
 
@@ -100,6 +94,13 @@ class Mixtures:
             g21=2069.17502,
             alpha12=0.3,
         ),
+        uniquac_params=UNIQUACParameters(
+            alpha_12=-169.03517903712503,
+            alpha_21=-74.56587147924621,
+            beta_12=12327.525553727144,
+            beta_21=-16498.35261855843,
+            z=1064,
+        )
     )
 
     MeOH_Toluene: Mixture = Mixture(
