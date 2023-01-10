@@ -7,7 +7,12 @@ files = ["H2O_EtOH.csv",
          "H2O_iPOH.csv",
          "H2O_AceticAcid.csv",
          "EtOH_ETBE.csv",
-         "MeOH_Toluene.csv"]
+         "MeOH_Toluene.csv",
+         "MeOH_MTBE.csv",
+         "MeOH_DMC.csv",
+         ]
+
+
 
 
 for file in files:
@@ -38,7 +43,7 @@ for file in files:
                                                composition=point.composition,
                                                calculation_type="UNIQUAC")
 
-        print(f"calculated:{calc_pressures} experimental:{point.pressures} error fc {(point.pressures[0]-calc_pressures[0])/point.pressures[0]} error sc {(point.pressures[1]-calc_pressures[1])/point.pressures[1]}")
+        #print(f"calculated:{calc_pressures} experimental:{point.pressures} error fc {(point.pressures[0]-calc_pressures[0])/point.pressures[0]} error sc {(point.pressures[1]-calc_pressures[1])/point.pressures[1]}")
         errors_h2o.append(abs((point.pressures[0]-calc_pressures[0])/point.pressures[0]))
         errors_etoh.append(abs((point.pressures[1]-calc_pressures[1])/point.pressures[1]))
 

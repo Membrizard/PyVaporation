@@ -107,6 +107,11 @@ class Components:
             c=9.216480e-4,
             d=-4.75200e-7,
         ),
+        uniquac_constants=UNIQUACConstants(
+            r=4.0679,
+            q_geometric=3.632,
+            q_interaction=1.25,
+        )
     )
 
     ETBE: Component = Component(
@@ -126,6 +131,7 @@ class Components:
         uniquac_constants=UNIQUACConstants(
             r=4.7422,
             q_geometric=4.172,
+            q_interaction=0.8,
         )
     )
 
@@ -159,6 +165,11 @@ class Components:
             c=4.42614e-3,
             d=-3.66196e-6,
         ),
+        uniquac_constants=UNIQUACConstants(
+            r=3.04812,
+            q_geometric=2.816,
+            q_interaction=0.8,
+        )
     )
 
     CycloHexane: Component = Component(
@@ -210,7 +221,7 @@ class Components:
         uniquac_constants=UNIQUACConstants(
             r=3.9229,
             q_geometric=2.9680,
-            q_interaction=2.968**0.2,
+            q_interaction=0.8,
         )
     )
 

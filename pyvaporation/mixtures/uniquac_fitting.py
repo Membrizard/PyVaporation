@@ -4,7 +4,7 @@ import numpy
 import pandas
 from pathlib import Path
 
-from copy import copy
+
 from ..utils import UNIQUACParameters
 from ..components import Component, Components
 from .mixture import get_partial_pressures, Composition, Mixture
