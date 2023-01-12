@@ -110,6 +110,9 @@ def fit_vle(
 ) -> UNIQUACParameters:
     """
     Get the UNIQUAC parameters to fit the VLE of a given mixture
+    :param data Experimental data represented as a VLEPoints object
+    :param method Optimization method string, if left None the most accurate method is chosen
+    :return fitted UNIQUACParameters object
     """
     if method is None:
         algs = FITTING_ALGS
@@ -135,6 +138,12 @@ def fit_vle(
 
 
 def objective(data: VLEPoints, params: typing.List[float]) -> float:
+    """
+    Objective function for minimization during the UNIQUAC parameters fit
+    :param data: data Experimental data represented as a VLEPoints object
+    :param params: UNIQUAC parameters represented as a list
+    :return: accumulative squared error as float
+    """
     error = 0
     mixture = Mixture(
                       name="",
