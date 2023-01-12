@@ -6,7 +6,6 @@ from pyvaporation.mixtures import (
     Mixtures,
     get_partial_pressures,
     VLEPoints,
-    fit_vle,
 )
 
 
@@ -64,13 +63,18 @@ def test_nrtl_constants_h2o_meoh():
 
 def test_uniquac_constants_h2o_meoh():
     """
-    UNIQUAC parameters for mixture were fitted from experimental data provided in:
+    UNIQUAC parameters for the mixture were fitted from experimental data provided in:
     https://doi.org/10.1021/je00019a033
     """
 
     test_mixture = Mixtures.H2O_MeOH
 
-    validation_points = VLEPoints.from_csv(path=f"..VLE_data/binary/H2O_MeOH.csv")
+    validation_points = VLEPoints.from_csv(path="tests/VLE_data/binary/H2O_MeOH.csv")
+
+    error_1 = 0
+    error_2 = 0
+    validation_average_1 = 0
+    validation_average_2 = 0
 
     for point in validation_points:
         calc_pressures = get_partial_pressures(temperature=point.temperature,
@@ -78,33 +82,14 @@ def test_uniquac_constants_h2o_meoh():
                                                composition=point.composition,
                                                calculation_type="UNIQUAC")
 
-        errors_h2o.append(abs((point.pressures[0] - calc_pressures[0]) / point.pressures[0]))
-        errors_etoh.append(abs((point.pressures[1] - calc_pressures[1]) / point.pressures[1]))
+        validation_average_1 += point.pressures[0]
+        validation_average_2 += point.pressures[1]
 
-        fc_calc.append(calc_pressures[0])
-        sc_calc.append(calc_pressures[1])
+        error_1 += (calc_pressures[0] - point.pressures[0]) ** 2
+        error_2 += (calc_pressures[1] - point.pressures[1]) ** 2
 
-    rmsd_1 = 0
-    rmsd_2 = 0
-
-    for i in range(4):
-        rmsd_1 = (
-            tested_partial_pressures[i][0] - validation_pressures[i][0]
-        ) ** 2 / validation_pressures[i][0] ** 2 + rmsd_1
-
-        rmsd_2 = (
-            tested_partial_pressures[i][1] - validation_pressures[i][1]
-        ) ** 2 / validation_pressures[i][1] ** 2 + rmsd_2
-        assert (
-            abs(tested_partial_pressures[i][0] - validation_pressures[i][0])
-            < validation_pressures[i][0] * 0.052
-        )
-        assert (
-            abs(tested_partial_pressures[i][1] - validation_pressures[i][1])
-            < validation_pressures[i][1] * 0.04
-        )
-    assert numpy.sqrt(rmsd_1 / 4) < 0.03
-    assert numpy.sqrt(rmsd_2 / 4) < 0.03
+    assert numpy.sqrt(error_1 * len(validation_points)) / validation_average_1 < 0.02
+    assert numpy.sqrt(error_2 * len(validation_points)) / validation_average_2 < 0.02
 
 
 def test_nrtl_constants_h2o_etoh():
@@ -162,57 +147,33 @@ def test_nrtl_constants_h2o_etoh():
 
 def test_uniquac_constants_h2o_etoh():
     """
-    Experimental data for validation is taken from https://doi.org/10.1021/je00019a033
-    UNIQUAC Constants are taken from
-    Guevara, M. A., Guevara, F. A., & Belalcázar, L. C. (2018). Experimental data and new binary
-    interaction parameters for ethanol-water VLE at low pressures using NRTL and UNIQUAC.
-    TECCIENCIA, 13(24), 17–26. Retrieved from https://revistas.ecci.edu.co/index.php/TECCIENCIA/article/view/426
+    UNIQUAC parameters for the mixture were fitted from experimental data provided in:
+    https://doi.org/10.1021/je00019a033
     """
+
     test_mixture = Mixtures.H2O_EtOH
-    validation_compositions = [
-        Composition(p=0.82440, type=CompositionType.molar),
-        Composition(p=0.62270, type=CompositionType.molar),
-        Composition(p=0.40308, type=CompositionType.molar),
-        Composition(p=0.09690, type=CompositionType.molar),
-    ]
 
-    validation_pressures = [
-        (10.9512364, 12.7117636),
-        (9.9939294, 16.4870706),
-        (8.5117929, 19.5892071),
-        (2.7611485, 26.7698515),
-    ]
-    tested_partial_pressures = [
-        get_partial_pressures(
-            temperature=323.15,
-            mixture=test_mixture,
-            composition=validation_compositions[i],
-            calculation_type="UNIQUAC"
-        )
-        for i in range(4)
-    ]
+    validation_points = VLEPoints.from_csv(path="tests/VLE_data/binary/H2O_EtOH.csv")
 
-    rmsd_1 = 0
-    rmsd_2 = 0
+    error_1 = 0
+    error_2 = 0
+    validation_average_1 = 0
+    validation_average_2 = 0
 
-    for i in range(4):
-        rmsd_1 = (
-            tested_partial_pressures[i][0] - validation_pressures[i][0]
-        ) ** 2 / validation_pressures[i][0] ** 2 + rmsd_1
+    for point in validation_points:
+        calc_pressures = get_partial_pressures(temperature=point.temperature,
+                                               mixture=test_mixture,
+                                               composition=point.composition,
+                                               calculation_type="UNIQUAC")
 
-        rmsd_2 = (
-            tested_partial_pressures[i][1] - validation_pressures[i][1]
-        ) ** 2 / validation_pressures[i][1] ** 2 + rmsd_2
-        assert (
-            abs(tested_partial_pressures[i][0] - validation_pressures[i][0])
-            < validation_pressures[i][0] * 0.057
-        )
-        assert (
-            abs(tested_partial_pressures[i][1] - validation_pressures[i][1])
-            < validation_pressures[i][1] * 0.039
-        )
-    assert numpy.sqrt(rmsd_1 / 4) < 0.04
-    assert numpy.sqrt(rmsd_2 / 4) < 0.04
+        validation_average_1 += point.pressures[0]
+        validation_average_2 += point.pressures[1]
+
+        error_1 += (calc_pressures[0] - point.pressures[0]) ** 2
+        error_2 += (calc_pressures[1] - point.pressures[1]) ** 2
+
+    assert numpy.sqrt(error_1 * len(validation_points)) / validation_average_1 < 0.02
+    assert numpy.sqrt(error_2 * len(validation_points)) / validation_average_2 < 0.02
 
 
 def test_nrtl_constants_h2o_ipoh():
@@ -272,61 +233,38 @@ def test_nrtl_constants_h2o_ipoh():
 
 def test_uniquac_constants_h2o_ipoh():
     """
-    Experimental data for validation is taken from http://www.ddbst.com/en/EED/VLE/VLE%202-Propanol%3BWater.php
-    Brunjes A.S.; Bogart M.J.P.: The Binary Systems Ethanol-n-Butanol, Acetone-Water
-    and Isopropanol-Water. Ind.Eng.Chem. 35 (1943) 255-260
-    UNIQUAC Constants are taken from http://dx.doi.org/10.1016/j.fluid.2014.02.006
-    TODO: Validate parameters
+    UNIQUAC parameters for the mixture were fitted from experimental data provided in:
+
+       http://www.ddbst.com/en/EED/VLE/VLE%202-Propanol%3BWater.php Dunlop J.G.:
+       Vapor-Liquid Equilibrium Data. Master's Thesis (1948)
+
+       https://doi.org/10.1021/je960108n
+
     """
+
     test_mixture = Mixtures.H2O_iPOH
-    validation_compositions = [
-        Composition(p=0.9796, type=CompositionType.molar),
-        Composition(p=0.7613, type=CompositionType.molar),
-        Composition(p=0.3029, type=CompositionType.molar),
-        Composition(p=0.06810, type=CompositionType.molar),
-    ]
 
-    validation_temperature_list = [363.95, 354.26, 353.2, 354.36]
+    validation_points = VLEPoints.from_csv(path="tests/VLE_data/binary/H2O_iPOH.csv")
 
-    validation_pressures = [
-        (77.943036, 23.386964),
-        (45.000653, 56.329347),
-        (31.098177, 70.231823),
-        (10.021537, 91.308463),
-    ]
-    tested_partial_pressures = [
-        get_partial_pressures(
-            temperature=validation_temperature_list[i],
-            mixture=test_mixture,
-            composition=validation_compositions[i],
-            calculation_type="UNIQUAC"
-        )
-        for i in range(4)
-    ]
+    error_1 = 0
+    error_2 = 0
+    validation_average_1 = 0
+    validation_average_2 = 0
 
-    print(tested_partial_pressures)
+    for point in validation_points:
+        calc_pressures = get_partial_pressures(temperature=point.temperature,
+                                               mixture=test_mixture,
+                                               composition=point.composition,
+                                               calculation_type="UNIQUAC")
 
-    rmsd_1 = 0
-    rmsd_2 = 0
+        validation_average_1 += point.pressures[0]
+        validation_average_2 += point.pressures[1]
 
-    for i in range(4):
-        rmsd_1 = (
-            tested_partial_pressures[i][0] - validation_pressures[i][0]
-        ) ** 2 / validation_pressures[i][0] ** 2 + rmsd_1
+        error_1 += (calc_pressures[0] - point.pressures[0]) ** 2
+        error_2 += (calc_pressures[1] - point.pressures[1]) ** 2
 
-        rmsd_2 = (
-            tested_partial_pressures[i][1] - validation_pressures[i][1]
-        ) ** 2 / validation_pressures[i][1] ** 2 + rmsd_2
-        assert (
-            abs(tested_partial_pressures[i][0] - validation_pressures[i][0])
-            < validation_pressures[i][0] * 0.1
-        )
-        assert (
-            abs(tested_partial_pressures[i][1] - validation_pressures[i][1])
-            < validation_pressures[i][1] * 0.14
-        )
-    assert numpy.sqrt(rmsd_1 / 4) < 0.05
-    assert numpy.sqrt(rmsd_2 / 4) < 0.05
+    assert numpy.sqrt(error_1 * len(validation_points)) / validation_average_1 < 0.05
+    assert numpy.sqrt(error_2 * len(validation_points)) / validation_average_2 < 0.05
 
 
 def test_nrtl_constants_h2o_acetic_acid():
@@ -387,60 +325,35 @@ def test_nrtl_constants_h2o_acetic_acid():
 
 def test_uniquac_constants_h2o_acetic_acid():
     """
-    Experimental data for validation is taken from
-    http://dx.doi.org/10.1016/j.fluid.2011.03.006
-    UNIQUAC constants are taken from
-    http://dx.doi.org/10.1016/j.fluid.2011.03.006
+    UNIQUAC parameters for the mixture were fitted from experimental data provided in:
+
+       http://dx.doi.org/10.1016/j.fluid.2011.03.006
+
     """
+
     test_mixture = Mixtures.H2O_AceticAcid
-    validation_compositions = [
-        Composition(p=0.808, type=CompositionType.molar),
-        Composition(p=0.6294, type=CompositionType.molar),
-        Composition(p=0.4782, type=CompositionType.molar),
-        Composition(p=0.1426, type=CompositionType.molar),
-    ]
 
-    validation_pressures = [
-        (88.126701, 13.203299),
-        (76.585214, 24.744786),
-        (62.743536, 38.586464),
-        (22.373664, 78.956336),
-    ]
+    validation_points = VLEPoints.from_csv(path="tests/VLE_data/binary/H2O_AceticAcid.csv")
 
-    validation_temperatures = [374.98, 376.6, 379.42, 385.85]
+    error_1 = 0
+    error_2 = 0
+    validation_average_1 = 0
+    validation_average_2 = 0
 
-    tested_partial_pressures = [
-        get_partial_pressures(
-            temperature=validation_temperatures[i],
-            mixture=test_mixture,
-            composition=validation_compositions[i],
-            calculation_type="UNIQUAC"
-        )
-        for i in range(4)
-    ]
+    for point in validation_points:
+        calc_pressures = get_partial_pressures(temperature=point.temperature,
+                                               mixture=test_mixture,
+                                               composition=point.composition,
+                                               calculation_type="UNIQUAC")
 
-    print(tested_partial_pressures)
+        validation_average_1 += point.pressures[0]
+        validation_average_2 += point.pressures[1]
 
-    rmsd_1 = 0
-    rmsd_2 = 0
+        error_1 += (calc_pressures[0] - point.pressures[0]) ** 2
+        error_2 += (calc_pressures[1] - point.pressures[1]) ** 2
 
-    for i in range(4):
-        rmsd_1 = (
-            tested_partial_pressures[i][0] - validation_pressures[i][0]
-        ) ** 2 / validation_pressures[i][0] ** 2 + rmsd_1
-        rmsd_2 = (
-            tested_partial_pressures[i][1] - validation_pressures[i][1]
-        ) ** 2 / validation_pressures[i][1] ** 2 + rmsd_2
-        assert (
-            abs(tested_partial_pressures[i][0] - validation_pressures[i][0])
-            < validation_pressures[i][0] * 0.055
-        )
-        assert (
-            abs(tested_partial_pressures[i][1] - validation_pressures[i][1])
-            < validation_pressures[i][1] * 0.062
-        )
-    assert numpy.sqrt(rmsd_1 / 4) < 0.04
-    assert numpy.sqrt(rmsd_2 / 4) < 0.04
+    assert numpy.sqrt(error_1 * len(validation_points)) / validation_average_1 < 0.03
+    assert numpy.sqrt(error_2 * len(validation_points)) / validation_average_2 < 0.08
 
 
 def test_nrtl_constants_etoh_etbe():
@@ -499,61 +412,35 @@ def test_nrtl_constants_etoh_etbe():
 
 def test_uniquac_constants_etoh_etbe():
     """
-    Experimental data for validation is taken from
-    Isothermal vapor-liquid equilibria for binary and ternary systems containing ethyl tert-butyl ether,
-    ethanol, benzene, and toluene at 313.15 K
-    Oh, JH; Park, SJ
-    Journal of Industrial and Engineering Chemistry, 2005
-    UNIQUAC Parameters are taken from https://doi.org/10.1021/je980229i
+    UNIQUAC parameters for the mixture were fitted from experimental data provided in:
+
+       https://doi.org/10.1021/je010223k
+
     """
 
     test_mixture = Mixtures.EtOH_ETBE
-    validation_compositions = [
-        Composition(p=0.9007, type=CompositionType.molar),
-        Composition(p=0.5026, type=CompositionType.molar),
-        Composition(p=0.1994, type=CompositionType.molar),
-        Composition(p=0.0204, type=CompositionType.molar),
-    ]
 
-    validation_pressures = [
-        (16.29117, 7.64883),
-        (11.612918, 21.397082),
-        (7.273212, 27.066788),
-        (1.128097, 31.381903),
-    ]
-    tested_partial_pressures = [
-        get_partial_pressures(
-            temperature=313.15,
-            mixture=test_mixture,
-            composition=validation_compositions[i],
-            calculation_type="UNIQUAC"
-        )
-        for i in range(4)
-    ]
+    validation_points = VLEPoints.from_csv(path="tests/VLE_data/binary/EtOH_ETBE.csv")
 
-    print(tested_partial_pressures)
+    error_1 = 0
+    error_2 = 0
+    validation_average_1 = 0
+    validation_average_2 = 0
 
-    rmsd_1 = 0
-    rmsd_2 = 0
+    for point in validation_points:
+        calc_pressures = get_partial_pressures(temperature=point.temperature,
+                                               mixture=test_mixture,
+                                               composition=point.composition,
+                                               calculation_type="UNIQUAC")
 
-    for i in range(4):
-        rmsd_1 = (
-            tested_partial_pressures[i][0] - validation_pressures[i][0]
-        ) ** 2 / validation_pressures[i][0] ** 2 + rmsd_1
+        validation_average_1 += point.pressures[0]
+        validation_average_2 += point.pressures[1]
 
-        rmsd_2 = (
-            tested_partial_pressures[i][1] - validation_pressures[i][1]
-        ) ** 2 / validation_pressures[i][1] ** 2 + rmsd_2
-        assert (
-            abs(tested_partial_pressures[i][0] - validation_pressures[i][0])
-            < validation_pressures[i][0] * 0.05
-        )
-        assert (
-            abs(tested_partial_pressures[i][1] - validation_pressures[i][1])
-            < validation_pressures[i][1] * 0.1
-        )
-    assert numpy.sqrt(rmsd_1 / 4) < 0.03
-    assert numpy.sqrt(rmsd_2 / 4) < 0.03
+        error_1 += (calc_pressures[0] - point.pressures[0]) ** 2
+        error_2 += (calc_pressures[1] - point.pressures[1]) ** 2
+
+    assert numpy.sqrt(error_1 * len(validation_points)) / validation_average_1 < 0.07
+    assert numpy.sqrt(error_2 * len(validation_points)) / validation_average_2 < 0.08
 
 
 def test_nrtl_constants_meoh_toluene():
@@ -608,60 +495,39 @@ def test_nrtl_constants_meoh_toluene():
     assert numpy.sqrt(rmsd_2 / 4) < 0.03
 
 
-# def test_uniquac_constants_meoh_toluene():
-#     """
-#     Experimental data for validation is taken from https://doi.org/10.1016/0021-9614(88)90185-1
-#     NRTL constants are taken from https://doi.org/10.1016/j.fluid.2019.112412
-#     """
-#
-#     test_mixture = Mixtures.MeOH_Toluene
-#     validation_compositions = [
-#         Composition(p=0.1830, type=CompositionType.molar),
-#         Composition(p=0.4980, type=CompositionType.molar),
-#         Composition(p=0.7640, type=CompositionType.molar),
-#         Composition(p=0.960, type=CompositionType.molar),
-#     ]
-#
-#     validation_pressures = [
-#         (31.176927, 9.260073),
-#         (35.795292, 8.560708),
-#         (38.214708, 7.661292),
-#         (42.545305, 2.957695),
-#     ]
-#
-#     tested_partial_pressures = [
-#         get_partial_pressures(
-#             temperature=318,
-#             mixture=test_mixture,
-#             composition=validation_compositions[i],
-#             calculation_type="UNIQUAC"
-#         )
-#         for i in range(4)
-#     ]
-#
-#     print(tested_partial_pressures)
-#
-#     rmsd_1 = 0
-#     rmsd_2 = 0
-#
-#     for i in range(4):
-#         rmsd_1 = (
-#             tested_partial_pressures[i][0] - validation_pressures[i][0]
-#         ) ** 2 / validation_pressures[i][0] ** 2 + rmsd_1
-#
-#         rmsd_2 = (
-#             tested_partial_pressures[i][1] - validation_pressures[i][1]
-#         ) ** 2 / validation_pressures[i][1] ** 2 + rmsd_2
-#         assert (
-#             abs(tested_partial_pressures[i][0] - validation_pressures[i][0])
-#             < validation_pressures[i][0] * 0.05
-#         )
-#         assert (
-#             abs(tested_partial_pressures[i][1] - validation_pressures[i][1])
-#             < validation_pressures[i][1] * 0.05
-#         )
-#     assert numpy.sqrt(rmsd_1 / 4) < 0.03
-#     assert numpy.sqrt(rmsd_2 / 4) < 0.03
+def test_uniquac_constants_meoh_toluene():
+    """
+    UNIQUAC parameters for the mixture were fitted from experimental data provided in:
+
+       https://doi.org/10.1016/0021-9614(88)90185-1
+
+       https://doi.org/10.1016/j.fluid.2019.112412
+
+    """
+
+    test_mixture = Mixtures.MeOH_Toluene
+
+    validation_points = VLEPoints.from_csv(path="tests/VLE_data/binary/MeOH_Toluene.csv")
+
+    error_1 = 0
+    error_2 = 0
+    validation_average_1 = 0
+    validation_average_2 = 0
+
+    for point in validation_points:
+        calc_pressures = get_partial_pressures(temperature=point.temperature,
+                                               mixture=test_mixture,
+                                               composition=point.composition,
+                                               calculation_type="UNIQUAC")
+
+        validation_average_1 += point.pressures[0]
+        validation_average_2 += point.pressures[1]
+
+        error_1 += (calc_pressures[0] - point.pressures[0]) ** 2
+        error_2 += (calc_pressures[1] - point.pressures[1]) ** 2
+
+    assert numpy.sqrt(error_1 * len(validation_points)) / validation_average_1 < 0.06
+    assert numpy.sqrt(error_2 * len(validation_points)) / validation_average_2 < 0.06
 
 
 def test_nrtl_constants_meoh_mtbe():
@@ -717,6 +583,39 @@ def test_nrtl_constants_meoh_mtbe():
     assert numpy.sqrt(rmsd_2 / 4) < 0.03
 
 
+def test_uniquac_constants_meoh_mtbe():
+    """
+    UNIQUAC parameters for the mixture were fitted from experimental data provided in:
+
+       https://doi.org/10.1007/BF02697297
+
+    """
+
+    test_mixture = Mixtures.MeOH_MTBE
+
+    validation_points = VLEPoints.from_csv(path="tests/VLE_data/binary/MeOH_MTBE.csv")
+
+    error_1 = 0
+    error_2 = 0
+    validation_average_1 = 0
+    validation_average_2 = 0
+
+    for point in validation_points:
+        calc_pressures = get_partial_pressures(temperature=point.temperature,
+                                               mixture=test_mixture,
+                                               composition=point.composition,
+                                               calculation_type="UNIQUAC")
+
+        validation_average_1 += point.pressures[0]
+        validation_average_2 += point.pressures[1]
+
+        error_1 += (calc_pressures[0] - point.pressures[0]) ** 2
+        error_2 += (calc_pressures[1] - point.pressures[1]) ** 2
+
+    assert numpy.sqrt(error_1 * len(validation_points)) / validation_average_1 < 0.03
+    assert numpy.sqrt(error_2 * len(validation_points)) / validation_average_2 < 0.03
+
+
 def test_nrtl_constants_meoh_dmc():
     """
     Experimental data for validation and NRTL Parameters are taken from https://doi.org/10.1016/j.fluid.2011.08.007
@@ -768,3 +667,36 @@ def test_nrtl_constants_meoh_dmc():
         )
     assert numpy.sqrt(rmsd_1 / 4) < 0.04
     assert numpy.sqrt(rmsd_2 / 4) < 0.04
+
+
+def test_uniquac_constants_meoh_dmc():
+    """
+    UNIQUAC parameters for the mixture were fitted from experimental data provided in:
+
+       https://doi.org/10.1021/je2005402
+
+    """
+
+    test_mixture = Mixtures.MeOH_DMC
+
+    validation_points = VLEPoints.from_csv(path="tests/VLE_data/binary/MeOH_DMC.csv")
+
+    error_1 = 0
+    error_2 = 0
+    validation_average_1 = 0
+    validation_average_2 = 0
+
+    for point in validation_points:
+        calc_pressures = get_partial_pressures(temperature=point.temperature,
+                                               mixture=test_mixture,
+                                               composition=point.composition,
+                                               calculation_type="UNIQUAC")
+
+        validation_average_1 += point.pressures[0]
+        validation_average_2 += point.pressures[1]
+
+        error_1 += (calc_pressures[0] - point.pressures[0]) ** 2
+        error_2 += (calc_pressures[1] - point.pressures[1]) ** 2
+
+    assert numpy.sqrt(error_1 * len(validation_points)) / validation_average_1 < 0.02
+    assert numpy.sqrt(error_2 * len(validation_points)) / validation_average_2 < 0.03
