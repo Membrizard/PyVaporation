@@ -241,6 +241,7 @@ def test_uniquac_constants_h2o_ipoh():
        https://doi.org/10.1021/je960108n
 
     """
+    # TODO: fix test in pipeline
 
     test_mixture = Mixtures.H2O_iPOH
 

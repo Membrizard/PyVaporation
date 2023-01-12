@@ -2,6 +2,7 @@ from pyvaporation.mixtures.uniquac_fitting import fit_vle, VLEPoints
 
 
 def test_fit_uniquac_vle():
+    # TODO: fix test in pipeline
     points = VLEPoints.from_csv(path=f"tests/VLE_data/binary/H2O_EtOH.csv")
 
     params = fit_vle(data=points, method=None)
