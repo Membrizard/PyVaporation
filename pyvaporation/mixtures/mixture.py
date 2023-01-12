@@ -114,6 +114,9 @@ def get_partial_pressures(
     composition: specified composition in mol or weight %
     :return: Partial pressures as a tuple, test_components wise in kPa
     """
+    if composition.type == CompositionType.weight:
+        composition = composition.to_molar(mixture=mixture)
+
     activity_coefficients = calculate_activity_coefficients(temperature=temperature,
                                                             mixture=mixture,
                                                             composition=composition,
@@ -146,6 +149,7 @@ def calculate_activity_coefficients(
         composition = composition.to_molar(mixture=mixture)
 
     if calculation_type == ActivityCoefficientModel.NRTL:
+
         if mixture.nrtl_params is None:
             raise ValueError("NRTL Parameters must be specified for this type of calculation")
 

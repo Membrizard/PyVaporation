@@ -5,6 +5,8 @@ from pyvaporation.mixtures import (
     CompositionType,
     Mixtures,
     get_partial_pressures,
+    VLEPoints,
+    fit_vle,
 )
 
 
@@ -62,33 +64,25 @@ def test_nrtl_constants_h2o_meoh():
 
 def test_uniquac_constants_h2o_meoh():
     """
-    Experimental data for validation is taken from https://doi.org/10.1021/je00019a033
-    UNIQUAC Constants are calculated from http://dx.doi.org/10.13140/2.1.4078.2727
+    UNIQUAC parameters for mixture were fitted from experimental data provided in:
+    https://doi.org/10.1021/je00019a033
     """
 
     test_mixture = Mixtures.H2O_MeOH
-    validation_compositions = [
-        Composition(p=0.7530, type=CompositionType.molar),
-        Composition(p=0.5972, type=CompositionType.molar),
-        Composition(p=0.3855, type=CompositionType.molar),
-        Composition(p=0.2270, type=CompositionType.molar),
-    ]
 
-    validation_pressures = [
-        (9.580151, 19.538849),
-        (7.8695188, 27.4514812),
-        (6.0172119, 36.0317881),
-        (3.976056, 43.357944),
-    ]
-    tested_partial_pressures = [
-        get_partial_pressures(
-            temperature=323.15,
-            mixture=test_mixture,
-            composition=validation_compositions[i],
-            calculation_type="UNIQUAC"
-        )
-        for i in range(4)
-    ]
+    validation_points = VLEPoints.from_csv(path=f"..VLE_data/binary/H2O_MeOH.csv")
+
+    for point in validation_points:
+        calc_pressures = get_partial_pressures(temperature=point.temperature,
+                                               mixture=test_mixture,
+                                               composition=point.composition,
+                                               calculation_type="UNIQUAC")
+
+        errors_h2o.append(abs((point.pressures[0] - calc_pressures[0]) / point.pressures[0]))
+        errors_etoh.append(abs((point.pressures[1] - calc_pressures[1]) / point.pressures[1]))
+
+        fc_calc.append(calc_pressures[0])
+        sc_calc.append(calc_pressures[1])
 
     rmsd_1 = 0
     rmsd_2 = 0
