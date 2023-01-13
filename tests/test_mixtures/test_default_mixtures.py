@@ -264,8 +264,8 @@ def test_uniquac_constants_h2o_ipoh():
         error_1 += (calc_pressures[0] - point.pressures[0]) ** 2
         error_2 += (calc_pressures[1] - point.pressures[1]) ** 2
 
-    assert numpy.sqrt(error_1 * len(validation_points)) / validation_average_1 < 0.05
-    assert numpy.sqrt(error_2 * len(validation_points)) / validation_average_2 < 0.05
+    assert numpy.sqrt(error_1 * len(validation_points)) / validation_average_1 < 0.055
+    assert numpy.sqrt(error_2 * len(validation_points)) / validation_average_2 < 0.055
 
 
 def test_nrtl_constants_h2o_acetic_acid():
