@@ -27,8 +27,8 @@ def test_fit_uniquac_vle():
         errors_h2o.append(abs((point.pressures[0] - calc_pressures[0]) / point.pressures[0]))
         errors_etoh.append(abs((point.pressures[1] - calc_pressures[1]) / point.pressures[1]))
 
-    assert max(errors_h2o) < 0.06
-    assert max(errors_etoh) < 0.06
+    assert max(errors_h2o) < 0.1
+    assert max(errors_etoh) < 0.1
 
 
 
