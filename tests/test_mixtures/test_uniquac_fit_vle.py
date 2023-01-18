@@ -5,7 +5,7 @@ def test_fit_uniquac_vle():
     # TODO: fix test in pipeline
     points = VLEPoints.from_csv(path=f"tests/VLE_data/binary/H2O_EtOH.csv")
 
-    params = fit_vle(data=points, method=None)
+    params = fit_vle(data=points, method="COBYLA")
 
     assert abs(params.alpha_12 - 21.127561704493143) < 2e-2
     assert abs(params.alpha_21 - 100.10268878024358) < 2e-2
