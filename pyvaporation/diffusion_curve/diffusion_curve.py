@@ -303,7 +303,8 @@ class DiffusionCurve:
         return list(numpy.multiply(total_flux, numpy.subtract(separation_factor, 1)))
 
     @property
-    def get_permeances(self) -> typing.List[typing.Tuple[Permeance, Permeance]]:
+    def get_permeances(self, calculation_type: typing.Optional[str] = "NRTL")\
+            -> typing.List[typing.Tuple[Permeance, Permeance]]:
         """
         Calculates permenace of both components based on the partial flux values, mixture, feed  and permeate parameters
         :return: Permeances of each component at each feed concentration as [(P1,P2),...]
@@ -313,7 +314,7 @@ class DiffusionCurve:
         else:
             permeate_compositions = self.permeate_composition
             feed_partial_pressures = [
-                get_partial_pressures(self.feed_temperature, self.mixture, composition)
+                get_partial_pressures(self.feed_temperature, self.mixture, composition, calculation_type)
                 for composition in self.feed_compositions
             ]
             if self.permeate_temperature is None:
@@ -333,7 +334,7 @@ class DiffusionCurve:
             else:
                 permeate_partial_pressures = [
                     get_partial_pressures(
-                        self.permeate_temperature, self.mixture, composition
+                        self.permeate_temperature, self.mixture, composition, calculation_type
                     )
                     for composition in permeate_compositions
                 ]

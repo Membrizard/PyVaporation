@@ -38,6 +38,7 @@ class Pervaporation:
         feed_temperature: float,
         permeate_temperature: typing.Optional[float] = None,
         permeate_pressure: typing.Optional[float] = None,
+        calculation_type: typing.Optional[str] = "NRTL",
     ) -> typing.Tuple[float, float]:
         """
         Calculates partial fluxes at a given Permeate composition, accounting for the driving force change
@@ -49,17 +50,18 @@ class Pervaporation:
         :param feed_temperature - temperature, K
         :param permeate_temperature - permeate temperature, K , if not specified permeate pressure is considered 0 kPa
         :param permeate_pressure - permeate pressure, kPa , if not specified permeate pressure is considered 0 kPa
+        :param calculation_type: Thermodynamic model used for calculation of activity coefficients
         """
 
         feed_nrtl_partial_pressures = get_partial_pressures(
-            feed_temperature, self.mixture, feed_composition
+            feed_temperature, self.mixture, feed_composition, calculation_type,
         )
         if permeate_temperature is None and permeate_pressure is None:
             permeate_nrtl_partial_pressures = (0, 0)
 
         elif permeate_temperature is not None and permeate_pressure is None:
             permeate_nrtl_partial_pressures = get_partial_pressures(
-                permeate_temperature, self.mixture, permeate_composition
+                permeate_temperature, self.mixture, permeate_composition, calculation_type,
             )
         elif permeate_pressure is not None and permeate_temperature is None:
             permeate_nrtl_partial_pressures = (
@@ -88,6 +90,7 @@ class Pervaporation:
         permeate_pressure: typing.Optional[float] = None,
         first_component_permeance: typing.Optional[Permeance] = None,
         second_component_permeance: typing.Optional[Permeance] = None,
+        calculation_type: typing.Optional[str] = "NRTL",
     ) -> typing.Tuple[float, float]:
         """
         Calculates partial fluxes of the test_components at specified conditions.
@@ -99,6 +102,7 @@ class Pervaporation:
         :param permeate_pressure - permeate pressure, kPa , if not specified permeate pressure is considered 0 kPa
         :param first_component_permeance: Permeance of the first test_components, if not specified is calculated
         :param second_component_permeance: Permeance of the second test_components, if not specified is calculated
+        :param calculation_type: Thermodynamic model used for calculation of activity coefficients
         :return: Partial fluxes of test_components as a tuple
         """
         if second_component_permeance is None or first_component_permeance is None:
@@ -115,7 +119,7 @@ class Pervaporation:
 
         initial_fluxes: typing.Tuple[float, float] = numpy.multiply(
             (first_component_permeance.value, second_component_permeance.value),
-            get_partial_pressures(feed_temperature, self.mixture, composition),
+            get_partial_pressures(feed_temperature, self.mixture, composition, calculation_type),
         )
         permeate_composition = get_permeate_composition_from_fluxes(initial_fluxes)
 
@@ -131,6 +135,7 @@ class Pervaporation:
                         feed_temperature=feed_temperature,
                         permeate_temperature=permeate_temperature,
                         permeate_pressure=permeate_pressure,
+                        calculation_type=calculation_type,
                     )
                 )
                 d = max(
@@ -152,6 +157,7 @@ class Pervaporation:
             feed_temperature=feed_temperature,
             permeate_temperature=permeate_temperature,
             permeate_pressure=permeate_pressure,
+            calculation_type=calculation_type,
         )
 
     def calculate_permeate_composition(
@@ -161,6 +167,7 @@ class Pervaporation:
         precision: typing.Optional[float] = 5e-5,
         permeate_temperature: typing.Optional[float] = None,
         permeate_pressure: typing.Optional[float] = None,
+        calculation_type: typing.Optional[str] = "NRTL",
     ) -> Composition:
         """
         Calculates permeate composition at given conditions
@@ -170,6 +177,7 @@ class Pervaporation:
         :param precision: Precision in obtained permeate composition, by default is 5e-5
         :param permeate_temperature: Permeate temperature, if not specified permeate pressure is set to 0 kPa
         :param permeate_pressure - permeate pressure, kPa , if not specified permeate pressure is considered 0 kPa
+        :param calculation_type: Thermodynamic model used for calculation of activity coefficients
         :return: Permeate composition in weight %
         """
 
@@ -179,6 +187,7 @@ class Pervaporation:
             precision,
             permeate_temperature,
             permeate_pressure,
+            calculation_type
         )
         return Composition(x[0] / numpy.sum(x), type=CompositionType.weight)
 
@@ -189,6 +198,7 @@ class Pervaporation:
         permeate_temperature: typing.Optional[float] = None,
         permeate_pressure: typing.Optional[float] = None,
         precision: typing.Optional[float] = 5e-5,
+        calculation_type: typing.Optional[str] = "NRTL",
     ) -> float:
         """
         Calculates separation factor at given conditions
@@ -199,6 +209,7 @@ class Pervaporation:
             precision,
             permeate_temperature,
             permeate_pressure,
+            calculation_type,
         )
         return (composition.second / composition.first) / (
             perm_comp.second / perm_comp.first
@@ -211,6 +222,7 @@ class Pervaporation:
         permeate_temperature: typing.Optional[float] = None,
         permeate_pressure: typing.Optional[float] = None,
         precision: typing.Optional[float] = 5e-5,
+        calculation_type: typing.Optional[str] = "NRTL",
     ) -> DiffusionCurve:
         """
         Models Ideal Diffusion curve of a specified membrane, at a given temperature, for a given Mixture
@@ -221,6 +233,7 @@ class Pervaporation:
         :param permeate_temperature: Permeate temperature, if not specified permeate pressure is set to 0 kPa
         :param permeate_pressure - Permeate pressure, kPa , if not specified permeate pressure is considered 0 kPa
         :param precision: Precision in obtained permeate composition, by default is 5e-5
+        :param calculation_type: Thermodynamic model used for calculation of activity coefficients
         :return: A DiffusionCurve Object
         """
         return DiffusionCurve(
@@ -237,6 +250,7 @@ class Pervaporation:
                     precision,
                     permeate_temperature,
                     permeate_pressure,
+                    calculation_type,
                 )
                 for composition in compositions
             ],
@@ -257,6 +271,7 @@ class Pervaporation:
         delta_hours: float,
         conditions: Conditions,
         precision: typing.Optional[float] = 5e-5,
+        calculation_type: typing.Optional[str] = "NRTL",
     ) -> ProcessModel:
         """
         Models mass and heat balance of an Ideal (constant Permeance) Isothermal Pervaporation Process
@@ -264,6 +279,7 @@ class Pervaporation:
         :param delta_hours: The duration of each step in hours
         :param conditions: Conditions object, where initial conditions are specified
         :param precision: Precision in obtained permeate composition, by default is 5e-5
+        :param calculation_type: Thermodynamic model used for calculation of activity coefficients
         :return: A ProcessModel Object
         """
 
@@ -347,6 +363,7 @@ class Pervaporation:
                     permeate_pressure=conditions.permeate_pressure,
                     first_component_permeance=first_component_permeance,
                     second_component_permeance=second_component_permeance,
+                    calculation_type=calculation_type,
                 )
             )
 
@@ -417,6 +434,7 @@ class Pervaporation:
         number_of_steps: int,
         delta_hours: float,
         precision: typing.Optional[float] = 5e-5,
+        calculation_type: typing.Optional[str] = "NRTL",
     ) -> ProcessModel:
         """
         Models mass and heat balance of an Ideal (constant Permeance) Non-Isothermal Pervaporation Process.
@@ -426,6 +444,7 @@ class Pervaporation:
         :param delta_hours: The duration of each step in hours
         :param conditions: Conditions object, where initial conditions are specified
         :param precision: Precision in obtained permeate composition, by default is 5e-5
+        :param calculation_type: Thermodynamic model used for calculation of activity coefficients
         :return: A ProcessModel Object
         """
 
@@ -501,6 +520,7 @@ class Pervaporation:
                     permeate_pressure=conditions.permeate_pressure,
                     first_component_permeance=permeances[step][0],
                     second_component_permeance=permeances[step][1],
+                    calculation_type=calculation_type,
                 )
             )
 
@@ -610,6 +630,7 @@ class Pervaporation:
         permeate_pressure: typing.Optional[float] = None,
         initial_permeances: typing.Optional[typing.Tuple[Permeance, Permeance]] = None,
         precision: typing.Optional[float] = 5e-5,
+        calculation_type: typing.Optional[str] = "NRTL",
         n_first: typing.Optional[int] = None,
         n_second: typing.Optional[int] = None,
         m_first: typing.Optional[int] = None,
@@ -637,6 +658,7 @@ class Pervaporation:
         :param m_first: m parameter of the PervaporationFunction of the first component
         :param m_second: m parameter of the PervaporationFunction of the second component
         :param include_zero: bool parameter to force default points while fitting the PervaporationFunction
+        :param calculation_type: Thermodynamic model used for calculation of activity coefficients
         :return: non-ideal diffusion curve
         """
 
@@ -773,6 +795,7 @@ class Pervaporation:
                     permeate_pressure=permeate_pressure,
                     first_component_permeance=permeances[i][0],
                     second_component_permeance=permeances[i][1],
+                    calculation_type=calculation_type,
                 )
             )
 
@@ -823,6 +846,7 @@ class Pervaporation:
         number_of_steps: int,
         delta_hours: float,
         precision: typing.Optional[float] = 5e-5,
+        calculation_type: typing.Optional[str] = "NRTL",
         initial_permeances: typing.Optional[typing.Tuple[Permeance, Permeance]] = None,
         n_first: typing.Optional[int] = None,
         m_first: typing.Optional[int] = None,
@@ -858,6 +882,7 @@ class Pervaporation:
          first_component_fraction = 0 first_component_permeance=0 for the first test_components
          first_component_fraction = 1 second_component_permeance=0 for the second test_components
          for each temperature are added to the measurements in order to improve obtained fits
+        :param calculation_type: Thermodynamic model used for calculation of activity coefficients
         :return: ProcessModel object
         """
         for curve in diffusion_curve_set.diffusion_curves:
@@ -1048,6 +1073,7 @@ class Pervaporation:
                     permeate_pressure=conditions.permeate_pressure,
                     first_component_permeance=permeances[step][0],
                     second_component_permeance=permeances[step][1],
+                    calculation_type=calculation_type,
                 )
             )
 
@@ -1141,6 +1167,7 @@ class Pervaporation:
         number_of_steps: int,
         delta_hours: float,
         precision: typing.Optional[float] = 5e-5,
+        calculation_type: typing.Optional[str] = "NRTL",
         initial_permeances: typing.Optional[typing.Tuple[Permeance, Permeance]] = None,
         n_first: typing.Optional[int] = None,
         m_first: typing.Optional[int] = None,
@@ -1177,6 +1204,7 @@ class Pervaporation:
          first_component_fraction = 0 first_component_permeance=0 for the first test_components
          first_component_fraction = 1 second_component_permeance=0 for the second test_components
          for each temperature are added to the measurements in order to improve obtained fits
+        :param calculation_type: Thermodynamic model used for calculation of activity coefficients
         :return: ProcessModel object
         """
         for curve in diffusion_curve_set.diffusion_curves:
@@ -1345,6 +1373,7 @@ class Pervaporation:
                     permeate_pressure=conditions.permeate_pressure,
                     first_component_permeance=permeances[step][0],
                     second_component_permeance=permeances[step][1],
+                    calculation_type=calculation_type,
                 )
             )
 

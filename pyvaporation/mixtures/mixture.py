@@ -30,7 +30,6 @@ class Mixture:
     name: str
     first_component: Component
     second_component: Component
-    #components: typing.Optional[typing.List[Component]] = None
     nrtl_params: typing.Optional[NRTLParameters] = None
     uniquac_params: typing.Optional[UNIQUACParameters] = None
 
