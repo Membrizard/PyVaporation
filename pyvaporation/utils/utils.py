@@ -59,10 +59,13 @@ class UNIQUACParameters:
     ) -> "UNIQUACParameters":
         assert len(array) == 5
         return cls(
-            alpha_12=array[0],
-            alpha_21=array[1],
-            beta_12=array[2],
-            beta_21=array[3],
+            binary_parameters_matrix=[
+                [0, (array[0], array[2])],
+                [(array[1], array[3]), 0]],
+            # alpha_12=array[0],
+            # alpha_21=array[1],
+            # beta_12=array[2],
+            # beta_21=array[3],
             z=int(array[4]),
         )
 
