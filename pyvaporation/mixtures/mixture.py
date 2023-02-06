@@ -304,3 +304,57 @@ def calculate_activity_coefficients(
         )
 
         return gamma_1, gamma_2
+
+
+def activity_coefficient_equation(r: typing.List[float],
+                                  q_geometric: typing.List[float],
+                                  q_interaction: typing.List[float],
+                                  x: typing.List[float],
+                                  tau: typing.List[typing.List[float]],
+                                  z: int):
+    # Based on https://doi.org/10.1021/i260068a028 page 559
+
+    phi_sum = numpy.sum(numpy.multiply(r, x))
+    phi = [r[i]*x[i]/phi_sum for i in range(len(x))]
+
+    theta_geometric_sum = numpy.sum(numpy.multiply(q_geometric, x))
+    theta_geometric = [q_geometric[i]*x[i]/phi_sum for i in range(len(x))]
+
+    theta_interaction_sum = numpy.sum(numpy.multiply(q_interaction, x))
+    theta_interaction = [q_interaction[i] * x[i] / phi_sum for i in range(len(x))]
+
+    l = [z/2*(r[i]-q_geometric[i])-(r[i]-1) for i in range(len(x))]
+
+    tau_transposed = numpy.transpose(tau)
+
+    gamma = []
+
+    for i in range(len(x)):
+
+        # Calculating first term in residual contribution
+        interaction_term_1 = numpy.sum(numpy.multiply(theta_interaction, tau_transposed[i]))
+
+        # Calculating second term in residual contribution
+        interaction_term_2 = 0
+        interaction_term_2_sum = 0
+
+        for j in range(len(x)):
+
+            for k in range(len(x)):
+                interaction_term_2_sum += theta_interaction[j]*tau_transposed[k][j]
+
+            interaction_term_2 += theta_interaction[j]*tau[i][j]/interaction_term_2_sum
+
+        gamma[i] = numpy.exp(
+            numpy.ln(phi[i]/x[i])
+            + z/2 * q_geometric[i] * numpy.ln(theta_geometric[i] / phi[i])
+            + l[i]
+            - phi[i] / x[i] * numpy.sum(numpy.multiply(x, l))
+            - q_interaction[i] * (
+                numpy.ln(interaction_term_1)
+                - interaction_term_2
+                + 1)
+        )
+
+    return gamma
+
