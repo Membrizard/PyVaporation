@@ -46,10 +46,11 @@ class UNIQUACConstants:
 
 @attr.s(auto_attribs=True)
 class UNIQUACParameters:
-    alpha_12: float
-    alpha_21: float
-    beta_12: float
-    beta_21: float
+    binary_parameters_matrix: typing.List[typing.List[typing.Tuple[float, float]]]
+    # alpha_12: float
+    # alpha_21: float
+    # beta_12: float
+    # beta_21: float
     z: int = 10
 
     @classmethod

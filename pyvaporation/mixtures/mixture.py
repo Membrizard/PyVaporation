@@ -312,7 +312,18 @@ def activity_coefficient_equation(r: typing.List[float],
                                   x: typing.List[float],
                                   tau: typing.List[typing.List[float]],
                                   z: int):
-    # Based on https://doi.org/10.1021/i260068a028 page 559
+    """
+        Calculation of activity coefficients for multicomponent mixture using UNIQUAC equation
+        Based on https://doi.org/10.1021/i260068a028 page 559
+        :params
+        r: A List of all r component UNIQUAC constants
+        q_geometric: A List of all q_geometric component UNIQUAC constants
+        q_interaction: A List of all q_interaction component UNIQUAC constants
+        x: A list of molar fractions of each component in the Mixture
+        tau: A matrix of components' binary interaction parameters
+        z: UNIQUAC interaction parameter
+        :return: activity coefficients as a List
+    """
 
     phi_sum = numpy.sum(numpy.multiply(r, x))
     phi = [r[i]*x[i]/phi_sum for i in range(len(x))]
