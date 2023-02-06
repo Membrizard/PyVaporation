@@ -325,14 +325,12 @@ def activity_coefficient_equation(r: typing.List[float],
 
     l = [z/2*(r[i]-q_geometric[i])-(r[i]-1) for i in range(len(x))]
 
-    tau_transposed = numpy.transpose(tau)
-
     gamma = []
 
     for i in range(len(x)):
 
         # Calculating first term in residual contribution
-        interaction_term_1 = numpy.sum(numpy.multiply(theta_interaction, tau_transposed[i]))
+        interaction_term_1 = numpy.sum(numpy.multiply(theta_interaction, numpy.transpose(tau)[i]))
 
         # Calculating second term in residual contribution
         interaction_term_2 = 0
@@ -341,7 +339,7 @@ def activity_coefficient_equation(r: typing.List[float],
         for j in range(len(x)):
 
             for k in range(len(x)):
-                interaction_term_2_sum += theta_interaction[j]*tau_transposed[k][j]
+                interaction_term_2_sum += theta_interaction[j]*tau[k][j]
 
             interaction_term_2 += theta_interaction[j]*tau[i][j]/interaction_term_2_sum
 
