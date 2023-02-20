@@ -208,15 +208,17 @@ def calculate_activity_coefficients(
         second_component_const = mixture.second_component.uniquac_constants
 
         binary_interaction_params = mixture.uniquac_params.binary_parameters_matrix
-        tau = [[0, 0], [0, 0]]
+        # tau[i][i] = 1 !!!!
+        tau = [[1, 0], [0, 1]]
 
         for i in range(len(binary_interaction_params)):
             for j in range(len(binary_interaction_params)):
                 if binary_interaction_params[i][j] != 0:
                     tau[i][j] = (
-                        numpy.exp(-(binary_interaction_params[i][j][0]
-                                    + binary_interaction_params[i][j][1] / temperature)
+                        numpy.exp(- (binary_interaction_params[i][j][0]
+                                  + binary_interaction_params[i][j][1] / temperature)
                                   / temperature))
+
 
         gammas = activity_coefficient_equation(
             r=[first_component_const.r,
@@ -374,7 +376,6 @@ def activity_coefficient_equation(r: typing.List[float],
         interaction_term_2_sum = 0
 
         for j in range(len(x)):
-
             for k in range(len(x)):
                 interaction_term_2_sum += theta_interaction[j]*tau[k][j]
 
