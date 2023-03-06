@@ -42,7 +42,7 @@ The comprehensive review of the theoretical background, applicability and code-e
 
 # Installation
 
-Rquirements:
+Requirements:
 
 python 3.7 or higher
 
