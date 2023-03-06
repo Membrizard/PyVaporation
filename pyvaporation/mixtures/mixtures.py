@@ -43,6 +43,7 @@ class Mixtures:
         ),
 
         uniquac_params=UNIQUACParameters(
+
             binary_parameters_matrix=[[0, (21.127561704493143, -0.9175664931087569)],
                                       [(100.10268878024358, 2.4619377106475753), 0]],
             # alpha_12=21.127561704493143,

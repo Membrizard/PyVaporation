@@ -352,13 +352,13 @@ def activity_coefficient_equation(r: typing.List[float],
         :return: activity coefficients as a List
     """
 
-    phi_sum = numpy.sum(numpy.multiply(r, x))
+    phi_sum = numpy.dot(r, x)
     phi = [r[i]*x[i]/phi_sum for i in range(len(x))]
 
-    theta_geometric_sum = numpy.sum(numpy.multiply(q_geometric, x))
+    theta_geometric_sum = numpy.dot(q_geometric, x)
     theta_geometric = [q_geometric[i]*x[i]/theta_geometric_sum for i in range(len(x))]
 
-    theta_interaction_sum = numpy.sum(numpy.multiply(q_interaction, x))
+    theta_interaction_sum = numpy.dot(q_interaction, x)
     theta_interaction = [q_interaction[i] * x[i] / theta_interaction_sum for i in range(len(x))]
 
     l = [z/2*(r[i]-q_geometric[i])-(r[i]-1) for i in range(len(x))]
@@ -367,14 +367,16 @@ def activity_coefficient_equation(r: typing.List[float],
 
     for i in range(len(x)):
 
-        # Calculating first term in residual contribution
-        interaction_term_1 = numpy.sum(numpy.multiply(theta_interaction, numpy.transpose(tau)[i]))
+        # Calculating first term in residual contribution for the component
+        interaction_term_1 = numpy.dot(theta_interaction, numpy.transpose(tau)[i])
 
-        # Calculating second term in residual contribution
+        # Calculating second term in residual contribution for the component
         interaction_term_2 = 0
-        interaction_term_2_sum = 0
+
 
         for j in range(len(x)):
+
+            interaction_term_2_sum = 0
             for k in range(len(x)):
                 interaction_term_2_sum += theta_interaction[k]*tau[k][j]
 
@@ -384,7 +386,7 @@ def activity_coefficient_equation(r: typing.List[float],
             numpy.log(phi[i]/x[i])
             + z/2 * q_geometric[i] * numpy.log(theta_geometric[i] / phi[i])
             + l[i]
-            - phi[i] / x[i] * numpy.sum(numpy.multiply(x, l))
+            - phi[i] / x[i] * numpy.sum(numpy.multiply(l, x))
             - q_interaction[i] * (
                 + numpy.log(interaction_term_1)
                 + interaction_term_2
@@ -394,3 +396,56 @@ def activity_coefficient_equation(r: typing.List[float],
 
     return gamma
 
+# From Phasepy (reference)
+# def uniquac(x, T, ri, qi, a0, a1):
+#     r"""
+#     UNIQUAC activity coefficient model. This function returns array of natural
+#     logarithm of activity coefficients.
+#     .. math::
+# 	\ln \gamma_i = \ln \gamma_i^{comb} + \ln \gamma_i^{res}
+#     Energy interaction equation is:
+#     .. math::
+#         a_{ij} = a_0 + a_1 T
+#     Parameters
+#     ----------
+#     x: array
+#         Molar fractions
+#     T: float
+#         Absolute temperature [K]
+#     ri: array
+#         Component volumes array
+#     qi: array
+#         Component surface array
+#     a0 : array
+#         Energy interactions polynomial coefficients [K]
+#     a1 : array
+#         Energy interactions polynomial coefficients [Adim]
+#     Returns
+#     -------
+#     lngama: array
+#         natural logarithm of activity coefficients.
+#     dlngama: array
+#         composition derivatives of activity coefficients natural logarithm.
+#     """
+#     # Combinatory part
+#     rx = numpy.dot(x, ri)
+#     qx = numpy.dot(x, qi)
+#     phi_x = ri/rx
+#     tetha = x*qi / qx
+#     phi_tetha = (ri*qx) / (qi*rx)
+#
+#     lngamac = numpy.log(phi_x) + 1. - phi_x
+#     lngamac -= 5.*qi*(numpy.log(phi_tetha) + 1. - phi_tetha)
+#
+#     # residual part
+#     Aij = a0 + a1 * T
+#     tau = numpy.exp(-Aij/T)
+#     Sj = numpy.matmul(tetha, tau)
+#     SumA = numpy.matmul(tau, (tetha/Sj))
+#     lngamar = 1. - numpy.log(Sj) - SumA
+#     lngamar *= qi
+#
+#     lngama = lngamac + lngamar
+#
+#     gammas = []
+#     return gammas
