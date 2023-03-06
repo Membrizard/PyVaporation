@@ -215,10 +215,9 @@ def calculate_activity_coefficients(
             for j in range(len(binary_interaction_params)):
                 if binary_interaction_params[i][j] != 0:
                     tau[i][j] = (
-                        numpy.exp(- (binary_interaction_params[i][j][0]
+                        numpy.exp(-(binary_interaction_params[i][j][0]
                                   + binary_interaction_params[i][j][1] / temperature)
                                   / temperature))
-
 
         gammas = activity_coefficient_equation(
             r=[first_component_const.r,
@@ -377,7 +376,7 @@ def activity_coefficient_equation(r: typing.List[float],
 
         for j in range(len(x)):
             for k in range(len(x)):
-                interaction_term_2_sum += theta_interaction[j]*tau[k][j]
+                interaction_term_2_sum += theta_interaction[k]*tau[k][j]
 
             interaction_term_2 += theta_interaction[j]*tau[i][j]/interaction_term_2_sum
 
