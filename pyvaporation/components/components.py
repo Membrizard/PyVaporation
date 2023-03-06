@@ -1,4 +1,4 @@
-from pyvaporation.utils import HeatCapacityConstants, VaporPressureConstants
+from pyvaporation.utils import HeatCapacityConstants, VaporPressureConstants, UNIQUACConstants
 
 from .component import Component
 
@@ -23,6 +23,11 @@ class Components:
             c=1.055e-5,
             d=-3.596e-9,
         ),
+        uniquac_constants=UNIQUACConstants(
+            r=0.9200,
+            q_geometric=1.4,
+            q_interaction=1.00,
+        )
     )
 
     MeOH: Component = Component(
@@ -39,6 +44,11 @@ class Components:
             c=1.84499e-4,
             d=9.44251e-7,
         ),
+        uniquac_constants=UNIQUACConstants(
+            r=1.43,
+            q_geometric=1.40,
+            q_interaction=0.96,
+        )
     )
 
     EtOH: Component = Component(
@@ -55,6 +65,11 @@ class Components:
             c=0.001889017424,
             d=0,
         ),
+        uniquac_constants=UNIQUACConstants(
+            r=2.10547,
+            q_geometric=1.9720,
+            q_interaction=0.92,
+        )
     )
 
     iPOH: Component = Component(
@@ -71,6 +86,11 @@ class Components:
             c=-4.56017218e-3,
             d=1.01887619e-5,
         ),
+        uniquac_constants=UNIQUACConstants(
+            r=2.7790,
+            q_geometric=2.5078,
+
+        )
     )
 
     MTBE: Component = Component(
@@ -87,6 +107,11 @@ class Components:
             c=9.216480e-4,
             d=-4.75200e-7,
         ),
+        uniquac_constants=UNIQUACConstants(
+            r=4.0679,
+            q_geometric=3.632,
+            q_interaction=1.25,
+        )
     )
 
     ETBE: Component = Component(
@@ -103,6 +128,11 @@ class Components:
             c=-3.015e-3,
             d=3.637e-6,
         ),
+        uniquac_constants=UNIQUACConstants(
+            r=4.7422,
+            q_geometric=4.172,
+            q_interaction=0.8,
+        )
     )
 
     DME: Component = Component(
@@ -135,6 +165,11 @@ class Components:
             c=4.42614e-3,
             d=-3.66196e-6,
         ),
+        uniquac_constants=UNIQUACConstants(
+            r=3.04812,
+            q_geometric=2.816,
+            q_interaction=0.8,
+        )
     )
 
     CycloHexane: Component = Component(
@@ -183,6 +218,11 @@ class Components:
             c=2.96136e-3,
             d=-2.86617e-6,
         ),
+        uniquac_constants=UNIQUACConstants(
+            r=3.9229,
+            q_geometric=2.9680,
+            q_interaction=0.8,
+        )
     )
 
     AceticAcid: Component = Component(
@@ -199,4 +239,8 @@ class Components:
             c=-1.099113e-1,
             d=1.1060630e-4,
         ),
+        uniquac_constants=UNIQUACConstants(
+            r=2.195,
+            q_geometric=2.072,
+        )
     )

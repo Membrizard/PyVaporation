@@ -8,7 +8,10 @@ from .mixtures import (
     CompositionType,
     Mixture,
     Mixtures,
-    get_nrtl_partial_pressures,
+    get_partial_pressures,
+    VLEPoints,
+    VLEPoint,
+    fit_vle,
 )
 from .optimizer import Measurements, PervaporationFunction, find_best_fit, fit
 from .permeance import Permeance, Units
@@ -20,6 +23,8 @@ from .utils import (
     R,
     VaporPressureConstants,
     VPConstantsType,
+    UNIQUACParameters,
+    UNIQUACConstants,
 )
 
 __all__ = [
@@ -40,7 +45,7 @@ __all__ = [
     "CompositionType",
     "Mixture",
     "Mixtures",
-    "get_nrtl_partial_pressures",
+    "get_partial_pressures",
     "Membrane",
     "IdealExperiment",
     "IdealExperiments",
@@ -51,6 +56,11 @@ __all__ = [
     "TemperatureProgram",
     "Component",
     "Components",
+    "UNIQUACParameters",
+    "UNIQUACConstants",
+    "VLEPoint",
+    "VLEPoints",
+    "fit_vle",
 ]
 
 __version__ = "1.2.0"

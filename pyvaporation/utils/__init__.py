@@ -4,6 +4,8 @@ from .utils import (
     R,
     VaporPressureConstants,
     VPConstantsType,
+    UNIQUACConstants,
+    UNIQUACParameters,
 )
 
 __all__ = [
@@ -12,4 +14,6 @@ __all__ = [
     "NRTLParameters",
     "HeatCapacityConstants",
     "VPConstantsType",
+    "UNIQUACConstants",
+    "UNIQUACParameters",
 ]

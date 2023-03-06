@@ -309,8 +309,14 @@ class ProcessModel:
         process_frame.to_csv(process_path / "process_model.csv", index=False)
 
         if self.permeance_fits is None:
-            self.permeance_fits = (PervaporationFunction(n=0, m=0, alpha=self.permeances[0][0].value, a=[0], b=[0]),
-                                   PervaporationFunction(n=0, m=0, alpha=self.permeances[0][1].value, a=[0], b=[0]),)
+            self.permeance_fits = (
+                PervaporationFunction(
+                    n=0, m=0, alpha=self.permeances[0][0].value, a=[0], b=[0]
+                ),
+                PervaporationFunction(
+                    n=0, m=0, alpha=self.permeances[0][1].value, a=[0], b=[0]
+                ),
+            )
 
         if is_safe:
             self.permeance_fits[0].safe_save(

@@ -31,18 +31,18 @@ The comprehensive review of the theoretical background, applicability and code-e
 
 # Assumptions and applicability
 
-* The activity coefficients of the binary mixture are calculated by means of NRTL model
+* The activity coefficients of the binary mixture are calculated by means of NRTL or UNIQUAC model
 * Saturated vapour pressure could be assessed using Antoine or Frost equations
 * Vaporisation/Condensation heat values are calculated using Clapeyron-Clausius equation
-* Specific heat capcities are calculated using polynomial approximation
+* Specific heat capacities are calculated using polynomial approximation
 * The ideal modelling process is applicable only for the processes, where permeance values do not depend significantly on mixture composition
 * The non-ideal modelling is performed only based on the basis of specified diffusion curves (Fluxes/Permeances of each component as a function of first component concentration in feed)
-* Non Ideal modelling supports non-linear dependencies of permeances and activation energies on feed composition 
+* Non-Ideal modelling supports non-linear dependencies of permeances and activation energies on feed composition 
 * Non-Isothermal processes support pre-defined temperature program (feed temperature as a function of process time may be specified for process modelling)
 
 # Installation
 
-Rquirements:
+Requirements:
 
 python 3.7 or higher
 
@@ -60,6 +60,17 @@ in order to check the package functionality.
 * Pre-configured default membranes are located in 
 ```
    ./tests/default_membranes
+``` 
+* VLE data used to fit UNIQUAC Parameters of default mixtures is located in 
+```
+   ./tests/VLE_data
+``` 
+* VLE data for a mixture could be fitted with a UNIQUAC model using 
+```
+   fit_vle(
+    data: VLEPoints,
+    method: typing.Optional[str] = None,
+) -> UNIQUACParameters
 ``` 
 * To run automated tests for all the modules: 
 ```
