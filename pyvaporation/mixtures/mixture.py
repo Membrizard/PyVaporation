@@ -373,7 +373,6 @@ def activity_coefficient_equation(r: typing.List[float],
         # Calculating second term in residual contribution for the component
         interaction_term_2 = 0
 
-
         for j in range(len(x)):
 
             interaction_term_2_sum = 0
@@ -395,57 +394,3 @@ def activity_coefficient_equation(r: typing.List[float],
         )
 
     return gamma
-
-# From Phasepy (reference)
-# def uniquac(x, T, ri, qi, a0, a1):
-#     r"""
-#     UNIQUAC activity coefficient model. This function returns array of natural
-#     logarithm of activity coefficients.
-#     .. math::
-# 	\ln \gamma_i = \ln \gamma_i^{comb} + \ln \gamma_i^{res}
-#     Energy interaction equation is:
-#     .. math::
-#         a_{ij} = a_0 + a_1 T
-#     Parameters
-#     ----------
-#     x: array
-#         Molar fractions
-#     T: float
-#         Absolute temperature [K]
-#     ri: array
-#         Component volumes array
-#     qi: array
-#         Component surface array
-#     a0 : array
-#         Energy interactions polynomial coefficients [K]
-#     a1 : array
-#         Energy interactions polynomial coefficients [Adim]
-#     Returns
-#     -------
-#     lngama: array
-#         natural logarithm of activity coefficients.
-#     dlngama: array
-#         composition derivatives of activity coefficients natural logarithm.
-#     """
-#     # Combinatory part
-#     rx = numpy.dot(x, ri)
-#     qx = numpy.dot(x, qi)
-#     phi_x = ri/rx
-#     tetha = x*qi / qx
-#     phi_tetha = (ri*qx) / (qi*rx)
-#
-#     lngamac = numpy.log(phi_x) + 1. - phi_x
-#     lngamac -= 5.*qi*(numpy.log(phi_tetha) + 1. - phi_tetha)
-#
-#     # residual part
-#     Aij = a0 + a1 * T
-#     tau = numpy.exp(-Aij/T)
-#     Sj = numpy.matmul(tetha, tau)
-#     SumA = numpy.matmul(tau, (tetha/Sj))
-#     lngamar = 1. - numpy.log(Sj) - SumA
-#     lngamar *= qi
-#
-#     lngama = lngamac + lngamar
-#
-#     gammas = []
-#     return gammas
