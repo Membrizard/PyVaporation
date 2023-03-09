@@ -54,14 +54,20 @@ class Pervaporation:
         """
 
         feed_nrtl_partial_pressures = get_partial_pressures(
-            feed_temperature, self.mixture, feed_composition, calculation_type,
+            feed_temperature,
+            self.mixture,
+            feed_composition,
+            calculation_type,
         )
         if permeate_temperature is None and permeate_pressure is None:
             permeate_nrtl_partial_pressures = (0, 0)
 
         elif permeate_temperature is not None and permeate_pressure is None:
             permeate_nrtl_partial_pressures = get_partial_pressures(
-                permeate_temperature, self.mixture, permeate_composition, calculation_type,
+                permeate_temperature,
+                self.mixture,
+                permeate_composition,
+                calculation_type,
             )
         elif permeate_pressure is not None and permeate_temperature is None:
             permeate_nrtl_partial_pressures = (
@@ -119,7 +125,9 @@ class Pervaporation:
 
         initial_fluxes: typing.Tuple[float, float] = numpy.multiply(
             (first_component_permeance.value, second_component_permeance.value),
-            get_partial_pressures(feed_temperature, self.mixture, composition, calculation_type),
+            get_partial_pressures(
+                feed_temperature, self.mixture, composition, calculation_type
+            ),
         )
         permeate_composition = get_permeate_composition_from_fluxes(initial_fluxes)
 
@@ -187,7 +195,7 @@ class Pervaporation:
             precision,
             permeate_temperature,
             permeate_pressure,
-            calculation_type
+            calculation_type,
         )
         return Composition(x[0] / numpy.sum(x), type=CompositionType.weight)
 

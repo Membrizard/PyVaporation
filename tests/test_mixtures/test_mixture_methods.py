@@ -79,15 +79,16 @@ nrtl_params = NRTLParameters(
 )
 
 uniquac_params = UNIQUACParameters(
-            binary_parameters_matrix=[
-                [0, (21.127561704493143, -0.9175664931087569)],
-                [(100.10268878024358, 2.4619377106475753), 0]],
-            # alpha_12=21.127561704493143,
-            # alpha_21=100.10268878024358,
-            # beta_12=-0.9175664931087569,
-            # beta_21=2.4619377106475753,
-            z=13,
-        )
+    binary_parameters_matrix=[
+        [0, (21.127561704493143, -0.9175664931087569)],
+        [(100.10268878024358, 2.4619377106475753), 0],
+    ],
+    # alpha_12=21.127561704493143,
+    # alpha_21=100.10268878024358,
+    # beta_12=-0.9175664931087569,
+    # beta_21=2.4619377106475753,
+    z=13,
+)
 
 test_mixture = Mixture(
     name="H2O_EtOH",
@@ -211,10 +212,12 @@ def test_get_nrtl_partial_pressures_from_weight_composition():
 def test_get_uniquac_partial_pressures_from_molar_composition():
 
     tested_partial_pressures = [
-        get_partial_pressures(temperature=313,
-                              mixture=test_mixture,
-                              composition=test_composition_list_molar[i],
-                              calculation_type="UNIQUAC")
+        get_partial_pressures(
+            temperature=313,
+            mixture=test_mixture,
+            composition=test_composition_list_molar[i],
+            calculation_type="UNIQUAC",
+        )
         for i in range(11)
     ]
 
@@ -229,7 +232,8 @@ def test_get_uniquac_partial_pressures_from_molar_composition():
         (6.05618949198233, 9.357445263617667),
         (6.375553501678343, 8.113307512353886),
         (6.752795408763098, 5.8539035594786135),
-        (7.319336041076023, 0.0)]
+        (7.319336041076023, 0.0),
+    ]
 
     for i in range(11):
         assert (
@@ -252,10 +256,12 @@ def test_get_uniquac_partial_pressures_from_molar_composition():
 def test_get_uniquac_partial_pressures_from_weight_composition():
 
     tested_partial_pressures = [
-        get_partial_pressures(temperature=313,
-                              mixture=test_mixture,
-                              composition=test_composition_list_weight[i],
-                              calculation_type="UNIQUAC")
+        get_partial_pressures(
+            temperature=313,
+            mixture=test_mixture,
+            composition=test_composition_list_weight[i],
+            calculation_type="UNIQUAC",
+        )
         for i in range(11)
     ]
 
@@ -270,7 +276,8 @@ def test_get_uniquac_partial_pressures_from_weight_composition():
         (6.574748311471986, 7.053789671555542),
         (6.8022687199985175, 5.472027024051633),
         (7.047875750679181, 3.227809119819075),
-        (7.319336041076023, 0.0)]
+        (7.319336041076023, 0.0),
+    ]
 
     for i in range(11):
         assert (

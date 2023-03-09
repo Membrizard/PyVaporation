@@ -11,40 +11,41 @@ from .mixture import get_partial_pressures, Composition, Mixture
 from scipy import optimize
 
 VLE_COLUMNS = [
-    'first_component',
-    'second_component',
-    'composition',
-    'composition_type',
-    'first_component_pressure',
-    'second_component_pressure',
-    'temperature',
-    'reference']
+    "first_component",
+    "second_component",
+    "composition",
+    "composition_type",
+    "first_component_pressure",
+    "second_component_pressure",
+    "temperature",
+    "reference",
+]
 
 FITTING_ALGS = [
-        "Nelder-Mead",
-        "Powell",
-        "CG",
-        "BFGS",
-        "L-BFGS-B",
-        "TNC",
-        "COBYLA",
-        "SLSQP",
-        "trust-constr"]
+    "Nelder-Mead",
+    "Powell",
+    "CG",
+    "BFGS",
+    "L-BFGS-B",
+    "TNC",
+    "COBYLA",
+    "SLSQP",
+    "trust-constr",
+]
 
 
 @attr.s(auto_attribs=True)
 class VLEPoint:
     """
-            Class to represent single experimental VLE point
+    Class to represent single experimental VLE point
     """
+
     composition: Composition
     pressures: typing.Tuple[float, float]
     temperature: float
 
     @classmethod
-    def from_dict(
-            cls, d: typing.Mapping[str, typing.Union[str, float]]
-    ) -> "VLEPoint":
+    def from_dict(cls, d: typing.Mapping[str, typing.Union[str, float]]) -> "VLEPoint":
         """
         Reads VLEPoint objects from dictionary
         :param d: Mapping of VLEPoint parameters
@@ -62,8 +63,9 @@ class VLEPoint:
 @attr.s(auto_attribs=True)
 class VLEPoints:
     """
-        Class to represent experimental VLE points
+    Class to represent experimental VLE points
     """
+
     components: typing.List[Component]
     data: typing.List[VLEPoint]
 
@@ -82,8 +84,10 @@ class VLEPoints:
         points = []
 
         d = frame.iloc[0].to_dict()
-        components = [getattr(Components, d["first_component"]),
-                      getattr(Components, d["second_component"])]
+        components = [
+            getattr(Components, d["first_component"]),
+            getattr(Components, d["second_component"]),
+        ]
 
         for _, row in frame.iterrows():
             d = row.to_dict()
@@ -123,8 +127,7 @@ def fit_vle(
     error = 1000
     for alg in algs:
         result = optimize.minimize(
-            lambda params: objective(data=data,
-                                     params=params),
+            lambda params: objective(data=data, params=params),
             x0=numpy.array([0, 0, 0, 0, 10]),
             method=alg,
         )
@@ -146,20 +149,27 @@ def objective(data: VLEPoints, params: typing.List[float]) -> float:
     """
     error = 0
     mixture = Mixture(
-                      name="",
-                      first_component=data.components[0],
-                      second_component=data.components[1],
-                      uniquac_params=UNIQUACParameters.from_array(params),
+        name="",
+        first_component=data.components[0],
+        second_component=data.components[1],
+        uniquac_params=UNIQUACParameters.from_array(params),
     )
     for point in data:
-        error += (get_partial_pressures(temperature=point.temperature,
-                                        composition=point.composition,
-                                        mixture=mixture,
-                                        calculation_type="UNIQUAC",
-                                        )[0] - point.pressures[0]) ** 2 \
-                 + (get_partial_pressures(temperature=point.temperature,
-                                          composition=point.composition,
-                                          mixture=mixture,
-                                          calculation_type="UNIQUAC",
-                                          )[1] - point.pressures[1]) ** 2
+        error += (
+            get_partial_pressures(
+                temperature=point.temperature,
+                composition=point.composition,
+                mixture=mixture,
+                calculation_type="UNIQUAC",
+            )[0]
+            - point.pressures[0]
+        ) ** 2 + (
+            get_partial_pressures(
+                temperature=point.temperature,
+                composition=point.composition,
+                mixture=mixture,
+                calculation_type="UNIQUAC",
+            )[1]
+            - point.pressures[1]
+        ) ** 2
     return numpy.sqrt(error / len(data))

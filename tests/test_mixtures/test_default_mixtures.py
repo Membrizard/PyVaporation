@@ -77,10 +77,12 @@ def test_uniquac_constants_h2o_meoh():
     validation_average_2 = 0
 
     for point in validation_points:
-        calc_pressures = get_partial_pressures(temperature=point.temperature,
-                                               mixture=test_mixture,
-                                               composition=point.composition,
-                                               calculation_type="UNIQUAC")
+        calc_pressures = get_partial_pressures(
+            temperature=point.temperature,
+            mixture=test_mixture,
+            composition=point.composition,
+            calculation_type="UNIQUAC",
+        )
 
         validation_average_1 += point.pressures[0]
         validation_average_2 += point.pressures[1]
@@ -161,10 +163,12 @@ def test_uniquac_constants_h2o_etoh():
     validation_average_2 = 0
 
     for point in validation_points:
-        calc_pressures = get_partial_pressures(temperature=point.temperature,
-                                               mixture=test_mixture,
-                                               composition=point.composition,
-                                               calculation_type="UNIQUAC")
+        calc_pressures = get_partial_pressures(
+            temperature=point.temperature,
+            mixture=test_mixture,
+            composition=point.composition,
+            calculation_type="UNIQUAC",
+        )
 
         validation_average_1 += point.pressures[0]
         validation_average_2 += point.pressures[1]
@@ -253,10 +257,12 @@ def test_uniquac_constants_h2o_ipoh():
     validation_average_2 = 0
 
     for point in validation_points:
-        calc_pressures = get_partial_pressures(temperature=point.temperature,
-                                               mixture=test_mixture,
-                                               composition=point.composition,
-                                               calculation_type="UNIQUAC")
+        calc_pressures = get_partial_pressures(
+            temperature=point.temperature,
+            mixture=test_mixture,
+            composition=point.composition,
+            calculation_type="UNIQUAC",
+        )
 
         validation_average_1 += point.pressures[0]
         validation_average_2 += point.pressures[1]
@@ -334,7 +340,9 @@ def test_uniquac_constants_h2o_acetic_acid():
 
     test_mixture = Mixtures.H2O_AceticAcid
 
-    validation_points = VLEPoints.from_csv(path="tests/VLE_data/binary/H2O_AceticAcid.csv")
+    validation_points = VLEPoints.from_csv(
+        path="tests/VLE_data/binary/H2O_AceticAcid.csv"
+    )
 
     error_1 = 0
     error_2 = 0
@@ -342,10 +350,12 @@ def test_uniquac_constants_h2o_acetic_acid():
     validation_average_2 = 0
 
     for point in validation_points:
-        calc_pressures = get_partial_pressures(temperature=point.temperature,
-                                               mixture=test_mixture,
-                                               composition=point.composition,
-                                               calculation_type="UNIQUAC")
+        calc_pressures = get_partial_pressures(
+            temperature=point.temperature,
+            mixture=test_mixture,
+            composition=point.composition,
+            calculation_type="UNIQUAC",
+        )
 
         validation_average_1 += point.pressures[0]
         validation_average_2 += point.pressures[1]
@@ -429,10 +439,12 @@ def test_uniquac_constants_etoh_etbe():
     validation_average_2 = 0
 
     for point in validation_points:
-        calc_pressures = get_partial_pressures(temperature=point.temperature,
-                                               mixture=test_mixture,
-                                               composition=point.composition,
-                                               calculation_type="UNIQUAC")
+        calc_pressures = get_partial_pressures(
+            temperature=point.temperature,
+            mixture=test_mixture,
+            composition=point.composition,
+            calculation_type="UNIQUAC",
+        )
 
         validation_average_1 += point.pressures[0]
         validation_average_2 += point.pressures[1]
@@ -508,7 +520,9 @@ def test_uniquac_constants_meoh_toluene():
 
     test_mixture = Mixtures.MeOH_Toluene
 
-    validation_points = VLEPoints.from_csv(path="tests/VLE_data/binary/MeOH_Toluene.csv")
+    validation_points = VLEPoints.from_csv(
+        path="tests/VLE_data/binary/MeOH_Toluene.csv"
+    )
 
     error_1 = 0
     error_2 = 0
@@ -516,10 +530,12 @@ def test_uniquac_constants_meoh_toluene():
     validation_average_2 = 0
 
     for point in validation_points:
-        calc_pressures = get_partial_pressures(temperature=point.temperature,
-                                               mixture=test_mixture,
-                                               composition=point.composition,
-                                               calculation_type="UNIQUAC")
+        calc_pressures = get_partial_pressures(
+            temperature=point.temperature,
+            mixture=test_mixture,
+            composition=point.composition,
+            calculation_type="UNIQUAC",
+        )
 
         validation_average_1 += point.pressures[0]
         validation_average_2 += point.pressures[1]
@@ -602,10 +618,12 @@ def test_uniquac_constants_meoh_mtbe():
     validation_average_2 = 0
 
     for point in validation_points:
-        calc_pressures = get_partial_pressures(temperature=point.temperature,
-                                               mixture=test_mixture,
-                                               composition=point.composition,
-                                               calculation_type="UNIQUAC")
+        calc_pressures = get_partial_pressures(
+            temperature=point.temperature,
+            mixture=test_mixture,
+            composition=point.composition,
+            calculation_type="UNIQUAC",
+        )
 
         validation_average_1 += point.pressures[0]
         validation_average_2 += point.pressures[1]
@@ -688,10 +706,12 @@ def test_uniquac_constants_meoh_dmc():
     validation_average_2 = 0
 
     for point in validation_points:
-        calc_pressures = get_partial_pressures(temperature=point.temperature,
-                                               mixture=test_mixture,
-                                               composition=point.composition,
-                                               calculation_type="UNIQUAC")
+        calc_pressures = get_partial_pressures(
+            temperature=point.temperature,
+            mixture=test_mixture,
+            composition=point.composition,
+            calculation_type="UNIQUAC",
+        )
 
         validation_average_1 += point.pressures[0]
         validation_average_2 += point.pressures[1]

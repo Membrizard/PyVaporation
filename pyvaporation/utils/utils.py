@@ -55,13 +55,14 @@ class UNIQUACParameters:
 
     @classmethod
     def from_array(
-            cls, array: typing.Union[typing.List[float], numpy.ndarray]
+        cls, array: typing.Union[typing.List[float], numpy.ndarray]
     ) -> "UNIQUACParameters":
         assert len(array) == 5
         return cls(
             binary_parameters_matrix=[
                 [0, (array[0], array[2])],
-                [(array[1], array[3]), 0]],
+                [(array[1], array[3]), 0],
+            ],
             # alpha_12=array[0],
             # alpha_21=array[1],
             # beta_12=array[2],

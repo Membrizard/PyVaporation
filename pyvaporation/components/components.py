@@ -1,4 +1,8 @@
-from pyvaporation.utils import HeatCapacityConstants, VaporPressureConstants, UNIQUACConstants
+from pyvaporation.utils import (
+    HeatCapacityConstants,
+    VaporPressureConstants,
+    UNIQUACConstants,
+)
 
 from .component import Component
 
@@ -27,7 +31,7 @@ class Components:
             r=0.9200,
             q_geometric=1.4,
             q_interaction=1.00,
-        )
+        ),
     )
 
     MeOH: Component = Component(
@@ -48,7 +52,7 @@ class Components:
             r=1.43,
             q_geometric=1.40,
             q_interaction=0.96,
-        )
+        ),
     )
 
     EtOH: Component = Component(
@@ -69,7 +73,7 @@ class Components:
             r=2.10547,
             q_geometric=1.9720,
             q_interaction=0.92,
-        )
+        ),
     )
 
     iPOH: Component = Component(
@@ -89,8 +93,7 @@ class Components:
         uniquac_constants=UNIQUACConstants(
             r=2.7790,
             q_geometric=2.5078,
-
-        )
+        ),
     )
 
     MTBE: Component = Component(
@@ -111,7 +114,7 @@ class Components:
             r=4.0679,
             q_geometric=3.632,
             q_interaction=1.25,
-        )
+        ),
     )
 
     ETBE: Component = Component(
@@ -132,7 +135,7 @@ class Components:
             r=4.7422,
             q_geometric=4.172,
             q_interaction=0.8,
-        )
+        ),
     )
 
     DME: Component = Component(
@@ -169,7 +172,7 @@ class Components:
             r=3.04812,
             q_geometric=2.816,
             q_interaction=0.8,
-        )
+        ),
     )
 
     CycloHexane: Component = Component(
@@ -222,7 +225,7 @@ class Components:
             r=3.9229,
             q_geometric=2.9680,
             q_interaction=0.8,
-        )
+        ),
     )
 
     AceticAcid: Component = Component(
@@ -242,5 +245,5 @@ class Components:
         uniquac_constants=UNIQUACConstants(
             r=2.195,
             q_geometric=2.072,
-        )
+        ),
     )
