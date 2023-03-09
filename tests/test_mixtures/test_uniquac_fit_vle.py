@@ -1,4 +1,4 @@
-from pyvaporation.mixtures.uniquac_fitting import fit_vle, VLEPoints
+from pyvaporation.activity_coefficient_models.uniquac_fitting import fit_vle, VLEPoints
 from pyvaporation.mixtures import get_partial_pressures, Mixture
 
 

@@ -26,6 +26,43 @@ class CompositionType:
     weight: str = "weight"
 
 
+# class Mixture:
+#     """
+#     A class to represent mixtures
+#     """
+#
+#     name: str
+#     components: typing.List[Component]
+#     nrtl_params: typing.Optional[NRTLParameters] = None
+#     uniquac_params: typing.Optional[UNIQUACParameters] = None
+#
+#     def __init__(
+#             self,
+#             name: str,
+#             components: typing.Optional[typing.List[Component]] = None,
+#             nrtl_params: typing.Optional[NRTLParameters] = None,
+#             uniquac_params: typing.Optional[UNIQUACParameters] = None,
+#             first_component: typing.Optional[Component] = None,
+#             second_component: typing.Optional[Component] = None,
+#             third_component: typing.Optional[Component] = None,
+#             fourth_component: typing.Optional[Component] = None,
+#             fith_component: typing.Optional[Component] = None,
+#     ):
+#         self.name = name
+#
+#     def __attrs_post_init__(self):
+#         if self.nrtl_params is None and self.uniquac_params is None:
+#             raise ValueError(
+#                 "Component Interaction parameters are required to create a mixture!"
+#             )
+#
+#     def first_component(self):
+#         return self.components[0]
+#
+#     def second_component(self):
+#         return self.components[1]
+
+
 @attr.s(auto_attribs=True)
 class Mixture:
     """
@@ -43,6 +80,12 @@ class Mixture:
             raise ValueError(
                 "Component Interaction parameters are required to create a mixture!"
             )
+
+    # def first_component(self):
+    #     return self.components[0]
+    #
+    # def second_component(self):
+    #     return self.components[1]
 
 
 @attr.s(auto_attribs=True)

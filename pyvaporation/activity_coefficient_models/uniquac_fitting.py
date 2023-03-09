@@ -7,7 +7,7 @@ from pathlib import Path
 
 from ..utils import UNIQUACParameters
 from ..components import Component, Components
-from .mixture import get_partial_pressures, Composition, Mixture
+from ..mixtures import get_partial_pressures, Composition, Mixture
 from scipy import optimize
 
 VLE_COLUMNS = [
