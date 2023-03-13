@@ -39,7 +39,7 @@ class BinaryMixture:
     nrtl_params: typing.Optional[NRTLParameters] = None
     uniquac_params: typing.Optional[UNIQUACParameters] = None
 
-    def to_mixture(self):
+    def to_mixture(self) -> "Mixture":
         return Mixture(
             name=self.name,
             components=[self.first_component, self.second_component],
@@ -71,7 +71,7 @@ class Mixture:
     def __len__(self):
         return len(self.components)
 
-    def to_binary_mixture(self) -> BinaryMixture:
+    def to_binary_mixture(self) -> "BinaryMixture":
         if self.components != 2:
             raise ValueError("Mixture should have 2 Components to be converted to a BinaryMixture.")
         return BinaryMixture(
@@ -86,6 +86,10 @@ class Mixture:
         if self.nrtl_params is None and self.uniquac_params is None:
             raise ValueError(
                 "Component Interaction parameters are required to create a mixture!"
+            )
+        if len(self) > 2 and (len(self) != len(self.uniquac_params)):
+            raise ValueError(
+                "Binary Interaction parameters matrix size does not correspond with the Mixture!"
             )
 
 
@@ -194,6 +198,11 @@ def calculate_activity_coefficients(
         if mixture.nrtl_params is None:
             raise ValueError(
                 "NRTL Parameters must be specified for this type of calculation"
+            )
+
+        if len(mixture) != 2:
+            raise ValueError(
+                "NRTL model can be used only for Binary Mixtures"
             )
 
         activity_coefficients = nrtl_activity_coefficient_equation(

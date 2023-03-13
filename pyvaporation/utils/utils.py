@@ -53,6 +53,9 @@ class UNIQUACParameters:
     # beta_21: float
     z: int = 10
 
+    def __len__(self):
+        return len(self.binary_parameters_matrix)
+
     @classmethod
     def from_array(
         cls, array: typing.Union[typing.List[float], numpy.ndarray]
