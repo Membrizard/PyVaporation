@@ -26,7 +26,7 @@ class CompositionType:
     weight: str = "weight"
 
 
-@attr.s(auto_attribs=True)
+@attr.s(auto_attribs=True, frozen=True)
 class BinaryMixture:
     """
     A class to represent binary mixtures
@@ -56,8 +56,15 @@ class BinaryMixture:
                 "Component Interaction parameters are required to create a mixture!"
             )
 
+    # While keeping attrs frozen methods will return new instance of BinaryMixture class
+    # with desired parameters, by this the changes will only occur through methods
+    def replace_component(self)->"BinaryMixture":
 
-@attr.s(auto_attribs=True)
+
+        return None
+
+
+@attr.s(auto_attribs=True, frozen=True)
 class Mixture:
     """
     A class to represent multicomponent mixtures
