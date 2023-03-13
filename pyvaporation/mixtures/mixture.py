@@ -70,42 +70,36 @@ class Mixture:
     """
 
     name: str
-    first_component: typing.Optional[Component] = None
-    second_component: typing.Optional[Component] = None
-    components: typing.Optional[typing.List[Component]] = []
+    first_component: Component
+    second_component: Component
+    third_component: typing.Optional[Component] = None
+    fourth_component: typing.Optional[Component] = None
+    fifth_component: typing.Optional[Component] = None
+    sixth_component: typing.Optional[Component] = None
     nrtl_params: typing.Optional[NRTLParameters] = None
     uniquac_params: typing.Optional[UNIQUACParameters] = None
 
+    def component_list(self):
+        component_list = [self.first_component, self.second_component]
+        if self.third_component:
+            component_list.append(self.third_component)
+        if self.fourth_component:
+            component_list.append(self.fourth_component)
+        if self.fifth_component:
+            component_list.append(self.fifth_component)
+        if self.sixth_component:
+            component_list.append(self.sixth_component)
+        return component_list
+
+    def __len__(self):
+        return len(self.component_list())
+
     def __attrs_post_init__(self):
-        if not self.components:
-            if self.first_component is None or self.second_component is None:
-                raise ValueError(
-                    "At least two Components are required to create a mixture!"
-                )
-            self.components.append(self.first_component)
-            self.components.append(self.second_component)
-
-        if not self.components and (self.first_component is not None or self.second_component is not None):
-            raise ValueError(
-                "Mixture should be created either by specifying a List of Components\
-                 or by specifying first and second Component individually!"
-            )
-
-        if len(self.components) == 1 or (self.first_component is None or self.second_component is None):
-            raise ValueError(
-                "At least two Components are required to create a mixture!"
-            )
 
         if self.nrtl_params is None and self.uniquac_params is None:
             raise ValueError(
                 "Component Interaction parameters are required to create a mixture!"
             )
-
-    # def first_component(self):
-    #     return self.components[0]
-    #
-    # def second_component(self):
-    #     return self.components[1]
 
 
 @attr.s(auto_attribs=True)
