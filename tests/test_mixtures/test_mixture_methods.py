@@ -2,7 +2,7 @@ from pyvaporation.components import Component
 from pyvaporation.mixtures import (
     Composition,
     CompositionType,
-    Mixture,
+    BinaryMixture,
     get_partial_pressures,
 )
 from pyvaporation.utils import (
@@ -90,7 +90,7 @@ uniquac_params = UNIQUACParameters(
     z=13,
 )
 
-test_mixture = Mixture(
+test_mixture = BinaryMixture(
     name="H2O_EtOH",
     first_component=test_component_1,
     second_component=test_component_2,

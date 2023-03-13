@@ -1,4 +1,9 @@
-from .mixture import Composition, CompositionType, Mixture, get_partial_pressures
+from .binarymixture import (
+    Composition,
+    CompositionType,
+    BinaryMixture,
+    get_partial_pressures,
+)
 from .mixtures import Mixtures
 from pyvaporation.activity_coefficient_models.uniquac_fitting import (
     VLEPoint,
@@ -7,7 +12,7 @@ from pyvaporation.activity_coefficient_models.uniquac_fitting import (
 )
 
 __all__ = [
-    "Mixture",
+    "BinaryMixture",
     "Mixtures",
     "Composition",
     "get_partial_pressures",

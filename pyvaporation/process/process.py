@@ -8,7 +8,7 @@ import numpy
 import pandas
 
 from ..conditions import Conditions
-from ..mixtures import Composition, Mixture, Mixtures
+from ..mixtures import Composition, BinaryMixture, Mixtures
 from ..optimizer import PervaporationFunction
 from ..permeance import Permeance, Units
 from ..plotting import plot_graph
@@ -42,7 +42,7 @@ class ProcessModel:
     Class for description, working with and storage of process models
     """
 
-    mixture: Mixture
+    mixture: BinaryMixture
     membrane_name: str
     feed_temperature: typing.List[float]
     feed_compositions: typing.List[Composition]

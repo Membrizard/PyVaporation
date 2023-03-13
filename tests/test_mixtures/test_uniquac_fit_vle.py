@@ -1,5 +1,5 @@
 from pyvaporation.activity_coefficient_models.uniquac_fitting import fit_vle, VLEPoints
-from pyvaporation.mixtures import get_partial_pressures, Mixture
+from pyvaporation.mixtures import get_partial_pressures, BinaryMixture
 
 
 def test_fit_uniquac_vle():
@@ -10,7 +10,7 @@ def test_fit_uniquac_vle():
 
     print(params)
 
-    test_mixture = Mixture(
+    test_mixture = BinaryMixture(
         name="",
         first_component=points.components[0],
         second_component=points.components[1],

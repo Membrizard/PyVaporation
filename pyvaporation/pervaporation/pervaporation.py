@@ -8,7 +8,12 @@ import numpy
 from ..conditions import Conditions
 from ..diffusion_curve import DiffusionCurve, DiffusionCurveSet
 from ..membrane import Membrane
-from ..mixtures import Composition, CompositionType, Mixture, get_partial_pressures
+from ..mixtures import (
+    Composition,
+    CompositionType,
+    BinaryMixture,
+    get_partial_pressures,
+)
 from ..optimizer import Measurements, find_best_fit
 from ..permeance import Permeance, Units
 from ..process import ProcessModel
@@ -27,7 +32,7 @@ def get_permeate_composition_from_fluxes(
 @attr.s(auto_attribs=True)
 class Pervaporation:
     membrane: Membrane
-    mixture: Mixture
+    mixture: BinaryMixture
 
     def get_partial_fluxes_from_permeate_composition(
         self,

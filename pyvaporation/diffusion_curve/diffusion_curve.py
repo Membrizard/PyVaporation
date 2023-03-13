@@ -8,7 +8,7 @@ import pandas
 from ..mixtures import (
     Composition,
     CompositionType,
-    Mixture,
+    BinaryMixture,
     Mixtures,
     get_partial_pressures,
 )
@@ -40,7 +40,7 @@ class DiffusionCurve:
     on feed composition, and process temperature
     """
 
-    mixture: Mixture
+    mixture: BinaryMixture
     membrane_name: str
     feed_temperature: float
     feed_compositions: typing.List[Composition]

@@ -6,7 +6,7 @@ from .membrane import Membrane
 from .mixtures import (
     Composition,
     CompositionType,
-    Mixture,
+    BinaryMixture,
     Mixtures,
     get_partial_pressures,
     VLEPoints,
@@ -43,7 +43,7 @@ __all__ = [
     "fit",
     "Composition",
     "CompositionType",
-    "Mixture",
+    "BinaryMixture",
     "Mixtures",
     "get_partial_pressures",
     "Membrane",

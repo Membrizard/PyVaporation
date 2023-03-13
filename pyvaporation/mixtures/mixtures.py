@@ -1,6 +1,6 @@
 from ..components import Components
 from ..utils import NRTLParameters, UNIQUACParameters
-from .mixture import Mixture
+from .binarymixture import BinaryMixture
 
 
 class Mixtures:
@@ -9,7 +9,7 @@ class Mixtures:
     For details see ./tests/test_mixtures/test_default_mixtures.py
     """
 
-    H2O_MeOH: Mixture = Mixture(
+    H2O_MeOH: BinaryMixture = BinaryMixture(
         name="H2O_MeOH",
         first_component=Components.H2O,
         second_component=Components.MeOH,
@@ -34,7 +34,7 @@ class Mixtures:
         ),
     )
 
-    H2O_EtOH: Mixture = Mixture(
+    H2O_EtOH: BinaryMixture = BinaryMixture(
         name="H2O_EtOH",
         first_component=Components.H2O,
         second_component=Components.EtOH,
@@ -56,7 +56,7 @@ class Mixtures:
         ),
     )
 
-    H2O_iPOH: Mixture = Mixture(
+    H2O_iPOH: BinaryMixture = BinaryMixture(
         name="H2O_iPOH",
         first_component=Components.H2O,
         second_component=Components.iPOH,
@@ -78,7 +78,7 @@ class Mixtures:
         ),
     )
 
-    H2O_AceticAcid: Mixture = Mixture(
+    H2O_AceticAcid: BinaryMixture = BinaryMixture(
         name="H2O_AceticAcid",
         first_component=Components.H2O,
         second_component=Components.AceticAcid,
@@ -100,7 +100,7 @@ class Mixtures:
         ),
     )
 
-    EtOH_ETBE: Mixture = Mixture(
+    EtOH_ETBE: BinaryMixture = BinaryMixture(
         name="EtOH_ETBE",
         first_component=Components.EtOH,
         second_component=Components.ETBE,
@@ -122,7 +122,7 @@ class Mixtures:
         ),
     )
 
-    MeOH_Toluene: Mixture = Mixture(
+    MeOH_Toluene: BinaryMixture = BinaryMixture(
         name="MeOH_Toluene",
         first_component=Components.MeOH,
         second_component=Components.Toluene,
@@ -144,7 +144,7 @@ class Mixtures:
         ),
     )
 
-    MeOH_MTBE: Mixture = Mixture(
+    MeOH_MTBE: BinaryMixture = BinaryMixture(
         name="MeOH_MTBE",
         first_component=Components.MeOH,
         second_component=Components.MTBE,
@@ -166,7 +166,7 @@ class Mixtures:
         ),
     )
 
-    MeOH_DMC: Mixture = Mixture(
+    MeOH_DMC: BinaryMixture = BinaryMixture(
         name="MeOH_DMC",
         first_component=Components.MeOH,
         second_component=Components.DMC,

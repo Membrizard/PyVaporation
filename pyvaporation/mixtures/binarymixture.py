@@ -26,76 +26,63 @@ class CompositionType:
     weight: str = "weight"
 
 
-# class Mixture:
-#     """
-#     A class to represent mixtures
-#     """
-#
-#     name: str
-#     components: typing.List[Component]
-#     nrtl_params: typing.Optional[NRTLParameters] = None
-#     uniquac_params: typing.Optional[UNIQUACParameters] = None
-#
-#     def __init__(
-#             self,
-#             name: str,
-#             components: typing.Optional[typing.List[Component]] = None,
-#             nrtl_params: typing.Optional[NRTLParameters] = None,
-#             uniquac_params: typing.Optional[UNIQUACParameters] = None,
-#             first_component: typing.Optional[Component] = None,
-#             second_component: typing.Optional[Component] = None,
-#             third_component: typing.Optional[Component] = None,
-#             fourth_component: typing.Optional[Component] = None,
-#             fith_component: typing.Optional[Component] = None,
-#     ):
-#         self.name = name
-#
-#     def __attrs_post_init__(self):
-#         if self.nrtl_params is None and self.uniquac_params is None:
-#             raise ValueError(
-#                 "Component Interaction parameters are required to create a mixture!"
-#             )
-#
-#     def first_component(self):
-#         return self.components[0]
-#
-#     def second_component(self):
-#         return self.components[1]
-
-
-@attr.s(auto_attribs=True)
-class Mixture:
+@attr.s(auto_attribs=True, frozen=True)
+class BinaryMixture:
     """
-    A class to represent mixtures
+    A class to represent binary mixtures
+    TODO lookup attr frozen how to apply
     """
 
     name: str
     first_component: Component
     second_component: Component
-    third_component: typing.Optional[Component] = None
-    fourth_component: typing.Optional[Component] = None
-    fifth_component: typing.Optional[Component] = None
-    sixth_component: typing.Optional[Component] = None
     nrtl_params: typing.Optional[NRTLParameters] = None
     uniquac_params: typing.Optional[UNIQUACParameters] = None
 
-    def component_list(self):
-        component_list = [self.first_component, self.second_component]
-        if self.third_component:
-            component_list.append(self.third_component)
-        if self.fourth_component:
-            component_list.append(self.fourth_component)
-        if self.fifth_component:
-            component_list.append(self.fifth_component)
-        if self.sixth_component:
-            component_list.append(self.sixth_component)
-        return component_list
+    def to_mixture(self):
+        return Mixture(
+            name=self.name,
+            components=[self.first_component, self.second_component],
+            nrtl_params=self.nrtl_params,
+            uniquac_params=self.uniquac_params,
+        )
 
     def __len__(self):
-        return len(self.component_list())
+        return 2
 
     def __attrs_post_init__(self):
+        if self.nrtl_params is None and self.uniquac_params is None:
+            raise ValueError(
+                "Component Interaction parameters are required to create a mixture!"
+            )
 
+
+@attr.s(auto_attribs=True)
+class Mixture:
+    """
+    A class to represent multicomponent mixtures
+    """
+
+    name: str
+    components: typing.List[Component]
+    nrtl_params: typing.Optional[NRTLParameters] = None
+    uniquac_params: typing.Optional[UNIQUACParameters] = None
+
+    def __len__(self):
+        return len(self.components)
+
+    def to_binary_mixture(self) -> BinaryMixture:
+        if self.components != 2:
+            raise ValueError("Mixture should have 2 Components to be converted to a BinaryMixture.")
+        return BinaryMixture(
+            name=self.name,
+            first_component=self.components[0],
+            second_component=self.components[1],
+            nrtl_params=self.nrtl_params,
+            uniquac_params=self.uniquac_params,
+        )
+
+    def __attrs_post_init__(self):
         if self.nrtl_params is None and self.uniquac_params is None:
             raise ValueError(
                 "Component Interaction parameters are required to create a mixture!"
@@ -125,7 +112,7 @@ class Composition:
         """
         return 1 - self.p
 
-    def to_molar(self, mixture: Mixture) -> "Composition":
+    def to_molar(self, mixture: BinaryMixture) -> "Composition":
         """
         Converts Composition to molar %
         """
@@ -138,7 +125,7 @@ class Composition:
             )
             return Composition(p=p, type=CompositionType.molar)
 
-    def to_weight(self, mixture: Mixture) -> "Composition":
+    def to_weight(self, mixture: BinaryMixture) -> "Composition":
         """
         Converts Composition to weight %
         """
@@ -154,7 +141,7 @@ class Composition:
 
 def get_partial_pressures(
     temperature: float,
-    mixture: Mixture,
+    mixture: typing.Union[BinaryMixture, Mixture],
     composition: Composition,
     calculation_type: str = ActivityCoefficientModel.NRTL,
 ) -> typing.Tuple[float, float]:
@@ -187,7 +174,7 @@ def get_partial_pressures(
 
 def calculate_activity_coefficients(
     temperature: float,
-    mixture: Mixture,
+    mixture: typing.Union[BinaryMixture, Mixture],
     composition: Composition,
     calculation_type: str = ActivityCoefficientModel.NRTL,
 ) -> typing.Tuple:
