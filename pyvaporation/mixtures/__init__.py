@@ -1,4 +1,4 @@
-from .binarymixture import (
+from .mixture import (
     Composition,
     CompositionType,
     BinaryMixture,

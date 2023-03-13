@@ -1,6 +1,6 @@
 from ..components import Components
 from ..utils import NRTLParameters, UNIQUACParameters
-from .binarymixture import BinaryMixture
+from .mixture import BinaryMixture
 
 
 class Mixtures:
