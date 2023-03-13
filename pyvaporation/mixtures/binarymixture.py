@@ -26,7 +26,7 @@ class CompositionType:
     weight: str = "weight"
 
 
-@attr.s(auto_attribs=True, frozen=True)
+@attr.s(auto_attribs=True)
 class BinaryMixture:
     """
     A class to represent binary mixtures
