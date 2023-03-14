@@ -68,17 +68,23 @@ class UNIQUACParameters:
     def from_array(
         cls, array: typing.Union[typing.List[float], numpy.ndarray]
     ) -> "UNIQUACParameters":
-        assert len(array) == 5
+        binary_parameters = []
+        for i in range(len(array)):
+            binary_parameters.append(
+                UNIQUACBinaryInteractionParameters(
+                    i_component_name="",
+                    j_component_name="",
+                    ij_parameter=(0, 0),
+                    ji_parameter=(0, 0),
+                )
+            )
         return cls(
-            binary_parameters_matrix=[
-                [0, (array[0], array[2])],
-                [(array[1], array[3]), 0],
-            ],
+            binary_parameters=binary_parameters,
             # alpha_12=array[0],
             # alpha_21=array[1],
             # beta_12=array[2],
             # beta_21=array[3],
-            z=int(array[4]),
+            z=int(array[-1]),
         )
 
 
