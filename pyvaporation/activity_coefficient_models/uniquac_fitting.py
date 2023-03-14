@@ -125,6 +125,8 @@ def fit_vle(
 
     best_fit = []
     error = 1000
+
+    inital_guess = [0]*len(data.components)
     for alg in algs:
         result = optimize.minimize(
             lambda params: objective(data=data, params=params),
