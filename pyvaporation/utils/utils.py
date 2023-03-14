@@ -32,6 +32,7 @@ class NRTLParameters:
     a12: typing.Optional[float] = 0
     a21: typing.Optional[float] = 0
 
+
 @attr.s(auto_attribs=True)
 class UNIQUACConstants:
     r: float
@@ -45,8 +46,8 @@ class UNIQUACConstants:
 
 @attr.s(auto_attribs=True)
 class UNIQUACBinaryInteractionParameters:
-    i_component: str
-    j_component: str
+    i_component_name: str
+    j_component_name: str
     ij_parameter: typing.Tuple[float, float]
     ji_parameter: typing.Tuple[float, float]
 
@@ -79,6 +80,7 @@ class UNIQUACParameters:
             # beta_21=array[3],
             z=int(array[4]),
         )
+
 
 # @attr.s(auto_attribs=True)
 # class UNIQUACParameters:

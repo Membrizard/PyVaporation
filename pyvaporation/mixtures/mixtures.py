@@ -1,5 +1,9 @@
 from ..components import Components
-from ..utils import NRTLParameters, UNIQUACParameters, UNIQUACBinaryInteractionParameters
+from ..utils import (
+    NRTLParameters,
+    UNIQUACParameters,
+    UNIQUACBinaryInteractionParameters,
+)
 from .mixture import BinaryMixture, Mixture
 
 
@@ -62,8 +66,8 @@ class Mixtures:
         uniquac_params=UNIQUACParameters(
             binary_parameters=[
                 UNIQUACBinaryInteractionParameters(
-                    i_component="H2O",
-                    j_component="EtOH",
+                    i_component_name="H2O",
+                    j_component_name="EtOH",
                     ij_parameter=(21.127561704493143, -0.9175664931087569),
                     ji_parameter=(100.10268878024358, 2.4619377106475753),
                 )
