@@ -6,6 +6,7 @@ from .utils import (
     VPConstantsType,
     UNIQUACConstants,
     UNIQUACParameters,
+    UNIQUACBinaryInteractionParameters,
 )
 
 __all__ = [
@@ -16,4 +17,5 @@ __all__ = [
     "VPConstantsType",
     "UNIQUACConstants",
     "UNIQUACParameters",
+    "UNIQUACBinaryInteractionParameters",
 ]

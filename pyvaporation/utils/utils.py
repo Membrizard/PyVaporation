@@ -32,7 +32,6 @@ class NRTLParameters:
     a12: typing.Optional[float] = 0
     a21: typing.Optional[float] = 0
 
-
 @attr.s(auto_attribs=True)
 class UNIQUACConstants:
     r: float
@@ -45,8 +44,16 @@ class UNIQUACConstants:
 
 
 @attr.s(auto_attribs=True)
+class UNIQUACBinaryInteractionParameters:
+    i_component: str
+    j_component: str
+    ij_parameter: typing.Tuple[float, float]
+    ji_parameter: typing.Tuple[float, float]
+
+
+@attr.s(auto_attribs=True)
 class UNIQUACParameters:
-    binary_parameters_matrix: typing.List[typing.List[typing.Tuple[float, float]]]
+    binary_parameters: typing.List[UNIQUACBinaryInteractionParameters]
     # alpha_12: float
     # alpha_21: float
     # beta_12: float
@@ -54,7 +61,7 @@ class UNIQUACParameters:
     z: int = 10
 
     def __len__(self):
-        return len(self.binary_parameters_matrix)
+        return len(self.binary_parameters)
 
     @classmethod
     def from_array(
@@ -72,6 +79,35 @@ class UNIQUACParameters:
             # beta_21=array[3],
             z=int(array[4]),
         )
+
+# @attr.s(auto_attribs=True)
+# class UNIQUACParameters:
+#     binary_parameters_matrix: typing.List[typing.List[typing.Tuple[float, float]]]
+#     # alpha_12: float
+#     # alpha_21: float
+#     # beta_12: float
+#     # beta_21: float
+#     z: int = 10
+#
+#     def __len__(self):
+#         return len(self.binary_parameters_matrix)
+#
+#     @classmethod
+#     def from_array(
+#         cls, array: typing.Union[typing.List[float], numpy.ndarray]
+#     ) -> "UNIQUACParameters":
+#         assert len(array) == 5
+#         return cls(
+#             binary_parameters_matrix=[
+#                 [0, (array[0], array[2])],
+#                 [(array[1], array[3]), 0],
+#             ],
+#             # alpha_12=array[0],
+#             # alpha_21=array[1],
+#             # beta_12=array[2],
+#             # beta_21=array[3],
+#             z=int(array[4]),
+#         )
 
 
 @attr.s(auto_attribs=True)

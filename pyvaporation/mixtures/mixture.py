@@ -43,7 +43,7 @@ class BinaryMixture:
         return Mixture(
             name=self.name,
             components=[self.first_component, self.second_component],
-            nrtl_params=self.nrtl_params,
+            #nrtl_params=self.nrtl_params,
             uniquac_params=self.uniquac_params,
         )
 
@@ -56,12 +56,37 @@ class BinaryMixture:
                 "Component Interaction parameters are required to create a mixture!"
             )
 
-    # While keeping attrs frozen methods will return new instance of BinaryMixture class
-    # with desired parameters, by this the changes will only occur through methods
-    def replace_component(self)->"BinaryMixture":
+    def change_components( self,
+                          first_component: typing.Optional[Component] = None,
+                          second_component: typing.Optional[Component] = None,
+                          uniquac_params: typing.Optional[UNIQUACParameters] = None,
+                          nrtl_params: typing.Optional[NRTLParameters] = None) -> "BinaryMixture":
 
+        if first_component == second_component:
+            raise ValueError(
+                "BinaryMixture should contain 2 different components"
+            )
 
-        return None
+        components = [self.first_component, self.second_component]
+        if first_component is None and second_component is None:
+            return self
+
+        if first_component in components or second_component in components:
+            if first_component != second_component:
+                return self
+
+        if first_component is not None or second_component is not None:
+            if uniquac_params is None and nrtl_params is None:
+                raise ValueError(
+                    "Interaction parameters must be updated when components are changed."
+                )
+            return BinaryMixture(
+                name=self.name,
+                first_component=first_component,
+                second_component=second_component,
+                nrtl_params=nrtl_params,
+                uniquac_params=uniquac_params,
+            )
 
 
 @attr.s(auto_attribs=True, frozen=True)
@@ -72,8 +97,8 @@ class Mixture:
 
     name: str
     components: typing.List[Component]
-    nrtl_params: typing.Optional[NRTLParameters] = None
-    uniquac_params: typing.Optional[UNIQUACParameters] = None
+    # nrtl_params: typing.Optional[NRTLParameters] = None
+    uniquac_params: UNIQUACParameters
 
     def __len__(self):
         return len(self.components)
@@ -85,15 +110,46 @@ class Mixture:
             name=self.name,
             first_component=self.components[0],
             second_component=self.components[1],
-            nrtl_params=self.nrtl_params,
+            nrtl_params=None,
             uniquac_params=self.uniquac_params,
         )
 
-    def __attrs_post_init__(self):
-        if self.nrtl_params is None and self.uniquac_params is None:
-            raise ValueError(
-                "Component Interaction parameters are required to create a mixture!"
+    def uniquac_tau_matrix(self, temperature: float) -> numpy.ndarray:
+        """
+        The method calculates binary interaction parameters matrix at a given temperature (tau matrix)
+        :param temperature: temperature in K
+        :return: binary interaction parameters matrix
+        """
+        l = len(self)
+        interaction_matrix = numpy.ones(shape=(l, l))
+        parameters = self.uniquac_params.binary_parameters
+        names = [component.name for component in self.components]
+        parameter_coordinates = [(names.index(parameter.i_component), names.index(parameter.j_component)) for parameter in parameters]
+
+        for i in range(len(parameter_coordinates)):
+            ij_parameter = parameters[i].ij_parameter
+            ji_parameter = parameters[i].ji_parameter
+            ij_tau = numpy.exp(
+                -(
+                        ij_parameter[0]
+                        + ij_parameter[1] / temperature
+                )
+                / temperature
             )
+            ji_tau = numpy.exp(
+                -(
+                        ji_parameter[0]
+                        + ji_parameter[1] / temperature
+                )
+                / temperature
+            )
+            interaction_matrix[parameter_coordinates[i][0]][parameter_coordinates[i][1]] = ij_tau
+            interaction_matrix[parameter_coordinates[i][1]][parameter_coordinates[i][0]] = ji_tau
+
+        return interaction_matrix
+
+    def __attrs_post_init__(self):
+
         if len(self) > 2 and (len(self) != len(self.uniquac_params)):
             raise ValueError(
                 "Binary Interaction parameters matrix size does not correspond with the Mixture!"
