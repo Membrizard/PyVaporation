@@ -19,7 +19,7 @@ def uniquac_activity_coefficient_equation(
     q_geometric: typing.List[float],
     q_interaction: typing.List[float],
     x: typing.List[float],
-    tau: typing.List[typing.List[float]],
+    tau: numpy.ndarray,
     z: int,
 ) -> typing.Tuple:
     """
