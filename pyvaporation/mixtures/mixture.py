@@ -11,21 +11,6 @@ from ..activity_coefficient_models import (
     ActivityCoefficientModel,
 )
 
-
-def _is_in_0_to_1_range(instance: typing.Any, attribute, value: float) -> None:
-    if not 0 <= value <= 1:
-        raise ValueError("Give %s value is not in [0, 1] range" % value)
-
-
-class CompositionType:
-    """
-    A class to describe type of the composition
-    """
-
-    molar: str = "molar"
-    weight: str = "weight"
-
-
 @attr.s(auto_attribs=True, frozen=True)
 class BinaryMixture:
     """
@@ -192,28 +177,110 @@ class Mixture:
                 )
 
 
+def _is_in_0_to_1_range(instance: typing.Any, attribute, values: typing.List) -> None:
+    for value in values:
+        if not 0 <= value <= 1:
+            raise ValueError(f"Given {value} value is not in [0, 1] range")
+    if numpy.sum(values) > 1:
+        raise ValueError("The Sum of the Compositions should be less than 1")
+
+
+class CompositionType:
+    """
+    A class to describe type of the composition
+    """
+
+    molar: str = "molar"
+    weight: str = "weight"
+
+
+# @attr.s(auto_attribs=True)
+# class Composition:
+#     """
+#     A class to represent composition of the mixtures
+#     """
+#
+#     p: float = attr.ib(validator=_is_in_0_to_1_range)
+#     type: str
+#
+#     @property
+#     def first(self) -> float:
+#         """
+#         Returns fraction of the first test_components
+#         """
+#         return self.p
+#
+#     @property
+#     def second(self) -> float:
+#         """
+#         Returns fraction of the second test_components
+#         """
+#         return 1 - self.p
+#
+#     def to_molar(self, mixture: BinaryMixture) -> "Composition":
+#         """
+#         Converts Composition to molar %
+#         """
+#         if self.type == CompositionType.molar:
+#             return self
+#         else:
+#             p = (self.p / mixture.first_component.molecular_weight) / (
+#                 self.p / mixture.first_component.molecular_weight
+#                 + (1 - self.p) / mixture.second_component.molecular_weight
+#             )
+#             return Composition(p=p, type=CompositionType.molar)
+#
+#     def to_weight(self, mixture: BinaryMixture) -> "Composition":
+#         """
+#         Converts Composition to weight %
+#         """
+#         if self.type == CompositionType.weight:
+#             return self
+#         else:
+#             p = (mixture.first_component.molecular_weight * self.p) / (
+#                 mixture.first_component.molecular_weight * self.p
+#                 + mixture.second_component.molecular_weight * (1 - self.p)
+#             )
+#             return Composition(p=p, type=CompositionType.weight)
+
+
 @attr.s(auto_attribs=True)
 class Composition:
     """
     A class to represent composition of the mixtures
     """
 
-    p: float = attr.ib(validator=_is_in_0_to_1_range)
+    p: typing.Union[typing.List, float]
     type: str
+
+    def __attrs_post_init__(self):
+        p = self.p
+
+        if isinstance(p, float):
+            self.p = [p]
+
+        for value in self.p:
+            if not 0 <= value <= 1:
+                raise ValueError(f"Given {value} value is not in [0, 1] range")
+        if numpy.sum(self.p) > 1:
+            raise ValueError("The Sum of the Compositions should be less than 1")
+
+    def __len__(self):
+        return len(self.p)
 
     @property
     def first(self) -> float:
         """
         Returns fraction of the first test_components
         """
-        return self.p
+        return self.p[0]
 
     @property
     def second(self) -> float:
         """
         Returns fraction of the second test_components
         """
-        return 1 - self.p
+        return 1 - self.p[0]
 
     def to_molar(self, mixture: BinaryMixture) -> "Composition":
         """
@@ -222,10 +289,10 @@ class Composition:
         if self.type == CompositionType.molar:
             return self
         else:
-            p = (self.p / mixture.first_component.molecular_weight) / (
-                self.p / mixture.first_component.molecular_weight
-                + (1 - self.p) / mixture.second_component.molecular_weight
-            )
+            p = [(self.first / mixture.first_component.molecular_weight) / (
+                self.first / mixture.first_component.molecular_weight
+                + self.second / mixture.second_component.molecular_weight
+            )]
             return Composition(p=p, type=CompositionType.molar)
 
     def to_weight(self, mixture: BinaryMixture) -> "Composition":
@@ -235,10 +302,10 @@ class Composition:
         if self.type == CompositionType.weight:
             return self
         else:
-            p = (mixture.first_component.molecular_weight * self.p) / (
-                mixture.first_component.molecular_weight * self.p
-                + mixture.second_component.molecular_weight * (1 - self.p)
-            )
+            p = [(mixture.first_component.molecular_weight * self.first) / (
+                mixture.first_component.molecular_weight * self.first
+                + mixture.second_component.molecular_weight * (1 - self.first)
+            )]
             return Composition(p=p, type=CompositionType.weight)
 
 
