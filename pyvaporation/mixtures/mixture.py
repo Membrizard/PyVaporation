@@ -261,13 +261,11 @@ class Composition:
         if isinstance(p, float) or isinstance(p, int):
             self.p = [p, 1-p]
 
-        #self.p.append(1-sum(self.p))
-
         for value in self.p:
             if not 0 <= value <= 1:
                 raise ValueError(f"Given {value} value is not in [0, 1] range")
-        if sum(self.p) > 1:
-            raise ValueError("The Sum of the Compositions should be less than 1")
+        if abs(1-sum(self.p)) > 1e-10:
+            raise ValueError("The Sum of the component fractions should be equal to 1")
 
     def __len__(self):
         return len(self.p)
@@ -303,17 +301,24 @@ class Composition:
 
         return Composition(p=p, type=CompositionType.molar)
 
-    def to_weight(self, mixture: BinaryMixture) -> "Composition":
+    def to_weight(self, mixture: typing.Union[Mixture, BinaryMixture]) -> "Composition":
         """
         Converts Composition to weight %
         """
+        if isinstance(mixture, BinaryMixture):
+            mixture = mixture.to_mixture()
+
         if self.type == CompositionType.weight:
             return self
         else:
-            p = (mixture.first_component.molecular_weight * self.first) / (
-                mixture.first_component.molecular_weight * self.first
-                + mixture.second_component.molecular_weight * (1 - self.first)
-            )
+            molecular_weights = [component.molecular_weight for component in mixture.components]
+            p = numpy.multiply(self.p, molecular_weights)
+            sum_p = sum(p)
+            p = [value/sum_p for value in p]
+            # p = (mixture.first_component.molecular_weight * self.first) / (
+            #     mixture.first_component.molecular_weight * self.first
+            #     + mixture.second_component.molecular_weight * (1 - self.first)
+            # )
             return Composition(p=p, type=CompositionType.weight)
 
 
