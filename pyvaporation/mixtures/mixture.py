@@ -140,8 +140,8 @@ class Mixture:
         :param temperature: temperature in K
         :return: binary interaction parameters matrix
         """
-        l = len(self)
-        interaction_matrix = numpy.ones(shape=(l, l))
+        L = len(self)
+        interaction_matrix = numpy.ones(shape=(L, L))
         parameters = self.uniquac_params.binary_parameters
         names = [component.name for component in self.components]
         parameter_coordinates = [

@@ -11,6 +11,7 @@ from pyvaporation.utils import (
     VaporPressureConstants,
     UNIQUACConstants,
     UNIQUACParameters,
+    UNIQUACBinaryInteractionParameters,
 )
 
 antoine_constants = VaporPressureConstants(
@@ -79,9 +80,13 @@ nrtl_params = NRTLParameters(
 )
 
 uniquac_params = UNIQUACParameters(
-    binary_parameters_matrix=[
-        [0, (21.127561704493143, -0.9175664931087569)],
-        [(100.10268878024358, 2.4619377106475753), 0],
+    binary_parameters=[
+        UNIQUACBinaryInteractionParameters(
+            i_component_name="H2O",
+            j_component_name="EtOH",
+            ij_parameter=(21.127561704493143, -0.9175664931087569),
+            ji_parameter=(100.10268878024358, 2.4619377106475753)
+        )
     ],
     # alpha_12=21.127561704493143,
     # alpha_21=100.10268878024358,
