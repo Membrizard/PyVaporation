@@ -33,7 +33,7 @@ uniquac_constants = UNIQUACConstants(
 )
 
 test_component_1 = Component(
-    name="h2o",
+    name="H2O",
     molecular_weight=18.02,
     vapour_pressure_constants=antoine_constants,
     heat_capacity_constants=heat_capacity_constants,
@@ -59,7 +59,7 @@ uniquac_constants = UNIQUACConstants(
 )
 
 test_component_2 = Component(
-    name="etoh",
+    name="EtOH",
     molecular_weight=46.07,
     vapour_pressure_constants=antoine_constants,
     heat_capacity_constants=heat_capacity_constants,
@@ -110,17 +110,17 @@ def test_composition_to_mol():
     test_composition_3 = Composition(p=0.1, type=CompositionType.weight)
     test_composition_4 = Composition(p=0.3, type=CompositionType.weight)
 
-    assert test_composition_1.to_molar(mixture=test_mixture) == Composition(
+    assert test_composition_1.to_molar(mixture=test_mixture.to_mixture()) == Composition(
         p=0, type=CompositionType.molar
     )
-    assert test_composition_2.to_molar(mixture=test_mixture) == Composition(
+    assert test_composition_2.to_molar(mixture=test_mixture.to_mixture()) == Composition(
         p=1, type=CompositionType.molar
     )
     assert (
-        abs(test_composition_3.to_molar(mixture=test_mixture).first - 0.22122449) < 1e-4
+        abs(test_composition_3.to_molar(mixture=test_mixture.to_mixture()).first - 0.22122449) < 1e-4
     )
     assert (
-        abs(test_composition_4.to_molar(mixture=test_mixture).second - 0.4771704) < 1e-4
+        abs(test_composition_4.to_molar(mixture=test_mixture.to_mixture()).second - 0.4771704) < 1e-4
     )
 
 
