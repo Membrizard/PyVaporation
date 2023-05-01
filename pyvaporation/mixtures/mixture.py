@@ -186,14 +186,6 @@ class Mixture:
                 )
 
 
-def _is_in_0_to_1_range(instance: typing.Any, attribute, values: typing.List) -> None:
-    for value in values:
-        if not 0 <= value <= 1:
-            raise ValueError(f"Given {value} value is not in [0, 1] range")
-    if numpy.sum(values) > 1:
-        raise ValueError("The Sum of the Compositions should be less than 1")
-
-
 class CompositionType:
     """
     A class to describe type of the composition
@@ -279,10 +271,7 @@ class Composition:
             p = numpy.multiply(self.p, molecular_weights)
             sum_p = sum(p)
             p = [value/sum_p for value in p]
-            # p = (mixture.first_component.molecular_weight * self.first) / (
-            #     mixture.first_component.molecular_weight * self.first
-            #     + mixture.second_component.molecular_weight * (1 - self.first)
-            # )
+           
             return Composition(p=p, type=CompositionType.weight)
 
 
