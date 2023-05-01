@@ -7,7 +7,7 @@ from pathlib import Path
 
 from ..utils import UNIQUACParameters
 from ..components import Component, Components
-from ..mixtures import get_partial_pressures, Composition, BinaryMixture
+from ..mixtures import get_partial_pressures, Composition, Mixture
 from scipy import optimize
 
 VLE_COLUMNS = [
@@ -150,12 +150,18 @@ def objective(data: VLEPoints, params: typing.List[float]) -> float:
     :return: accumulative squared error as float
     """
     error = 0
-    mixture = BinaryMixture(
+    # mixture = BinaryMixture(
+    #     name="",
+    #     first_component=data.components[0],
+    #     second_component=data.components[1],
+    #     uniquac_params=UNIQUACParameters.from_array(params),
+    # ).to_mixture()
+
+    mixture = Mixture(
         name="",
-        first_component=data.components[0],
-        second_component=data.components[1],
-        uniquac_params=UNIQUACParameters.from_array(params),
-    ).to_mixture()
+        components=data.components,
+        uniquac_params=UNIQUACParameters.from_array(params)
+    )
 
     for point in data:
         error += (

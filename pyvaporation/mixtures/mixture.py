@@ -107,6 +107,14 @@ class Mixture:
     def __len__(self):
         return len(self.components)
 
+    @property
+    def first_component(self):
+        return self.components[0]
+
+    @property
+    def second_component(self):
+        return self.components[1]
+
     def to_binary_mixture(self) -> "BinaryMixture":
         if len(self.components) != 2:
             raise ValueError(
@@ -193,56 +201,6 @@ class CompositionType:
 
     molar: str = "molar"
     weight: str = "weight"
-
-
-# @attr.s(auto_attribs=True)
-# class Composition:
-#     """
-#     A class to represent composition of the mixtures
-#     """
-#
-#     p: float = attr.ib(validator=_is_in_0_to_1_range)
-#     type: str
-#
-#     @property
-#     def first(self) -> float:
-#         """
-#         Returns fraction of the first test_components
-#         """
-#         return self.p
-#
-#     @property
-#     def second(self) -> float:
-#         """
-#         Returns fraction of the second test_components
-#         """
-#         return 1 - self.p
-#
-#     def to_molar(self, mixture: BinaryMixture) -> "Composition":
-#         """
-#         Converts Composition to molar %
-#         """
-#         if self.type == CompositionType.molar:
-#             return self
-#         else:
-#             p = (self.p / mixture.first_component.molecular_weight) / (
-#                 self.p / mixture.first_component.molecular_weight
-#                 + (1 - self.p) / mixture.second_component.molecular_weight
-#             )
-#             return Composition(p=p, type=CompositionType.molar)
-#
-#     def to_weight(self, mixture: BinaryMixture) -> "Composition":
-#         """
-#         Converts Composition to weight %
-#         """
-#         if self.type == CompositionType.weight:
-#             return self
-#         else:
-#             p = (mixture.first_component.molecular_weight * self.p) / (
-#                 mixture.first_component.molecular_weight * self.p
-#                 + mixture.second_component.molecular_weight * (1 - self.p)
-#             )
-#             return Composition(p=p, type=CompositionType.weight)
 
 
 @attr.s(auto_attribs=True)
@@ -394,10 +352,6 @@ def calculate_activity_coefficients(
 
     elif calculation_type == ActivityCoefficientModel.UNIQUAC:
         # The implementation is based on https://doi.org/10.1021/i260068a028
-        # if composition.first == 0:
-        #     composition = Composition(p=0.00001, type="molar")
-        # if composition.second == 0:
-        #     composition = Composition(p=0.99999, type="molar")
 
         for i in range(len(composition)):
             if composition[i] == 0:
@@ -414,12 +368,6 @@ def calculate_activity_coefficients(
                     "UNIQUAC Constants for all Components must be specified for this type of calculation"
                 )
             component_consts.append(component.uniquac_constants)
-
-
-        # first_component_const = mixture.first_component.uniquac_constants
-        # second_component_const = mixture.second_component.uniquac_constants
-        #
-        # tau = mixture.uniquac_tau_matrix(temperature=temperature)
 
         activity_coefficients = uniquac_activity_coefficient_equation(
             r=[component.r for component in component_consts],
