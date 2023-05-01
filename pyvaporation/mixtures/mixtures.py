@@ -4,7 +4,7 @@ from ..utils import (
     UNIQUACParameters,
     UNIQUACBinaryInteractionParameters,
 )
-from .mixture import BinaryMixture, Mixture
+from .mixture import Mixture
 
 
 class Mixtures:
