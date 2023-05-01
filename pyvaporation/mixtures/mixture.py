@@ -101,8 +101,8 @@ class Mixture:
 
     name: str
     components: typing.List[Component]
-    # nrtl_params: typing.Optional[NRTLParameters] = None
-    uniquac_params: UNIQUACParameters
+    nrtl_params: typing.Optional[NRTLParameters] = None
+    uniquac_params: typing.Optional[UNIQUACParameters] = None
 
     def __len__(self):
         return len(self.components)
@@ -345,14 +345,11 @@ def get_partial_pressures(
         composition=composition,
         calculation_type=calculation_type,
     )
-    return (
-        mixture.first_component.get_vapor_pressure(temperature)
-        * activity_coefficients[0]
-        * composition.first,
-        mixture.second_component.get_vapor_pressure(temperature)
-        * activity_coefficients[1]
-        * composition.second,
-    )
+    pc_pressures = [component.get_vapor_pressure(temperature) for component in mixture.components]
+    r_pressures = numpy.multiply(pc_pressures, activity_coefficients)
+    r_pressures = tuple(numpy.multiply(r_pressures, composition.p))
+    print(r_pressures)
+    return r_pressures
 
 
 def calculate_activity_coefficients(
@@ -401,44 +398,26 @@ def calculate_activity_coefficients(
             raise ValueError(
                 "UNIQUAC Parameters must be specified for this type of calculation"
             )
-        if (
-            mixture.first_component.uniquac_constants is None
-            or mixture.second_component.uniquac_constants is None
-        ):
-            raise ValueError(
-                "UNIQUAC Constants for all Components must be specified for this type of calculation"
-            )
+        component_consts = []
+        for component in mixture.components:
+            if component.uniquac_constants is None:
+                raise ValueError(
+                    "UNIQUAC Constants for all Components must be specified for this type of calculation"
+                )
+            component_consts.append(component.uniquac_constants)
 
-        first_component_const = mixture.first_component.uniquac_constants
-        second_component_const = mixture.second_component.uniquac_constants
 
-        # binary_interaction_params = mixture.uniquac_params.binary_parameters_matrix
-        # # tau[i][i] = 1 !!!!
-        tau = mixture.uniquac_tau_matrix(temperature=temperature)
-
-        # for i in range(len(binary_interaction_params)):
-        #     for j in range(len(binary_interaction_params)):
-        #         if binary_interaction_params[i][j] != 0:
-        #             tau[i][j] = numpy.exp(
-        #                 -(
-        #                     binary_interaction_params[i][j][0]
-        #                     + binary_interaction_params[i][j][1] / temperature
-        #                 )
-        #                 / temperature
-        #             )
+        # first_component_const = mixture.first_component.uniquac_constants
+        # second_component_const = mixture.second_component.uniquac_constants
+        #
+        # tau = mixture.uniquac_tau_matrix(temperature=temperature)
 
         activity_coefficients = uniquac_activity_coefficient_equation(
-            r=[first_component_const.r, second_component_const.r],
-            q_geometric=[
-                first_component_const.q_geometric,
-                second_component_const.q_geometric,
-            ],
-            q_interaction=[
-                first_component_const.q_interaction,
-                second_component_const.q_interaction,
-            ],
-            x=[composition.first, composition.second],
-            tau=tau,
+            r=[component.r for component in component_consts],
+            q_geometric=[component.q_geometric for component in component_consts],
+            q_interaction=[component.q_interaction for component in component_consts],
+            x=composition.p,
+            tau=mixture.uniquac_tau_matrix(temperature=temperature),
             z=mixture.uniquac_params.z,
         )
 
