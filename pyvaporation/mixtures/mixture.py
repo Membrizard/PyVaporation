@@ -271,7 +271,7 @@ class Composition:
             p = numpy.multiply(self.p, molecular_weights)
             sum_p = sum(p)
             p = [value/sum_p for value in p]
-           
+
             return Composition(p=p, type=CompositionType.weight)
 
 

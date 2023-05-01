@@ -150,13 +150,7 @@ def objective(data: VLEPoints, params: typing.List[float]) -> float:
     :return: accumulative squared error as float
     """
     error = 0
-    # mixture = BinaryMixture(
-    #     name="",
-    #     first_component=data.components[0],
-    #     second_component=data.components[1],
-    #     uniquac_params=UNIQUACParameters.from_array(params),
-    # ).to_mixture()
-
+    
     mixture = Mixture(
         name="",
         components=data.components,
