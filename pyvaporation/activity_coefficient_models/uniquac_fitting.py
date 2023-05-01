@@ -155,7 +155,8 @@ def objective(data: VLEPoints, params: typing.List[float]) -> float:
         first_component=data.components[0],
         second_component=data.components[1],
         uniquac_params=UNIQUACParameters.from_array(params),
-    )
+    ).to_mixture()
+
     for point in data:
         error += (
             get_partial_pressures(

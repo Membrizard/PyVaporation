@@ -29,7 +29,7 @@ class BinaryMixture:
         return Mixture(
             name=self.name,
             components=[self.first_component, self.second_component],
-            # nrtl_params=self.nrtl_params,
+            nrtl_params=self.nrtl_params,
             uniquac_params=self.uniquac_params,
         )
 
@@ -116,7 +116,7 @@ class Mixture:
             name=self.name,
             first_component=self.components[0],
             second_component=self.components[1],
-            nrtl_params=None,
+            nrtl_params=self.nrtl_params,
             uniquac_params=self.uniquac_params,
         )
 
@@ -270,6 +270,12 @@ class Composition:
     def __len__(self):
         return len(self.p)
 
+    def __getitem__(self, item):
+        return self.p[item]
+
+    def __setitem__(self, key, value):
+        self.p[key] = value
+
     @property
     def first(self) -> float:
         """
@@ -348,7 +354,6 @@ def get_partial_pressures(
     pc_pressures = [component.get_vapor_pressure(temperature) for component in mixture.components]
     r_pressures = numpy.multiply(pc_pressures, activity_coefficients)
     r_pressures = tuple(numpy.multiply(r_pressures, composition.p))
-    print(r_pressures)
     return r_pressures
 
 
@@ -389,10 +394,14 @@ def calculate_activity_coefficients(
 
     elif calculation_type == ActivityCoefficientModel.UNIQUAC:
         # The implementation is based on https://doi.org/10.1021/i260068a028
-        if composition.first == 0:
-            composition = Composition(p=0.00001, type="molar")
-        if composition.second == 0:
-            composition = Composition(p=0.99999, type="molar")
+        # if composition.first == 0:
+        #     composition = Composition(p=0.00001, type="molar")
+        # if composition.second == 0:
+        #     composition = Composition(p=0.99999, type="molar")
+
+        for i in range(len(composition)):
+            if composition[i] == 0:
+                composition[i] = 1e-10
 
         if mixture.uniquac_params is None:
             raise ValueError(
