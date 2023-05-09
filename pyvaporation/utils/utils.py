@@ -66,7 +66,7 @@ class UNIQUACParameters:
 
     @classmethod
     def from_array(
-        cls, array: typing.Union[typing.List[float], numpy.ndarray]
+        cls, array: typing.Union[typing.List[float], numpy.ndarray], components: typing.List[str],
     ) -> "UNIQUACParameters":
 
         z, array = array[-1], array[:-1]

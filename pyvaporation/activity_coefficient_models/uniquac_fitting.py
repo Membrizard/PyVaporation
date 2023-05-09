@@ -51,7 +51,7 @@ class VLEPoint:
     """
 
     composition: Composition
-    pressures: tuple
+    pressures: typing.Tuple[float]
     temperature: float
     reference: typing.Optional[str]
 
@@ -178,7 +178,7 @@ def objective(data: VLEPoints, params: typing.List[float]) -> float:
     error = 0
 
     mixture = Mixture(
-        name="",
+        name="fitting_mixture",
         components=data.components,
         # TODO: Need to come up with the idea how to reference components in the array
         uniquac_params=UNIQUACParameters.from_array(array=params, components = data.components)
