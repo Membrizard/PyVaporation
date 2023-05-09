@@ -68,23 +68,30 @@ class UNIQUACParameters:
     def from_array(
         cls, array: typing.Union[typing.List[float], numpy.ndarray]
     ) -> "UNIQUACParameters":
+
+        z, array = array[-1], array[:-1]
+
         binary_parameters = []
-        for i in range(len(array)):
+        indexes = [i for i in range(len(array)) if i % 3 == 0]
+        indexes.pop(-1)
+        for i in indexes:
             binary_parameters.append(
                 UNIQUACBinaryInteractionParameters(
+                    # TODO: Need to come up with the idea how to reference components in the array
                     i_component_name="",
                     j_component_name="",
-                    ij_parameter=(0, 0),
-                    ji_parameter=(0, 0),
+                    ij_parameter=(array[i], array[i+1]),
+                    ji_parameter=(array[i+2], array[i+3]),
                 )
             )
+            print(f"cycle{i}")
         return cls(
             binary_parameters=binary_parameters,
             # alpha_12=array[0],
             # alpha_21=array[1],
             # beta_12=array[2],
             # beta_21=array[3],
-            z=int(array[-1]),
+            z=z,
         )
 
 

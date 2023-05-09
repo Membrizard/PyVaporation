@@ -211,6 +211,11 @@ class Composition:
         if isinstance(p, float) or isinstance(p, int):
             self.p = [p, 1-p]
 
+        if isinstance(p, list):
+            for value in p:
+                if not isinstance(value, float):
+                    raise ValueError(f"{value} is not float.")
+
         for value in self.p:
             if not 0 <= value <= 1:
                 raise ValueError(f"Given {value} value is not in [0, 1] range")

@@ -1,0 +1,29 @@
+first_component,second_component,third_component,composition,composition_type,first_component_pressure,second_component_pressure,third_component_pressure,temperature,reference
+MeOH,EtOH,H2O,0.75 0.141 0.109,molar,86.131,9.728,5.472,341.25,https://doi.org/10.1021/i460004a010
+MeOH,EtOH,H2O,0.756 0.142 0.102,molar,86.333,9.728,5.269,341.25,https://doi.org/10.1021/i460004a010
+MeOH,EtOH,H2O,0.302 0.59 0.108,molar,42.356,49.652,9.322,347.35,https://doi.org/10.1021/i460004a010
+MeOH,EtOH,H2O,0.53 0.23 0.24,molar,70.424,18.239,12.666,344.85,https://doi.org/10.1021/i460004a010
+MeOH,EtOH,H2O,0.26 0.52 0.22,molar,36.479,47.625,17.226,348.15,https://doi.org/10.1021/i460004a010
+MeOH,EtOH,H2O,0.049 0.248 0.703,molar,13.173,51.881,36.276,354.35,https://doi.org/10.1021/i460004a010
+MeOH,EtOH,H2O,0.36 0.293 0.347,molar,53.198,29.386,18.746,347.65,https://doi.org/10.1021/i460004a010
+MeOH,EtOH,H2O,0.203 0.475 0.322,molar,33.236,47.625,20.469,349.45,https://doi.org/10.1021/i460004a010
+MeOH,EtOH,H2O,0.216 0.31 0.474,molar,39.519,36.985,24.826,350.35,https://doi.org/10.1021/i460004a010
+MeOH,EtOH,H2O,0.49 0.36 0.15,molar,64.345,29.386,7.600,345.05,https://doi.org/10.1021/i460004a010
+MeOH,EtOH,H2O,0.102 0.368 0.53,molar,19.962,51.678,29.690,352.15,https://doi.org/10.1021/i460004a010
+MeOH,EtOH,H2O,0.284 0.296 0.42,molar,44.585,35.972,20.773,348.95,https://doi.org/10.1021/i460004a010
+MeOH,EtOH,H2O,0.035 0.35 0.615,molar,8.208,56.137,36.985,353.65,https://doi.org/10.1021/i460004a010
+MeOH,EtOH,H2O,0.043 0.062 0.895,molar,18.746,31.412,51.172,356.15,https://doi.org/10.1021/i460004a010
+MeOH,EtOH,H2O,0.061 0.033 0.906,molar,28.372,22.293,50.665,360.65,https://doi.org/10.1021/i460004a010
+MeOH,EtOH,H2O,0.138 0.041 0.821,molar,43.065,15.200,43.065,356.15,https://doi.org/10.1021/i460004a010
+MeOH,EtOH,H2O,0.24 0.06 0.7,molar,55.732,16.213,29.386,352.15,https://doi.org/10.1021/i460004a010
+MeOH,EtOH,H2O,0.055 0.255 0.69,molar,16.213,49.145,35.972,354.15,https://doi.org/10.1021/i460004a010
+MeOH,EtOH,H2O,0.053 0.145 0.802,molar,14.693,43.572,43.065,355.85,https://doi.org/10.1021/i460004a010
+MeOH,EtOH,H2O,0.093 0.098 0.809,molar,31.412,30.399,39.519,355.85,https://doi.org/10.1021/i460004a010
+MeOH,EtOH,H2O,0.109 0.081 0.81,molar,35.97215,25.3325,40.02535,355.85,Hughes H.E.; Maloney J.O.: Binary and Ternary Equilibrium Data. Chem.Eng.Prog.(CEP) 48 (1952) 192-200
+MeOH,EtOH,H2O,0.09 0.08 0.83,molar,31.20964,28.87905,41.24131,356.65,Hughes H.E.; Maloney J.O.: Binary and Ternary Equilibrium Data. Chem.Eng.Prog.(CEP) 48 (1952) 192-200
+MeOH,EtOH,H2O,0.061 0.142 0.797,molar,19.75935,40.02535,41.5453,355.65,Hughes H.E.; Maloney J.O.: Binary and Ternary Equilibrium Data. Chem.Eng.Prog.(CEP) 48 (1952) 192-200
+MeOH,EtOH,H2O,0.16 0.037 0.803,molar,52.18495,10.63965,38.5054,355.35,Hughes H.E.; Maloney J.O.: Binary and Ternary Equilibrium Data. Chem.Eng.Prog.(CEP) 48 (1952) 192-200
+MeOH,EtOH,H2O,0.117 0.098 0.785,molar,36.37747,27.66309,37.28944,354.15,Hughes H.E.; Maloney J.O.: Binary and Ternary Equilibrium Data. Chem.Eng.Prog.(CEP) 48 (1952) 192-200
+MeOH,EtOH,H2O,0.0515 0.067 0.8815,molar,23.10324,32.02028,46.20648,355.95,Hughes H.E.; Maloney J.O.: Binary and Ternary Equilibrium Data. Chem.Eng.Prog.(CEP) 48 (1952) 192-200
+MeOH,EtOH,H2O,0.1 0.096 0.804,molar,31.4123,29.89235,40.02535,355.65,Hughes H.E.; Maloney J.O.: Binary and Ternary Equilibrium Data. Chem.Eng.Prog.(CEP) 48 (1952) 192-200
+MeOH,EtOH,H2O,0.11 0.72 0.17,molar,18.2394,68.9044,14.1862,349.65,Hughes H.E.; Maloney J.O.: Binary and Ternary Equilibrium Data. Chem.Eng.Prog.(CEP) 48 (1952) 192-200

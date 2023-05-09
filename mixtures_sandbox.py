@@ -1,14 +1,8 @@
 from pyvaporation.mixtures import Mixtures, get_partial_pressures, Composition
-from pyvaporation.components import Components
+from pyvaporation.mixtures import VLEPoints, fit_vle
 
-mixture = Mixtures.H2O_EtOH
+points = VLEPoints.from_csv(path="./tests/VLE_data/ternary/H2O_MeOH_EtOH.csv")
 
+params = fit_vle(data=points)
 
-
-ps = get_partial_pressures(temperature=293,
-                           mixture=mixture,
-                           composition=Composition(p=0.5, type="molar"),
-                           )
-
-
-print(ps)
+print(params)
