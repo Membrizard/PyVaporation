@@ -150,7 +150,7 @@ def objective(data: VLEPoints, params: typing.List[float]) -> float:
     :return: accumulative squared error as float
     """
     error = 0
-    
+
     mixture = Mixture(
         name="",
         components=data.components,
