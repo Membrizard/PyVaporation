@@ -150,13 +150,13 @@ def fit_vle(
 
     best_fit = []
     error = 1000
-
-    inital_guess = [0]*len(data.components)
+    # TODO: Need to come up with the idea how to reference components in the array
+    inital_guess = [0, 0, 0, 0, 10]
     for alg in algs:
         result = optimize.minimize(
             # TODO: Need to come up with the idea how to reference components in the array
             lambda params: objective(data=data, params=params),
-            x0=numpy.array([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 10]),
+            x0=numpy.array(inital_guess),
             method=alg,
         )
 
@@ -181,7 +181,7 @@ def objective(data: VLEPoints, params: typing.List[float]) -> float:
         name="",
         components=data.components,
         # TODO: Need to come up with the idea how to reference components in the array
-        uniquac_params=UNIQUACParameters.from_array(params)
+        uniquac_params=UNIQUACParameters.from_array(array=params, components = data.components)
     )
 
     for point in data:
