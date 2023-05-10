@@ -79,7 +79,6 @@ class Mixtures:
     )
 
     H2O_AceticAcid: Mixture = Mixture(
-        # TODO: Fix UNIQUAC coefficients to fit with precision in tests
         name="H2O_AceticAcid",
         components=[Components.H2O, Components.AceticAcid],
         nrtl_params=NRTLParameters(
@@ -92,16 +91,15 @@ class Mixtures:
                 UNIQUACBinaryInteractionParameters(
                     i_component_name=Components.H2O.name,
                     j_component_name=Components.AceticAcid.name,
-                    ij_parameter=(-129.9765770340468, -0.31354951657408175),
-                    ji_parameter=(23.640931620853934, 0.07553464090651879),
+                    ij_parameter=(553.1264309176229, -72721.35346590765),
+                    ji_parameter=(-4021.0008678052786, 1695599.677300828),
                 )
             ],
-            z=10,
+            z=-17,
         ),
     )
 
     EtOH_ETBE: Mixture = Mixture(
-        # TODO: Fix UNIQUAC coefficients to fit with precision in tests
         name="EtOH_ETBE",
         components=[Components.EtOH, Components.ETBE],
         nrtl_params=NRTLParameters(
@@ -114,11 +112,11 @@ class Mixtures:
                 UNIQUACBinaryInteractionParameters(
                     i_component_name=Components.EtOH.name,
                     j_component_name=Components.ETBE.name,
-                    ij_parameter=(8942.589565297398, -2915794.8390840776),
-                    ji_parameter=(-18441.776691222403, 6478988.764315034),
+                    ij_parameter=(-10285.9439183672,  3499982.3578537833),
+                    ji_parameter=(22721.63224190127, -7581266.470664459),
                 )
             ],
-            z=10,
+            z=330,
         ),
     )
 
@@ -144,7 +142,6 @@ class Mixtures:
     )
 
     MeOH_MTBE: Mixture = Mixture(
-        # TODO: Fix UNIQUAC coefficients to fit with precision in tests
         name="MeOH_MTBE",
         components=[Components.MeOH, Components.MTBE],
         nrtl_params=NRTLParameters(
@@ -157,16 +154,15 @@ class Mixtures:
                 UNIQUACBinaryInteractionParameters(
                     i_component_name=Components.MeOH.name,
                     j_component_name=Components.MTBE.name,
-                    ij_parameter=(-2487.7680701255767, 903707.2728090351),
-                    ji_parameter=(-1614.4771614656215, 651311.6984954888),
+                    ij_parameter=(252.79714757363894, 0.9056362361549228),
+                    ji_parameter=(347.03032132484446, 1.1110892874192397),
                 )
             ],
-            z=10,
+            z=27,
         ),
     )
 
     MeOH_DMC: Mixture = Mixture(
-        # TODO: Fix UNIQUAC coefficients to fit with precision in tests
         name="MeOH_DMC",
         components=[Components.MeOH, Components.DMC],
         nrtl_params=NRTLParameters(
@@ -179,10 +175,10 @@ class Mixtures:
                 UNIQUACBinaryInteractionParameters(
                     i_component_name=Components.MeOH.name,
                     j_component_name=Components.DMC.name,
-                    ij_parameter=(739.9268135127102, -173417.54480148194),
-                    ji_parameter=(-168.38470470351714, 72635.51155280948),
+                    ij_parameter=(-7770.455121601478, 2739631.6322418065),
+                    ji_parameter=(5488.577560464677,  -1814396.3302111519),
                 )
             ],
-            z=10,
+            z=306,
         ),
     )

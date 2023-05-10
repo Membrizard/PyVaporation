@@ -49,9 +49,9 @@ for point in ternary_points:
     sum_error_2.append(numpy.sqrt(error_2 * len(ternary_points)) / validation_average_2)
     sum_error_3.append(numpy.sqrt(error_3 * len(ternary_points)) / validation_average_3)
 
-    print(f"Ternary:\nError 1: {max(sum_error_1)}")
-    print(f"Error 2: {max(sum_error_2)}")
-    print(f"Error 3: {max(sum_error_3)}")
+print(f"Ternary:\nError 1: {max(sum_error_1)}")
+print(f"Error 2: {max(sum_error_2)}")
+print(f"Error 3: {max(sum_error_3)}")
 
 test_mixture_2 = Mixture(
     name="Binary",
@@ -85,5 +85,5 @@ for point in binary_points:
     sum_error_1.append(numpy.sqrt(error_1 * len(binary_points)) / validation_average_1)
     sum_error_2.append(numpy.sqrt(error_2 * len(binary_points)) / validation_average_2)
 
-    print(f"Binary:\nError 1: {max(sum_error_1)}")
-    print(f"Error 2: {max(sum_error_2)}")
+print(f"Binary:\nError 1: {max(sum_error_1)}")
+print(f"Error 2: {max(sum_error_2)}")
