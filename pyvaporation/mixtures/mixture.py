@@ -285,7 +285,7 @@ def get_partial_pressures(
     mixture: typing.Union[BinaryMixture, Mixture],
     composition: Composition,
     calculation_type: str = ActivityCoefficientModel.NRTL,
-) -> typing.Tuple[float, float]:
+) -> typing.Tuple[float]:
     """
     Calculation of partial pressures of both test_components
     :params

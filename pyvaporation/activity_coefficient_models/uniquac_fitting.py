@@ -1,3 +1,4 @@
+import math
 import typing
 import attr
 import numpy
@@ -63,8 +64,14 @@ class VLEPoint:
         :return: VLEPoint with parameters specified in mapping
         """
 
-        p = [float(x) for x in d["composition"].split(sep=" ")]
-        pressures = tuple(d[x] for x in list(d.keys()) if x.endswith("_component_pressure"))
+        if isinstance(d["composition"], str):
+            p = [float(x) for x in d["composition"].split(sep=" ")]
+        elif isinstance(d["composition"], float):
+            p = d["composition"]
+        else:
+            raise ValueError("Unrecognisable type of Composition input.")
+
+        pressures = tuple(float(d[x]) for x in list(d.keys()) if x.endswith("_component_pressure"))
         composition = Composition(p=p, type=d["composition_type"])
 
         if len(composition) != len(pressures):
@@ -150,13 +157,12 @@ def fit_vle(
 
     best_fit = []
     error = 1000
-    # TODO: Need to come up with the idea how to reference components in the array
-    inital_guess = [0, 0, 0, 0, 10]
+    initial_guess = numpy.append(numpy.zeros(math.comb(len(data.components), 2)*4), 10)
+
     for alg in algs:
         result = optimize.minimize(
-            # TODO: Need to come up with the idea how to reference components in the array
             lambda params: objective(data=data, params=params),
-            x0=numpy.array(inital_guess),
+            x0=numpy.array(initial_guess),
             method=alg,
         )
 
@@ -165,7 +171,7 @@ def fit_vle(
             best_fit = result.x
             error = current_error
 
-    return UNIQUACParameters.from_array(best_fit)
+    return UNIQUACParameters.from_array(array=best_fit, components=[x.name for x in data.components])
 
 
 def objective(data: VLEPoints, params: typing.List[float]) -> float:
@@ -180,26 +186,17 @@ def objective(data: VLEPoints, params: typing.List[float]) -> float:
     mixture = Mixture(
         name="fitting_mixture",
         components=data.components,
-        # TODO: Need to come up with the idea how to reference components in the array
-        uniquac_params=UNIQUACParameters.from_array(array=params, components = data.components)
+        uniquac_params=UNIQUACParameters.from_array(array=params, components=[i.name for i in data.components])
     )
 
     for point in data:
-        error += (
-            get_partial_pressures(
-                temperature=point.temperature,
-                composition=point.composition,
-                mixture=mixture,
-                calculation_type="UNIQUAC",
-            )[0]
-            - point.pressures[0]
-        ) ** 2 + (
-            get_partial_pressures(
-                temperature=point.temperature,
-                composition=point.composition,
-                mixture=mixture,
-                calculation_type="UNIQUAC",
-            )[1]
-            - point.pressures[1]
-        ) ** 2
+        calc = get_partial_pressures(
+            temperature=point.temperature,
+            composition=point.composition,
+            mixture=mixture,
+            calculation_type="UNIQUAC",
+        )
+        for i in range(len(point.pressures)):
+            error += (calc[i]-point.pressures[i])**2
+
     return numpy.sqrt(error / len(data))
