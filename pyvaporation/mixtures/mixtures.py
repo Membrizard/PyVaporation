@@ -4,7 +4,7 @@ from ..utils import (
     UNIQUACParameters,
     UNIQUACBinaryInteractionParameters,
 )
-from .mixture import BinaryMixture, Mixture
+from .mixture import Mixture
 
 
 class Mixtures:
@@ -12,46 +12,38 @@ class Mixtures:
     A class with pre-defined mixtures with constants validated against literature data
     For details see ./tests/test_mixtures/test_default_mixtures.py
     """
+    H2O_MeOH: Mixture = Mixture(
+        name="H2O_MeOH",
+        components=[Components.H2O, Components.MeOH],
+        nrtl_params=NRTLParameters(
+            g12=-5132.51739,
+            g21=1438.40193,
+            alpha12=0,
+            alpha21=0.3,
+            a12=2.7321,
+            a21=-0.693,
+        ),
+        uniquac_params=UNIQUACParameters(
+            binary_parameters=[
+                UNIQUACBinaryInteractionParameters(
+                    i_component_name="H2O",
+                    j_component_name="MeOH",
+                    ij_parameter=(-3.983130612278737, 0.007057570080263636),
+                    ji_parameter=(4.87905141883045, 0.07115788640105822),
+                )
+            ],
+            z=10,
+        ),
+    )
 
-    # H2O_MeOH: BinaryMixture = BinaryMixture(
-    #     name="H2O_MeOH",
-    #     first_component=Components.H2O,
-    #     second_component=Components.MeOH,
-    #     nrtl_params=NRTLParameters(
-    #         g12=-5132.51739,
-    #         g21=1438.40193,
-    #         alpha12=0,
-    #         alpha21=0.3,
-    #         a12=2.7321,
-    #         a21=-0.693,
-    #     ),
-    #     uniquac_params=UNIQUACParameters(
-    #         binary_parameters_matrix=[
-    #             [0, (-3.983130612278737, 0.007057570080263636)],
-    #             [(4.87905141883045, 0.07115788640105822), 0],
-    #         ],
-    #         # alpha_12=-3.983130612278737,
-    #         # alpha_21=4.87905141883045,
-    #         # beta_12=0.007057570080263636,
-    #         # beta_21=0.07115788640105822,
-    #         z=10,
-    #     ),
-    # )
-
-    H2O_EtOH: BinaryMixture = BinaryMixture(
+    H2O_EtOH: Mixture = Mixture(
         name="H2O_EtOH",
-        first_component=Components.H2O,
-        second_component=Components.EtOH,
+        components=[Components.H2O, Components.EtOH],
         nrtl_params=NRTLParameters(
             g12=5823,
             g21=-633,
             alpha12=0.3,
         ),
-    )
-
-    H2O_EtOH_M: Mixture = Mixture(
-        name="H2O_EtOH",
-        components=[Components.H2O, Components.EtOH],
         uniquac_params=UNIQUACParameters(
             binary_parameters=[
                 UNIQUACBinaryInteractionParameters(
@@ -61,146 +53,132 @@ class Mixtures:
                     ji_parameter=(100.10268878024358, 2.4619377106475753),
                 )
             ],
-            # binary_parameters_matrix=[
-            #     [0, (21.127561704493143, -0.9175664931087569)],
-            #     [(100.10268878024358, 2.4619377106475753), 0],
-            # ],
-            # alpha_12=21.127561704493143,
-            # alpha_21=100.10268878024358,
-            # beta_12=-0.9175664931087569,
-            # beta_21=2.4619377106475753,
             z=13,
         ),
     )
 
-    # H2O_iPOH: BinaryMixture = BinaryMixture(
-    #     name="H2O_iPOH",
-    #     first_component=Components.H2O,
-    #     second_component=Components.iPOH,
-    #     nrtl_params=NRTLParameters(
-    #         g12=6899.21,
-    #         g21=106.99,
-    #         alpha12=0.3,
-    #     ),
-    #     uniquac_params=UNIQUACParameters(
-    #         binary_parameters_matrix=[
-    #             [0, (-756.0564435691869, 333788.20320719096)],
-    #             [(-678.5581809818217, 266824.57316704467), 0],
-    #         ],
-    #         # alpha_12=-756.0564435691869,
-    #         # alpha_21=-678.5581809818217,
-    #         # beta_12=333788.20320719096,
-    #         # beta_21=266824.57316704467,
-    #         z=10,
-    #     ),
-    # )
-    #
-    # H2O_AceticAcid: BinaryMixture = BinaryMixture(
-    #     name="H2O_AceticAcid",
-    #     first_component=Components.H2O,
-    #     second_component=Components.AceticAcid,
-    #     nrtl_params=NRTLParameters(
-    #         g12=-352.42,
-    #         g21=715.43,
-    #         alpha12=0.25,
-    #     ),
-    #     uniquac_params=UNIQUACParameters(
-    #         binary_parameters_matrix=[
-    #             [0, (-129.9765770340468, -0.31354951657408175)],
-    #             [(23.640931620853934, 0.07553464090651879), 0],
-    #         ],
-    #         # alpha_12=-129.9765770340468,
-    #         # alpha_21=23.640931620853934,
-    #         # beta_12=-0.31354951657408175,
-    #         # beta_21=0.07553464090651879,
-    #         z=10,
-    #     ),
-    # )
-    #
-    # EtOH_ETBE: BinaryMixture = BinaryMixture(
-    #     name="EtOH_ETBE",
-    #     first_component=Components.EtOH,
-    #     second_component=Components.ETBE,
-    #     nrtl_params=NRTLParameters(
-    #         g12=1140.7722,
-    #         g21=2069.17502,
-    #         alpha12=0.3,
-    #     ),
-    #     uniquac_params=UNIQUACParameters(
-    #         binary_parameters_matrix=[
-    #             [0, (8942.589565297398, -2915794.8390840776)],
-    #             [(-18441.776691222403, 6478988.764315034), 0],
-    #         ],
-    #         # alpha_12=8942.589565297398,
-    #         # alpha_21=-18441.776691222403,
-    #         # beta_12=-2915794.8390840776,
-    #         # beta_21=6478988.764315034,
-    #         z=10,
-    #     ),
-    # )
-    #
-    # MeOH_Toluene: BinaryMixture = BinaryMixture(
-    #     name="MeOH_Toluene",
-    #     first_component=Components.MeOH,
-    #     second_component=Components.Toluene,
-    #     nrtl_params=NRTLParameters(
-    #         g12=3857.3,
-    #         g21=4290.3,
-    #         alpha12=0.4370,
-    #     ),
-    #     uniquac_params=UNIQUACParameters(
-    #         binary_parameters_matrix=[
-    #             [0, (4686.596023943361, -1234765.6427427588)],
-    #             [(-2095.043872895277, 957134.982560884), 0],
-    #         ],
-    #         # alpha_12=4686.596023943361,
-    #         # alpha_21=-2095.043872895277,
-    #         # beta_12=-1234765.6427427588,
-    #         # beta_21=957134.982560884,
-    #         z=10,
-    #     ),
-    # )
-    #
-    # MeOH_MTBE: BinaryMixture = BinaryMixture(
-    #     name="MeOH_MTBE",
-    #     first_component=Components.MeOH,
-    #     second_component=Components.MTBE,
-    #     nrtl_params=NRTLParameters(
-    #         g12=2133.5,
-    #         g21=2025.3,
-    #         alpha12=0.6,
-    #     ),
-    #     uniquac_params=UNIQUACParameters(
-    #         binary_parameters_matrix=[
-    #             [0, (-2487.7680701255767, 903707.2728090351)],
-    #             [(-1614.4771614656215, 651311.6984954888), 0],
-    #         ],
-    #         # alpha_12=-2487.7680701255767,
-    #         # alpha_21=-1614.4771614656215,
-    #         # beta_12=903707.2728090351,
-    #         # beta_21=651311.6984954888,
-    #         z=10,
-    #     ),
-    # )
-    #
-    # MeOH_DMC: BinaryMixture = BinaryMixture(
-    #     name="MeOH_DMC",
-    #     first_component=Components.MeOH,
-    #     second_component=Components.DMC,
-    #     nrtl_params=NRTLParameters(
-    #         g12=3115.2,
-    #         g21=833.1,
-    #         alpha12=0.3,
-    #     ),
-    #     uniquac_params=UNIQUACParameters(
-    #         binary_parameters_matrix=[
-    #             [0, (739.9268135127102, -173417.54480148194)],
-    #             [(-168.38470470351714, 72635.51155280948), 0],
-    #         ],
-    #         # alpha_12=739.9268135127102,
-    #         # alpha_21=-168.38470470351714,
-    #         # beta_12=-173417.54480148194,
-    #         # beta_21=72635.51155280948,
-    #         z=473,
-    #     ),
-    # )
+    H2O_iPOH: Mixture = Mixture(
+        name="H2O_iPOH",
+        components=[Components.H2O, Components.iPOH],
+        nrtl_params=NRTLParameters(
+            g12=6899.21,
+            g21=106.99,
+            alpha12=0.3,
+        ),
+        uniquac_params=UNIQUACParameters(
+            binary_parameters=[
+                UNIQUACBinaryInteractionParameters(
+                    i_component_name=Components.H2O.name,
+                    j_component_name=Components.iPOH.name,
+                    ij_parameter=(-756.0564435691869, 333788.20320719096),
+                    ji_parameter=(-678.5581809818217, 266824.57316704467),
+                )
+            ],
+            z=10,
+        ),
+    )
+
+    H2O_AceticAcid: Mixture = Mixture(
+        name="H2O_AceticAcid",
+        components=[Components.H2O, Components.AceticAcid],
+        nrtl_params=NRTLParameters(
+            g12=-352.42,
+            g21=715.43,
+            alpha12=0.25,
+        ),
+        uniquac_params=UNIQUACParameters(
+            binary_parameters=[
+                UNIQUACBinaryInteractionParameters(
+                    i_component_name=Components.H2O.name,
+                    j_component_name=Components.AceticAcid.name,
+                    ij_parameter=(553.1264309176229, -72721.35346590765),
+                    ji_parameter=(-4021.0008678052786, 1695599.677300828),
+                )
+            ],
+            z=-17,
+        ),
+    )
+
+    EtOH_ETBE: Mixture = Mixture(
+        name="EtOH_ETBE",
+        components=[Components.EtOH, Components.ETBE],
+        nrtl_params=NRTLParameters(
+            g12=1140.7722,
+            g21=2069.17502,
+            alpha12=0.3,
+        ),
+        uniquac_params=UNIQUACParameters(
+            binary_parameters=[
+                UNIQUACBinaryInteractionParameters(
+                    i_component_name=Components.EtOH.name,
+                    j_component_name=Components.ETBE.name,
+                    ij_parameter=(-10285.9439183672,  3499982.3578537833),
+                    ji_parameter=(22721.63224190127, -7581266.470664459),
+                )
+            ],
+            z=330,
+        ),
+    )
+
+    MeOH_Toluene: Mixture = Mixture(
+        name="MeOH_Toluene",
+        components=[Components.MeOH, Components.Toluene],
+        nrtl_params=NRTLParameters(
+            g12=3857.3,
+            g21=4290.3,
+            alpha12=0.4370,
+        ),
+        uniquac_params=UNIQUACParameters(
+            binary_parameters=[
+                UNIQUACBinaryInteractionParameters(
+                    i_component_name=Components.MeOH.name,
+                    j_component_name=Components.Toluene.name,
+                    ij_parameter=(4686.596023943361, -1234765.6427427588),
+                    ji_parameter=(-2095.043872895277, 957134.982560884),
+                )
+            ],
+            z=10,
+        ),
+    )
+
+    MeOH_MTBE: Mixture = Mixture(
+        name="MeOH_MTBE",
+        components=[Components.MeOH, Components.MTBE],
+        nrtl_params=NRTLParameters(
+            g12=2133.5,
+            g21=2025.3,
+            alpha12=0.6,
+        ),
+        uniquac_params=UNIQUACParameters(
+            binary_parameters=[
+                UNIQUACBinaryInteractionParameters(
+                    i_component_name=Components.MeOH.name,
+                    j_component_name=Components.MTBE.name,
+                    ij_parameter=(252.79714757363894, 0.9056362361549228),
+                    ji_parameter=(347.03032132484446, 1.1110892874192397),
+                )
+            ],
+            z=27,
+        ),
+    )
+
+    MeOH_DMC: Mixture = Mixture(
+        name="MeOH_DMC",
+        components=[Components.MeOH, Components.DMC],
+        nrtl_params=NRTLParameters(
+            g12=3115.2,
+            g21=833.1,
+            alpha12=0.3,
+        ),
+        uniquac_params=UNIQUACParameters(
+            binary_parameters=[
+                UNIQUACBinaryInteractionParameters(
+                    i_component_name=Components.MeOH.name,
+                    j_component_name=Components.DMC.name,
+                    ij_parameter=(-7770.455121601478, 2739631.6322418065),
+                    ji_parameter=(5488.577560464677,  -1814396.3302111519),
+                )
+            ],
+            z=306,
+        ),
+    )

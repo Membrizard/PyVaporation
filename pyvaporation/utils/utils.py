@@ -55,10 +55,6 @@ class UNIQUACBinaryInteractionParameters:
 @attr.s(auto_attribs=True)
 class UNIQUACParameters:
     binary_parameters: typing.List[UNIQUACBinaryInteractionParameters]
-    # alpha_12: float
-    # alpha_21: float
-    # beta_12: float
-    # beta_21: float
     z: int = 10
 
     def __len__(self):
@@ -66,25 +62,35 @@ class UNIQUACParameters:
 
     @classmethod
     def from_array(
-        cls, array: typing.Union[typing.List[float], numpy.ndarray]
+        cls, array: typing.Union[typing.List[float], numpy.ndarray], components: typing.List[str],
     ) -> "UNIQUACParameters":
+
+        z, array = array[-1], array[:-1]
+
         binary_parameters = []
-        for i in range(len(array)):
+        indexes = [i for i in range(len(array)) if i % 3 == 0]
+        indexes.pop(-1)
+
+        component_pairs = []
+        for i in range(len(components)):
+            for j in range(i, len(components)):
+                if i != j:
+                    component_pairs.append((components[i], components[j]))
+
+        for i in indexes:
             binary_parameters.append(
                 UNIQUACBinaryInteractionParameters(
-                    i_component_name="",
-                    j_component_name="",
-                    ij_parameter=(0, 0),
-                    ji_parameter=(0, 0),
+                    # TODO: Need to come up with the idea how to reference components in the array
+                    i_component_name=component_pairs[i//3][0],
+                    j_component_name=component_pairs[i//3][1],
+                    ij_parameter=(array[i], array[i+1]),
+                    ji_parameter=(array[i+2], array[i+3]),
                 )
             )
+
         return cls(
             binary_parameters=binary_parameters,
-            # alpha_12=array[0],
-            # alpha_21=array[1],
-            # beta_12=array[2],
-            # beta_21=array[3],
-            z=int(array[-1]),
+            z=z,
         )
 
 

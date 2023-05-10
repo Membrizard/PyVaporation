@@ -1,3 +1,4 @@
+import math
 import typing
 import attr
 import numpy
@@ -7,7 +8,7 @@ from pathlib import Path
 
 from ..utils import UNIQUACParameters
 from ..components import Component, Components
-from ..mixtures import get_partial_pressures, Composition, BinaryMixture
+from ..mixtures import get_partial_pressures, Composition, Mixture
 from scipy import optimize
 
 VLE_COLUMNS = [
@@ -20,6 +21,16 @@ VLE_COLUMNS = [
     "temperature",
     "reference",
 ]
+
+# VLE_COLUMNS = [
+#     "components",
+#     "composition",
+#     "composition_type",
+#     "first_component_pressure",
+#     "second_component_pressure",
+#     "temperature",
+#     "reference",
+# ]
 
 FITTING_ALGS = [
     "Nelder-Mead",
@@ -41,8 +52,9 @@ class VLEPoint:
     """
 
     composition: Composition
-    pressures: typing.Tuple[float, float]
+    pressures: typing.Tuple[float]
     temperature: float
+    reference: typing.Optional[str]
 
     @classmethod
     def from_dict(cls, d: typing.Mapping[str, typing.Union[str, float]]) -> "VLEPoint":
@@ -52,11 +64,24 @@ class VLEPoint:
         :return: VLEPoint with parameters specified in mapping
         """
 
-        composition = Composition(p=d["composition"], type=d["composition_type"])
+        if isinstance(d["composition"], str):
+            p = [float(x) for x in d["composition"].split(sep=" ")]
+        elif isinstance(d["composition"], float):
+            p = d["composition"]
+        else:
+            raise ValueError("Unrecognisable type of Composition input.")
+
+        pressures = tuple(float(d[x]) for x in list(d.keys()) if x.endswith("_component_pressure"))
+        composition = Composition(p=p, type=d["composition_type"])
+
+        if len(composition) != len(pressures):
+            raise ValueError("The number of values for composition and components' pressures must correspond")
+
         return cls(
             composition=composition,
-            pressures=(d["first_component_pressure"], d["second_component_pressure"]),
+            pressures=pressures,
             temperature=d["temperature"],
+            reference=d["reference"]
         )
 
 
@@ -69,6 +94,13 @@ class VLEPoints:
     components: typing.List[Component]
     data: typing.List[VLEPoint]
 
+    def __attrs_post_init__(self):
+        for value in self.data:
+            if len(value.composition) != len(self.components):
+                raise ValueError(f"Composition does not correspond to the list of components for {value}")
+            if len(value.pressures) != len(self.components):
+                raise ValueError(f"List of pressures does not correspond to the list of components for {value}")
+
     @classmethod
     def from_csv(cls, path: typing.Union[str, Path]) -> "VLEPoints":
         """
@@ -78,16 +110,16 @@ class VLEPoints:
         """
         frame = pandas.read_csv(path)
 
-        if list(frame.columns) != VLE_COLUMNS:
-            raise ValueError("Incorrect columns: %s" % list(frame.columns))
+        component_columns = [x for x in list(frame.columns) if x.endswith("_component")]
+
+        if len(component_columns) < 2:
+            raise ValueError("At least two components must be indicated.")
 
         points = []
 
         d = frame.iloc[0].to_dict()
-        components = [
-            getattr(Components, d["first_component"]),
-            getattr(Components, d["second_component"]),
-        ]
+
+        components = [getattr(Components, d[i]) for i in component_columns]
 
         for _, row in frame.iterrows():
             d = row.to_dict()
@@ -103,7 +135,7 @@ class VLEPoints:
 
     def __add__(self, other):
         if self.components != other.components:
-            raise ValueError("Both sets should have same components and indexes")
+            raise ValueError("Both sets should have same components in the same order")
 
         return VLEPoints(components=self.components, data=self.data + other.data)
 
@@ -125,12 +157,12 @@ def fit_vle(
 
     best_fit = []
     error = 1000
+    initial_guess = numpy.append(numpy.zeros(math.comb(len(data.components), 2)*4), 10)
 
-    inital_guess = [0]*len(data.components)
     for alg in algs:
         result = optimize.minimize(
             lambda params: objective(data=data, params=params),
-            x0=numpy.array([0, 0, 0, 0, 10]),
+            x0=numpy.array(initial_guess),
             method=alg,
         )
 
@@ -139,7 +171,7 @@ def fit_vle(
             best_fit = result.x
             error = current_error
 
-    return UNIQUACParameters.from_array(best_fit)
+    return UNIQUACParameters.from_array(array=best_fit, components=[x.name for x in data.components])
 
 
 def objective(data: VLEPoints, params: typing.List[float]) -> float:
@@ -150,28 +182,21 @@ def objective(data: VLEPoints, params: typing.List[float]) -> float:
     :return: accumulative squared error as float
     """
     error = 0
-    mixture = BinaryMixture(
-        name="",
-        first_component=data.components[0],
-        second_component=data.components[1],
-        uniquac_params=UNIQUACParameters.from_array(params),
+
+    mixture = Mixture(
+        name="fitting_mixture",
+        components=data.components,
+        uniquac_params=UNIQUACParameters.from_array(array=params, components=[i.name for i in data.components])
     )
+
     for point in data:
-        error += (
-            get_partial_pressures(
-                temperature=point.temperature,
-                composition=point.composition,
-                mixture=mixture,
-                calculation_type="UNIQUAC",
-            )[0]
-            - point.pressures[0]
-        ) ** 2 + (
-            get_partial_pressures(
-                temperature=point.temperature,
-                composition=point.composition,
-                mixture=mixture,
-                calculation_type="UNIQUAC",
-            )[1]
-            - point.pressures[1]
-        ) ** 2
+        calc = get_partial_pressures(
+            temperature=point.temperature,
+            composition=point.composition,
+            mixture=mixture,
+            calculation_type="UNIQUAC",
+        )
+        for i in range(len(point.pressures)):
+            error += (calc[i]-point.pressures[i])**2
+
     return numpy.sqrt(error / len(data))

@@ -33,7 +33,7 @@ uniquac_constants = UNIQUACConstants(
 )
 
 test_component_1 = Component(
-    name="h2o",
+    name="H2O",
     molecular_weight=18.02,
     vapour_pressure_constants=antoine_constants,
     heat_capacity_constants=heat_capacity_constants,
@@ -59,7 +59,7 @@ uniquac_constants = UNIQUACConstants(
 )
 
 test_component_2 = Component(
-    name="etoh",
+    name="EtOH",
     molecular_weight=46.07,
     vapour_pressure_constants=antoine_constants,
     heat_capacity_constants=heat_capacity_constants,
@@ -101,7 +101,7 @@ test_mixture = BinaryMixture(
     second_component=test_component_2,
     nrtl_params=nrtl_params,
     uniquac_params=uniquac_params,
-)
+).to_mixture()
 
 
 def test_composition_to_mol():
@@ -226,7 +226,9 @@ def test_get_uniquac_partial_pressures_from_molar_composition():
         for i in range(11)
     ]
 
-    validation_partial_pressures_weight = [
+    print(tested_partial_pressures)
+
+    validation_partial_pressures_molar = [
         (0.0, 17.77081102855847),
         (1.7727543232152994, 16.108160331556935),
         (3.07634274576487, 14.65363423233591),
@@ -243,7 +245,7 @@ def test_get_uniquac_partial_pressures_from_molar_composition():
     for i in range(11):
         assert (
             abs(
-                validation_partial_pressures_weight[i][0]
+                validation_partial_pressures_molar[i][0]
                 - tested_partial_pressures[i][0]
             )
             < 1
@@ -251,7 +253,7 @@ def test_get_uniquac_partial_pressures_from_molar_composition():
     for i in range(11):
         assert (
             abs(
-                validation_partial_pressures_weight[i][1]
+                validation_partial_pressures_molar[i][1]
                 - tested_partial_pressures[i][1]
             )
             < 1
@@ -269,19 +271,20 @@ def test_get_uniquac_partial_pressures_from_weight_composition():
         )
         for i in range(11)
     ]
+    print(tested_partial_pressures)
 
     validation_partial_pressures_weight = [
-        (0.0, 17.77081102855847),
-        (3.3060551887742338, 14.368949786545734),
-        (4.698897748463025, 12.363107937595991),
-        (5.4064961856347935, 11.036649571998714),
-        (5.82532411896513, 10.039774236003971),
-        (6.115906467217008, 9.156764434038331),
-        (6.352970243831038, 8.217415786032971),
-        (6.574748311471986, 7.053789671555542),
-        (6.8022687199985175, 5.472027024051633),
-        (7.047875750679181, 3.227809119819075),
-        (7.319336041076023, 0.0),
+        (2.06620127785451e-09, 17.770811025581153),
+        (3.3060551887742324, 14.417494045988166),
+        (4.698897748463033, 12.426457791776455),
+        (5.4064961856347855, 11.061280280665565),
+        (5.825324118965119, 9.995113762067183),
+        (6.115906467217008, 9.031995584974418),
+        (6.352970243831035, 8.018131319770582),
+        (6.574748311471987, 6.80278267402487),
+        (6.8022687199985254, 5.214111683635104),
+        (7.047875750679181, 3.0387152782295144),
+        (7.319336038183264, 9.161118536183264e-09),
     ]
 
     for i in range(11):

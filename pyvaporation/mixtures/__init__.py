@@ -2,6 +2,7 @@ from .mixture import (
     Composition,
     CompositionType,
     BinaryMixture,
+    Mixture,
     get_partial_pressures,
 )
 from .mixtures import Mixtures
@@ -13,6 +14,7 @@ from pyvaporation.activity_coefficient_models.uniquac_fitting import (
 
 __all__ = [
     "BinaryMixture",
+    "Mixture",
     "Mixtures",
     "Composition",
     "get_partial_pressures",

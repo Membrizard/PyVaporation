@@ -12,20 +12,6 @@ from ..activity_coefficient_models import (
 )
 
 
-def _is_in_0_to_1_range(instance: typing.Any, attribute, value: float) -> None:
-    if not 0 <= value <= 1:
-        raise ValueError("Give %s value is not in [0, 1] range" % value)
-
-
-class CompositionType:
-    """
-    A class to describe type of the composition
-    """
-
-    molar: str = "molar"
-    weight: str = "weight"
-
-
 @attr.s(auto_attribs=True, frozen=True)
 class BinaryMixture:
     """
@@ -43,7 +29,7 @@ class BinaryMixture:
         return Mixture(
             name=self.name,
             components=[self.first_component, self.second_component],
-            # nrtl_params=self.nrtl_params,
+            nrtl_params=self.nrtl_params,
             uniquac_params=self.uniquac_params,
         )
 
@@ -115,11 +101,19 @@ class Mixture:
 
     name: str
     components: typing.List[Component]
-    # nrtl_params: typing.Optional[NRTLParameters] = None
-    uniquac_params: UNIQUACParameters
+    nrtl_params: typing.Optional[NRTLParameters] = None
+    uniquac_params: typing.Optional[UNIQUACParameters] = None
 
     def __len__(self):
         return len(self.components)
+
+    @property
+    def first_component(self):
+        return self.components[0]
+
+    @property
+    def second_component(self):
+        return self.components[1]
 
     def to_binary_mixture(self) -> "BinaryMixture":
         if len(self.components) != 2:
@@ -130,7 +124,7 @@ class Mixture:
             name=self.name,
             first_component=self.components[0],
             second_component=self.components[1],
-            nrtl_params=None,
+            nrtl_params=self.nrtl_params,
             uniquac_params=self.uniquac_params,
         )
 
@@ -192,53 +186,97 @@ class Mixture:
                 )
 
 
+class CompositionType:
+    """
+    A class to describe type of the composition
+    """
+
+    molar: str = "molar"
+    weight: str = "weight"
+
+
 @attr.s(auto_attribs=True)
 class Composition:
     """
     A class to represent composition of the mixtures
+    :param p
     """
 
-    p: float = attr.ib(validator=_is_in_0_to_1_range)
+    p: typing.Union[typing.List, float]
     type: str
+
+    def __attrs_post_init__(self):
+        p = self.p
+
+        if isinstance(p, float) or isinstance(p, int):
+            self.p = [p, 1-p]
+
+        if isinstance(p, list):
+            for value in p:
+                if not isinstance(value, float):
+                    raise ValueError(f"{value} is not float.")
+
+        for value in self.p:
+            if not 0 <= value <= 1:
+                raise ValueError(f"Given {value} value is not in [0, 1] range")
+        if abs(1-sum(self.p)) > 1e-10:
+            raise ValueError("The Sum of the component fractions should be equal to 1")
+
+    def __len__(self):
+        return len(self.p)
+
+    def __getitem__(self, item):
+        return self.p[item]
+
+    def __setitem__(self, key, value):
+        self.p[key] = value
 
     @property
     def first(self) -> float:
         """
         Returns fraction of the first test_components
         """
-        return self.p
+        return self.p[0]
 
     @property
     def second(self) -> float:
         """
         Returns fraction of the second test_components
         """
-        return 1 - self.p
+        return self.p[1]
 
-    def to_molar(self, mixture: BinaryMixture) -> "Composition":
+    def to_molar(self, mixture: typing.Union[Mixture, BinaryMixture]) -> "Composition":
         """
         Converts Composition to molar %
         """
+        if isinstance(mixture, BinaryMixture):
+            mixture = mixture.to_mixture()
+
         if self.type == CompositionType.molar:
             return self
         else:
-            p = (self.p / mixture.first_component.molecular_weight) / (
-                self.p / mixture.first_component.molecular_weight
-                + (1 - self.p) / mixture.second_component.molecular_weight
-            )
-            return Composition(p=p, type=CompositionType.molar)
+            inv_molecular_weights = [1 / component.molecular_weight for component in mixture.components]
+            p = numpy.multiply(self.p, inv_molecular_weights)
+            sum_p = sum(p)
+            p = [value/sum_p for value in p]
 
-    def to_weight(self, mixture: BinaryMixture) -> "Composition":
+        return Composition(p=p, type=CompositionType.molar)
+
+    def to_weight(self, mixture: typing.Union[Mixture, BinaryMixture]) -> "Composition":
         """
         Converts Composition to weight %
         """
+        if isinstance(mixture, BinaryMixture):
+            mixture = mixture.to_mixture()
+
         if self.type == CompositionType.weight:
             return self
         else:
-            p = (mixture.first_component.molecular_weight * self.p) / (
-                mixture.first_component.molecular_weight * self.p
-                + mixture.second_component.molecular_weight * (1 - self.p)
-            )
+            molecular_weights = [component.molecular_weight for component in mixture.components]
+            p = numpy.multiply(self.p, molecular_weights)
+            sum_p = sum(p)
+            p = [value/sum_p for value in p]
+
             return Composition(p=p, type=CompositionType.weight)
 
 
@@ -247,7 +285,7 @@ def get_partial_pressures(
     mixture: typing.Union[BinaryMixture, Mixture],
     composition: Composition,
     calculation_type: str = ActivityCoefficientModel.NRTL,
-) -> typing.Tuple[float, float]:
+) -> typing.Tuple[float]:
     """
     Calculation of partial pressures of both test_components
     :params
@@ -265,14 +303,10 @@ def get_partial_pressures(
         composition=composition,
         calculation_type=calculation_type,
     )
-    return (
-        mixture.first_component.get_vapor_pressure(temperature)
-        * activity_coefficients[0]
-        * composition.first,
-        mixture.second_component.get_vapor_pressure(temperature)
-        * activity_coefficients[1]
-        * composition.second,
-    )
+    pc_pressures = [component.get_vapor_pressure(temperature) for component in mixture.components]
+    r_pressures = numpy.multiply(pc_pressures, activity_coefficients)
+    r_pressures = tuple(numpy.multiply(r_pressures, composition.p))
+    return r_pressures
 
 
 def calculate_activity_coefficients(
@@ -312,53 +346,29 @@ def calculate_activity_coefficients(
 
     elif calculation_type == ActivityCoefficientModel.UNIQUAC:
         # The implementation is based on https://doi.org/10.1021/i260068a028
-        if composition.first == 0:
-            composition = Composition(p=0.00001, type="molar")
-        if composition.second == 0:
-            composition = Composition(p=0.99999, type="molar")
+
+        for i in range(len(composition)):
+            if composition[i] == 0:
+                composition[i] = 1e-10
 
         if mixture.uniquac_params is None:
             raise ValueError(
                 "UNIQUAC Parameters must be specified for this type of calculation"
             )
-        if (
-            mixture.first_component.uniquac_constants is None
-            or mixture.second_component.uniquac_constants is None
-        ):
-            raise ValueError(
-                "UNIQUAC Constants for all Components must be specified for this type of calculation"
-            )
-
-        first_component_const = mixture.first_component.uniquac_constants
-        second_component_const = mixture.second_component.uniquac_constants
-
-        # binary_interaction_params = mixture.uniquac_params.binary_parameters_matrix
-        # # tau[i][i] = 1 !!!!
-        tau = mixture.uniquac_tau_matrix(temperature=temperature)
-
-        # for i in range(len(binary_interaction_params)):
-        #     for j in range(len(binary_interaction_params)):
-        #         if binary_interaction_params[i][j] != 0:
-        #             tau[i][j] = numpy.exp(
-        #                 -(
-        #                     binary_interaction_params[i][j][0]
-        #                     + binary_interaction_params[i][j][1] / temperature
-        #                 )
-        #                 / temperature
-        #             )
+        component_consts = []
+        for component in mixture.components:
+            if component.uniquac_constants is None:
+                raise ValueError(
+                    "UNIQUAC Constants for all Components must be specified for this type of calculation"
+                )
+            component_consts.append(component.uniquac_constants)
 
         activity_coefficients = uniquac_activity_coefficient_equation(
-            r=[first_component_const.r, second_component_const.r],
-            q_geometric=[
-                first_component_const.q_geometric,
-                second_component_const.q_geometric,
-            ],
-            q_interaction=[
-                first_component_const.q_interaction,
-                second_component_const.q_interaction,
-            ],
-            x=[composition.first, composition.second],
-            tau=tau,
+            r=[component.r for component in component_consts],
+            q_geometric=[component.q_geometric for component in component_consts],
+            q_interaction=[component.q_interaction for component in component_consts],
+            x=composition.p,
+            tau=mixture.uniquac_tau_matrix(temperature=temperature),
             z=mixture.uniquac_params.z,
         )
 
