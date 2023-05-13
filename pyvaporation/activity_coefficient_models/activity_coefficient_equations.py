@@ -13,8 +13,6 @@ class ActivityCoefficientModel:
 
 
 def uniquac_activity_coefficient_equation(
-    # uniquac_constants: typing.List[UNIQUACConstants],
-    # binary_interaction_parameters_matrix: typing.List[typing.List[float]],
     r: typing.List[float],
     q_geometric: typing.List[float],
     q_interaction: typing.List[float],

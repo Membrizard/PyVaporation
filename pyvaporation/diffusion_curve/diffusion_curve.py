@@ -9,6 +9,7 @@ from ..mixtures import (
     Composition,
     CompositionType,
     BinaryMixture,
+    Mixture,
     Mixtures,
     get_partial_pressures,
 )
@@ -40,14 +41,14 @@ class DiffusionCurve:
     on feed composition, and process temperature
     """
 
-    mixture: BinaryMixture
+    mixture: BinaryMixture | Mixture
     membrane_name: str
     feed_temperature: float
-    feed_compositions: typing.List[Composition]
-    partial_fluxes: typing.Optional[typing.List[typing.Tuple[float, float]]] = None
+    feed_compositions: typing.List[Composition, ...]
+    partial_fluxes: typing.Optional[typing.List[typing.Tuple[float, ...]]] = None
     permeate_temperature: typing.Optional[float] = None
     permeate_pressure: typing.Optional[float] = None
-    permeances: typing.Optional[typing.List[typing.Tuple[Permeance, Permeance]]] = None
+    permeances: typing.Optional[typing.List[typing.Tuple[Permeance, ...]]] = None
     comments: typing.Optional[str] = None
 
     def __attrs_post_init__(self):
