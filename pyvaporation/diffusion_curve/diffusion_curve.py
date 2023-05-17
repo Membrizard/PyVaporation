@@ -44,7 +44,7 @@ class DiffusionCurve:
     mixture: BinaryMixture | Mixture
     membrane_name: str
     feed_temperature: float
-    feed_compositions: typing.List[Composition, ...]
+    feed_compositions: typing.List[Composition]
     partial_fluxes: typing.Optional[typing.List[typing.Tuple[float, ...]]] = None
     permeate_temperature: typing.Optional[float] = None
     permeate_pressure: typing.Optional[float] = None
