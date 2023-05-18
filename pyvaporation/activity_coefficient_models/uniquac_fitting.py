@@ -11,27 +11,6 @@ from ..components import Component, Components
 from ..mixtures import get_partial_pressures, Composition, Mixture
 from scipy import optimize
 
-VLE_COLUMNS = [
-    "first_component",
-    "second_component",
-    "composition",
-    "composition_type",
-    "first_component_pressure",
-    "second_component_pressure",
-    "temperature",
-    "reference",
-]
-
-# VLE_COLUMNS = [
-#     "components",
-#     "composition",
-#     "composition_type",
-#     "first_component_pressure",
-#     "second_component_pressure",
-#     "temperature",
-#     "reference",
-# ]
-
 FITTING_ALGS = [
     "Nelder-Mead",
     "Powell",
@@ -71,17 +50,21 @@ class VLEPoint:
         else:
             raise ValueError("Unrecognisable type of Composition input.")
 
-        pressures = tuple(float(d[x]) for x in list(d.keys()) if x.endswith("_component_pressure"))
+        pressures = tuple(
+            float(d[x]) for x in list(d.keys()) if x.endswith("_component_pressure")
+        )
         composition = Composition(p=p, type=d["composition_type"])
 
         if len(composition) != len(pressures):
-            raise ValueError("The number of values for composition and components' pressures must correspond")
+            raise ValueError(
+                "The number of values for composition and components' pressures must correspond"
+            )
 
         return cls(
             composition=composition,
             pressures=pressures,
             temperature=d["temperature"],
-            reference=d["reference"]
+            reference=d["reference"],
         )
 
 
@@ -97,9 +80,13 @@ class VLEPoints:
     def __attrs_post_init__(self):
         for value in self.data:
             if len(value.composition) != len(self.components):
-                raise ValueError(f"Composition does not correspond to the list of components for {value}")
+                raise ValueError(
+                    f"Composition does not correspond to the list of components for {value}"
+                )
             if len(value.pressures) != len(self.components):
-                raise ValueError(f"List of pressures does not correspond to the list of components for {value}")
+                raise ValueError(
+                    f"List of pressures does not correspond to the list of components for {value}"
+                )
 
     @classmethod
     def from_csv(cls, path: typing.Union[str, Path]) -> "VLEPoints":
@@ -157,7 +144,9 @@ def fit_vle(
 
     best_fit = []
     error = 1000
-    initial_guess = numpy.append(numpy.zeros(math.comb(len(data.components), 2)*4), 10)
+    initial_guess = numpy.append(
+        numpy.zeros(math.comb(len(data.components), 2) * 4), 10
+    )
 
     for alg in algs:
         result = optimize.minimize(
@@ -171,7 +160,9 @@ def fit_vle(
             best_fit = result.x
             error = current_error
 
-    return UNIQUACParameters.from_array(array=best_fit, components=[x.name for x in data.components])
+    return UNIQUACParameters.from_array(
+        array=best_fit, components=[x.name for x in data.components]
+    )
 
 
 def objective(data: VLEPoints, params: typing.List[float]) -> float:
@@ -186,7 +177,9 @@ def objective(data: VLEPoints, params: typing.List[float]) -> float:
     mixture = Mixture(
         name="fitting_mixture",
         components=data.components,
-        uniquac_params=UNIQUACParameters.from_array(array=params, components=[i.name for i in data.components])
+        uniquac_params=UNIQUACParameters.from_array(
+            array=params, components=[i.name for i in data.components]
+        ),
     )
 
     for point in data:
@@ -197,6 +190,6 @@ def objective(data: VLEPoints, params: typing.List[float]) -> float:
             calculation_type="UNIQUAC",
         )
         for i in range(len(point.pressures)):
-            error += (calc[i]-point.pressures[i])**2
+            error += (calc[i] - point.pressures[i]) ** 2
 
     return numpy.sqrt(error / len(data))

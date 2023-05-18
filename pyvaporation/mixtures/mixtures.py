@@ -12,6 +12,7 @@ class Mixtures:
     A class with pre-defined mixtures with constants validated against literature data
     For details see ./tests/test_mixtures/test_default_mixtures.py
     """
+
     H2O_MeOH: Mixture = Mixture(
         name="H2O_MeOH",
         components=[Components.H2O, Components.MeOH],
@@ -112,7 +113,7 @@ class Mixtures:
                 UNIQUACBinaryInteractionParameters(
                     i_component_name=Components.EtOH.name,
                     j_component_name=Components.ETBE.name,
-                    ij_parameter=(-10285.9439183672,  3499982.3578537833),
+                    ij_parameter=(-10285.9439183672, 3499982.3578537833),
                     ji_parameter=(22721.63224190127, -7581266.470664459),
                 )
             ],
@@ -176,7 +177,7 @@ class Mixtures:
                     i_component_name=Components.MeOH.name,
                     j_component_name=Components.DMC.name,
                     ij_parameter=(-7770.455121601478, 2739631.6322418065),
-                    ji_parameter=(5488.577560464677,  -1814396.3302111519),
+                    ji_parameter=(5488.577560464677, -1814396.3302111519),
                 )
             ],
             z=306,

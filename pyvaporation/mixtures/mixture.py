@@ -181,9 +181,7 @@ class Mixture:
 
         for name in parameter_names:
             if not (name in names):
-                raise ValueError(
-                    f"{name} is not in Mixture Components: {names}"
-                )
+                raise ValueError(f"{name} is not in Mixture Components: {names}")
 
 
 class CompositionType:
@@ -209,7 +207,7 @@ class Composition:
         p = self.p
 
         if isinstance(p, float) or isinstance(p, int):
-            self.p = [p, 1-p]
+            self.p = [p, 1 - p]
 
         if isinstance(p, list):
             for value in p:
@@ -219,7 +217,7 @@ class Composition:
         for value in self.p:
             if not 0 <= value <= 1:
                 raise ValueError(f"Given {value} value is not in [0, 1] range")
-        if abs(1-sum(self.p)) > 1e-10:
+        if abs(1 - sum(self.p)) > 1e-10:
             raise ValueError("The Sum of the component fractions should be equal to 1")
 
     def __len__(self):
@@ -255,10 +253,12 @@ class Composition:
         if self.type == CompositionType.molar:
             return self
         else:
-            inv_molecular_weights = [1 / component.molecular_weight for component in mixture.components]
+            inv_molecular_weights = [
+                1 / component.molecular_weight for component in mixture.components
+            ]
             p = numpy.multiply(self.p, inv_molecular_weights)
             sum_p = sum(p)
-            p = [value/sum_p for value in p]
+            p = [value / sum_p for value in p]
 
         return Composition(p=p, type=CompositionType.molar)
 
@@ -272,10 +272,12 @@ class Composition:
         if self.type == CompositionType.weight:
             return self
         else:
-            molecular_weights = [component.molecular_weight for component in mixture.components]
+            molecular_weights = [
+                component.molecular_weight for component in mixture.components
+            ]
             p = numpy.multiply(self.p, molecular_weights)
             sum_p = sum(p)
-            p = [value/sum_p for value in p]
+            p = [value / sum_p for value in p]
 
             return Composition(p=p, type=CompositionType.weight)
 
@@ -303,7 +305,9 @@ def get_partial_pressures(
         composition=composition,
         calculation_type=calculation_type,
     )
-    pc_pressures = [component.get_vapor_pressure(temperature) for component in mixture.components]
+    pc_pressures = [
+        component.get_vapor_pressure(temperature) for component in mixture.components
+    ]
     r_pressures = numpy.multiply(pc_pressures, activity_coefficients)
     r_pressures = tuple(numpy.multiply(r_pressures, composition.p))
     return r_pressures

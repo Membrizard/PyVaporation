@@ -85,7 +85,7 @@ uniquac_params = UNIQUACParameters(
             i_component_name="H2O",
             j_component_name="EtOH",
             ij_parameter=(21.127561704493143, -0.9175664931087569),
-            ji_parameter=(100.10268878024358, 2.4619377106475753)
+            ji_parameter=(100.10268878024358, 2.4619377106475753),
         )
     ],
     # alpha_12=21.127561704493143,
@@ -304,4 +304,5 @@ def test_get_uniquac_partial_pressures_from_weight_composition():
             < 1e-3
         )
 
-#TODO Add tests for multicomponent mixtures
+
+# TODO Add tests for multicomponent mixtures

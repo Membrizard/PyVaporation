@@ -67,23 +67,24 @@ class DiffusionCurve:
             ]
 
             self.permeances = [
-                (
-                    self.permeances[i][0].convert(
-                        to_units=Units.kg_m2_h_kPa,
-                        component=self.mixture.first_component,
-                    ),
-                    self.permeances[i][1].convert(
-                        to_units=Units.kg_m2_h_kPa,
-                        component=self.mixture.second_component,
-                    ),
+                tuple(
+                    [
+                        self.permeances[i][j].convert(
+                            to_units=Units.kg_m2_h_kPa,
+                            component=self.mixture.components[j],
+                        )
+                        for j in range(len(self.permeances[i]))
+                    ]
                 )
                 for i in range(len(self.permeances))
             ]
 
             self.partial_fluxes = [
-                (
-                    self.permeances[i][0].value * feed_partial_pressures[i][0],
-                    self.permeances[i][1].value * feed_partial_pressures[i][1],
+                tuple(
+                    [
+                        self.permeances[i][j].value * feed_partial_pressures[i][j]
+                        for j in range(len(self.permeances[i]))
+                    ]
                 )
                 for i in range(len(self.permeances))
             ]

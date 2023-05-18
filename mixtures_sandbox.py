@@ -30,11 +30,11 @@ sum_error_3 = []
 
 for point in ternary_points:
     calc_pressures = get_partial_pressures(
-            temperature=point.temperature,
-            mixture=test_mixture_1,
-            composition=point.composition,
-            calculation_type="UNIQUAC",
-        )
+        temperature=point.temperature,
+        mixture=test_mixture_1,
+        composition=point.composition,
+        calculation_type="UNIQUAC",
+    )
     print(calc_pressures)
 
     validation_average_1 += point.pressures[0]
@@ -69,11 +69,11 @@ sum_error_2 = []
 
 for point in binary_points:
     calc_pressures = get_partial_pressures(
-            temperature=point.temperature,
-            mixture=test_mixture_2,
-            composition=point.composition,
-            calculation_type="UNIQUAC",
-        )
+        temperature=point.temperature,
+        mixture=test_mixture_2,
+        composition=point.composition,
+        calculation_type="UNIQUAC",
+    )
     print(calc_pressures)
 
     validation_average_1 += point.pressures[0]

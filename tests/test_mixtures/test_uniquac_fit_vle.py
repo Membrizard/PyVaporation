@@ -1,6 +1,7 @@
 from pyvaporation.activity_coefficient_models.uniquac_fitting import fit_vle, VLEPoints
 from pyvaporation.mixtures import get_partial_pressures, BinaryMixture
 
+
 def test_fit_uniquac_vle():
 
     points = VLEPoints.from_csv(path=f"tests/VLE_data/binary/H2O_EtOH.csv")
@@ -37,4 +38,5 @@ def test_fit_uniquac_vle():
     assert max(errors_h2o) < 0.1
     assert max(errors_etoh) < 0.1
 
-#TODO Add tests for multicomponent mixtures fitting, reading and other
+
+# TODO Add tests for multicomponent mixtures fitting, reading and other
