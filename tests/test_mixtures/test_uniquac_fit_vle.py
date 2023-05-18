@@ -8,8 +8,6 @@ def test_fit_uniquac_vle():
 
     params = fit_vle(data=points, method="COBYLA")
 
-    print(params)
-
     test_mixture = BinaryMixture(
         name="",
         first_component=points.components[0],

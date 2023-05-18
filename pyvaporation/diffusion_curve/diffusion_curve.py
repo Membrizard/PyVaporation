@@ -59,7 +59,7 @@ class DiffusionCurve:
             Permeance values are converted to kg/(m2*h*kPa),
             The permeate temperature and pressure parameters are ignored, test_components' pressure in permeate
             is considered zero
-            :return a list of Partial fluxes for each component tuple(Ji,Jj) at each concentration
+            :return a list of Partial fluxes for each component tuple(Ji, Jj, ...) at each concentration
             """
             feed_partial_pressures = [
                 get_partial_pressures(self.feed_temperature, self.mixture, composition)
@@ -94,7 +94,7 @@ class DiffusionCurve:
             Calculation of Permeance values if they are not specified
             Permeance values are in kg/(m2*h*kPa)
             If needed, Permeance values may be converted using Permeance.converter()
-            :return a list of Permeances for each component tuple(Pi,Pj) at each concentration
+            :return a list of Permeances for each component tuple(Pi, Pj, ...) at each concentration
             """
             permeate_compositions = self.permeate_composition
             feed_partial_pressures = [
@@ -103,15 +103,12 @@ class DiffusionCurve:
             ]
             if self.permeate_temperature is None and self.permeate_pressure is None:
                 self.permeances = [
-                    (
-                        Permeance(
-                            value=self.partial_fluxes[i][0]
-                            / feed_partial_pressures[i][0]
-                        ),
-                        Permeance(
-                            value=self.partial_fluxes[i][1]
-                            / feed_partial_pressures[i][1]
-                        ),
+                    tuple(
+                        [Permeance(
+                            value=self.partial_fluxes[i][j]
+                            / feed_partial_pressures[i][j]
+                        ) for j in range(len(self.partial_fluxes[i]))
+                        ]
                     )
                     for i in range(len(self.feed_compositions))
                 ]
@@ -125,21 +122,14 @@ class DiffusionCurve:
                     for composition in permeate_compositions
                 ]
                 self.permeances = [
-                    (
+                    tuple([
                         Permeance(
-                            value=self.partial_fluxes[i][0]
+                            value=self.partial_fluxes[i][j]
                             / (
-                                feed_partial_pressures[i][0]
-                                - permeate_partial_pressures[i][0]
+                                feed_partial_pressures[i][j]
+                                - permeate_partial_pressures[i][j]
                             )
-                        ),
-                        Permeance(
-                            value=self.partial_fluxes[i][1]
-                            / (
-                                feed_partial_pressures[i][1]
-                                - permeate_partial_pressures[i][1]
-                            )
-                        ),
+                        ) for j in range(len(self.partial_fluxes[i]))]
                     )
                     for i in range(len(self.feed_compositions))
                 ]

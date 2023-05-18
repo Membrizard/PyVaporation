@@ -226,8 +226,6 @@ def test_get_uniquac_partial_pressures_from_molar_composition():
         for i in range(11)
     ]
 
-    print(tested_partial_pressures)
-
     validation_partial_pressures_molar = [
         (0.0, 17.77081102855847),
         (1.7727543232152994, 16.108160331556935),
@@ -271,7 +269,6 @@ def test_get_uniquac_partial_pressures_from_weight_composition():
         )
         for i in range(11)
     ]
-    print(tested_partial_pressures)
 
     validation_partial_pressures_weight = [
         (2.06620127785451e-09, 17.770811025581153),
